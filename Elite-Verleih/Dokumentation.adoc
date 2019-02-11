@@ -19,7 +19,7 @@ Einstellungen
   - Deutsch
 * DB:
   - PostgreSQL
-  
+  student
 Model
 ^^^^^
 * Benutzer:
@@ -29,7 +29,7 @@ Model
   - ausgeliehenes, (List<Ausleihe>)
 * Ausleihe:
   - artikel, (Artikel)
-  - startDatum, (Date)
+  - startDatum, (Date)student
   - benutzer, (Benutzer)
   - id, (Long)
   - rueckgabeDatum, (Date)
