@@ -10,7 +10,7 @@ Name
 * Elite-Verleih
 
 Einstellungen
-^^^^^
+^^^^^^^^^^^^
 * IDE:
   - IntelliJ
 * Tab/4sp:
@@ -50,7 +50,7 @@ Repos
   - Artikel
   
 Views/Controller
-^^^^^
+^^^^^^^^^^^^^^^^^
 * Error Handhabung
 * Anmelden
 * Registrieren
