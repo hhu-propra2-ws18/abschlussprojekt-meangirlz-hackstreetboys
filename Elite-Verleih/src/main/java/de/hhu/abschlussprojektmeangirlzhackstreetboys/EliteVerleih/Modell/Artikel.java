@@ -1,7 +1,11 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.Modell;
 
 import lombok.Data;
+import javax.persistence.Entity;
+
 import org.springframework.context.annotation.Bean;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -18,7 +22,7 @@ public class Artikel {
     private int tarif;
 
     private String artikelOrt;
-    private Ausleihe ausleihList;
+    private List<Ausleihe> ausleihList;
 
 
     public Artikel() {
