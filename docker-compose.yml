@@ -1,0 +1,20 @@
+version: "3.7"
+services: 
+        database:
+                image: postgres
+                environment:
+                        - POSTGRES_PASSWORD=${DB_PASSWORD}
+                        - POSTGRES_DB=${DB_NAME}
+                        - POSTGRES_USER=${DB_USER}
+                volumes:
+                        - ./data:/var/lib/postgresql/data
+        web:
+                build: ./Elite-Verleih
+                ports:
+                        - "8080:8080"
+                environment:
+                        - POSTGRES_PASSWORD=${DB_PASSWORD}
+                        - POSTGRES_DB=${DB_NAME}
+                        - POSTGRES_USER=${DB_USER}
+                depends_on:
+                        - database
