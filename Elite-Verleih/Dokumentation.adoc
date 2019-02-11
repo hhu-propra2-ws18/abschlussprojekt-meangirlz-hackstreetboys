@@ -6,11 +6,11 @@ Zuerst haben wir zusammen besprochen wie der Plan für den Anfang aussehen sollt
 Wir haben folgendes festgelegt:
 
 Name
-^^^^^^^^^^^
+^^^^^
 * Elite-Verleih
 
 Einstellungen
-^^^^^^^^^^^
+^^^^^
 * IDE:
   - IntelliJ
 * Tab/4sp:
@@ -21,7 +21,7 @@ Einstellungen
   - PostgreSQL
   
 Model
-^^^^^^^^^^^
+^^^^^
 * Benutzer:
   - Username, (String)
   - mailAdresse, (String)
@@ -44,13 +44,13 @@ Model
   - ausleihen, (List<Ausleihe>)
   
 Repos
-^^^^^^^^^^^
+^^^^^
   - Benutzer
   - Ausleihe
   - Artikel
   
 Views/Controller
-^^^^^^^^^^^
+^^^^^
 * Error Handhabung
 * Anmelden
 * Registrieren
