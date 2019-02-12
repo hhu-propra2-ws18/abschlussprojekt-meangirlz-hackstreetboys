@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface BenutzerRepository extends CrudRepository<Benutzer,Long> {
     List<Benutzer> findAll();
+    Benutzer findBenutzerByBenutzerId(Long benutzerId);
 }
