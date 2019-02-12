@@ -16,8 +16,7 @@ public class Artikel {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-
-    private int artikelId;
+    private long artikelId;
 
     private String artikelName;
 
