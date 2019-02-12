@@ -14,7 +14,6 @@ public class DetailansichtController {
     ArtikelRepository artikel;
 
 
-
     @GetMapping("/Detailansicht")
     public String DetailansichtAnzeigen(Model model){
         model.addAttribute("artikel", artikel.findAll() );
