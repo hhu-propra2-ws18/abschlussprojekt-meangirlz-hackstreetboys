@@ -19,11 +19,10 @@ public class UebersichtController {
 
     @GetMapping("/Uebersicht")
     public String UebersichtAnzeigen(Model model,
-                                     @PathVariable Integer id){
+                                     Long id){
 
-        Long benutzerId = new Long(id);
 
-        Benutzer benutzer = dataManager.getBenutzerById(benutzerId);
+        Benutzer benutzer = dataManager.getBenutzerById(id);
 
         model.addAttribute("benutzer",benutzer);
 
