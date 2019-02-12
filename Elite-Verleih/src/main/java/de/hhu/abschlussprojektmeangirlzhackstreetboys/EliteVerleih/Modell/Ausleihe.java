@@ -12,13 +12,20 @@ import javax.persistence.Id;
 
 @Data
 @Entity
-class Ausleihe {
+public class Ausleihe {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private Artikel artikel;
     private Date startdatum;
     private Date rueckgabedatum;
     private Benutzer benutzer;
 
+    public Ausleihe(Artikel artikel, Date startdatum, Date rueckgabedatum, Benutzer benutzer){
+        this.artikel = artikel;
+        this.startdatum = startdatum;
+        this.rueckgabedatum = rueckgabedatum;
+        this.benutzer = benutzer;
+    }
 }
