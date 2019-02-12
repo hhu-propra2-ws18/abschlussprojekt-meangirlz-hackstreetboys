@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 public interface ArtikelRepository extends CrudRepository<Artikel,Long> {
     List<Artikel> findAll();
-    Artikel findArtikelById(Long id);
+    Artikel findArtikelByArtikelId(Long id);
 }
 
