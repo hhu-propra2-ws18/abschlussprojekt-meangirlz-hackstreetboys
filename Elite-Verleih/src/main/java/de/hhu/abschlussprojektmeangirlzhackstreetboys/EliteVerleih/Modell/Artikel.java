@@ -2,6 +2,9 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.Modell;
 
 import lombok.Data;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.GenerationType;
 
 import org.springframework.context.annotation.Bean;
 
@@ -10,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Artikel{
+public class Artikel {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
