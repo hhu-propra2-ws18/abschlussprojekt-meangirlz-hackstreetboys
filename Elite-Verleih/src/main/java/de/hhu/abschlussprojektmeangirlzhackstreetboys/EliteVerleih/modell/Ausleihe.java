@@ -1,4 +1,4 @@
-package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Modell;
+package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell;
 
 import java.util.Date;
 

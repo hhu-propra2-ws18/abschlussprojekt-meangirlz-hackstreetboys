@@ -1,6 +1,6 @@
-package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.Controller;
+package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.DataManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,5 +35,4 @@ public class AnmeldeController {
 
         return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
     }
-
 }

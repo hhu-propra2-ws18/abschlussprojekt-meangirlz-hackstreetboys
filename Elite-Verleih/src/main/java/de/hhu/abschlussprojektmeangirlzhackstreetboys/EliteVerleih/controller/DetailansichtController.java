@@ -1,7 +1,6 @@
-package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.Controller;
+package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Modell.Artikel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
