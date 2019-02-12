@@ -1,10 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Details</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <style type="text/css">
+        #datepicker{
+            width:180px; margin:0 20px 20px 20px;
+        }
+        #datepicker > span:hover {
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 <body>
+
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Detailansicht</h1>
+        <p class="lead text-muted"></p>
+        <!--tr th:if="${Artikel.empty}">
+            <p class="lead text-muted">Artikel nicht vorhanden.</p>
+        </tr-->
+
+    </div>
+</section>
+
+
+
+<div class="album py-5 bg-light">
+    <div class="container-fluid" >
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="text-center">
+                            <span>Artikel Test</span>
+                            <!--span th:text="${Artikel.artikelName}"></span-->
+                        </h3>
+                        <div class="thumbnail">
+                            <img src="http://cdn3.spiegel.de/images/image-1341296-860_galleryfree-dshe-1341296.jpg" alt="Bild" class="img-fluid" >
+                            </img>
+                        </div>
+                        <div class="card text-center">
+
+                            <li class="list-group">
+
+                                <!--li class="list-group-item" th:text="'Artikelname: ' +${person.kontaktdaten}"></li-->
+                            <li class="list-group-item" >Artikelname: </li>
+                            <!--li class="list-group-item" th:text="'Beschreibung: ' +${person.jahreslohn}"></li-->
+                            <li class="list-group-item" >Beschreibung: </li>
+                            <!--li class="list-group-item" th:text="'Besitzer: '+${person.skills}"></li-->
+                            <li class="list-group-item" >Besitzer: </li>
+                            <!--li class="list-group-item" th:text="'Kaution: '+${person.skills}"></li-->
+                            <li class="list-group-item" >Kaution: </li>
+                            <!--li class="list-group-item" th:text="'Tarif: '+${person.skills}"></li-->
+                            <li class="list-group-item" >Tarif: </li>
+                            <!--li class="list-group-item" th:text="'Ort: '+${person.skills}"></li-->
+                            <li class="list-group-item" >Ort: </li>
+
+                            <!--li class="list-group-item" th:text="'Projekte: ’ +${person.projekte}"></li-->
+
+
+
+
+                            <li class="list-group-item">
+                                <a th:href="@{'http://localhost:8080/'}">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                                        ausgeliehen von <!-- führt zur benutzer seite-->
+                                    </button>
+                                </a>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="row justify-content-center">
+                                    <div id="datepicker" class="input-group date" data-date-format="dd-mm-yyyy">
+                                        <input type="date" name="">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                    <script type="text/javascript">
+                                $(function () {
+                                    $("#datepicker").datepicker({
+                                        autoclose:true,
+                                        todayHighlight:true
+                                    }).datepicker('update', new Date());
+                                });
+                            </script>
+                                </div>
+                            </li>
+                            <!--li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li-->
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 </body>
 </html>
