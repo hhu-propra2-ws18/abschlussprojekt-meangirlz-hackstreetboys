@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 
 import org.springframework.context.annotation.Bean;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Artikel {
     private int artikelTarif;
 
     private String artikelOrt;
-    private List<Ausleihe> ausleiheList;
+    private List<Ausleihe> ausgeliehen;
 
 
     public Artikel() {
@@ -41,7 +42,7 @@ public class Artikel {
         this.artikelTarif = artikelTarif;
         this.artikelOrt = artikelOrt;
         List<Ausleihe> ausl = new ArrayList<Ausleihe>();
-        this.ausleiheList = ausl;
+        this.ausgeliehen= ausl;
 
     }
 
@@ -53,13 +54,13 @@ public class Artikel {
         this.artikelKaution = artikelKaution;
         this.artikelTarif = artikelTarif;
         this.artikelOrt = artikelOrt;
-        this.ausleiheList = ausleiheList;
+        this.ausgeliehen = ausleiheList;
 
     }
 
     public void addAusleihe(Ausleihe ausleihe){
-        if(ausleiheList == null) ausleiheList = new ArrayList<Ausleihe>();
-        this.ausleiheList.add(ausleihe);
+        if(ausgeliehen== null) ausgeliehen = new ArrayList<Ausleihe>();
+        this.ausgeliehen.add(ausleihe);
     }
 
 
