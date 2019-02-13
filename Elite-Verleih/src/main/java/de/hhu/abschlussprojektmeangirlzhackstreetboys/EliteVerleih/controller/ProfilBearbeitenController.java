@@ -10,13 +10,13 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutz
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.DataManager;
 
 @Controller
-public class ProfilController {
+public class ProfilBearbeitenController {
 	@Autowired
-    DataManager dataManager;
-    @GetMapping("/Profil")
-    public String ProfilAnzeigen(Long id, Model model){
+	DataManager dataManager;
+    @GetMapping("/ProfilBearbeiten")
+    public String ProfilBearbeitenAnzeigen(Long id, Model model){
     	Benutzer benutzer = dataManager.getBenutzerById(id);
     	model.addAttribute("benutzer",benutzer);
-        return "Profil";
+		return "ProfilBearbeiten";
     }
 }
