@@ -15,6 +15,9 @@ public class ProfilBearbeitenController {
 	DataManager dataManager;
     @GetMapping("/ProfilBearbeiten")
     public String ProfilBearbeitenAnzeigen(Long id, Model model){
+    	if(id == null) {
+    		return "redirect:/";
+    	}
     	Benutzer benutzer = dataManager.getBenutzerById(id);
     	model.addAttribute("benutzer",benutzer);
 		return "ProfilBearbeiten";

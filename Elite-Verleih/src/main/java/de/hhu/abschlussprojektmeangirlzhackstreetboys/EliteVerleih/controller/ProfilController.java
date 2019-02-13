@@ -15,6 +15,9 @@ public class ProfilController {
     DataManager dataManager;
     @GetMapping("/Profil")
     public String ProfilAnzeigen(Long id, Model model){
+    	if(id == null) {
+    		return "redirect:/";
+    	}
     	Benutzer benutzer = dataManager.getBenutzerById(id);
     	model.addAttribute("benutzer",benutzer);
         return "Profil";
