@@ -17,7 +17,7 @@ public class DetailansichtController {
 
     @GetMapping("/Detailansicht/{id}")
     public String DetailansichtAnzeigen(@PathVariable long id, Model model){
-        model.addAttribute("artikel", artikel.findArtikelByArtikelId(id) );
+        model.addAttribute("artikel", artikel.findArtikelByArtikelId(id));
         return "Detailansicht";
     }
 
