@@ -9,7 +9,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top ">
-      <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()">Elite Verleih</a>
+      <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">Elite Verleih</a>
       <a th:href="'/ProfilBearbeiten?id=' + ${benutzer.getBenutzerId()}"><img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="30px" width="30px" th:text="${benutzer.getBenutzerName()} + ' ' + ${benutzer.getBenutzerEmail()}"> Betrag</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>Anfrage
@@ -36,8 +36,10 @@
 				    <p class="card-text">Benutzer</p>
 				    <a href="/Detailansicht">Details</a>
 				    <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
-		              <input class="btn btn-outline-success" type="submit" value="Annehmen" />
-		              <input class="btn btn-outline-danger" type="submit" value="Ablehnen" />
+				      <center>
+		                <input class="btn btn-outline-success" type="submit" value="Verleihen" />
+		                <input class="btn btn-outline-danger" type="submit" value="Ablehnen" />
+		              </center>
 		            </form> 
 	            </div>
             </div>
@@ -88,7 +90,7 @@
       </div>
       <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
         <div class="container jumbotron center">
-          <h3>Weggegebenes</h3>
+          <h3>Verliehendes</h3>
           <div class="row">
             <div class="card" style="width: 17rem;">
 	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
@@ -101,6 +103,31 @@
 	  		</div>
   		  </div>
   		  <br/>
+  		  <h3>Angebotene</h3>
+          <div class="row">
+            <div class="card" style="width: 17rem;">
+	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
+	    		<div class="card-body">
+	      		  <h5 class="card-title">ArtikelName</h5>
+	      		  <p class="card-text">Benutzer</p>
+	      		  <p class="card-text">Dauer</p>
+	      		  <a href="/Detailansicht">Details</a>
+	    		</div>
+	  		</div>
+	  		
+	  		
+	  		<div th:each="artikel: ${benutzer.getArtikel()}">
+	  		  <div class="card" style="width: 17rem;">
+	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
+	    		<div class="card-body">
+	      		  <h5 class="card-title" th:text="${artikel.getArtikelName()}">ArtikelName</h5>
+	      		  <p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p>
+	      		  <a href="/Detailansicht">Details</a>
+	    		</div>
+	  		</div>
+  		  </div>
+  		  </div>
+  		  <br/>
   		  <h3>Zurueckerhaltenes</h3>
     	  <div class="row">
 			<div class="card" style="width: 17rem;">
@@ -108,12 +135,16 @@
     		  <div class="card-body">
       			<h5 class="card-title">ArtikelName</h5>
       			<p class="card-text">Benutzer</p>
-      			<p class="card-text">Dauer</p>One
+      			<p class="card-text">Dauer</p>
       			<a href="/Detailansicht">Details</a>
-      			<form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
-           		  <input class="btn btn-outline-success" type="submit" value="Akzeptieren" />
-           		  <input class="btn btn-outline-danger" type="submit" value="Ablehnen" /> <!-- SupportSeite weiterleiten-->
+      			<center>
+      		    <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
+           		  <center>
+           		    <input class="btn btn-outline-success" type="submit" value="Akzeptieren" />
+           		    <input class="btn btn-outline-danger" type="submit" value="Konflikt" /> <!-- SupportSeite weiterleiten-->
+      			  </center>
       			</form>
+      			
     		  </div>
   			</div>
   		  </div>
@@ -144,7 +175,8 @@
       		  <p class="card-text">Dauer</p>
       		  <a href="/Detailansicht">Details</a>
       		  <br/>
-      		  <a href="/support">Probleme</a>
+      		  <center><a class="btn btn-outline-danger" href="/support" role="button">Probleme</a></center>
+      		  
     		</div>
   		  </div>
 		</div>
