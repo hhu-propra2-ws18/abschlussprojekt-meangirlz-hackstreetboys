@@ -5,14 +5,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-    <style type="text/css">
-        #datepicker{
-            width:180px; margin:0 20px 20px 20px;
-        }
-        #datepicker > span:hover {
-            cursor: pointer;
-        }
-    </style>
+    <script type='text/javascript'>
+        $(function(){
+            $('.input-daterange').datepicker({
+                autoclose: true
+            });
+        });
+
+    </script>
 
 </head>
 <body>
@@ -36,9 +36,9 @@
 
 <section class="jumbotron text-center">
 
-        <tr th:if="${artikel==null}">
-            <p class="lead text-muted">Artikel nicht vorhanden.</p>
-        </tr>
+    <tr th:if="${artikel==null}">
+        <p class="lead text-muted">Artikel nicht vorhanden.</p>
+    </tr>
 
 </section>
 
@@ -84,39 +84,56 @@
                             </li>
 
                             <li class="list-group-item">
-                                <div class="row justify-content-center">
-                                    <div id="datepicker" class="input-group date" data-date-format="dd-mm-yyyy">
-                                        <input type="date" name="">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                <div class="container">
+                                    <div class="row justify-content-center">
+
+
+
+                                        <div class="input-daterange input-group" id="datepicker" data-date-format"dd-mm-yyy">
+                                        <input type="date" class="input-sm form-control"name="from" placeholder="From date"/>
+                                        <span class="input-group-text" id="">to</span>
+                                        <input type="date" class="input-sm form-control" name="to" placeholder="To date"/>
                                     </div>
                                     <script type="text/javascript">
-                                    $(function () {
-                                        $("#datepicker").datepicker({
-                                            autoclose:true,
-                                            todayHighlight:true
-                                        }).datepicker('update', new Date());
-                                    });
-                                    $(function(){
-                                        $('#datepicker').datepicker({
-                                            onSelect: function(dateText, inst) {
-                                                $("input[name='something']").val(dateText);
-                                            }
+                                        $(function () {
+                                            $("#datepicker").datepicker({
+                                                autoclose:true,
+                                                todayHighlight:true
+                                            }).datepicker('update', new Date());
+                                        });
+                                        $(function(){
+                                            $('#datepicker').datepicker({
+                                                onSelect: function(dateText, inst) {
+                                                    $("input[name='something']").val(dateText);
+                                                }
+                                            });
+
                                         });
 
-                                    });
                                     </script>
+
+                                    <a th:href="@{'http://localhost:8080/Benutzer/?id='+${artikel?.getBenutzer().getBenutzerId()}">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                                            Artikel ausleihen<!-- hier muss eine neue Ausleihe erstellt werden-->
+                                        </button>
+                                    </a>
+
+
+
+
                                 </div>
-                            </li>
-                            <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li>
-
-
                         </div>
-                    </div>
+                        </li>
+                        <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li>
 
+
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
