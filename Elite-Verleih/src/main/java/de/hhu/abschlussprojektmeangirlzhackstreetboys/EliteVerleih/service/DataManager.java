@@ -38,10 +38,8 @@ public class DataManager {
         return benutzerRepo.findBenutzerByBenutzerId(benutzerId);
     }
 
-    public Benutzer erstelleBenutzer(String benutzerName, String benutzerEmail) {
-        Benutzer benutzer = new Benutzer(benutzerName, benutzerEmail);
-
-        if(nameSchonVorhanden(benutzerName)) return null;
+    public Benutzer erstelleBenutzer(Benutzer benutzer) {
+        if(nameSchonVorhanden(benutzer.getBenutzerName())) return null;
 
         benutzerRepo.saveAll(Arrays.asList(benutzer));
         return benutzer;
