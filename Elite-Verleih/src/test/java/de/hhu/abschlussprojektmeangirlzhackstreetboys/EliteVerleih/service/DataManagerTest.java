@@ -25,16 +25,8 @@ public class DataManagerTest {
     @Autowired
     BenutzerRepository benutzerRepo;
 
-    /*@Rollback
-    @Test
-    public void createBenutzer(){
-        Benutzer b0 = new Benutzer();
-        b0.setBenutzerEmail("test@yahoo");
-        b0.setBenutzerName("test");
-        b0.setArtikel(new ArrayList<Artikel>());
-        dataM.erstelleBenutzer(b0);
-        Assertions.assertThat(dataM.getPeople().get(0).getName().equals("Peter"));
-    }*/
+    @Autowired
+    BenutzerRepository artikelRepo;
 
     @Rollback
     @Test
@@ -66,8 +58,8 @@ public class DataManagerTest {
         b0.setBenutzerName("test");
         b0.setArtikel(new ArrayList<Artikel>());
         dataM.erstelleBenutzer(b0);
-        int bId = dataM.findBenutzerByName("test").getBenutzerId();
-        dataM.bearbeiteBenutzer(b0,bId);
+        Long bId = dataM.findBenutzerByName("test").getBenutzerId();
+        dataM.bearbeiteBenutzer(bId,b0);
         Assertions.assertThat(benutzerRepo.findAll().get(0).getBenutzerEmail().equals("geändert!"));
     }
 
@@ -79,15 +71,15 @@ public class DataManagerTest {
         b0.setBenutzerName("test");
         b0.setArtikel(new ArrayList<Artikel>());
         dataM.erstelleBenutzer(b0);
-        int bId = dataM.findBenutzerByName("test");
+        Long bId = dataM.findBenutzerByName("test").getBenutzerId();
         Artikel a0 = new Artikel();
         a0.setArtikelBeschreibung("beschreibung");
         a0.setArtikelKaution(3);
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
-        dataM.erstelleArtikel(a0,bId);
-        Assertions.assertThat(dataM.findAllArtikel.get(0).getArtikelName().equals("Hammer"));
+        dataM.erstelleArtikel(bId,a0);
+        Assertions.assertThat(dataM.getAllArtikel().get(0).getArtikelName().equals("Hammer"));
     }
 
     @Rollback
@@ -98,12 +90,12 @@ public class DataManagerTest {
         b0.setBenutzerName("test");
         b0.setArtikel(new ArrayList<Artikel>());
         dataM.erstelleBenutzer(b0);
-        Assertions.assertThat(nameAlreadyExists("test")==true);
+        Assertions.assertThat(dataM.nameSchonVorhanden("test")==true);
     }
 
     @Rollback
     @Test
     public void nameAlreadyExists_IsNew(){
-        Assertions.assertThat(nameAlreadyExists("test")==false);
+        Assertions.assertThat(dataM.nameSchonVorhanden("test")==false);
     }
 }

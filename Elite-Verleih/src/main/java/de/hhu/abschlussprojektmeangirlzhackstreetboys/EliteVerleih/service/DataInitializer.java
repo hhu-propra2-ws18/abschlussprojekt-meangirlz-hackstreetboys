@@ -45,17 +45,17 @@ public class DataInitializer implements ServletContextInitializer {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Jens's-Werkstatt, a.k.a. HHU");
         a0.setArtikelTarif(1);
-        int bId = dataM.findBenutzerByName("Jens");
-        dataM.erstelleArtikel(a0,bId);
+        Long bId = dataM.findBenutzerByName("Jens").getBenutzerId();
+        dataM.erstelleArtikel(bId,a0);
 
-        Artikel a0 = new Artikel();
-        a0.setArtikelBeschreibung("Wohn mit mir zusammen");
-        a0.setArtikelKaution(50);
-        a0.setArtikelName("Ich - das Nashorn");
-        a0.setArtikelOrt("wo du wohnst");
-        a0.setArtikelTarif(1);
-        int bId = dataM.findBenutzerByName("Nashorn");
-        dataM.erstelleArtikel(a0,bId);
+        Artikel a1 = new Artikel();
+        a1.setArtikelBeschreibung("Wohn mit mir zusammen");
+        a1.setArtikelKaution(50);
+        a1.setArtikelName("Ich - das Nashorn");
+        a1.setArtikelOrt("wo du wohnst");
+        a1.setArtikelTarif(1);
+        Long bId2 = dataM.findBenutzerByName("Nashorn").getBenutzerId();
+        dataM.erstelleArtikel(bId2,a1);
 
     }
 }
