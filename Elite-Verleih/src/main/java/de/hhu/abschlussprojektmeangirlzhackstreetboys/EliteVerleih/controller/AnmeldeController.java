@@ -30,7 +30,7 @@ public class AnmeldeController {
         System.err.println(name);
         Benutzer benutzer = new Benutzer();
         if (name.equals("Registrieren")){
-            benutzer = dataManager.erstellen(registBenutzername,registEmail);
+            benutzer = dataManager.erstelleBenutzer(registBenutzername,registEmail);
         }
 
         return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
