@@ -31,7 +31,7 @@ public class DataManager {
         List<Benutzer> alleBenutzer = getAllBenutzer();
 
         for(Benutzer benutzer: alleBenutzer){
-            if(benutzer.getBenutzerName() == name){
+            if(benutzer.getBenutzerName().equals(name)){
                 return true;
             }
         }
@@ -44,7 +44,6 @@ public class DataManager {
 
     public Benutzer erstelleBenutzer(Benutzer benutzer) {
         if(nameSchonVorhanden(benutzer.getBenutzerName())) return null;
-
         benutzerRepo.saveAll(Arrays.asList(benutzer));
         return benutzer;
     }

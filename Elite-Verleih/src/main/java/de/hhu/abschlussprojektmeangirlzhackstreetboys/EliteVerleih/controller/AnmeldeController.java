@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,21 +30,21 @@ public class AnmeldeController {
 
     @PostMapping("/")
     public String login(@RequestParam(value = "submitButton") String name,
-                        @RequestParam(required = false) String registBenutzername,
-                        @RequestParam(required = false) String registEmail,
                         @RequestParam(required = false) String loginBenutzername,
-                        Model model,
                         @ModelAttribute Benutzer benutzer){
+
         if (name.equals("Registrieren")){
-            benutzer = dataManager.erstellen(benutzer.getBenutzerName(),benutzer.getBenutzerEmail());
+            benutzer = dataManager.erstelleBenutzer(benutzer);
+
             if (benutzer == null){
-                return "?login=1";
+                return "redirect:/?login=1";
             }
         }
-        if (name.equals("Anmeldung")){
-            //benutzer = dataManager.getBenutzerByName(loginBenutzername);
+        if (name.equals("Anmelden")){
+
+            benutzer = dataManager.findBenutzerByName(loginBenutzername);
             if (benutzer == null){
-                return "?login=1";
+                return "redirect:/?login=1";
             }
         }
 

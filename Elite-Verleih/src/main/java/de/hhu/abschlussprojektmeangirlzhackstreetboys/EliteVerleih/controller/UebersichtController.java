@@ -22,7 +22,7 @@ public class UebersichtController {
         Benutzer benutzer = dataManager.getBenutzerById(id);
 
         model.addAttribute("benutzer",benutzer);
-
+        model.addAttribute("artikels", dataManager.getAllArtikel());
         return "Uebersicht";
     }
 }

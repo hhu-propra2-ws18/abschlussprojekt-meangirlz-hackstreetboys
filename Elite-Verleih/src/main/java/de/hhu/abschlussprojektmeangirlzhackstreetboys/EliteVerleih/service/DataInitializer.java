@@ -54,7 +54,7 @@ public class DataInitializer implements ServletContextInitializer {
         a1.setArtikelName("Ich - das Nashorn");
         a1.setArtikelOrt("wo du wohnst");
         a1.setArtikelTarif(1);
-        Long bId2 = dataM.findBenutzerByName("Nashorn").getBenutzerId();
+        Long bId2 = dataM.findBenutzerByName("Antoine").getBenutzerId();
         dataM.erstelleArtikel(bId2,a1);
 
     }
