@@ -11,20 +11,13 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class DataManager {
+public class BenutzerManager {
 
     @Autowired
     BenutzerRepository benutzerRepo;
 
-    @Autowired
-    ArtikelRepository artikelRepo;
-
     public List<Benutzer> getAllBenutzer() {
         return benutzerRepo.findAll();
-    }
-
-    public List<Artikel> getAllArtikel() {
-        return artikelRepo.findAll();
     }
 
     public boolean nameSchonVorhanden(String name){
@@ -45,8 +38,7 @@ public class DataManager {
     public Benutzer erstelleBenutzer(Benutzer benutzer) {
         if(nameSchonVorhanden(benutzer.getBenutzerName())) return null;
 
-        benutzerRepo.saveAll(Arrays.asList(benutzer));
-        return benutzer;
+        return benutzerRepo.save(benutzer);
     }
 
     public Benutzer findBenutzerByName(String name){
@@ -62,28 +54,6 @@ public class DataManager {
         alterBenutzer.setBenutzerEmail(benutzer.getBenutzerEmail());
 
         benutzerRepo.saveAll(Arrays.asList(alterBenutzer));
-    }
-
-    public void erstelleArtikel(Long benutzerId, Artikel artikel){
-        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
-        artikel.setBenutzer(benutzer);
-        artikelRepo.saveAll(Arrays.asList(artikel));
-    }
-
-    public Artikel getArtikelById(Long artikelId){
-        return artikelRepo.findArtikelByArtikelId(artikelId);
-    }
-
-    void bearbeiteArtikel(Long artikelId, Artikel artikel){
-        Artikel alterArtikel = getArtikelById(artikelId);
-
-        alterArtikel.setArtikelBeschreibung(artikel.getArtikelBeschreibung());
-        alterArtikel.setArtikelKaution(artikel.getArtikelKaution());
-        alterArtikel.setArtikelName(artikel.getArtikelName());
-        alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
-        alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
-
-        artikelRepo.saveAll(Arrays.asList(alterArtikel));
     }
 
 }

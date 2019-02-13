@@ -14,13 +14,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 
-@Import({DataManager.class})
+@Import({BenutzerManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class DataManagerTest {
+public class BenutzerManagerTest {
 
     @Autowired
-    DataManager dataM;
+    BenutzerManager benutzerM;
 
     @Autowired
     BenutzerRepository benutzerRepo;
@@ -35,7 +35,7 @@ public class DataManagerTest {
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
         b0.setArtikel(new ArrayList<Artikel>());
-        dataM.erstelleBenutzer(b0);
+        benutzerM.erstelleBenutzer(b0);
         Assertions.assertThat(benutzerRepo.findAll().get(0).getBenutzerName().equals("test"));
     }
 
@@ -46,7 +46,7 @@ public class DataManagerTest {
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
         b0.setArtikel(new ArrayList<Artikel>());
-        dataM.erstelleBenutzer(b0);
+        benutzerM.erstelleBenutzer(b0);
         Assertions.assertThat(benutzerRepo.findAll().get(0).getBenutzerEmail().equals("test@yahoo"));
     }
 
@@ -57,29 +57,10 @@ public class DataManagerTest {
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
         b0.setArtikel(new ArrayList<Artikel>());
-        dataM.erstelleBenutzer(b0);
-        Long bId = dataM.findBenutzerByName("test").getBenutzerId();
-        dataM.bearbeiteBenutzer(bId,b0);
+        benutzerM.erstelleBenutzer(b0);
+        Long bId = benutzerM.findBenutzerByName("test").getBenutzerId();
+        benutzerM.bearbeiteBenutzer(bId,b0);
         Assertions.assertThat(benutzerRepo.findAll().get(0).getBenutzerEmail().equals("geändert!"));
-    }
-
-    @Rollback
-    @Test
-    public void createArtikel_EqualName(){
-        Benutzer b0 = new Benutzer();
-        b0.setBenutzerEmail("test@yahoo");
-        b0.setBenutzerName("test");
-        b0.setArtikel(new ArrayList<Artikel>());
-        dataM.erstelleBenutzer(b0);
-        Long bId = dataM.findBenutzerByName("test").getBenutzerId();
-        Artikel a0 = new Artikel();
-        a0.setArtikelBeschreibung("beschreibung");
-        a0.setArtikelKaution(3);
-        a0.setArtikelName("Hammer");
-        a0.setArtikelOrt("Werkstatt");
-        a0.setArtikelTarif(1);
-        dataM.erstelleArtikel(bId,a0);
-        Assertions.assertThat(dataM.getAllArtikel().get(0).getArtikelName().equals("Hammer"));
     }
 
     @Rollback
@@ -89,13 +70,13 @@ public class DataManagerTest {
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
         b0.setArtikel(new ArrayList<Artikel>());
-        dataM.erstelleBenutzer(b0);
-        Assertions.assertThat(dataM.nameSchonVorhanden("test")==true);
+        benutzerM.erstelleBenutzer(b0);
+        Assertions.assertThat(benutzerM.nameSchonVorhanden("test")==true);
     }
 
     @Rollback
     @Test
     public void nameAlreadyExists_IsNew(){
-        Assertions.assertThat(dataM.nameSchonVorhanden("test")==false);
+        Assertions.assertThat(benutzerM.nameSchonVorhanden("test")==false);
     }
 }

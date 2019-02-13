@@ -1,7 +1,7 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.DataManager;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AnmeldeController {
 
     @Autowired
-    DataManager dataManager;
+    BenutzerManager benutzerManager;
 
     @GetMapping("/")
     public String AnmeldungAnzeigen(){
@@ -30,7 +30,7 @@ public class AnmeldeController {
         System.err.println(name);
         Benutzer benutzer = new Benutzer();
         if (name.equals("Registrieren")){
-            benutzer = dataManager.erstelleBenutzer(registBenutzername,registEmail);
+            //benutzer = dataManager.erstelleBenutzer(registBenutzername,registEmail);
         }
 
         return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
