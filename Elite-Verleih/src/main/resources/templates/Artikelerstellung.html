@@ -1,10 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Erstellen</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
 
+
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" href="#">Elite-Verleih</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <div>
+        <button class="btn btn-default btn-sm" type="button" th:text="${benutzer?.getBenutzerName()}"></button>
+    </div>
+</nav>
+
+
+<div class="row justify-content-center" >
+    <div class="col-md-8">
+        <div class="card mb-4 shadow-sm">
+            <div class="card text-center">
+                <div class="card-header">
+                    Artikel anbieten
+                </div>
+                <div class="card-body">
+                    <form action="/person/startseite" th:action="@{Uebersicht.html}" th:object="${artikel}" method="post" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Name </label>
+                            <input type="text" th:field="*{artikelName}" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label >Beschreibung </label>
+                            <input type="text" th:field="*{artikelBeschreibung}" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label >Kaution </label>
+                            <input type="text" th:field="*{artikelKaution}" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label >Tarif </label>
+                            <input type="text" th:field="*{artikelTarif}" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label >Abholort </label>
+                            <input type="text" th:field="*{artikelOrt}" class="form-control" />
+                        </div>
+                        <div class="form-group" th:frame="10">
+                            <label>Laden Sie ein Bild zu Ihrem Artikel hoch:</label>
+                            <p></p>
+                            <input th:name="artikelbild" type="file" size="50" accept="image/*">
+                        </div>
+                        <p>
+                            <button type="submit" class="btn btn-primary my-2">Submit</button>
+                            <button class="btn btn-primary my-2" type="reset">Reset</button>
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
