@@ -17,20 +17,33 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" href="http://localhost:8080/Uebersicht?id=1">Elite Verleih</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <div>
+        <button class="btn btn-default btn-sm" type="button" th:text="${benutzer?.getBenutzerName()}"></button>
+    </div>
+</nav>
+
 
 <section class="jumbotron text-center">
-    <div class="container">
-        <h1 class="jumbotron-heading">Detailansicht</h1>
-        <p class="lead text-muted"></p>
+
         <tr th:if="${artikel==null}">
             <p class="lead text-muted">Artikel nicht vorhanden.</p>
         </tr>
 
-    </div>
 </section>
 
 
-<
+
 <div th:if="${artikel!=null}" class="album py-5 bg-light">
     <div class="container-fluid" >
 
@@ -39,8 +52,8 @@
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
                         <h3 class="text-center">
-                            <span>Artikel Test</span>
-                            <!--span th:text="${Artikel.artikelName}"></span-->
+
+                            <span th:text="${artikel.artikelName}"></span>
                         </h3>
                         <div class="thumbnail">
                             <img src="http://cdn3.spiegel.de/images/image-1341296-860_galleryfree-dshe-1341296.jpg" alt="Bild" class="img-fluid" >
@@ -52,18 +65,18 @@
 
                             <li class="list-group-item"  th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
                             <li class="list-group-item"  th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
-                            <li class="list-group-item"  th:text="'Besitzer: '+${artikel?.getBenutzer()}"></li>
+                            <li class="list-group-item"  th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
                             <li class="list-group-item"  th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
                             <li class="list-group-item"  th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
                             <li class="list-group-item"  th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
 
-                            <!--li class="list-group-item" th:text="'Projekte: ’ +${person.projekte}"></li-->
+
 
 
 
 
                             <li class="list-group-item">
-                                <a th:href="@{'http://localhost:8080/'}">
+                                <a th:href="@{'http://localhost:8080/Benutzer/?id='+${artikel?.getBenutzer().getBenutzerId()}">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">
                                         ausgeliehen von <!-- führt zur benutzer seite-->
                                     </button>
@@ -94,7 +107,7 @@
                                     </script>
                                 </div>
                             </li>
-                            <!--li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li-->
+                            <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li>
 
 
                         </div>
