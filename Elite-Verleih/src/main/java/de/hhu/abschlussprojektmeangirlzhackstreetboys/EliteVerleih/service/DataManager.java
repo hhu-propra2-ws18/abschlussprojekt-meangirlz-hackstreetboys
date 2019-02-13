@@ -56,7 +56,7 @@ public class DataManager {
         return benutzerRepo.findBenutzerByBenutzerName(name).get();
     }
 
-   public void bearbeiteBenutzer(Long benutzerId, Benutzer benutzer) {
+    public void bearbeiteBenutzer(Long benutzerId, Benutzer benutzer) {
         Benutzer alterBenutzer = getBenutzerById(benutzerId);
 
         alterBenutzer.setBenutzerEmail(benutzer.getBenutzerEmail());
@@ -64,7 +64,7 @@ public class DataManager {
         benutzerRepo.saveAll(Arrays.asList(alterBenutzer));
     }
 
-   public void erstelleArtikel(Long benutzerId, Artikel artikel){
+    public void erstelleArtikel(Long benutzerId, Artikel artikel){
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
         artikelRepo.saveAll(Arrays.asList(artikel));
