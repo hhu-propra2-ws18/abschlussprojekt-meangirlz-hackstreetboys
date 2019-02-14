@@ -12,6 +12,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class DataInitializer implements ServletContextInitializer {
@@ -141,11 +142,17 @@ public class DataInitializer implements ServletContextInitializer {
 
 
         // AUSLEIHE
-        Date start = new Date();
-        start.setDate(3);
-        Date rueckgabe = new Date();
-        rueckgabe.setDate(5);
+        Date start = new Date(3);
+        Date rueckgabe = new Date(5);
         Ausleihe ausleihe1 = new Ausleihe(a8, start, rueckgabe, bJens, Status.ANGEFRAGT, 1 );
+        List<Ausleihe> ausleihe = benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").getAusgeliehen();
+        System.out.println(ausleihe == null);
+        System.out.println(ausleihe.isEmpty());
+        //ausleihe.add(ausleihe1);
+        //System.out.println(ausleihe.size());
+        benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").setAusgeliehen(ausleihe);
+        List<Ausleihe> ausgabe = benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").getAusgeliehen();
+        //System.out.println(ausgabe.size());
 
     }
 }
