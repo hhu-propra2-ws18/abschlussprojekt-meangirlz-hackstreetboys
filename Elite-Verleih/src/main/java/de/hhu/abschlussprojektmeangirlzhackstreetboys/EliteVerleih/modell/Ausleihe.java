@@ -13,7 +13,7 @@ public class Ausleihe {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long ausleihId;
+    private Long ausleiheId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Artikel artikel;
