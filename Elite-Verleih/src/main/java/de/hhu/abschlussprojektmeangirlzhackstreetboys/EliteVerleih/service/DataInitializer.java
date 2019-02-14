@@ -22,6 +22,9 @@ public class DataInitializer implements ServletContextInitializer {
 
     @Autowired
     ArtikelManager artikelM;
+    
+    @Autowired
+    AusleiheManager ausleiheM;
 
     @Override
     public void onStartup(ServletContext servletContext)
@@ -139,20 +142,11 @@ public class DataInitializer implements ServletContextInitializer {
         a6_longText.setArtikelOrt("Pizzeria Vapioso");
         a6_longText.setArtikelTarif(30);
         artikelM.erstelleArtikel(sVId,a6_longText);
-
-
-        // AUSLEIHE
-        Date start = new Date(3);
-        Date rueckgabe = new Date(5);
-        Ausleihe ausleihe1 = new Ausleihe(a8, start, rueckgabe, bJens, Status.ANGEFRAGT, 1 );
-        List<Ausleihe> ausleihe = benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").getAusgeliehen();
-        System.out.println(ausleihe == null);
-        System.out.println(ausleihe.isEmpty());
-        ausleihe.add(ausleihe1);
-        System.out.println(ausleihe.size());
-        benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").setAusgeliehen(ausleihe);
-        List<Ausleihe> ausgabe = benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").getAusgeliehen();
-        System.out.println(ausgabe.size());
-
+        
+        Date sD0 = new Date(2019, 5, 8);
+        Date eD0 = new Date(2019, 5, 10);
+        ausleiheM.erstelleAusleihe(new Long(1), new Long(2), sD0, eD0);
+        
+        
     }
 }
