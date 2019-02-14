@@ -33,18 +33,21 @@ public class DetailansichtController {
         return "Detailansicht";
     }
 
-    @PostMapping("/Detailansicht")
+    @PostMapping("/Detailansicht/{artikelId}")
     public String erstelleAusleihe(@RequestParam(required = false) Date startDatum,
                         @RequestParam(required = false) Date endDatum,
-                        @ModelAttribute Benutzer benutzer,
-                        @ModelAttribute Artikel artikel){
+                        @PathVariable Long artikelId, Long id){
 
-        Benutzer b = benutzerManager.findBenutzerByName(benutzer.getBenutzerName());
+        Benutzer b = benutzerManager.getBenutzerById(id);
+        Artikel artikel = artikelManager.getArtikelById(artikelId);
+        System.err.println("ENDDATUM" + endDatum);
+        System.err.println("Artikel: "+artikel.getArtikelName());
+        System.err.println("Benutzerid: "+b.getBenutzerId());
 
-        ausleiheManager.erstelleAusleihe(benutzer.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
+        ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
 
         System.err.println("AUSLEIHE ERSTELLEN");
-        return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
+        return "redirect:/Uebersicht?id=" + b.getBenutzerId();
     }
 
 

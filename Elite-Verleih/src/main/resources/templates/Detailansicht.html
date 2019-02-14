@@ -63,12 +63,12 @@
 
                             <li class="list-group">
 
-                            <li class="list-group-item"  th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
-                            <li class="list-group-item"  th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
-                            <li class="list-group-item"  th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
-                            <li class="list-group-item"  th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
-                            <li class="list-group-item"  th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
-                            <li class="list-group-item"  th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
+                            <li class="list-group-item"  th:name="artikelName" th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
+                            <li class="list-group-item"  th:name="artikelBeschreibung" th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
+                            <li class="list-group-item"  th:name="benutzerName" th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
+                            <li class="list-group-item"  th:name="artikelKaution" th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
+                            <li class="list-group-item"  th:name="artikelTarif" th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
+                            <li class="list-group-item"  th:name="artikelOrt" th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
 
 
 
@@ -111,7 +111,7 @@
                                         });
 
                                     </script>
-                                    <form action="#" th:action="@{/Detailansicht}" th:object="${ausleihe}" method="post">
+                                    <form action="#" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|" th:object="${artikel}" method="post">
 
                                         <button type="submit" class="btn btn-sm btn-outline-secondary">
                                             Artikel ausleihen
