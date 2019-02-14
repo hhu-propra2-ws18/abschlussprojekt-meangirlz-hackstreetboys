@@ -127,7 +127,7 @@ public class DataInitializer implements ServletContextInitializer {
 
         Artikel a6 = new Artikel();
         a6.setArtikelBeschreibung("Perfekt zum Zerkleinern jeglicher Gartenabfälle, pflanzlicher Überreste, Blätter, Grashalme, " +
-                "kleine bis grosse Bäume, Informanten, Geiseln, Sträucher, Hecken, sowie dem Buchsbaum." +
+                //"kleine bis grosse Bäume, Informanten, Geiseln, Sträucher, Hecken, sowie dem Buchsbaum." +
                 "Dazu ist die Schere fast noch nie benutzt worden, und nach ihrer letzten Benutzung sehr ordentlich gesäubert worden.");
         a6.setArtikelKaution(300);
         a6.setArtikelName("Gartenschere");
