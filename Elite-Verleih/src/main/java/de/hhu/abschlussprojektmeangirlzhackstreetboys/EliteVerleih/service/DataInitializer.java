@@ -1,7 +1,9 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Component
 public class DataInitializer implements ServletContextInitializer {
@@ -135,5 +138,14 @@ public class DataInitializer implements ServletContextInitializer {
         a6_longText.setArtikelOrt("Pizzeria Vapioso");
         a6_longText.setArtikelTarif(30);
         artikelM.erstelleArtikel(sVId,a6_longText);
+
+
+        // AUSLEIHE
+        Date start = new Date();
+        start.setDate(3);
+        Date rueckgabe = new Date();
+        rueckgabe.setDate(5);
+        Ausleihe ausleihe1 = new Ausleihe(a8, start, rueckgabe, bJens, Status.ANGEFRAGT, 1 );
+
     }
 }
