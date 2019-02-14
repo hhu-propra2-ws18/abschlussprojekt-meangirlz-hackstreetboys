@@ -1,6 +1,11 @@
 language: java
 branches:
   only:
+    - travisTestBranch
     - master
 script:
+  - cd Elite-Verleih
   - ./gradlew check
+  - ./gradlew test
+notifications:
+  - email: false
