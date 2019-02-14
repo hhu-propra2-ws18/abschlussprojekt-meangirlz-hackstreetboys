@@ -5,20 +5,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.DataManager;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.BenutzerManager;
 
 @Controller
 public class ProfilController {
 	@Autowired
-    DataManager dataManager;
+    BenutzerManager benutzerManager;
     @GetMapping("/Profil")
     public String ProfilAnzeigen(Long id, Model model){
     	if(id == null) {
     		return "redirect:/";
     	}
-    	Benutzer benutzer = dataManager.getBenutzerById(id);
+    	Benutzer benutzer = benutzerManager.getBenutzerById(id);
     	model.addAttribute("benutzer",benutzer);
         return "Profil";
     }

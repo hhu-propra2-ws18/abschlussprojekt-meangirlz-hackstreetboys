@@ -6,32 +6,35 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.DataManager;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.BenutzerManager;
 
 @Controller
 public class ProfilBearbeitenController {
 	@Autowired
-	DataManager dataManager;
+	BenutzerManager benutzerManager;
 	
     @GetMapping("/ProfilBearbeiten")
     public String ProfilBearbeitenAnzeigen(Long id, Model model){
     	if(id == null) {
     		return "redirect:/";
     	}
-    	Benutzer benutzer = dataManager.getBenutzerById(id);
+    	Benutzer benutzer = benutzerManager.getBenutzerById(id);
     	model.addAttribute("benutzer",benutzer);
 		return "ProfilBearbeiten";
     }
     @PostMapping("/ProfilBearbeiten")
-    public String ProfilBearbeitenSpeichern(Long id, @ModelAttribute Benutzer newBenutzer, Model model){
+    public String ProfilBearbeitenSpeichern(Long id, 
+    		@RequestParam String email, Model model){
     	if(id == null) {
     		return "redirect:/";
     	}
-    	Benutzer benutzer = dataManager.getBenutzerById(id);
-    	model.addAttribute("benutzer",benutzer);
+    	Benutzer benutzer = benutzerManager.getBenutzerById(id);
+    	Benutzer newBenutzer = benutzerManager.editBenutzer(benutzer, email);
+    	model.addAttribute("benutzer",newBenutzer);
 		return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
     }
 }

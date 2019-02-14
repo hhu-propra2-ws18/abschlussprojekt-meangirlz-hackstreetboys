@@ -56,6 +56,11 @@ public class BenutzerManager {
         benutzerRepo.saveAll(Arrays.asList(alterBenutzer));
     }
 
+	public Benutzer editBenutzer(Benutzer benutzer, String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 
 
