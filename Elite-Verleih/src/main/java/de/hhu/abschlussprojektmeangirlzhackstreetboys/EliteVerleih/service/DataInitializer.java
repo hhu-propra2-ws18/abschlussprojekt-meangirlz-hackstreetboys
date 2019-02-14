@@ -148,11 +148,11 @@ public class DataInitializer implements ServletContextInitializer {
         List<Ausleihe> ausleihe = benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").getAusgeliehen();
         System.out.println(ausleihe == null);
         System.out.println(ausleihe.isEmpty());
-        //ausleihe.add(ausleihe1);
-        //System.out.println(ausleihe.size());
+        ausleihe.add(ausleihe1);
+        System.out.println(ausleihe.size());
         benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").setAusgeliehen(ausleihe);
         List<Ausleihe> ausgabe = benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").getAusgeliehen();
-        //System.out.println(ausgabe.size());
+        System.out.println(ausgabe.size());
 
     }
 }
