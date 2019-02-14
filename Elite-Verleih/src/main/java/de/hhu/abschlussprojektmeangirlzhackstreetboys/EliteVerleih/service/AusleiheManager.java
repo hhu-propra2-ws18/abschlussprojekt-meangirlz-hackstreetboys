@@ -35,9 +35,9 @@ public class AusleiheManager {
         ausleihe.setBenutzer(benutzer);
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         ausleihe.setArtikel(artikel);
-        ausleihe.setAusleihRueckgabedatum();
-        ausleihe.setAusleihStartdatum();
-        ausleiheRepo.save(artikel);
+        ausleihe.setAusleihRueckgabedatum(ausleihRueckgabedatum);
+        ausleihe.setAusleihStartdatum(ausleihStartdatum);
+        ausleiheRepo.save(ausleihe);
     }
 
     public Ausleihe getAusleiheById(Long ausleiheId){

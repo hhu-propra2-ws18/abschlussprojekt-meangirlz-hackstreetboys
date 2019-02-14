@@ -25,6 +25,8 @@ public class Ausleihe {
     @ManyToOne(fetch = FetchType.EAGER)
     private Benutzer benutzer;
 
+    public Ausleihe (){};
+
     public Ausleihe(Artikel artikel, Date ausleihStartdatum, Date ausleihRueckgabedatum, Benutzer benutzer){
         this.artikel = artikel;
         this.ausleihStartdatum = ausleihStartdatum;
