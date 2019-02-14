@@ -14,30 +14,50 @@ import java.util.ArrayList;
 public class DataInitializer implements ServletContextInitializer {
 
     @Autowired
-    DataManager dataM;
+    BenutzerManager benutzerM;
+
+    @Autowired
+    ArtikelManager artikelM;
 
     @Override
     public void onStartup(ServletContext servletContext)
             throws ServletException {
         System.out.println("Populating the database");
 
-        Benutzer b0 = new Benutzer();
-        b0.setBenutzerEmail("Jemail@hhu.de");
-        b0.setBenutzerName("Jens");
-        b0.setArtikel(new ArrayList<Artikel>());
-        dataM.erstelleBenutzer(b0);
+        Benutzer bJens = new Benutzer();
+        bJens.setBenutzerEmail("Jemail@hhu.de");
+        bJens.setBenutzerName("Jens");
+        bJens.setArtikel(new ArrayList<Artikel>());
+        benutzerM.erstelleBenutzer(bJens);
+        Long jensId = benutzerM.findBenutzerByName("Jens").getBenutzerId();
 
-        Benutzer b1 = new Benutzer();
-        b1.setBenutzerEmail("scam@scamer.com");
-        b1.setBenutzerName("Nashorn");
-        b1.setArtikel(new ArrayList<Artikel>());
-        dataM.erstelleBenutzer(b1);
+        Benutzer bAntoine = new Benutzer();
+        bAntoine.setBenutzerEmail("nashorn@wgpartner.nh");
+        bAntoine.setBenutzerName("Antoine");
+        bAntoine.setArtikel(new ArrayList<Artikel>());
+        benutzerM.erstelleBenutzer(bAntoine);
+        Long antoineId = benutzerM.findBenutzerByName("Antoine").getBenutzerId();
 
-        Benutzer b2 = new Benutzer();
-        b1.setBenutzerEmail("nashorn@wgpartner.nh");
-        b1.setBenutzerName("Antoine");
-        b1.setArtikel(new ArrayList<Artikel>());
-        dataM.erstelleBenutzer(b1);
+        Benutzer bTimo = new Benutzer();
+        bTimo.setBenutzerEmail("timo@hackstreetboys.de");
+        bTimo.setBenutzerName("Timo");
+        bTimo.setArtikel(new ArrayList<Artikel>());
+        benutzerM.erstelleBenutzer(bTimo);
+        Long timoId = benutzerM.findBenutzerByName("Timo").getBenutzerId();
+
+        Benutzer bSchwarzmarktVerkäufer = new Benutzer();
+        bSchwarzmarktVerkäufer.setBenutzerEmail("scam@yohoo.de");
+        bSchwarzmarktVerkäufer.setBenutzerName("SchwarzmarktVerkäufer");
+        bSchwarzmarktVerkäufer.setArtikel(new ArrayList<Artikel>());
+        benutzerM.erstelleBenutzer(bSchwarzmarktVerkäufer);
+        Long sVId = benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").getBenutzerId();
+
+        Benutzer bMafiaUser07 = new Benutzer();
+        bMafiaUser07.setBenutzerEmail("mafioso@mafia.it");
+        bMafiaUser07.setBenutzerName("MafiaUser07");
+        bMafiaUser07.setArtikel(new ArrayList<Artikel>());
+        benutzerM.erstelleBenutzer(bMafiaUser07);
+        Long mUId = benutzerM.findBenutzerByName("MafiaUser07").getBenutzerId();
 
         Artikel a0 = new Artikel();
         a0.setArtikelBeschreibung("Einfach hammer dieser Hammer!");
@@ -45,12 +65,11 @@ public class DataInitializer implements ServletContextInitializer {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Jens's-Werkstatt, a.k.a. HHU");
         a0.setArtikelTarif(1);
-        Long bId = dataM.findBenutzerByName("Jens").getBenutzerId();
-        dataM.erstelleArtikel(bId,a0);
+        artikelM.erstelleArtikel(jensId,a0);
 
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("Wohn mit mir zusammen");
-        a1.setArtikelKaution(50);
+        a1.setArtikelKaution(500000);
         a1.setArtikelName("Ich - das Nashorn");
         a1.setArtikelOrt("wo du wohnst");
         a1.setArtikelTarif(1);
@@ -113,6 +132,5 @@ public class DataInitializer implements ServletContextInitializer {
         a6.setArtikelOrt("Pizzeria Vapioso");
         a6.setArtikelTarif(30);
         artikelM.erstelleArtikel(sVId,a6);
-
     }
 }

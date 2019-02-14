@@ -1,7 +1,7 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.DataManager;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +36,6 @@ public class AnmeldeController {
                         @ModelAttribute Benutzer benutzer){
 
         System.err.println(name);
-        Benutzer benutzer = new Benutzer();
         if (name.equals("Registrieren")){
             benutzer = benutzerManager.erstelleBenutzer(benutzer);
 
