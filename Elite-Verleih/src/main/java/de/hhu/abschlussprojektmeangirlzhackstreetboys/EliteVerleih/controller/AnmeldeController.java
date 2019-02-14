@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,7 +38,7 @@ public class AnmeldeController {
         System.err.println(name);
         Benutzer benutzer = new Benutzer();
         if (name.equals("Registrieren")){
-            benutzer = dataManager.erstelleBenutzer(benutzer);
+            benutzer = benutzerManager.erstelleBenutzer(benutzer);
 
             if (benutzer == null){
                 return "redirect:/?login=1";
@@ -45,7 +46,7 @@ public class AnmeldeController {
         }
         if (name.equals("Anmelden")){
 
-            benutzer = dataManager.findBenutzerByName(loginBenutzername);
+            benutzer = benutzerManager.findBenutzerByName(loginBenutzername);
             if (benutzer == null){
                 return "redirect:/?login=1";
             }
