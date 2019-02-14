@@ -27,6 +27,7 @@
 	    </div>
 	  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 	    <div class="container jumbotron center">
+	    <p>Jemand moechte einen Artikel von dir ausleihen.</p>
 	      <div class="row">
 	        <div class="card" style="width: 17rem;">
 	            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
@@ -60,6 +61,8 @@
       </div>
     <div id="collapseTwo" class="collapse show" adfria-labelledby="headingTwo" data-parent="#accordion">
       <div class="container jumbotron center">
+        <h3>Aktiv</h3>
+        <p>Deine ausgeliehenen Artikel</p>
         <div class="row">
           <div class="card" style="width: 17rem;">
             <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
@@ -74,6 +77,25 @@
     	    </div>
           </div>
   	    </div>
+  	    
+  	    <br/>
+  	    <h3>Wartend</h3>
+  	    <p>Es wird auf die Bestaetigung des Besitzers gewartet.</p>
+  	    <div class="row">
+          <div class="card" style="width: 17rem;">
+            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
+		    <div class="card-body">
+		      <h5 class="card-title">ArtikelName</h5>
+		      <p class="card-text">Dauer</p>
+		      <p class="card-text">Benutzer</p>
+		      <a href="/Detailansicht">Details</a>
+		      <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
+		           <center><input class="btn btn-outline-danger" type="submit" value="Zurueckziehen" /></center>
+		      </form> 
+    	    </div>
+          </div>
+  	    </div>
+  	    
 	  </div>
     </div>
   </div>
@@ -118,6 +140,7 @@
   		  </div>
   		  <br/>
   		  <h3>Angebotene</h3>
+  		  <p>Deine Artikel zum verleihen.</p>
           <div class="row">
             <div class="card" style="width: 17rem;">
 	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
@@ -148,6 +171,8 @@
   		  </div>
   		  <br/>
   		  <h3>Zurueckerhaltenes</h3>
+  		  <p>Deine zurueckerhaltenen Artikel. 
+  		  <br/> Bei Problemen benachrichtige bitte unseren Support.</p>
     	  <div class="row">
 			<div class="card" style="width: 17rem;">
 			  <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
@@ -156,7 +181,7 @@
       			<p class="card-text">Benutzer</p>
       			<p class="card-text">Dauer</p>
       			<a href="/Detailansicht">Details</a>
-      			<center>
+      			<center>Bestaetigung des Besitzers gewarte
       		    <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
            		  <center>
            		    <input class="btn btn-outline-success" type="submit" value="Akzeptieren" />
@@ -187,6 +212,7 @@
     </div>
     <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
 	  <div class="container jumbotron center">
+	  <p>Wir warten noch auf die Bestaetigung des Besitzers, dass der ausgeliehene Artikel in Ordnung ist.</p>
   		<div class="row">
 		  <div class="card" style="width: 17rem;">
     	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
