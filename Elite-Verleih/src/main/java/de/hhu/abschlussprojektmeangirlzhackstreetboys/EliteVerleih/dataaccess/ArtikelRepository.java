@@ -1,6 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess;
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

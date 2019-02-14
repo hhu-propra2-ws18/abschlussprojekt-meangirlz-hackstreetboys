@@ -25,7 +25,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Elite-Verleih</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -36,104 +36,32 @@
         </form>
     </div>
     <div>
-        <button class="btn btn-default btn-sm" type="button" th:text="${benutzer.getBenutzerName()}"></button>
+        <a th:href="|/Profil?id=${benutzer.getBenutzerId()}|">
+            <button class="btn btn-default btn-sm" type="button" th:text="${benutzer.getBenutzerName()}"></button>
+        </a>
     </div>
 
 </nav>
 
 <div class="container jumbotron center">
     <div class="row">
-        <div class="card" style="width: 17rem;">
-            <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Artikelname</h5>
-                <p class="card-text">Beschreibung</p>
-                <p class="card-text">Kosten/Tag</p>
+        <a th:each="artikel : ${artikels}"  style="text-decoration: none" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|">
+            <div class="card" style="width: 17rem;" >
+                <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${artikel.getArtikelName()}">Artikelname</h5>
+                    <p class="card-text" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>
+                    <p class="card-text" th:text="|Kosten/Tag : ${artikel.getArtikelTarif()},00€|">Kosten/Tag</p>
+                </div>
             </div>
-        </div>
-        <div class="card" style="width: 17rem;">
-            <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Artikelname</h5>
-                <p class="card-text">Beschreibung</p>
-                <p class="card-text">Kosten/Tag</p>
-            </div>
-        </div>
-        <div class="card" style="width: 17rem;">
-            <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Artikelname</h5>
-                <p class="card-text">Beschreibung</p>
-                <p class="card-text">Kosten/Tag</p>
-            </div>
-        </div>
-        <div class="card" style="width: 17rem;">
-            <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Artikelname</h5>
-                <p class="card-text">Beschreibung</p>
-                <p class="card-text">Kosten/Tag</p>
-            </div>
-        </div>
-        <div class="card" style="width: 17rem;">
-            <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Artikelname</h5>
-                <p class="card-text">Beschreibung</p>
-                <p class="card-text">Kosten/Tag</p>
-            </div>
-        </div>
-        <div class="card" style="width: 17rem;">
-            <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Artikelname</h5>
-                <p class="card-text">Beschreibung</p>
-                <p class="card-text">Kosten/Tag</p>
-            </div>
-        </div>
-        <div class="card" style="width: 17rem;">
-            <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Artikelname</h5>
-                <p class="card-text">Beschreibung</p>
-                <p class="card-text">Kosten/Tag</p>
-            </div>
-        </div>
-        <div class="card" style="width: 17rem;">
-            <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Artikelname</h5>
-                <p class="card-text">Beschreibung</p>
-                <p class="card-text">Kosten/Tag</p>
-            </div>
-        </div><div class="card" style="width: 17rem;">
-        <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Artikelname</h5>
-            <p class="card-text">Beschreibung</p>
-            <p class="card-text">Kosten/Tag</p>
-        </div>
-    </div><div class="card" style="width: 17rem;">
-        <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">Artikelname</h5>
-            <p class="card-text">Beschreibung</p>
-            <p class="card-text">Kosten/Tag</p>
-        </div>
-    </div>
-        <div class="card" style="width: 17rem;">
-            <img src="https://c.pxhere.com/photos/9e/16/fountain_pen_pen_stylograph_ink_signature_write_calligraphy_handwriting-722257.jpg!d" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Artikelname</h5>
-                <p class="card-text">Beschreibung</p>
-                <p class="card-text">Kosten/Tag</p>
-            </div>
-        </div>
+        </a>
     </div>
 </div>
 
 <div>
-    <button class="btn btn-default btn-md mr-sm-2 fixed-bottom" type="button"> + </button>
+    <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
+        <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom" type="button"> + </button>
+    </a>
 </div>
 
 <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->

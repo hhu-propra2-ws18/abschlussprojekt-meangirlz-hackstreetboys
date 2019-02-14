@@ -30,7 +30,10 @@
             <h3>Login</h3>
             <form method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Benutzername *" name="loginBenutzername" required/>
+                    <input type="text" class="form-control is-invalid" placeholder="Benutzername *" name="loginBenutzername" required/>
+                    <div th:if="${istFalsch == 1}" class="invalid-feedback">
+                        Benutzername nicht vorhanden!
+                    </div>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btnSubmit" name="submitButton" id="loginButton" value="Anmelden" />
@@ -39,12 +42,12 @@
         </div>
         <div class="col-md-6 registrieren">
             <h3>Registrieren</h3>
-            <form method="post">
+            <form method="post" th:object="${benutzer}">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Benutzername *" name="registBenutzername" required/>
+                    <input type="text" class="form-control" placeholder="Benutzername *" th:field="*{benutzerName}" name="registBenutzername" required/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Email *" name="registEmail"required/>
+                    <input type="text" class="form-control" placeholder="Email *"  th:field="*{benutzerEmail}"name="registEmail"required/>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btnSubmit" name="submitButton" id="registButton" value="Registrieren" />
