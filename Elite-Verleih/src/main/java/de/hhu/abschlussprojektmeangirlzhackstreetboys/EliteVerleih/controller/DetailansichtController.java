@@ -28,19 +28,7 @@ public class DetailansichtController {
         return "Detailansicht";
     }
 
-    @GetMapping("/Detailansicht/{id}")
-    public String erstelleAusleihe(@PathVariable long id, Model model){
-        model.addAttribute("ausleihe", ausleiheRepo.findAusleiheByAusleiheId(id));
-        return "Detailansicht";
-    }
 
-    @PostMapping(" /Detailansicht/{id}")
-    public String ausleiheSubmitStart(@ModelAttribute Ausleihe ausleihe, Model model){
-        ausleiheRepo.save(ausleihe);
-
-        model.addAttribute("ausleiheRepo", ausleiheRepo.findAll());
-        return "redirect://localhost:8080/Detailansicht";
-    }
 
 
 
