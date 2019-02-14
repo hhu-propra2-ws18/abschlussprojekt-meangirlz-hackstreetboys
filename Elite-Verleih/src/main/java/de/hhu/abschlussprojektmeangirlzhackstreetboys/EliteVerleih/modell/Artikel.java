@@ -20,6 +20,7 @@ public class Artikel {
 
     private String artikelName;
 
+    @Column(columnDefinition = "TEXT")
     private String artikelBeschreibung;
 
     @ManyToOne(fetch = FetchType.LAZY)

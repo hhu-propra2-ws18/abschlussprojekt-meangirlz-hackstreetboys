@@ -123,14 +123,17 @@ public class DataInitializer implements ServletContextInitializer {
         a8.setArtikelTarif(100);
         artikelM.erstelleArtikel(sVId,a8);
 
-        Artikel a6 = new Artikel();
-        a6.setArtikelBeschreibung("Perfekt zum Zerkleinern jeglicher Gartenabfälle, pflanzlicher Überreste, Blätter, Grashalme, " +
-                //"kleine bis grosse Bäume, Informanten, Geiseln, Sträucher, Hecken, sowie dem Buchsbaum." +
+        Artikel a6_longText = new Artikel();
+        a6_longText.setArtikelBeschreibung("Perfekt zum Zerkleinern jeglicher Gartenabfälle, pflanzlicher Überreste, Blätter, Grashalme, " +
+                "kleine bis grosse Bäume, Informanten, Geiseln. Sträucher, Hecken, sowie dem Buchsbaum." +
+
+                "" +
+
                 "Dazu ist die Schere fast noch nie benutzt worden, und nach ihrer letzten Benutzung sehr ordentlich gesäubert worden.");
-        a6.setArtikelKaution(300);
-        a6.setArtikelName("Gartenschere");
-        a6.setArtikelOrt("Pizzeria Vapioso");
-        a6.setArtikelTarif(30);
-        artikelM.erstelleArtikel(sVId,a6);
+        a6_longText.setArtikelKaution(300);
+        a6_longText.setArtikelName("Gartenschere");
+        a6_longText.setArtikelOrt("Pizzeria Vapioso");
+        a6_longText.setArtikelTarif(30);
+        artikelM.erstelleArtikel(sVId,a6_longText);
     }
 }
