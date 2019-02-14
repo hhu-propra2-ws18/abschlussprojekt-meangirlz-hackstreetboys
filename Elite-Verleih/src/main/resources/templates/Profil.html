@@ -185,7 +185,7 @@
       		    <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
            		  <center>
            		    <input class="btn btn-outline-success" type="submit" value="Akzeptieren" />
-           		    <input class="btn btn-outline-danger" type="submit" value="Konflikt" /> <!-- SupportSeite weiterleiten-->
+           		    <input class="btn btn-outline-danger" type="submit" value="Konflikt" />
       			  </center>
       			</form>
       			
@@ -222,7 +222,11 @@
       		  <p class="card-text">Dauer</p>
       		  <a href="/Detailansicht">Details</a>
       		  <br/>
-      		  <center><a class="btn btn-outline-danger" href="/support" role="button">Probleme</a></center>
+      		  <center><form method="post" th:action="@{/Profil}">
+           		  <center>
+           		    <input class="btnSubmit btn-outline-danger" type="submit" value="Problem" name="submitButton" />
+      			  </center>
+      			</form></center>
       		  
     		</div>
   		  </div>

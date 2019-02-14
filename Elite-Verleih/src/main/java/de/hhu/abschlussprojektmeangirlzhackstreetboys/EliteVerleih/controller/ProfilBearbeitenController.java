@@ -36,6 +36,6 @@ public class ProfilBearbeitenController {
     	Benutzer benutzer = benutzerManager.getBenutzerById(id);
     	Benutzer newBenutzer = benutzerManager.editBenutzer(benutzer, ben.getBenutzerEmail());
     	model.addAttribute("benutzer",newBenutzer);
-		return "redirect:/Profil?id=" + benutzer.getBenutzerId();
+		return "redirect:/Profil?id=" + id;
     }
 }
