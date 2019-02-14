@@ -41,7 +41,7 @@ public class AusleiheManager {
     }
 
     public Ausleihe getAusleiheById(Long ausleiheId){
-        return ausleiheRepo.findAusleiheByAusleiheId(ausleiheId);
+        return ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
     }
 
     public void bearbeiteAusleihe() {
