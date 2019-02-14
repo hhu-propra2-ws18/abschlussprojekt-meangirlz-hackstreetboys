@@ -29,6 +29,8 @@ public class Ausleihe {
 
     private int reservationsId;
 
+    public Ausleihe (){};
+
     public Ausleihe(Artikel artikel, Date ausleihStartdatum, Date ausleihRueckgabedatum, Benutzer benutzer,
                     Status ausleihStatus, int reservationsId){
         this.artikel = artikel;

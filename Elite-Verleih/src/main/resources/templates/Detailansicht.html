@@ -5,32 +5,45 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-    <style type="text/css">
-        #datepicker{
-            width:180px; margin:0 20px 20px 20px;
-        }
-        #datepicker > span:hover {
-            cursor: pointer;
-        }
-    </style>
+    <script type='text/javascript'>
+        $(function(){
+            $('.input-daterange').datepicker({
+                autoclose: true
+            });
+        });
+
+    </script>
 
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" href="http://localhost:8080/Uebersicht?id=1">Elite Verleih</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <div>
+        <button class="btn btn-default btn-sm" type="button" th:text="${benutzer?.getBenutzerName()}"></button>
+    </div>
+</nav>
+
 
 <section class="jumbotron text-center">
-    <div class="container">
-        <h1 class="jumbotron-heading">Detailansicht</h1>
-        <p class="lead text-muted"></p>
-        <tr th:if="${artikel==null}">
-            <p class="lead text-muted">Artikel nicht vorhanden.</p>
-        </tr>
 
-    </div>
+    <tr th:if="${artikel==null}">
+        <p class="lead text-muted">Artikel nicht vorhanden.</p>
+    </tr>
+
 </section>
 
 
-<
+
 <div th:if="${artikel!=null}" class="album py-5 bg-light">
     <div class="container-fluid" >
 
@@ -39,8 +52,8 @@
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
                         <h3 class="text-center">
-                            <span>Artikel Test</span>
-                            <!--span th:text="${Artikel.artikelName}"></span-->
+
+                            <span th:text="${artikel.artikelName}"></span>
                         </h3>
                         <div class="thumbnail">
                             <img src="http://cdn3.spiegel.de/images/image-1341296-860_galleryfree-dshe-1341296.jpg" alt="Bild" class="img-fluid" >
@@ -50,60 +63,78 @@
 
                             <li class="list-group">
 
-                            <li class="list-group-item"  th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
-                            <li class="list-group-item"  th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
-                            <li class="list-group-item"  th:text="'Besitzer: '+${artikel?.getBenutzer()}"></li>
-                            <li class="list-group-item"  th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
-                            <li class="list-group-item"  th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
-                            <li class="list-group-item"  th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
-
-                            <!--li class="list-group-item" th:text="'Projekte: ’ +${person.projekte}"></li-->
+                            <li class="list-group-item"  th:name="artikelName" th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
+                            <li class="list-group-item"  th:name="artikelBeschreibung" th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
+                            <li class="list-group-item"  th:name="benutzerName" th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
+                            <li class="list-group-item"  th:name="artikelKaution" th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
+                            <li class="list-group-item"  th:name="artikelTarif" th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
+                            <li class="list-group-item"  th:name="artikelOrt" th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
 
 
 
-
+                            <tr th:if="${benutzer?.getBenutzerId() != null}">
                             <li class="list-group-item">
-                                <a th:href="@{'http://localhost:8080/'}">
+                                <a th:href="|/Profil?id=${benutzer?.getBenutzerId()}|">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">
                                         ausgeliehen von <!-- führt zur benutzer seite-->
                                     </button>
                                 </a>
                             </li>
+                            </tr>
 
                             <li class="list-group-item">
-                                <div class="row justify-content-center">
-                                    <div id="datepicker" class="input-group date" data-date-format="dd-mm-yyyy">
-                                        <input type="date" name="">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                <div class="container">
+                                    <form action="#" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|" th:object="${artikel}" method="post">
+
+
+                                    <div class="row justify-content-center">
+
+
+
+                                        <div class="input-daterange input-group" id="datepicker" data-date-format="dd-mm-yyy">
+                                            <input type="date" class="input-sm form-control" name="startDatumString" placeholder="From date"/>
+                                            <span class="input-group-text" id="">to</span>
+                                            <input type="date" class="input-sm form-control" name="endDatumString" placeholder="To date"/>
+                                        </div>
                                     </div>
                                     <script type="text/javascript">
-                                    $(function () {
-                                        $("#datepicker").datepicker({
-                                            autoclose:true,
-                                            todayHighlight:true
-                                        }).datepicker('update', new Date());
-                                    });
-                                    $(function(){
-                                        $('#datepicker').datepicker({
-                                            onSelect: function(dateText, inst) {
-                                                $("input[name='something']").val(dateText);
-                                            }
+                                        $(function () {
+                                            $("#datepicker").datepicker({
+                                                autoclose:true,
+                                                todayHighlight:true
+                                            }).datepicker('getDate', new Date());
                                         });
+                                        /*$(function(){
+                                            $('#datepicker').datepicker({
+                                                onSelect: function(date, inst) {
+                                                    $("input[name='something']").val(date);
+                                                }
+                                            });
 
-                                    });
+                                        });*/
+
                                     </script>
+                                     <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                            Artikel ausleihen
+                                        </button>
+                                    </form>
+
+
+
+
                                 </div>
-                            </li>
-                            <!--li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li-->
-
-
                         </div>
-                    </div>
+                        </li>
+                        <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li>
 
+
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
+</div>
 </div>
 
 
