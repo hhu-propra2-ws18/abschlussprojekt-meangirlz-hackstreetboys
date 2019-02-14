@@ -4,8 +4,7 @@ branches:
     - travisTestBranch
     - master
 script:
-  - cd Elite-Verleih/
-  - ./gradlew check
+  - cd Elite-Verleih; ./gradlew check
   - ./gradlew test
 notifications:
   - email: false
