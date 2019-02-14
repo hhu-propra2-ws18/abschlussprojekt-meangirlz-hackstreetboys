@@ -25,13 +25,17 @@ public class Ausleihe {
     @ManyToOne(fetch = FetchType.EAGER)
     private Benutzer benutzer;
 
-    private Status artikelStatus;
+    private Status ausleihStatus;
 
-    public Ausleihe(Artikel artikel, Date ausleihStartdatum, Date ausleihRueckgabedatum, Benutzer benutzer, Status artikelStatus){
+    private int reservationsId;
+
+    public Ausleihe(Artikel artikel, Date ausleihStartdatum, Date ausleihRueckgabedatum, Benutzer benutzer,
+                    Status ausleihStatus, int reservationsId){
         this.artikel = artikel;
         this.ausleihStartdatum = ausleihStartdatum;
         this.ausleihRueckgabedatum = ausleihRueckgabedatum;
         this.benutzer = benutzer;
-        this.artikelStatus = artikelStatus;
+        this.ausleihStatus = ausleihStatus;
+        this.reservationsId = reservationsId;
     }
 }
