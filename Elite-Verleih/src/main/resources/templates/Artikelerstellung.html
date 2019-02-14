@@ -4,6 +4,24 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script type="text/css">
+        .fileUpload{
+            position:relative;
+            overflow:hidden;
+            margin:10px;
+        }
+        .fileUpload input.upload {
+            position:absolute;
+            top:0;
+            rigth:0;
+            margin:0;
+            padding:0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+    </script>
 </head>
 <body>
 
@@ -29,35 +47,30 @@
     <div class="col-md-8">
         <div class="card mb-4 shadow-sm">
             <div class="card text-center">
-                <div class="card-header">
+                <h1 class="card-header" >
                     Artikel anbieten
-                </div>
+                </h1>
                 <div class="card-body">
-                    <form action="/person/startseite" th:action="@{Uebersicht.html}" th:object="${artikel}" method="post" enctype="multipart/form-data">
+                    <form th:action="'Erstellen?id='+${benutzer.getBenutzerId()}" th:object="${artikel}" method="post">
                         <div class="form-group">
                             <label>Name </label>
                             <input type="text" th:field="*{artikelName}" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label >Beschreibung </label>
-                            <input type="text" th:field="*{artikelBeschreibung}" class="form-control" />
+                            <textarea type="text" th:field="*{artikelBeschreibung}" class="form-control" ></textarea>
                         </div>
                         <div class="form-group">
                             <label >Kaution </label>
-                            <input type="text" th:field="*{artikelKaution}" class="form-control" />
+                            <input type="number" th:field="*{artikelKaution}" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label >Tarif </label>
-                            <input type="text" th:field="*{artikelTarif}" class="form-control" />
+                            <label >Tarif (pro Tag)</label>
+                            <input type="number" th:field="*{artikelTarif}" class="form-control" />
                         </div>
                         <div class="form-group">
                             <label >Abholort </label>
                             <input type="text" th:field="*{artikelOrt}" class="form-control" />
-                        </div>
-                        <div class="form-group" th:frame="10">
-                            <label>Laden Sie ein Bild zu Ihrem Artikel hoch:</label>
-                            <p></p>
-                            <input th:name="artikelbild" type="file" size="50" accept="image/*">
                         </div>
                         <p>
                             <button type="submit" class="btn btn-primary my-2">Submit</button>
