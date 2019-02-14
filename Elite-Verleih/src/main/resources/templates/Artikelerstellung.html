@@ -51,26 +51,42 @@
                     Artikel anbieten
                 </h1>
                 <div class="card-body">
-                    <form th:action="'Erstellen?id='+${benutzer.getBenutzerId()}" th:object="${artikel}" method="post">
+                    <form class="form-horizontal" th:action="'Erstellen?id='+${benutzer.getBenutzerId()}" th:object="${artikel}" method="post">
                         <div class="form-group">
-                            <label>Name </label>
-                            <input type="text" th:field="*{artikelName}" class="form-control" />
+                            <label class="control-label col-xs-2"><h5>Name: </h5></label>
+                            <div class="col-xs-10">
+                                <input type="text" th:field="*{artikelName}" class="form-control"/>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label >Beschreibung </label>
-                            <textarea type="text" th:field="*{artikelBeschreibung}" class="form-control" ></textarea>
+                            <label class="control-label col-xs-2"><h5>Beschreibung: </h5></label>
+                            <div class="col-xs-10">
+                                <textarea type="text" th:field="*{artikelBeschreibung}" class="form-control"></textarea>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label >Kaution </label>
-                            <input type="number" th:field="*{artikelKaution}" class="form-control" />
+                            <label class="control-label col-xs-2"><h5>Kaution: </h5></label>
+                            <div class="col-xs-10">
+                                <input type="number" th:field="*{artikelKaution}" class="form-control"/>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label >Tarif (pro Tag)</label>
-                            <input type="number" th:field="*{artikelTarif}" class="form-control" />
+                            <label class="control-label col-xs-2"><h5>Tarif (pro Tag): </h5></label>
+                            <div class="col-xs-10">
+                                <input type="number" th:field="*{artikelTarif}" class="form-control"/>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label >Abholort </label>
-                            <input type="text" th:field="*{artikelOrt}" class="form-control" />
+                            <label class="control-label col-xs-4"><h5>Abholort: </h5></label>
+                            <div class="col-xs-10">
+                                <input type="text" th:field="*{artikelOrt}" class="form-control"/>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="control-label"><h5>URL zu Artikelfoto: </h5></label>
+                            <div class="col-xs-10">
+                                <input type="url" th:field="*{artikelBildURL}" class="form-control"/>
+                            </div>
                         </div>
                         <p>
                             <button type="submit" class="btn btn-primary my-2">Submit</button>
