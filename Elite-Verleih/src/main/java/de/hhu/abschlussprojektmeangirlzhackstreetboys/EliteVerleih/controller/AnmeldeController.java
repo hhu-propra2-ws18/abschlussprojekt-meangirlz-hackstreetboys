@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AnmeldeController {
 
     @Autowired
-    DataManager dataManager;
+    BenutzerManager benutzerManager;
 
     @GetMapping("/")
     public String AnmeldungAnzeigen(Model model, Integer login){
@@ -30,9 +29,13 @@ public class AnmeldeController {
 
     @PostMapping("/")
     public String login(@RequestParam(value = "submitButton") String name,
+                        @RequestParam(required = false) String registBenutzername,
+                        @RequestParam(required = false) String registEmail,
                         @RequestParam(required = false) String loginBenutzername,
                         @ModelAttribute Benutzer benutzer){
 
+        System.err.println(name);
+        Benutzer benutzer = new Benutzer();
         if (name.equals("Registrieren")){
             benutzer = dataManager.erstelleBenutzer(benutzer);
 
