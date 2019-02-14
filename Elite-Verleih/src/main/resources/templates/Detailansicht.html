@@ -72,16 +72,15 @@
 
 
 
-
-
-
+                            <tr th:if="${benutzer?.getBenutzerId() != null}">
                             <li class="list-group-item">
-                                <a th:href="@{'http://localhost:8080/Benutzer/?id='+${artikel?.getBenutzer().getBenutzerId()}">
+                                <a th:href="|/Profil?id=${benutzer?.getBenutzerId()}|">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">
                                         ausgeliehen von <!-- führt zur benutzer seite-->
                                     </button>
                                 </a>
                             </li>
+                            </tr>
 
                             <li class="list-group-item">
                                 <div class="container">
@@ -111,12 +110,12 @@
                                         });
 
                                     </script>
+                                    <form action="#" th:action="@{/Detailansicht}" th:object="${ausleihe}" method="post">
 
-                                    <a th:href="@{'http://localhost:8080/Benutzer/?id='+${artikel?.getBenutzer().getBenutzerId()}">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">
-                                            Artikel ausleihen<!-- hier muss eine neue Ausleihe erstellt werden-->
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                            Artikel ausleihen
                                         </button>
-                                    </a>
+                                    </form>
 
 
 
