@@ -29,8 +29,15 @@ public class AusleiheManager {
         return ausleiheRepo.findAll();
     }
 
-    public void erstelleAusleihe(Ausleihe ausleihe, Artikel artikel, Date ausleihStartdatum, Date ausleihRueckgabedatum, Benutzer benutzer){
-
+   public void erstelleAusleihe(Long benutzerId, Long artikelId, Date ausleihStartdatum, Date ausleihRueckgabedatum){
+        Ausleihe ausleihe = new Ausleihe();
+        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        ausleihe.setBenutzer(benutzer);
+        Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+        ausleihe.setArtikel(artikel);
+        ausleihe.setAusleihRueckgabedatum();
+        ausleihe.setAusleihStartdatum();
+        ausleiheRepo.save(artikel);
     }
 
     public Ausleihe getAusleiheById(Long ausleiheId){
