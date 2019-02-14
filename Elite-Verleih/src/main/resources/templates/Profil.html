@@ -58,7 +58,7 @@
           </button></center>
         </h3>
       </div>
-    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+    <div id="collapseTwo" class="collapse show" adfria-labelledby="headingTwo" data-parent="#accordion">
       <div class="container jumbotron center">
         <div class="row">
           <div class="card" style="width: 17rem;">
@@ -87,9 +87,23 @@
             <h3>Eigene Artikel</h3>
           </button></center>
         </h3>
+        
+        
+       
       </div>
+      
+      
       <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
         <div class="container jumbotron center">
+        <tr th:if="${(benutzer.getArtikel()).empty}">
+          <center>	<p> Du hast noch keine Artikel eingestellt. Sharing is caring! </br></br>Erstelle jetzt deinen ersten Artikel! </p>
+          <div>
+    		  <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
+        	  <button class="btn btn-success mx-auto btn-lg mr-sm-2" type="button"> + </button>
+    		  </a>
+			</div> </center>
+        </tr>
+        <tr th:unless="${(benutzer.getArtikel()).empty}">
           <h3>Verliehenes</h3>
           <div class="row">
             <div class="card" style="width: 17rem;">
@@ -125,6 +139,11 @@
 	      		  <a href="/Detailansicht">Details</a>
 	    		</div>
 	  		</div>
+	  		  <div>
+    		   <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
+        		<button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom" type="button"> + </button>
+    		   </a>
+			  </div>
   		  </div>
   		  </div>
   		  <br/>
@@ -148,8 +167,10 @@
     		  </div>
   			</div>
   		  </div>
+  		   </tr>
   		</div>
   	  </div>
+  	 
   	</div>
   </div>
 
