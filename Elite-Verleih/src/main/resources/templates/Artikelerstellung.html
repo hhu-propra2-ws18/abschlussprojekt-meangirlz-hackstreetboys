@@ -1,10 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Erstellen</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script type="text/css">
+        .fileUpload{
+            position:relative;
+            overflow:hidden;
+            margin:10px;
+        }
+        .fileUpload input.upload {
+            position:absolute;
+            top:0;
+            rigth:0;
+            margin:0;
+            padding:0;
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
+        }
+    </script>
 </head>
 <body>
 
+
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" href="#">Elite-Verleih</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+    <div>
+        <button class="btn btn-default btn-sm" type="button" th:text="${benutzer?.getBenutzerName()}"></button>
+    </div>
+</nav>
+
+
+<div class="row justify-content-center" >
+    <div class="col-md-8">
+        <div class="card mb-4 shadow-sm">
+            <div class="card text-center">
+                <h1 class="card-header" >
+                    Artikel anbieten
+                </h1>
+                <div class="card-body">
+                    <form th:action="'Erstellen?id='+${benutzer.getBenutzerId()}" th:object="${artikel}" method="post">
+                        <div class="form-group">
+                            <label>Name </label>
+                            <input type="text" th:field="*{artikelName}" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label >Beschreibung </label>
+                            <textarea type="text" th:field="*{artikelBeschreibung}" class="form-control" ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label >Kaution </label>
+                            <input type="number" th:field="*{artikelKaution}" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label >Tarif (pro Tag)</label>
+                            <input type="number" th:field="*{artikelTarif}" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label >Abholort </label>
+                            <input type="text" th:field="*{artikelOrt}" class="form-control" />
+                        </div>
+                        <p>
+                            <button type="submit" class="btn btn-primary my-2">Submit</button>
+                            <button class="btn btn-primary my-2" type="reset">Reset</button>
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -22,7 +22,7 @@
     <div class="container">
         <h1 class="jumbotron-heading">Detailansicht</h1>
         <p class="lead text-muted"></p>
-        <tr th:if="${artikel.empty}">
+        <tr th:if="${artikel==null}">
             <p class="lead text-muted">Artikel nicht vorhanden.</p>
         </tr>
 
@@ -30,8 +30,8 @@
 </section>
 
 
-
-<div class="album py-5 bg-light">
+<
+<div th:if="${artikel!=null}" class="album py-5 bg-light">
     <div class="container-fluid" >
 
         <div class="row justify-content-center">
@@ -50,12 +50,12 @@
 
                             <li class="list-group">
 
-                            <li class="list-group-item" th:text="'Artikelname: '+${artikel.artikelName}"></li>
-                            <li class="list-group-item" th:text="'Beschreibung: '+${artikel.artikelBeschreibung}"></li>
-                            <li class="list-group-item" th:text="'Besitzer: '+${artikel.artikelBesitzer}"></li>
-                            <li class="list-group-item" th:text="'Kaution: '+${artikel.artikelKaution}"></li>
-                            <li class="list-group-item" th:text="'Tarif: '+${artikel.artikelTarif}"></li>
-                            <li class="list-group-item" th:text="'Ort: '+${artikel.artikelOrt}"></li>
+                            <li class="list-group-item"  th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
+                            <li class="list-group-item"  th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
+                            <li class="list-group-item"  th:text="'Besitzer: '+${artikel?.getBenutzer()}"></li>
+                            <li class="list-group-item"  th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
+                            <li class="list-group-item"  th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
+                            <li class="list-group-item"  th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
 
                             <!--li class="list-group-item" th:text="'Projekte: ’ +${person.projekte}"></li-->
 
