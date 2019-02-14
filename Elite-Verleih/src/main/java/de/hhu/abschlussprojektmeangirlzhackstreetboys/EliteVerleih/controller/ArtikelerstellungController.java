@@ -1,9 +1,9 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Modell.Artikel;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Modell.Benutzer;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.DataManager;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ public class ArtikelerstellungController {
     ArtikelRepository artikelRepository;
 
     @Autowired
-    DataManager dataManager;
+    BenutzerManager benutzerManager;
 
     @GetMapping("/Erstellen")
     public String greetingForm(Long id, Model model) {
@@ -27,7 +27,7 @@ public class ArtikelerstellungController {
         if(id==null){
             return "redirect:/";
         }
-        Benutzer benutzer = dataManager.getBenutzerById(id);
+        Benutzer benutzer = benutzerManager.getBenutzerById(id);
         model.addAttribute("artikel", new Artikel());
         model.addAttribute("benutzer", benutzer);
         return "Artikelerstellung";
@@ -35,11 +35,12 @@ public class ArtikelerstellungController {
 
     @PostMapping("/Erstellen")
     public String personSubmitStart(Long id, @ModelAttribute Artikel artikel, Model model) {
-        /*if(id==null) {
+        if(id==null) {
             return "redirect:/";
-        }*/
-        Benutzer benutzer = dataManager.getBenutzerById(id);
+        }
+        Benutzer benutzer = benutzerManager.getBenutzerById(id);
         artikel.setBenutzer(benutzer);
+        benutzer.getArtikel().add(artikel);
         artikelRepository.save(artikel);
         model.addAttribute("artikel", artikelRepository.findAll());
         model.addAttribute("benutzer", benutzer);
