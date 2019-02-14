@@ -1,4 +1,4 @@
-package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Modell;
+package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell;
 
 import lombok.Data;
 import javax.persistence.Entity;
@@ -16,10 +16,11 @@ public class Artikel {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private long artikelId;
+    private Long artikelId;
 
     private String artikelName;
 
+    @Column(columnDefinition = "TEXT")
     private String artikelBeschreibung;
 
     @ManyToOne(fetch = FetchType.LAZY)

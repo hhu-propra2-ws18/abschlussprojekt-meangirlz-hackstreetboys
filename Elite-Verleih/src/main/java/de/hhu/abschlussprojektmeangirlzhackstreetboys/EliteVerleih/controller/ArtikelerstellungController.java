@@ -1,4 +1,4 @@
-package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.Controller;
+package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Modell.Artikel;
