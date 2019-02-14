@@ -26,14 +26,15 @@ public class ProfilBearbeitenController {
     	model.addAttribute("benutzer",benutzer);
 		return "ProfilBearbeiten";
     }
+
     @PostMapping("/ProfilBearbeiten")
-    public String ProfilBearbeitenSpeichern(Long id, 
-    		@RequestParam String email, Model model){
+    public String ProfilBearbeitenSpeichern(Long id, @ModelAttribute Benutzer ben, Model model){
     	if(id == null) {
     		return "redirect:/";
     	}
+
     	Benutzer benutzer = benutzerManager.getBenutzerById(id);
-    	Benutzer newBenutzer = benutzerManager.editBenutzer(benutzer, email);
+    	Benutzer newBenutzer = benutzerManager.editBenutzer(benutzer, ben.getBenutzerEmail());
     	model.addAttribute("benutzer",newBenutzer);
 		return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
     }

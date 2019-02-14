@@ -57,8 +57,9 @@ public class BenutzerManager {
     }
 
 	public Benutzer editBenutzer(Benutzer benutzer, String email) {
-		// TODO Auto-generated method stub
-		return null;
+        benutzer.setBenutzerEmail(email);
+        benutzerRepo.save(benutzer);
+		return benutzer;
 	}
 
 }
