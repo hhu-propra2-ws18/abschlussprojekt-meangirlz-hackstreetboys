@@ -84,14 +84,17 @@
 
                             <li class="list-group-item">
                                 <div class="container">
+                                    <form action="#" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|" th:object="${artikel}" method="post">
+
+
                                     <div class="row justify-content-center">
 
 
 
                                         <div class="input-daterange input-group" id="datepicker" data-date-format="dd-mm-yyy">
-                                            <input type="date" class="input-sm form-control"name="startDatum" placeholder="From date"/>
+                                            <input type="date" class="input-sm form-control" name="startDatumString" placeholder="From date"/>
                                             <span class="input-group-text" id="">to</span>
-                                            <input type="date" class="input-sm form-control" name="endDatum" placeholder="To date"/>
+                                            <input type="date" class="input-sm form-control" name="endDatumString" placeholder="To date"/>
                                         </div>
                                     </div>
                                     <script type="text/javascript">
@@ -99,21 +102,19 @@
                                             $("#datepicker").datepicker({
                                                 autoclose:true,
                                                 todayHighlight:true
-                                            }).datepicker('update', new Date());
+                                            }).datepicker('getDate', new Date());
                                         });
-                                        $(function(){
+                                        /*$(function(){
                                             $('#datepicker').datepicker({
-                                                onSelect: function(dateText, inst) {
-                                                    $("input[name='something']").val(dateText);
+                                                onSelect: function(date, inst) {
+                                                    $("input[name='something']").val(date);
                                                 }
                                             });
 
-                                        });
+                                        });*/
 
                                     </script>
-                                    <form action="#" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|" th:object="${artikel}" method="post">
-
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                     <button type="submit" class="btn btn-sm btn-outline-secondary">
                                             Artikel ausleihen
                                         </button>
                                     </form>

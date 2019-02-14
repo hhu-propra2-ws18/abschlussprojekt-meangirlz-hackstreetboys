@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -34,19 +36,25 @@ public class DetailansichtController {
     }
 
     @PostMapping("/Detailansicht/{artikelId}")
-    public String erstelleAusleihe(@RequestParam(required = false) Date startDatum,
-                        @RequestParam(required = false) Date endDatum,
-                        @PathVariable Long artikelId, Long id){
+    public String erstelleAusleihe(@RequestParam(required = false) String startDatumString,
+                        @RequestParam(required = false) String endDatumString,
+                        @PathVariable Long artikelId, Long id) {
+
+        Date startDatum = new Date();
+        Date endDatum = new Date();
+
+        try {
+            startDatum = new SimpleDateFormat( "yyyy-mm-dd" ).parse(startDatumString);
+            endDatum = new SimpleDateFormat( "yyyy-mm-dd" ).parse(endDatumString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         Benutzer b = benutzerManager.getBenutzerById(id);
         Artikel artikel = artikelManager.getArtikelById(artikelId);
-        System.err.println("ENDDATUM" + endDatum);
-        System.err.println("Artikel: "+artikel.getArtikelName());
-        System.err.println("Benutzerid: "+b.getBenutzerId());
 
         ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
 
-        System.err.println("AUSLEIHE ERSTELLEN");
         return "redirect:/Uebersicht?id=" + b.getBenutzerId();
     }
 
