@@ -35,12 +35,14 @@ public class Artikel {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
 
+    private String artikelBildURL;
+
 
     public Artikel() {
     }
 
     public Artikel(String artikelName, String artikelBeschreibung, Benutzer benutzer, int artikelKaution,
-                   int artikelTarif, String artikelOrt){
+                   int artikelTarif, String artikelOrt, String artikelBildURL){
         this.artikelName = artikelName;
         this.artikelBeschreibung = artikelBeschreibung;
         this.benutzer = benutzer;
@@ -49,11 +51,11 @@ public class Artikel {
         this.artikelOrt = artikelOrt;
         List<Ausleihe> ausl = new ArrayList<Ausleihe>();
         this.ausgeliehen= ausl;
-
+        this.artikelBildURL = artikelBildURL;
     }
 
     public Artikel(String artikelName, String artikelBeschreibung, Benutzer benutzer,
-                   int artikelKaution, int artikelTarif, String artikelOrt, List<Ausleihe> ausleiheList){
+                   int artikelKaution, int artikelTarif, String artikelOrt, List<Ausleihe> ausleiheList, String artikelBildURL){
         this.artikelName = artikelName;
         this.artikelBeschreibung = artikelBeschreibung;
         this.benutzer = benutzer;
@@ -61,6 +63,6 @@ public class Artikel {
         this.artikelTarif = artikelTarif;
         this.artikelOrt = artikelOrt;
         this.ausgeliehen = ausleiheList;
-
+        this.artikelBildURL = artikelBildURL;
     }
 }
