@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
@@ -33,20 +35,41 @@ public class DetailansichtController {
         return "Detailansicht";
     }
 
-    @PostMapping("/Detailansicht")
-    public String erstelleAusleihe(@RequestParam(required = false) Date startDatum,
-                        @RequestParam(required = false) Date endDatum,
-                        @ModelAttribute Benutzer benutzer,
-                        @ModelAttribute Artikel artikel){
+    @PostMapping("/Detailansicht/{artikelId}")
+    public String erstelleAusleihe(@RequestParam(required = false) String startDatumString,
+                        @RequestParam(required = false) String endDatumString,
+                        @PathVariable Long artikelId, Long id) {
 
-        Benutzer b = benutzerManager.findBenutzerByName(benutzer.getBenutzerName());
+        Date startDatum = new Date();
+        Date endDatum = new Date();
 
-        ausleiheManager.erstelleAusleihe(benutzer.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
+        try {
+            startDatum = new SimpleDateFormat( "yyyy-mm-dd" ).parse(startDatumString);
+            endDatum = new SimpleDateFormat( "yyyy-mm-dd" ).parse(endDatumString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        System.err.println("AUSLEIHE ERSTELLEN");
-        return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
+        Benutzer b = benutzerManager.getBenutzerById(id);
+        Artikel artikel = artikelManager.getArtikelById(artikelId);
+        if(ausleiheManager.isAusgeliehen(artikelId,startDatum,endDatum)){
+            return "redirect:/Ausgeliehen?id="+b.getBenutzerId();
+        }
+
+        ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
+
+        return "redirect:/Uebersicht?id=" + b.getBenutzerId();
     }
 
+
+    @GetMapping("Ausgeliehen")
+    public String artikelAusgeliehen (Long id) {
+        if(id==null) {
+            return "redirect:/";
+        }
+
+        return "Ausgeliehen-Error";
+    }
 
 
 

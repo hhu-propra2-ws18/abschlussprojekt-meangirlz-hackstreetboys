@@ -44,4 +44,5 @@ public class ArtikelManager {
 
         artikelRepo.saveAll(Arrays.asList(alterArtikel));
     }
+
 }

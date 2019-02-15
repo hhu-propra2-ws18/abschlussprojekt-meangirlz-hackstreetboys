@@ -63,57 +63,31 @@
 
                             <li class="list-group">
 
-                            <li class="list-group-item"  th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
-                            <li class="list-group-item"  th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
-                            <li class="list-group-item"  th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
-                            <li class="list-group-item"  th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
-                            <li class="list-group-item"  th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
-                            <li class="list-group-item"  th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
+                            <li class="list-group-item"  th:name="artikelName" th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
+                            <li class="list-group-item"  th:name="artikelBeschreibung" th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
+                            <li class="list-group-item"  th:name="benutzerName" th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
+                            <li class="list-group-item"  th:name="artikelKaution" th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
+                            <li class="list-group-item"  th:name="artikelTarif" th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
+                            <li class="list-group-item"  th:name="artikelOrt" th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
 
 
-
-                            <tr th:if="${benutzer?.getBenutzerId() != null}">
-                            <li class="list-group-item">
-                                <a th:href="|/Profil?id=${benutzer?.getBenutzerId()}|">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">
-                                        ausgeliehen von <!-- führt zur benutzer seite-->
-                                    </button>
-                                </a>
-                            </li>
-                            </tr>
 
                             <li class="list-group-item">
                                 <div class="container">
+                                    <form action="#" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|" th:object="${artikel}" method="post">
+
+
                                     <div class="row justify-content-center">
 
 
 
                                         <div class="input-daterange input-group" id="datepicker" data-date-format="dd-mm-yyy">
-                                            <input type="date" class="input-sm form-control"name="startDatum" placeholder="From date"/>
+                                            <input type="date" class="input-sm form-control" name="startDatumString" placeholder="From date"/>
                                             <span class="input-group-text" id="">to</span>
-                                            <input type="date" class="input-sm form-control" name="endDatum" placeholder="To date"/>
+                                            <input type="date" class="input-sm form-control" name="endDatumString" placeholder="To date"/>
                                         </div>
                                     </div>
-                                    <script type="text/javascript">
-                                        $(function () {
-                                            $("#datepicker").datepicker({
-                                                autoclose:true,
-                                                todayHighlight:true
-                                            }).datepicker('update', new Date());
-                                        });
-                                        $(function(){
-                                            $('#datepicker').datepicker({
-                                                onSelect: function(dateText, inst) {
-                                                    $("input[name='something']").val(dateText);
-                                                }
-                                            });
-
-                                        });
-
-                                    </script>
-                                    <form action="#" th:action="@{/Detailansicht}" th:object="${ausleihe}" method="post">
-
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                     <button type="submit" class="btn btn-sm btn-outline-secondary">
                                             Artikel ausleihen
                                         </button>
                                     </form>
@@ -124,8 +98,10 @@
                                 </div>
                         </div>
                         </li>
-                        <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li>
-
+                        <li class="list-group-item" >
+                            <span th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfuegbar</span>
+                            <span th:unless="${!#lists.isEmpty(artikel.ausgeliehen)}">Artikel nicht verfuegbar</span>
+                        </li>
 
                     </div>
                 </div>

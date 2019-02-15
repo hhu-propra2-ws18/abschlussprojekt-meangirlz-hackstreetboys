@@ -20,10 +20,10 @@ public class Benutzer {
 
     private String benutzerEmail;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "benutzer",cascade = CascadeType.ALL)
     private List<Artikel> artikel;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "benutzer", cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
 
     public Benutzer(){
