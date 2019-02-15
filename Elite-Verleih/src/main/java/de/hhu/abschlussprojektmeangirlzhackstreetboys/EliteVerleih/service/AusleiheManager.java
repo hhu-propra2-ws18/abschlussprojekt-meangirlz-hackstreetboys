@@ -30,7 +30,7 @@ public class AusleiheManager {
         return ausleiheRepo.findAll();
     }
 
-   public void erstelleAusleihe(Long benutzerId, Long artikelId, Date ausleihStartdatum, Date ausleihRueckgabedatum){
+   public Ausleihe erstelleAusleihe(Long benutzerId, Long artikelId, Date ausleihStartdatum, Date ausleihRueckgabedatum){
         Ausleihe ausleihe = new Ausleihe();
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         ausleihe.setBenutzer(benutzer);
@@ -40,6 +40,7 @@ public class AusleiheManager {
         ausleihe.setAusleihStartdatum(ausleihStartdatum);
         ausleihe.setAusleihStatus(Status.ANGEFRAGT);
         ausleiheRepo.save(ausleihe);
+        return ausleihe;
     }
 
     public Ausleihe getAusleiheById(Long ausleiheId){
@@ -52,9 +53,10 @@ public class AusleiheManager {
     }
 
     public boolean isAusgeliehen (Long artikelId, Date startDatum, Date endDatum) {
+
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         for(Ausleihe ausleihe : artikel.getAusgeliehen()) {
-            if(endDatum.before(ausleihe.getAusleihStartdatum()) || (startDatum.after(ausleihe.getAusleihRueckgabedatum()))) {
+            if(!endDatum.before(ausleihe.getAusleihStartdatum()) && !(startDatum.after(ausleihe.getAusleihRueckgabedatum()))) {
                 return false;
             }
         }

@@ -26,7 +26,7 @@
 <section class="jumbotron text-center">
     <p class="lead text-muted">Zu diesen Daten ist der Artikel leider nicht verfuegbar, versuchen Sie bitte andere Daten.</p>
     <form>
-        <input type="button" value="Zurueck zur Detailuebersicht" th:action="@{/Detailansicht}" class="btn btn-outline-primary">
+        <a type="button" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}" class="btn btn-outline-primary">Zurueck zur Uebersicht</a>
     </form>
 </section>
 </body>
