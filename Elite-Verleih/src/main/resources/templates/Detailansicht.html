@@ -72,15 +72,14 @@
 
 
 
-                            <tr th:if="${benutzer?.getBenutzerId() != null}">
+
                             <li class="list-group-item">
-                                <a th:href="|/Profil?id=${benutzer?.getBenutzerId()}|">
+                                <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">
-                                        ausgeliehen von <!-- führt zur benutzer seite-->
+                                        Bearbeiten<!-- führt zur benutzer seite-->
                                     </button>
                                 </a>
                             </li>
-                            </tr>
 
                             <li class="list-group-item">
                                 <div class="container">

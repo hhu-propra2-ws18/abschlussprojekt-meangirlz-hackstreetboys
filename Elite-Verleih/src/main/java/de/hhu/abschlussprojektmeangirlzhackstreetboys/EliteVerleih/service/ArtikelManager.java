@@ -32,16 +32,16 @@ public class ArtikelManager {
     public Artikel getArtikelById(Long artikelId){
         return artikelRepo.findArtikelByArtikelId(artikelId);
     }
+    /*
+    void bearbeiteArtikel(Artikel neuerArtikel, Artikel alterArtikel){
+        //Artikel alterArtikel = getArtikelById(artikelId);
 
-    void bearbeiteArtikel(Long artikelId, Artikel artikel){
-        Artikel alterArtikel = getArtikelById(artikelId);
-
-        alterArtikel.setArtikelBeschreibung(artikel.getArtikelBeschreibung());
-        alterArtikel.setArtikelKaution(artikel.getArtikelKaution());
-        alterArtikel.setArtikelName(artikel.getArtikelName());
-        alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
-        alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
+        alterArtikel.setArtikelBeschreibung(neuerArtikel.getArtikelBeschreibung());
+        alterArtikel.setArtikelKaution(neuerArtikel.getArtikelKaution());
+        alterArtikel.setArtikelName(neuerArtikel.getArtikelName());
+        alterArtikel.setArtikelOrt(neuerArtikel.getArtikelOrt());
+        alterArtikel.setArtikelTarif(neuerArtikel.getArtikelTarif());
 
         artikelRepo.saveAll(Arrays.asList(alterArtikel));
-    }
+    }*/
 }

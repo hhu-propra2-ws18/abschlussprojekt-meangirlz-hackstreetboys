@@ -4,6 +4,8 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Ar
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.AusleiheRepository;
 //import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +23,15 @@ public class DetailansichtController {
     @Autowired
     AusleiheRepository ausleiheRepo;
 
+    @Autowired
+    BenutzerManager benutzerManager;
 
-    @GetMapping("/Detailansicht/{id}")
-    public String DetailansichtAnzeigen(@PathVariable long id, Model model){
-        model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(id));
+
+    @GetMapping("/Detailansicht/{artikelId}")
+    public String DetailansichtAnzeigen(@PathVariable long artikelId, Model model, Long id){
+        Benutzer benutzer = benutzerManager.getBenutzerById(id);
+        model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
+        model.addAttribute("benutzer", benutzer);
         return "Detailansicht";
     }
 
@@ -34,3 +41,4 @@ public class DetailansichtController {
 
 
 }
+
