@@ -21,11 +21,9 @@ public class Benutzer {
 
     private String benutzerEmail;
 
-    @NotNull
     @OneToMany(mappedBy = "benutzer", cascade = CascadeType.ALL)
     private List<Artikel> artikel;
 
-    @NotNull
     @OneToMany(mappedBy = "benutzer", cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
 
