@@ -65,7 +65,7 @@
 
                             <li class="list-group-item"  th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
                             <li class="list-group-item"  th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
-                            <li class="list-group-item"  th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
+                            <li class="list-group-item"  th:text="'Besitzer: '+${artikel?.getBenutzer()?.getBenutzerName()}"></li>
                             <li class="list-group-item"  th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
                             <li class="list-group-item"  th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
                             <li class="list-group-item"  th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>

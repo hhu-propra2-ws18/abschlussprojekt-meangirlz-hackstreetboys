@@ -35,9 +35,11 @@ public class ArtikelbearbeitenController {
     public String personSubmitStart(@PathVariable long artikelId, @ModelAttribute Artikel newArtikel, Model model, Long id) {
         Benutzer benutzer = benutzerManager.getBenutzerById(id);
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+
         model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
         model.addAttribute("benutzer", benutzer);
         bearbeiteArtikel(newArtikel, artikel);
+        artikel.setBenutzer(benutzer);
         artikelRepo.save(artikel);
         return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
     }
