@@ -30,7 +30,7 @@ public class AusleiheManager {
         return ausleiheRepo.findAll();
     }
 
-   public void erstelleAusleihe(Long benutzerId, Long artikelId, Date ausleihStartdatum, Date ausleihRueckgabedatum){
+   public Ausleihe erstelleAusleihe(Long benutzerId, Long artikelId, Date ausleihStartdatum, Date ausleihRueckgabedatum){
         Ausleihe ausleihe = new Ausleihe();
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         ausleihe.setBenutzer(benutzer);
@@ -39,15 +39,19 @@ public class AusleiheManager {
         ausleihe.setAusleihRueckgabedatum(ausleihRueckgabedatum);
         ausleihe.setAusleihStartdatum(ausleihStartdatum);
         ausleihe.setAusleihStatus(Status.ANGEFRAGT);
-        ausleiheRepo.save(ausleihe);
+        List<Ausleihe> ausgeliehen = artikel.getAusgeliehen();
+        ausgeliehen.add(ausleihe);
+        artikel.setAusgeliehen(ausgeliehen);
+        artikelRepo.save(artikel);
+        return ausleiheRepo.save(ausleihe);
     }
 
     public Ausleihe getAusleiheById(Long ausleiheId){
         return ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
     }
 
-    public void bearbeiteAusleihe() {
-        // Ausleihestatus schon ergänzt in Model etc?
-        // Dann bearbeite in Ausleihe nur den Status und aktualisiere
+    public void bestaetigeAusleihe(Ausleihe ausleihe){
+        ausleihe.setAusleihStatus(Status.BESTAETIGT);
+        ausleiheRepo.save(ausleihe);
     }
 }

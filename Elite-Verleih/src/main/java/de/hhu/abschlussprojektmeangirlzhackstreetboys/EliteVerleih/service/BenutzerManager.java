@@ -3,10 +3,13 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,6 +65,20 @@ public class BenutzerManager {
         benutzerRepo.save(benutzer);
 		return benutzer;
 	}
+
+	public List<Ausleihe> sucheAnfragen(Benutzer benutzer){
+
+        List<Ausleihe> wartend = new ArrayList<>();
+        for( Artikel a: benutzer.getArtikel() ) {
+            for (Ausleihe b: a.getAusgeliehen() ){
+                if (b.getAusleihStatus()== Status.ANGEFRAGT){
+                    wartend.add(b);
+                }
+            }
+        }
+        return wartend;
+    }
+
 
 }
 
