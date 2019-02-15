@@ -8,19 +8,34 @@
 <body>
 
 
-<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-    <a class="navbar-brand" href="#">Elite-Verleih</a>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark primary-color">
+    <a class="navbar-brand" href="#">
+        <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180" height="50">
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <form class="form-inline">
+            <div class="md-form my-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </div>
         </form>
     </div>
+    <!--TODO: Dropdown für Profil und Ausloggen machen-->
+
     <div>
-        <button class="btn btn-default btn-sm" type="button" th:text="${benutzer?.getBenutzerName()}"></button>
+        <!--li class="nav-item-dropdown"-->
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user"></i>Profile
+            </a>
+            <div class="dropdown-menu dropdown-menu-rigth dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                <a class="dropdown-item" href="#">Mein Profil</a>
+                <a class="dropdown-item" href="#">Ausloggen</a>
+            </div>
+        <!--/li-->
+        <!--button class="btn btn-default btn-sm" type="button" th:text="${benutzer?.getBenutzerName()}"></button-->
     </div>
 </nav>
 
