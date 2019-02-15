@@ -46,7 +46,7 @@ public class DataInitializer implements ServletContextInitializer {
         Long antoineId = benutzerM.findBenutzerByName("Antoine").getBenutzerId();
 
         Benutzer bTimo = new Benutzer();
-        bTimo.setBenutzerEmail("timo@hackstreetboys.de");
+        bTimo.setBenutzerEmail("timo@edithackstreetboys.de");
         bTimo.setBenutzerName("Timo");
         bTimo.setArtikel(new ArrayList<Artikel>());
         benutzerM.erstelleBenutzer(bTimo);
