@@ -52,24 +52,12 @@ public class DetailansichtController {
 
         Benutzer b = benutzerManager.getBenutzerById(id);
         Artikel artikel = artikelManager.getArtikelById(artikelId);
-        if(ausleiheManager.isAusgeliehen(artikelId,startDatum,endDatum)){
-            return "redirect:/Ausgeliehen?id="+b.getBenutzerId();
-        }
 
         ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
 
         return "redirect:/Uebersicht?id=" + b.getBenutzerId();
     }
 
-
-    @GetMapping("Ausgeliehen")
-    public String artikelAusgeliehen (Long id) {
-        if(id==null) {
-            return "redirect:/";
-        }
-
-        return "Ausgeliehen-Error";
-    }
 
 
 

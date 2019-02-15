@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface AusleiheRepository extends CrudRepository<Ausleihe,Long> {
         List<Ausleihe> findAll();
-        Ausleihe findAusleiheByAusleiheId(Long id);
+        Ausleihe findAusleiheByAusleihId(Long id);
 }

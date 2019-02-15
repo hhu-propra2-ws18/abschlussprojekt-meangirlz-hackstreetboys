@@ -6,6 +6,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.Be
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,11 +38,12 @@ public class AusleiheManager {
         ausleihe.setArtikel(artikel);
         ausleihe.setAusleihRueckgabedatum(ausleihRueckgabedatum);
         ausleihe.setAusleihStartdatum(ausleihStartdatum);
+        ausleihe.setAusleihStatus(Status.ANGEFRAGT);
         ausleiheRepo.save(ausleihe);
     }
 
     public Ausleihe getAusleiheById(Long ausleiheId){
-        return ausleiheRepo.findAusleiheByAusleiheId(ausleiheId);
+        return ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
     }
 
     public void bearbeiteAusleihe() {

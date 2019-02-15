@@ -2,6 +2,7 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell;
 //import lombok.Data;
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class Benutzer {
 
     private String benutzerEmail;
 
-    @OneToMany(mappedBy = "benutzer",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "benutzer", cascade = CascadeType.ALL)
     private List<Artikel> artikel;
 
     @OneToMany(mappedBy = "benutzer", cascade = CascadeType.ALL)

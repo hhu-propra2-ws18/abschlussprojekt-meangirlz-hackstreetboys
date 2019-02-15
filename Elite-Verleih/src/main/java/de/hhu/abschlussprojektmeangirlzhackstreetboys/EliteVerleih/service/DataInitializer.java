@@ -1,7 +1,9 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class DataInitializer implements ServletContextInitializer {
@@ -18,6 +22,9 @@ public class DataInitializer implements ServletContextInitializer {
 
     @Autowired
     ArtikelManager artikelM;
+    
+    @Autowired
+    AusleiheManager ausleiheM;
 
     @Override
     public void onStartup(ServletContext servletContext)
@@ -39,7 +46,7 @@ public class DataInitializer implements ServletContextInitializer {
         Long antoineId = benutzerM.findBenutzerByName("Antoine").getBenutzerId();
 
         Benutzer bTimo = new Benutzer();
-        bTimo.setBenutzerEmail("timo@hackstreetboys.de");
+        bTimo.setBenutzerEmail("timo@edithackstreetboys.de");
         bTimo.setBenutzerName("Timo");
         bTimo.setArtikel(new ArrayList<Artikel>());
         benutzerM.erstelleBenutzer(bTimo);
@@ -135,5 +142,11 @@ public class DataInitializer implements ServletContextInitializer {
         a6_longText.setArtikelOrt("Pizzeria Vapioso");
         a6_longText.setArtikelTarif(30);
         artikelM.erstelleArtikel(sVId,a6_longText);
+        
+        Date sD0 = new Date(2019, 5, 8);
+        Date eD0 = new Date(2019, 5, 10);
+        ausleiheM.erstelleAusleihe(new Long(1), new Long(2), sD0, eD0);
+        
+        
     }
 }

@@ -72,6 +72,16 @@
 
 
 
+                            <tr th:if="${benutzer?.getBenutzerId() != null}">
+                            <li class="list-group-item">
+                                <a th:href="|/Profil?id=${benutzer?.getBenutzerId()}|">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                                        ausgeliehen von <!-- führt zur benutzer seite-->
+                                    </button>
+                                </a>
+                            </li>
+                            </tr>
+
                             <li class="list-group-item">
                                 <div class="container">
                                     <form action="#" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|" th:object="${artikel}" method="post">
@@ -87,6 +97,23 @@
                                             <input type="date" class="input-sm form-control" name="endDatumString" placeholder="To date"/>
                                         </div>
                                     </div>
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            $("#datepicker").datepicker({
+                                                autoclose:true,
+                                                todayHighlight:true
+                                            }).datepicker('getDate', new Date());
+                                        });
+                                        /*$(function(){
+                                            $('#datepicker').datepicker({
+                                                onSelect: function(date, inst) {
+                                                    $("input[name='something']").val(date);
+                                                }
+                                            });
+
+                                        });*/
+
+                                    </script>
                                      <button type="submit" class="btn btn-sm btn-outline-secondary">
                                             Artikel ausleihen
                                         </button>
@@ -98,10 +125,8 @@
                                 </div>
                         </div>
                         </li>
-                        <li class="list-group-item" >
-                            <span th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfuegbar</span>
-                            <span th:unless="${!#lists.isEmpty(artikel.ausgeliehen)}">Artikel nicht verfuegbar</span>
-                        </li>
+                        <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li>
+
 
                     </div>
                 </div>

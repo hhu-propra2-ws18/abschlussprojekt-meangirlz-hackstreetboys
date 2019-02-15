@@ -25,9 +25,6 @@ public class BenutzerManagerTest {
     @Autowired
     BenutzerRepository benutzerRepo;
 
-    @Autowired
-    BenutzerRepository artikelRepo;
-
     @Rollback
     @Test
     public void createBenutzer_EqualName(){
