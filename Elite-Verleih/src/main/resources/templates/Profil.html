@@ -50,8 +50,9 @@
 							<a href="/Detailansicht">Details</a>
 
 							<center>
-								<form method="post" th:object="${anfrage}">
-									<input class="btn btn-outline-success" type="submit" name="submitButton" value="Bestaetigen" />
+								<form method="post" th:object="${anfrage}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${anfrage.getAusleihId()}|">
+									
+									<input class="btn btn-outline-success" type="submit" name="submitButton" value="Bestaetigen"/>
 									<input class="btn btn-outline-danger" type="submit" value="Ablehnen" />
 								</form>
 							</center>
@@ -121,7 +122,7 @@
   <div id="accordion">
     <div class="card">
       <div class="card-header" id="headingThree">
-        <h3 cl</ass="mb-0">
+        <h3 class="mb-0">
           <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
             <h3>Eigene Artikel</h3>
           </button></center>

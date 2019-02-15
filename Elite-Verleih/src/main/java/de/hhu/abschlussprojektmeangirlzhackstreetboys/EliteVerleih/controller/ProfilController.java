@@ -3,6 +3,7 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Status;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.ArtikelManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.AusleiheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,9 @@ public class ProfilController {
 
 	@Autowired
 	AusleiheManager ausleiheManager;
-
+	
+	@Autowired
+	ArtikelManager artikelManager;
 
     @GetMapping("/Profil")
     public String ProfilAnzeigen(Long id, Model model){
@@ -43,14 +46,17 @@ public class ProfilController {
     
     @PostMapping("/Profil")
     public String profilAnzeigen(Long id, @RequestParam(value= "submitButton") String name,
-    		 Model model, @ModelAttribute Ausleihe anfrage) {
+    		 Model model, @ModelAttribute Ausleihe anfrage, Long ausleihId) {
     	if (name.equals("Problem")) {
     		return "redirect:/Support?id=" + id;
     	}
 
 		if (name.equals("Bestaetigen")) {
+			System.out.println(ausleihId);
+			
 			Benutzer benutzer = benutzerManager.getBenutzerById(id);
-			ausleiheManager.bestaetigeAusleihe(anfrage);
+			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
+			ausleiheManager.bestaetigeAusleihe(ausleihe);
             //model.addAttribute("ausleihe", ausleihe);
             System.out.println("TEST BUTTON");
             return "redirect:/Profil?id=" + id;
