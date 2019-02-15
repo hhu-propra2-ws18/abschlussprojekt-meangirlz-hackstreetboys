@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -42,14 +43,14 @@ public class ProfilController {
     
     @PostMapping("/Profil")
     public String profilAnzeigen(Long id, @RequestParam(value= "submitButton") String name,
-    		 Model model, Ausleihe ausleihe) {
+    		 Model model, @ModelAttribute Ausleihe anfrage) {
     	if (name.equals("Problem")) {
     		return "redirect:/Support?id=" + id;
     	}
 
 		if (name.equals("Bestaetigen")) {
 			Benutzer benutzer = benutzerManager.getBenutzerById(id);
-			ausleiheManager.bestaetigeAusleihe(ausleihe);
+			ausleiheManager.bestaetigeAusleihe(anfrage);
             //model.addAttribute("ausleihe", ausleihe);
             System.out.println("TEST BUTTON");
             return "redirect:/Profil?id=" + id;
