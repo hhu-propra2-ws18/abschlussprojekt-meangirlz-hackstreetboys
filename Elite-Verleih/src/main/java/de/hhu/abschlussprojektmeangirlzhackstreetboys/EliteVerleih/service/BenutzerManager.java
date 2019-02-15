@@ -59,6 +59,7 @@ public class BenutzerManager {
         benutzerRepo.saveAll(Arrays.asList(alterBenutzer));
     }
 
+    //TODO: Löschen!
 	public Benutzer editBenutzer(Benutzer benutzer, String email) {
         benutzer.setBenutzerEmail(email);
         benutzerRepo.save(benutzer);
