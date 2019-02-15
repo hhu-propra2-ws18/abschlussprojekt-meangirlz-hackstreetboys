@@ -71,7 +71,6 @@ public class BenutzerManager {
         List<Ausleihe> wartend = new ArrayList<>();
         for( Artikel a: benutzer.getArtikel() ) {
             for (Ausleihe b: a.getAusgeliehen() ){
-                System.out.println(b.getAusleihStatus());
                 if (b.getAusleihStatus()== Status.ANGEFRAGT){
                     wartend.add(b);
                 }

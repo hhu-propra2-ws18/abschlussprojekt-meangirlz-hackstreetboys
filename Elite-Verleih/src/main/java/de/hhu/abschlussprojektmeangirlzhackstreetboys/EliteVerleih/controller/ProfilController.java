@@ -52,13 +52,9 @@ public class ProfilController {
     	}
 
 		if (name.equals("Bestaetigen")) {
-			System.out.println(ausleihId);
-			
 			Benutzer benutzer = benutzerManager.getBenutzerById(id);
 			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
 			ausleiheManager.bestaetigeAusleihe(ausleihe);
-            //model.addAttribute("ausleihe", ausleihe);
-            System.out.println("TEST BUTTON");
             return "redirect:/Profil?id=" + id;
 		}
     	else { 

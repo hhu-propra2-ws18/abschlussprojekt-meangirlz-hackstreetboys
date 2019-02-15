@@ -51,13 +51,7 @@ public class AusleiheManager {
     }
 
     public void bestaetigeAusleihe(Ausleihe ausleihe){
-    	System.out.println(ausleihe);
-    	/*List<Ausleihe> artikelAusleihe = ausleihe.getArtikel().getAusgeliehen();
-    	int position = artikelAusleihe.indexOf(ausleihe);
-    	Ausleihe ausl = artikelAusleihe.get(position);*/
-    	ausleihe.setAusleihStatus(Status.BESTAETIGT);
-        
-        
+        ausleihe.setAusleihStatus(Status.BESTAETIGT);
         ausleiheRepo.save(ausleihe);
     }
 
