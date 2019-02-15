@@ -26,6 +26,8 @@ public class UebersichtController {
 
         model.addAttribute("benutzer",benutzer);
         model.addAttribute("artikels", artikelManager.getAllArtikel());
+
+
         return "Uebersicht";
     }
 }
