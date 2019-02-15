@@ -3,10 +3,12 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,7 +28,12 @@ public class ArtikelManager {
     public void erstelleArtikel(Long benutzerId, Artikel artikel){
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
+        artikel.setAusgeliehen(new ArrayList<Ausleihe>());
         artikelRepo.save(artikel);
+        List<Artikel> art = benutzer.getArtikel();
+        art.add(artikel);
+        benutzer.setArtikel(art);
+        benutzerRepo.save(benutzer);
     }
 
     public Artikel getArtikelById(Long artikelId){
@@ -44,4 +51,5 @@ public class ArtikelManager {
 
         artikelRepo.saveAll(Arrays.asList(alterArtikel));
     }
+
 }

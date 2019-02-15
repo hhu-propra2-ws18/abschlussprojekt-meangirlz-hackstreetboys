@@ -27,6 +27,14 @@
 	    </div>
 	  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
 	    <div class="container jumbotron center">
+			<tr th:if="${anfragen.empty}">
+				<p> Du hast noch keine eingendende Anfragen</p>
+			</tr>
+
+
+			<tr th:unless="${anfragen.empty}">
+
+
 	    <p>Jemand moechte einen Artikel von dir ausleihen.</p>
 	      <div class="row">
 	        <div class="card" style="width: 17rem;">
@@ -45,6 +53,7 @@
 	            </div>
             </div>
 	      </div>
+			</tr>
 	    </div>  
      </div>
    </div>
@@ -222,13 +231,11 @@
       		  <p class="card-text">Dauer</p>
       		  <a href="/Detailansicht">Details</a>
       		  <br/>
+      		  <center><form method="post" th:action="@{/Profil}">
            		  <center>
-					  <form method="post">
-           		   		 <input class="btn btn-outline-danger" type="submit" value="Problem" name="submitButton" />
-					  </form>
-				  </center> </center></div>
-
-			  </center>
+           		    <input class="btnSubmit btn-outline-danger" type="submit" value="Problem" name="submitButton" />
+      			  </center>
+      			</form></center>
       		  
     		</div>
   		  </div>
