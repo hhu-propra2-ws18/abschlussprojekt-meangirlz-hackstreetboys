@@ -10,7 +10,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Status
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,11 +39,24 @@ public class AusleiheManager {
         ausleihe.setAusleihRueckgabedatum(ausleihRueckgabedatum);
         ausleihe.setAusleihStartdatum(ausleihStartdatum);
         ausleihe.setAusleihStatus(Status.ANGEFRAGT);
-        List<Ausleihe> ausgeliehen = artikel.getAusgeliehen();
-        ausgeliehen.add(ausleihe);
-        artikel.setAusgeliehen(ausgeliehen);
-        artikelRepo.save(artikel);
-        return ausleiheRepo.save(ausleihe);
+        ausleihe = ausleiheRepo.save(ausleihe);
+        setzeAusleiheBenutzer(benutzerId,ausleihe);
+        setzeAusleiheArtikel(artikelId,ausleihe);
+        return ausleihe;
+    }
+
+    public void setzeAusleiheBenutzer(Long benutzerId, Ausleihe ausleihe){
+        Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        if(b.getAusgeliehen()==null) b.setAusgeliehen(new ArrayList<Ausleihe>());
+        b.getAusgeliehen().add(ausleihe);
+        benutzerRepo.save(b);
+    }
+
+    public void setzeAusleiheArtikel(Long artikelId, Ausleihe ausleihe){
+        Artikel a = artikelRepo.findArtikelByArtikelId(artikelId);
+        if(a.getAusgeliehen()==null) a.setAusgeliehen(new ArrayList<Ausleihe>());
+        a.getAusgeliehen().add(ausleihe);
+        artikelRepo.save(a);
     }
 
     public Ausleihe getAusleiheById(Long ausleiheId){
@@ -53,5 +66,10 @@ public class AusleiheManager {
     public void bestaetigeAusleihe(Ausleihe ausleihe){
         ausleihe.setAusleihStatus(Status.BESTAETIGT);
         ausleiheRepo.save(ausleihe);
+    }
+
+    public void bearbeiteAusleihe() {
+        // Ausleihestatus schon ergänzt in Model etc?
+        // Dann bearbeite in Ausleihe nur den Status und aktualisiere
     }
 }

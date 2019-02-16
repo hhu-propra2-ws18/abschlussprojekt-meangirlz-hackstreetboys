@@ -3,7 +3,6 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,12 +27,15 @@ public class ArtikelManager {
     public void erstelleArtikel(Long benutzerId, Artikel artikel){
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
-        artikel.setAusgeliehen(new ArrayList<Ausleihe>());
-        artikelRepo.save(artikel);
-        List<Artikel> art = benutzer.getArtikel();
-        art.add(artikel);
-        benutzer.setArtikel(art);
-        benutzerRepo.save(benutzer);
+        artikel = artikelRepo.save(artikel);
+        setzeArtikel(benutzerId,artikel);
+    }
+
+    public void setzeArtikel(Long benutzerId, Artikel artikel){
+        Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        if(b.getArtikel()==null) b.setArtikel(new ArrayList<Artikel>());
+        b.getArtikel().add(artikel);
+        benutzerRepo.save(b);
     }
 
     public Artikel getArtikelById(Long artikelId){
@@ -51,5 +53,4 @@ public class ArtikelManager {
 
         artikelRepo.saveAll(Arrays.asList(alterArtikel));
     }
-
 }
