@@ -38,7 +38,7 @@ public class AusleiheManagerTest {
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
         b0.setArtikel(new ArrayList<Artikel>());
-        benutzerRepo.save(b0);
+        b0 = benutzerRepo.save(b0);
         Artikel a0 = new Artikel();
         a0.setArtikelBeschreibung("beschreibung");
         a0.setArtikelKaution(3);
@@ -46,7 +46,7 @@ public class AusleiheManagerTest {
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
         a0.setBenutzer(b0);
-        artikelRepo.save(a0);
+        a0 = artikelRepo.save(a0);
         Ausleihe ausleihe = new Ausleihe();
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
@@ -71,7 +71,6 @@ public class AusleiheManagerTest {
         a0.setArtikelTarif(1);
         a0.setBenutzer(b0);
         artikelRepo.save(a0);
-        Ausleihe ausleihe = new Ausleihe();
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
         ausleiheM.erstelleAusleihe(benutzerRepo.findBenutzerByBenutzerName("test").get().getBenutzerId(),
