@@ -41,10 +41,10 @@
 </nav>
 
 <div  class="album py-5 bg-light">
-    <div class="container" >
+    <div class="container" th:each="ausleihe : ${konflikt}" >
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
                         <h3 class="text-center">
