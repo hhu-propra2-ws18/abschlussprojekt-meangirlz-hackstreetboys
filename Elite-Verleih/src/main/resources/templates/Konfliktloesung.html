@@ -40,21 +40,56 @@
 
 </nav>
 
-<div class="container jumbotron center">
-    <div class="row">
-        <a th:each="ausleihe : ${konflikt}"  style="text-decoration: none">
-            <div class="card" style="width: 17rem;" >
-                <img src="https://staticr1.blastingcdn.com/media/photogallery/2017/5/24/660x290/b_620x273/meeseeks-google-search-mi-247-final-project-mr-meeseeks-pinterestcom_1345963.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${ausleihe?.benutzer.getBenutzerName()}">Ausleihe von: </h5>
-                    <p class="card-text" th:text="${ausleihe?.getAusleihStatus()}">Ausleihstatus: </p>
-                    <p class="card-text" th:text="|Kosten/Tag : ${artikel?.getArtikelTarif()},00€|">Konflikt</p>
+<div  class="album py-5 bg-light">
+    <div class="container" >
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="text-center">
+
+                            <span th:text="${ausleihe?.getArtikel().getArtikelName()}"></span>
+                        </h3>
+                        <div class="thumbnail">
+                            <img src="https://staticr1.blastingcdn.com/media/photogallery/2017/5/24/660x290/b_620x273/meeseeks-google-search-mi-247-final-project-mr-meeseeks-pinterestcom_1345963.jpg"  alt="Bild" class="img-fluid" align="middle" >
+
+                        </div>
+                        <div class="card text-center" th:object="${ausleihe}" th:method="get">
+
+                            <li class="list-group">
+
+                            <li class="list-group-item"   th:text="'Artikel von: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerName()}"></li>
+                            <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerEmail()}"></li>
+                            <li class="list-group-item"   th:text="'Ausgeliehen von: '+${ausleihe?.getBenutzer().getBenutzerName()}"></li>
+                            <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getBenutzer().getBenutzerEmail()}"></li>
 
 
+
+
+                            <!-td th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}"-->
+                                <li class="list-group-item">
+                                    <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                                            Kaution an Ausleihenden
+                                        </button>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a th:href="|/Loeschen/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                                            Kaution an Verleihenden
+                                        </button>
+                                    </a>
+                                </li>
+                            <!-/td-->
+
+                        </div>
+                    </div>
 
                 </div>
             </div>
-        </a>
+        </div>
     </div>
 </div>
 
