@@ -48,10 +48,11 @@
         <div class="card mb-4 shadow-sm">
             <div class="card text-center">
                 <h1 class="card-header" >
-                    Artikel anbieten
+                    Artikel bearbeiten
                 </h1>
                 <div class="card-body">
-                    <form th:action="'Erstellen?id='+${benutzer.getBenutzerId()}" th:object="${artikel}" method="post">
+
+                    <form action="#" method="post" th:object="${artikel}">
                         <div class="form-group">
                             <label>Name </label>
                             <input type="text" th:field="*{artikelName}" class="form-control" />

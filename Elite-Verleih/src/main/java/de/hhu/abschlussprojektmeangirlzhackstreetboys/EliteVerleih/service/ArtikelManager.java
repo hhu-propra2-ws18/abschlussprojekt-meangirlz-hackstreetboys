@@ -7,6 +7,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutz
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,7 +27,15 @@ public class ArtikelManager {
     public void erstelleArtikel(Long benutzerId, Artikel artikel){
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
-        artikelRepo.save(artikel);
+        artikel = artikelRepo.save(artikel);
+        setzeArtikel(benutzerId,artikel);
+    }
+
+    public void setzeArtikel(Long benutzerId, Artikel artikel){
+        Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        if(b.getArtikel()==null) b.setArtikel(new ArrayList<Artikel>());
+        b.getArtikel().add(artikel);
+        benutzerRepo.save(b);
     }
 
     public Artikel getArtikelById(Long artikelId){

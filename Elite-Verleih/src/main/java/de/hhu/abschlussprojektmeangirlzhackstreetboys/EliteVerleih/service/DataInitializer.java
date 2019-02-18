@@ -1,7 +1,9 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class DataInitializer implements ServletContextInitializer {
@@ -18,6 +22,9 @@ public class DataInitializer implements ServletContextInitializer {
 
     @Autowired
     ArtikelManager artikelM;
+    
+    @Autowired
+    AusleiheManager ausleiheM;
 
     @Override
     public void onStartup(ServletContext servletContext)
@@ -39,7 +46,7 @@ public class DataInitializer implements ServletContextInitializer {
         Long antoineId = benutzerM.findBenutzerByName("Antoine").getBenutzerId();
 
         Benutzer bTimo = new Benutzer();
-        bTimo.setBenutzerEmail("timo@hackstreetboys.de");
+        bTimo.setBenutzerEmail("timo@edithackstreetboys.de");
         bTimo.setBenutzerName("Timo");
         bTimo.setArtikel(new ArrayList<Artikel>());
         benutzerM.erstelleBenutzer(bTimo);
@@ -124,16 +131,19 @@ public class DataInitializer implements ServletContextInitializer {
         artikelM.erstelleArtikel(sVId,a8);
 
         Artikel a6_longText = new Artikel();
-        a6_longText.setArtikelBeschreibung("Perfekt zum Zerkleinern jeglicher Gartenabfälle, pflanzlicher Überreste, Blätter, Grashalme, " +
-                "kleine bis grosse Bäume, Informanten, Geiseln. Sträucher, Hecken, sowie dem Buchsbaum." +
-
-                "" +
-
-                "Dazu ist die Schere fast noch nie benutzt worden, und nach ihrer letzten Benutzung sehr ordentlich gesäubert worden.");
+        a6_longText.setArtikelBeschreibung("Perfekt zum Zerkleinern jeglicher Gartenabfälle, " +
+                "pflanzlicher Überreste, Blätter, Grashalme, kleine bis grosse Bäume, Informanten, " +
+                "Geiseln. Sträucher, Hecken, sowie dem Buchsbaum. Dazu ist die Schere fast noch " +
+                "nie benutzt worden, und nach ihrer letzten Benutzung sehr ordentlich gesäubert worden.");
         a6_longText.setArtikelKaution(300);
         a6_longText.setArtikelName("Gartenschere");
         a6_longText.setArtikelOrt("Pizzeria Vapioso");
         a6_longText.setArtikelTarif(30);
-        artikelM.erstelleArtikel(sVId,a6_longText);
+        artikelM.erstelleArtikel(mUId,a6_longText);
+        
+        Date sD0 = new Date(2019, 5, 8);
+        Date eD0 = new Date(2019, 5, 10);
+        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sD0, eD0);
+        
     }
 }

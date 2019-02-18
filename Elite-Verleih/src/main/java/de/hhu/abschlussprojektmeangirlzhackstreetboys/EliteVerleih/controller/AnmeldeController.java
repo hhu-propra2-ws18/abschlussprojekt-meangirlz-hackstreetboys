@@ -51,6 +51,7 @@ public class AnmeldeController {
             }
         }
 
+
         return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
     }
 }
