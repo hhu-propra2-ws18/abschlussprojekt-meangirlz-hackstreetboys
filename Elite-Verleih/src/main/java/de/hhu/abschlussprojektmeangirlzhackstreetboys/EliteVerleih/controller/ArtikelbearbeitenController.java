@@ -7,10 +7,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.Benut
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 
@@ -41,6 +38,14 @@ public class ArtikelbearbeitenController {
         bearbeiteArtikel(newArtikel, artikel);
         artikel.setBenutzer(benutzer);
         artikelRepo.save(artikel);
+        return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
+    }
+
+    @RequestMapping("/Loeschen/{artikelId}")
+    public String delete(@PathVariable long artikelId, Long id){
+        Benutzer benutzer = benutzerManager.getBenutzerById(id);
+        //Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+        artikelRepo.deleteById(artikelId);
         return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
     }
 

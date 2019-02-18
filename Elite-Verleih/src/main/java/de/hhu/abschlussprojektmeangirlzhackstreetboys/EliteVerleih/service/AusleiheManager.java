@@ -70,7 +70,7 @@ public class AusleiheManager {
     }
 
     private void loescheKollidierendeAnfragen(Ausleihe ausleihe) {
-    	
+
 		Artikel artikel = ausleihe.getArtikel();
 		List<Ausleihe> ausleihList = artikel.getAusgeliehen();
 		for(Ausleihe a : ausleihList) {
@@ -144,5 +144,21 @@ public class AusleiheManager {
 		artikel.setAusgeliehen(list);
 		artikelRepo.save(artikel);
 		ausleiheRepo.save(ausleihe);
+    }
+
+    public List<Ausleihe> getKonflike(List<Ausleihe> liste){
+        List<Ausleihe> konflikeAusleihe = new ArrayList<>();
+
+        for( Ausleihe a: liste ) {
+            if (a.getAusleihStatus()== Status.KONFLIKT){
+                konflikeAusleihe.add(a);
+            }
+        }
+        return konflikeAusleihe;
+    }
+
+    public void setzeSatusAusleihe(Ausleihe ausleihe, String name){
+        ausleihe.setAusleihStatus(Status.valueOf(name));
+        ausleiheRepo.save(ausleihe);
     }
 }
