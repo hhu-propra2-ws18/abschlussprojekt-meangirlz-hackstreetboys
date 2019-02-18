@@ -152,7 +152,6 @@ public class DataInitializer implements ServletContextInitializer {
         Date eD0 = new Date(2019, 5, 10);
         Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sD0, eD0);
 
-        test.setAusleihStatus(Status.KONFLIKT);
-        
+        ausleiheM.setzeSatusAusleihe(test, "KONFLIKT");
     }
 }

@@ -63,8 +63,8 @@ public class AusleiheManager {
         return ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
     }
 
-    public void bestaetigeAusleihe(Ausleihe ausleihe){
-        ausleihe.setAusleihStatus(Status.BESTAETIGT);
+    public void setzeSatusAusleihe(Ausleihe ausleihe, String name){
+        ausleihe.setAusleihStatus(Status.valueOf(name));
         ausleiheRepo.save(ausleihe);
     }
 
