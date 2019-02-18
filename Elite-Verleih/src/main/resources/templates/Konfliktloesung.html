@@ -2,7 +2,6 @@
 <html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
@@ -40,49 +39,50 @@
 
 </nav>
 
-<div  class="album py-5 bg-light">
-    <div class="container" th:each="ausleihe : ${konflikt}" >
+<div class="container jumbotron center">
+    <div class="row">
 
-        <div class="row">
-            <div class="col">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
+        <div class="card" style="width: 17rem;" th:each="ausleihe : ${konflikt}">
+
+
+            <div class="card-img-top">
+                <img src="https://staticr1.blastingcdn.com/media/photogallery/2017/5/24/660x290/b_620x273/meeseeks-google-search-mi-247-final-project-mr-meeseeks-pinterestcom_1345963.jpg"  alt="Bild" class="img-fluid" align="middle" >
+
+            </div>
+            <div class="card-body">
+                <div class="card text-center" th:object="${ausleihe}" th:method="get">
+
+                    <li class="list-group">
+                    <li class="list-group-item">
                         <h3 class="text-center">
-
                             <span th:text="${ausleihe?.getArtikel().getArtikelName()}"></span>
                         </h3>
-                        <div class="thumbnail">
-                            <img src="https://staticr1.blastingcdn.com/media/photogallery/2017/5/24/660x290/b_620x273/meeseeks-google-search-mi-247-final-project-mr-meeseeks-pinterestcom_1345963.jpg"  alt="Bild" class="img-fluid" align="middle" >
+                    </li>
 
-                        </div>
-                        <div class="card text-center" th:object="${ausleihe}" th:method="get">
-
-                            <li class="list-group">
-
-                            <li class="list-group-item"   th:text="'Artikel von: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerName()}"></li>
-                            <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerEmail()}"></li>
-                            <li class="list-group-item"   th:text="'Ausgeliehen von: '+${ausleihe?.getBenutzer().getBenutzerName()}"></li>
-                            <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getBenutzer().getBenutzerEmail()}"></li>
+                    <li class="list-group-item"   th:text="'Artikel von: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerName()}"></li>
+                    <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerEmail()}"></li>
+                    <li class="list-group-item"   th:text="'Ausgeliehen von: '+${ausleihe?.getBenutzer().getBenutzerName()}"></li>
+                    <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getBenutzer().getBenutzerEmail()}"></li>
 
 
-                            <li class ="list-group-item">
-                                <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
-                                    <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Verleihender" name="submitButton"/>
-                                    <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Ausleihender" name="submitButton" />
-                                </form>
-                            </li>
-                            <li class ="list-group-item">
-                                <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
-                                    <input class="btn btn-sm btn-outline-secondary" type="submit" value="Konflikt beenden" name="submitButton"/>
-                                </form>
-                            </li>
-
-                        </div>
-                    </div>
+                    <li class ="list-group-item">
+                        <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
+                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Verleihender" name="submitButton"/>
+                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Ausleihender" name="submitButton" />
+                        </form>
+                    </li>
+                    <li class ="list-group-item">
+                        <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
+                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Konflikt beenden" name="submitButton"/>
+                        </form>
+                    </li>
 
                 </div>
+
+
             </div>
         </div>
+
     </div>
 </div>
 
