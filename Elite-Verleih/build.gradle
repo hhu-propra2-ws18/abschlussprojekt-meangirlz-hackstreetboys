@@ -22,8 +22,11 @@ repositories {
 	mavenCentral()
 }
 
+apply plugin: 'checkstyle'
+
 checkstyle {
 	configFile = new File(rootDir, 'Elite-Google-Checkstyle.xml')
+	toolVersion = '6.7'
 }
 
 dependencies {
