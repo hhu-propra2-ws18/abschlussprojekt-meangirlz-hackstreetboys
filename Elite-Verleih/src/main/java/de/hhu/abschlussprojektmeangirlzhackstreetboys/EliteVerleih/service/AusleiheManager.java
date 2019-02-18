@@ -63,8 +63,8 @@ public class AusleiheManager {
         return ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
     }
 
-    public void setzeSatusAusleihe(Ausleihe ausleihe, String name){
-        ausleihe.setAusleihStatus(Status.valueOf(name));
+    public void bestaetigeAusleihe(Ausleihe ausleihe){
+        ausleihe.setAusleihStatus(Status.BESTAETIGT);
         ausleiheRepo.save(ausleihe);
     }
 
@@ -81,7 +81,11 @@ public class AusleiheManager {
                 konflikeAusleihe.add(a);
             }
         }
-
         return konflikeAusleihe;
+    }
+
+    public void setzeSatusAusleihe(Ausleihe ausleihe, String name){
+        ausleihe.setAusleihStatus(Status.valueOf(name));
+        ausleiheRepo.save(ausleihe);
     }
 }
