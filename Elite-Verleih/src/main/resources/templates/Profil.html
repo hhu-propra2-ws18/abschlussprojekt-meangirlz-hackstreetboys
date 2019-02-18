@@ -79,21 +79,15 @@
       </div>
     <div id="collapseTwo" class="collapse show" adfria-labelledby="headingTwo" data-parent="#accordion">
       <div class="container jumbotron center">
-        <h3>Aktiv</h3>
+          <h3>Aktiv</h3>
+          <tr th:if="${bestaetigte.empty}">
+              <p> Du hast gerade keine ausgeliehene Artikel</p>
+          </tr>
+
+          <tr th:unless="${bestaetigte.empty}">
+
         <p>Deine ausgeliehenen Artikel</p>
         <div class="row">
-          <div class="card" style="width: 17rem;">
-            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-		    <div class="card-body">
-		      <h5 class="card-title">ArtikelName</h5>
-		      <p class="card-text">Dauer</p>
-		      <p class="card-text">Benutzer</p>
-		      <a href="/Detailansicht">Details</a>
-		      <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
-		           <center><input class="btn btn-outline-success" type="submit" value="Zurueckgegeben" /></center>
-		      </form> 
-    	    </div>
-          </div>
           
           <div th:each="bestaetigt: ${bestaetigte}">
           	<div class="card" style="width: 17rem;">
@@ -112,25 +106,37 @@
     	    </div>
           </div>
      </div>
-  	    
+          </tr>
   	    <br/>
   	    <h3>Wartend</h3>
+          <tr th:if="${wartendeAnfragen.empty}">
+              <p> Du hast gerade keine Artikel angefragt</p>
+              <p> Suche <a th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">hier</a> nach Artikeln </p>
+          </tr>
+
+          <tr th:unless="${wartendeAnfragen.empty}">
   	    <p>Es wird auf die Bestaetigung des Besitzers gewartet.</p>
   	    <div class="row">
-          <div class="card" style="width: 17rem;">
-            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-		    <div class="card-body">
-		      <h5 class="card-title">ArtikelName</h5>
-		      <p class="card-text">Dauer</p>
-		      <p class="card-text">Benutzer</p>
-		      <a href="/Detailansicht">Details</a>
-		      <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
-		           <center><input class="btn btn-outline-danger" type="submit" value="Zurueckziehen" /></center>
-		      </form> 
-    	    </div>
-          </div>
+            <div th:each="wartendeAnfrage: ${wartendeAnfragen}">
+                <div class="card" style="width: 17rem;">
+                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${wartendeAnfrage.getArtikel().getArtikelName()}">ArtikelName</h5>
+                        <h5 class="card-title" th:text="${wartendeAnfrage.getAusleihStatus()}">Status</h5>
+                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                        <a href="/Detailansicht">Details</a>
+                        <center>
+                            <form method="post" th:object="${wartendeAnfrage}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${wartendeAnfrage.getAusleihId()}|">
+                                <center><input class="btn btn-outline-danger" type="submit" name="submitButton" value="Zurueckziehen"/></center>
+                            </form>
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+
   	    </div>
-  	    
+          </tr>
 	  </div>
     </div>
   </div>
@@ -162,17 +168,8 @@
         </tr>
         <tr th:unless="${(benutzer.getArtikel()).empty}">
           <h3>Verliehenes</h3>
+            <p>Deine aktiv verliehenen Artikel</p>
           <div class="row">
-            <div class="card" style="width: 17rem;">
-	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
-	    		<div class="card-body">
-	      		  <h5 class="card-title">ArtikelName</h5>
-	      		  <p class="card-text">Benutzer</p>
-	      		  <p class="card-text">Dauer</p>
-	      		  <a href="/Detailansicht">Details</a>
-	    		</div>
-	  		</div>
-
 			  <div th:each="verliehene: ${verliehenes}">
 				  <div class="card" style="width: 17rem;">
 					  <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
@@ -194,17 +191,6 @@
   		  <h3>Angebotene</h3>
   		  <p>Deine Artikel zum verleihen.</p>
           <div class="row">
-            <div class="card" style="width: 17rem;">
-	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
-	    		<div class="card-body">
-	      		  <h5 class="card-title">ArtikelName</h5>
-	      		  <p classsubmitName="card-text">Benutzer</p>
-	      		  <p class="card-text">Dauer</p>
-	      		  <a href="/Detailansicht">Details</a>
-	    		</div>
-	  		</div>
-	  		
-	  		
 	  		<div th:each="artikel: ${benutzer.getArtikel()}">
 	  		  <div class="card" style="width: 17rem;">
 	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
@@ -226,25 +212,6 @@
   		  <p>Deine zurueckerhaltenen Artikel. 
   		  <br/> Bei Problemen benachrichtige bitte unseren Support.</p>
     	  <div class="row">
-			<div class="card" style="width: 17rem;">
-			  <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-    		  <div class="card-body">
-      			<h5 class="card-title">ArtikelName</h5>
-      			<p class="card-text">Benutzer</p>
-      			<p class="card-text">Dauer</p>
-      			<a href="/Detailansicht">Details</a>
-      			<center>Bestaetigung des Besitzers gewarte
-      		     	<form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
-           		  		<center>
-           		    		<input class="btn btn-outline-success" type="submitButton" value="Akzeptieren" />
-           		    		<input class="btn btn-outline-danger" type="submitButton" value="Konflikt" />
-      			  		</center>
-      				</form>
-				 </center>
-    		  </div>
-			</div>
-
-  			
   			<div th:each="zurueckerhalten: ${zurueckerhaltene}">
           	<div class="card" style="width: 17rem;">
             	<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
@@ -287,25 +254,12 @@
     <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
 	  <div class="container jumbotron center">
 		  <h3>Ausstehend(e)</h3>
+          <tr th:if="${zurueckgegebene.empty}">
+            <p>Alle Rueckgaben wurden akzeptiert.</p>
+          </tr>
+          <tr th:unless="${zurueckgegebene.empty}">
 	  <p>Wir warten noch auf die Bestaetigung des Besitzers, dass der ausgeliehene Artikel in Ordnung ist.</p>
   		<div class="row">
-		  <div class="card" style="width: 17rem;">
-    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-    		<div class="card-body">
-      		  <h5 class="card-title">ArtikelName</h5>
-      		  <p class="card-text">Benutzer</p>
-      		  <p class="card-text">Dauer</p>
-      		  <a href="/Detailansicht">Details</a>
-      		  <br/>
-      		  <center><form method="post">
-           		  <center>
-           		    <input class="btn btn-outline-danger" type="submit" value="Problem" name="submitButton" />
-      			  </center>
-      			</form></center>
-      		  
-    		</div>
-  		  </div>
-  		  
   		  <div th:each="zurueckgegeben: ${zurueckgegebene}">
           	<div class="card" style="width: 17rem;">
             	<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
@@ -325,8 +279,10 @@
   		  
   		  
 		</div>
+          </tr>
 		<br/>
 		<h3>Erfolgreich</h3>
+          <p>Deine erfolgreich zurueckgegebenen Artikel</p>
 		<div th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
 			<div class="card" style="width: 17rem;">
 				<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
