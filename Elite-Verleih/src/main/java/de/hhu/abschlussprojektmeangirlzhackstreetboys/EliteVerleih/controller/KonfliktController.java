@@ -6,11 +6,12 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.Artik
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.AusleiheManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
-
+@Controller
 public class KonfliktController {
 
     @Autowired
@@ -27,15 +28,15 @@ public class KonfliktController {
         if(id != 1) {
             return "redirect:/";
         }
-
+        /*
         //alle Benutzer
         //List<Ausleihe> ausleihe = ausleiheManager.
 
         Benutzer benutzer = benutzerManager.getBenutzerById(id);
         model.addAttribute("benutzer",benutzer);
 
-        model.addAttribute("konflikt", benutzerManager.sucheAnfragen(benutzer, new String("KONFLIKT")));
-
+        //model.addAttribute("konflikt", benutzerManager.sucheAnfragen(benutzer, new String("KONFLIKT")));
+        */
         return "Konfliktloesung";
     }
 }

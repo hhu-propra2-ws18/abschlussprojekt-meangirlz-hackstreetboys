@@ -31,6 +31,13 @@ public class DataInitializer implements ServletContextInitializer {
             throws ServletException {
         System.out.println("Populating the database");
 
+        Benutzer support = new Benutzer();
+        support.setBenutzerEmail("support@hhu.de");
+        support.setBenutzerName("support");
+        support.setArtikel(new ArrayList<Artikel>());
+        benutzerM.erstelleBenutzer(support);
+        Long supportId= benutzerM.findBenutzerByName("support").getBenutzerId();
+
         Benutzer bJens = new Benutzer();
         bJens.setBenutzerEmail("Jemail@hhu.de");
         bJens.setBenutzerName("Jens");
