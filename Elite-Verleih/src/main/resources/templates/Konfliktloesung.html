@@ -1,14 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Konfliktlösestelle</title>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
+    <title>Konfliktloesung</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Unterstützung für Media Queries und HTML5-Elemente in IE8 über HTML5 shim und Respond.js -->
+    <!-- ACHTUNG: Respond.js funktioniert nicht, wenn du die Seite über file:// aufrufst -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </head>
 <body>
 
-<p>Konflikte: </p>
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" href="#">Elite-Verleih</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+
+
+</nav>
+
+<div class="container jumbotron center">
+    <div class="row">
+        <a th:each="ausleihe : ${konflikt}"  style="text-decoration: none">
+            <div class="card" style="width: 17rem;" >
+                <img src="https://staticr1.blastingcdn.com/media/photogallery/2017/5/24/660x290/b_620x273/meeseeks-google-search-mi-247-final-project-mr-meeseeks-pinterestcom_1345963.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${ausleihe?.benutzer.getBenutzerName()}">Ausleihe von: </h5>
+                    <p class="card-text" th:text="${ausleihe?.getAusleihStatus()}">Ausleihstatus: </p>
+                    <p class="card-text" th:text="|Kosten/Tag : ${artikel?.getArtikelTarif()},00€|">Konflikt</p>
 
 
 
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+
+
+<!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
