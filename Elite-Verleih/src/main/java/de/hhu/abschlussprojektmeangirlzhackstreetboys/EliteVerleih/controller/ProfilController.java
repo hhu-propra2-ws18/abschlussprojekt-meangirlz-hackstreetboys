@@ -38,7 +38,13 @@ public class ProfilController {
     	
     	Benutzer benutzer = benutzerManager.getBenutzerById(id);
     	model.addAttribute("benutzer",benutzer);
-    	List<Ausleihe> wartend = benutzerManager.sucheAnfragen(benutzer);
+    	List<Ausleihe> wartend = benutzerManager.sucheAnfragen(benutzer, Status.ANGEFRAGT);
+    	List<Ausleihe> zurueckerhaltene = benutzerManager.sucheAnfragen(benutzer, Status.ABGEGEBEN);
+    	List<Ausleihe> bestaetigte = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BESTAETIGT);
+    	List<Ausleihe> zurueckgegebene = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ABGEGEBEN);
+    	model.addAttribute("zurueckerhaltene", zurueckerhaltene);
+    	model.addAttribute("zurueckgegebene", zurueckgegebene);
+    	model.addAttribute("bestaetigte", bestaetigte);
 		model.addAttribute("anfragen", wartend);
 
         return "Profil";
@@ -59,6 +65,10 @@ public class ProfilController {
 		} else if (name.equals("Ablehnen")) {
 			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
 			ausleiheManager.lehneAusleiheAb(ausleihe);
+			return "redirect:/Profil?id=" + id;
+		} else if(name.equals("Zurueckgeben")) {
+			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
+			ausleiheManager.zurueckGeben(ausleihe);
 			return "redirect:/Profil?id=" + id;
 		}
     	else { 

@@ -73,10 +73,6 @@ public class AusleiheManager {
     	
 		Artikel artikel = ausleihe.getArtikel();
 		List<Ausleihe> ausleihList = artikel.getAusgeliehen();
-		System.out.println(ausleihList.size());
-		for(Ausleihe b: ausleihList) {
-			System.out.println(b.getAusleihId());
-		}
 		for(Ausleihe a : ausleihList) {
 			if(a.getAusleihId() != ausleihe.getAusleihId()) {
 				if(kollidiertMitAusleihe(a, ausleihe)) {
@@ -123,6 +119,17 @@ public class AusleiheManager {
 		Artikel artikel = ausleihe.getArtikel();
 		List<Ausleihe> list = artikel.getAusgeliehen();
 		list.remove(ausleihe);
+		artikel.setAusgeliehen(list);
+		artikelRepo.save(artikel);
+		ausleiheRepo.save(ausleihe);
+	}
+
+	public void zurueckGeben(Ausleihe ausleihe) {
+		Artikel artikel = ausleihe.getArtikel();
+		List<Ausleihe> list = artikel.getAusgeliehen();
+		int i = list.indexOf(ausleihe);
+		ausleihe.setAusleihStatus(Status.ABGEGEBEN);
+		list.set(i, ausleihe);
 		artikel.setAusgeliehen(list);
 		artikelRepo.save(artikel);
 		ausleiheRepo.save(ausleihe);
