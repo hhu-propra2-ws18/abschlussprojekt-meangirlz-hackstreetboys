@@ -28,15 +28,9 @@ public class KonfliktController {
         if(id != 1) {
             return "redirect:/";
         }
-        /*
-        //alle Benutzer
-        //List<Ausleihe> ausleihe = ausleiheManager.
 
-        Benutzer benutzer = benutzerManager.getBenutzerById(id);
-        model.addAttribute("benutzer",benutzer);
-
-        //model.addAttribute("konflikt", benutzerManager.sucheAnfragen(benutzer, new String("KONFLIKT")));
-        */
+        List<Ausleihe> ausleihe = ausleiheManager.getAllAusleihe();
+        model.addAttribute("konflikt", ausleiheManager.getKonflike(ausleihe));
         return "Konfliktloesung";
     }
 }

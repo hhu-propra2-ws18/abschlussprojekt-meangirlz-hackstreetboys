@@ -72,4 +72,16 @@ public class AusleiheManager {
         // Ausleihestatus schon ergänzt in Model etc?
         // Dann bearbeite in Ausleihe nur den Status und aktualisiere
     }
+
+    public List<Ausleihe> getKonflike(List<Ausleihe> liste){
+        List<Ausleihe> konflikeAusleihe = new ArrayList<>();
+
+        for( Ausleihe a: liste ) {
+            if (a.getAusleihStatus()== Status.KONFLIKT){
+                konflikeAusleihe.add(a);
+            }
+        }
+
+        return konflikeAusleihe;
+    }
 }
