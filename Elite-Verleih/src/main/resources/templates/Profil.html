@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http:thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <title>Profil</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top ">
+      <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">Elite Verleih</a>
+      <a th:href="'/ProfilBearbeiten?id=' + ${benutzer.getBenutzerId()}"><img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="30px" width="30px" th:text="${benutzer.getBenutzerName()} + ' ' + ${benutzer.getBenutzerEmail()}"> Betrag</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>Anfrage
+      </button>
+    </nav>
+
+	<div id="accordion">
+	  <div class="card">
+	    <div class="card-header" id="headingOne">
+	      <h3 class="mb-0">
+	        <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	          <h3>Anfragen</h3>
+	        </button></center>
+	      </h3>
+	    </div>
+	  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+	    <div class="container jumbotron center">
+			<tr th:if="${anfragen.empty}">
+				<p> Du hast noch keine eingendende Anfragen</p>
+			</tr>
+
+
+			<tr th:unless="${anfragen.empty}">
+
+
+	    <p>Jemand moechte einen Artikel von dir ausleihen.</p>
+	      <div class="row">
+	        <div class="card" style="width: 17rem;">
+
+
+				<div th:each="anfrage: ${anfragen}">
+					<div class="card" style="width: 17rem;">
+						<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${anfrage.getArtikel().getArtikelName()}">ArtikelName</h5>
+							<h5 class="card-title" th:text="${anfrage.getAusleihStatus()}">Status</h5>
+							<!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+							<a href="/Detailansicht">Details</a>
+
+							<center>
+								<form method="post" th:object="${anfrage}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${anfrage.getAusleihId()}|">
+									
+									<input class="btn btn-outline-success" type="submit" name="submitButton" value="Bestaetigen"/>
+									<input class="btn btn-outline-danger" type="submit" value="Ablehnen" />
+								</form>
+							</center>
+						</div>
+					</div>
+
+				</div>
+            </div>
+	      </div>
+			</tr>
+	    </div>  
+     </div>
+   </div>
+
+
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingTwo">
+        <h3 class="mb-0">
+          <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <h3>Ausgeliehenes</h3>
+          </button></center>
+        </h3>
+      </div>
+    <div id="collapseTwo" class="collapse show" adfria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="container jumbotron center">
+        <h3>Aktiv</h3>
+        <p>Deine ausgeliehenen Artikel</p>
+        <div class="row">
+          <div class="card" style="width: 17rem;">
+            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
+		    <div class="card-body">
+		      <h5 class="card-title">ArtikelName</h5>
+		      <p class="card-text">Dauer</p>
+		      <p class="card-text">Benutzer</p>
+		      <a href="/Detailansicht">Details</a>
+		      <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
+		           <center><input class="btn btn-outline-success" type="submit" value="Zurueckgegeben" /></center>
+		      </form> 
+    	    </div>
+          </div>
+  	    </div>
+  	    
+  	    <br/>
+  	    <h3>Wartend</h3>
+  	    <p>Es wird auf die Bestaetigung des Besitzers gewartet.</p>
+  	    <div class="row">
+          <div class="card" style="width: 17rem;">
+            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
+		    <div class="card-body">
+		      <h5 class="card-title">ArtikelName</h5>
+		      <p class="card-text">Dauer</p>
+		      <p class="card-text">Benutzer</p>
+		      <a href="/Detailansicht">Details</a>
+		      <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
+		           <center><input class="btn btn-outline-danger" type="submit" value="Zurueckziehen" /></center>
+		      </form> 
+    	    </div>
+          </div>
+  	    </div>
+  	    
+	  </div>
+    </div>
+  </div>
+
+
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingThree">
+        <h3 class="mb-0">
+          <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+            <h3>Eigene Artikel</h3>
+          </button></center>
+        </h3>
+        
+        
+       
+      </div>
+      
+      
+      <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+        <div class="container jumbotron center">
+        <tr th:if="${(benutzer.getArtikel()).empty}">
+          <center>	<p> Du hast noch keine Artikel eingestellt. Sharing is caring! </br></br>Erstelle jetzt deinen ersten Artikel! </p>
+          <div>
+    		  <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
+        	  <button class="btn btn-success mx-auto btn-lg mr-sm-2" type="button"> + </button>
+    		  </a>
+			</div> </center>
+        </tr>
+        <tr th:unless="${(benutzer.getArtikel()).empty}">
+          <h3>Verliehenes</h3>
+          <div class="row">
+            <div class="card" style="width: 17rem;">
+	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
+	    		<div class="card-body">
+	      		  <h5 class="card-title">ArtikelName</h5>
+	      		  <p class="card-text">Benutzer</p>
+	      		  <p class="card-text">Dauer</p>
+	      		  <a href="/Detailansicht">Details</a>
+	    		</div>
+	  		</div>
+  		  </div>
+  		  <br/>
+  		  <h3>Angebotene</h3>
+  		  <p>Deine Artikel zum verleihen.</p>
+          <div class="row">
+            <div class="card" style="width: 17rem;">
+	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
+	    		<div class="card-body">
+	      		  <h5 class="card-title">ArtikelName</h5>
+	      		  <p classsubmitName="card-text">Benutzer</p>
+	      		  <p class="card-text">Dauer</p>
+	      		  <a href="/Detailansicht">Details</a>
+	    		</div>
+	  		</div>
+	  		
+	  		
+	  		<div th:each="artikel: ${benutzer.getArtikel()}">
+	  		  <div class="card" style="width: 17rem;">
+	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
+	    		<div class="card-body">
+	      		  <h5 class="card-title" th:text="${artikel.getArtikelName()}">ArtikelName</h5>
+	      		  <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+	      		  <a href="/Detailansicht">Details</a>
+	    		</div>
+	  		</div>
+	  		  <div>
+    		   <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
+        		<button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom" type="button"> + </button>
+    		   </a>
+			  </div>
+  		  </div>
+  		  </div>
+  		  <br/>
+  		  <h3>Zurueckerhaltenes</h3>
+  		  <p>Deine zurueckerhaltenen Artikel. 
+  		  <br/> Bei Problemen benachrichtige bitte unseren Support.</p>
+    	  <div class="row">
+			<div class="card" style="width: 17rem;">
+			  <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
+    		  <div class="card-body">
+      			<h5 class="card-title">ArtikelName</h5>
+      			<p class="card-text">Benutzer</p>
+      			<p class="card-text">Dauer</p>
+      			<a href="/Detailansicht">Details</a>
+      			<center>Bestaetigung des Besitzers gewarte
+      		    <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
+           		  <center>
+           		    <input class="btn btn-outline-success" type="submit" value="Akzeptieren" />
+           		    <input class="btn btn-outline-danger" type="submit" value="Konflikt" />
+      			  </center>
+      			</form>
+      			
+    		  </div>
+  			</div>
+  		  </div>
+  		   </tr>
+  		</div>
+  	  </div>
+  	 
+  	</div>
+  </div>
+
+
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header" id="headingFour">
+        <h3 class="mb-0">
+          <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+            <h3>Zurueckgegebene Artikel</h3>
+            </button></center>
+        </h3>
+      </div>
+    </div>
+    <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
+	  <div class="container jumbotron center">
+	  <p>Wir warten noch auf die Bestaetigung des Besitzers, dass der ausgeliehene Artikel in Ordnung ist.</p>
+  		<div class="row">
+		  <div class="card" style="width: 17rem;">
+    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
+    		<div class="card-body">
+      		  <h5 class="card-title">ArtikelName</h5>
+      		  <p class="card-text">Benutzer</p>
+      		  <p class="card-text">Dauer</p>
+      		  <a href="/Detailansicht">Details</a>
+      		  <br/>
+      		  <center><form method="post">
+           		  <center>
+           		    <input class="btn btn-outline-danger" type="submit" value="Problem" name="submitButton" />
+      			  </center>
+      			</form></center>
+      		  
+    		</div>
+  		  </div>
+		</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+  </body>
+</html>

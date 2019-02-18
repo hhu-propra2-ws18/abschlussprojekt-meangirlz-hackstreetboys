@@ -1,1 +1,62 @@
+## Dokumentation
 
+### Arbeitsschritte
+
+Zuerst haben wir zusammen besprochen wie der Plan für den Anfang aussehen sollte. 
+Wir haben folgendes festgelegt:
+
+Name
+^^^^^
+* Elite-Verleih
+
+Einstellungen
+^^^^^^^^^^^^
+* IDE:
+  - IntelliJ
+* Tab/4sp:
+  - Tab
+* CommitSprache:
+  - Deutsch
+* DB:
+  - PostgreSQL
+  student
+Model
+^^^^^
+* Benutzer:
+  - Username, (String)
+  - mailAdresse, (String)
+  - id, (Long)
+  - ausgeliehenes, (List<Ausleihe>)
+* Ausleihe:
+  - artikel, (Artikel)
+  - startDatum, (Date)student
+  - benutzer, (Benutzer)
+  - id, (Long)
+  - rueckgabeDatum, (Date)
+* Artikel:
+  - id, (Long)
+  - name, (String)
+  - beschreibung, (String)
+  - besitzer, (Benutzer)
+  - kaution, (int)
+  - tarif, (int)
+  - ort, (String)
+  - ausleihen, (List<Ausleihe>)
+  
+Repos
+^^^^^
+  - Benutzer
+  - Ausleihe
+  - Artikel
+  
+Views/Controller
+^^^^^^^^^^^^^^^^^
+* Error Handhabung
+* Anmelden
+* Registrieren
+* Uebersicht
+* Profilseite & Benachrichtigungen & geliehene Artikel
+* Produktdetailansicht & Ausleihbutton
+* Artikelerstellung
+
+Als naechstes haben wir den Grundstein in den Master branch gepusht. Damit ist die Erstellung eines Spring boot Projekts gemeint. Von hier an haben wir entschieden, fuer die Entwicklung hauptsaechlich in branches zu arbeiten und spaetestens beim merge der branches in den master branch zu reviewen. 
