@@ -65,24 +65,17 @@
                             <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getBenutzer().getBenutzerEmail()}"></li>
 
 
-
-
-                            <!-td th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}"-->
-                                <li class="list-group-item">
-                                    <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">
-                                            Kaution an Ausleihenden
-                                        </button>
-                                    </a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a th:href="|/Loeschen/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">
-                                            Kaution an Verleihenden
-                                        </button>
-                                    </a>
-                                </li>
-                            <!-/td-->
+                            <li class ="list-group-item">
+                                <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
+                                    <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Verleihender" name="submitButton"/>
+                                    <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Ausleihender" name="submitButton" />
+                                </form>
+                            </li>
+                            <li class ="list-group-item">
+                                <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
+                                    <input class="btn btn-sm btn-outline-secondary" type="submit" value="Konflikt beenden" name="submitButton"/>
+                                </form>
+                            </li>
 
                         </div>
                     </div>
