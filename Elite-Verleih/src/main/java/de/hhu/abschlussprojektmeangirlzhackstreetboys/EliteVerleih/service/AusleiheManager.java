@@ -65,11 +65,66 @@ public class AusleiheManager {
 
     public void bestaetigeAusleihe(Ausleihe ausleihe){
         ausleihe.setAusleihStatus(Status.BESTAETIGT);
+        loescheKollidierendeAnfragen(ausleihe);
         ausleiheRepo.save(ausleihe);
     }
 
-    public void bearbeiteAusleihe() {
+    private void loescheKollidierendeAnfragen(Ausleihe ausleihe) {
+    	
+		Artikel artikel = ausleihe.getArtikel();
+		List<Ausleihe> ausleihList = artikel.getAusgeliehen();
+		System.out.println(ausleihList.size());
+		for(Ausleihe b: ausleihList) {
+			System.out.println(b.getAusleihId());
+		}
+		for(Ausleihe a : ausleihList) {
+			if(a.getAusleihId() != ausleihe.getAusleihId()) {
+				if(kollidiertMitAusleihe(a, ausleihe)) {
+					a.setAusleihStatus(Status.ABGELEHNT);
+					ausleiheRepo.save(a);
+				}
+			}
+		}
+		List<Ausleihe> neueListe = new ArrayList<Ausleihe>();
+		for(Ausleihe a: ausleihList) {
+			if(!a.getAusleihStatus().equals(Status.ABGELEHNT)) {
+				neueListe.add(a);
+			}
+		}
+		artikel.setAusgeliehen(neueListe);
+		artikelRepo.save(artikel);
+	}
+
+	private boolean kollidiertMitAusleihe(Ausleihe a, Ausleihe ausleihe) {
+		Date endDatum = ausleihe.getAusleihRueckgabedatum();
+    	Date startDatum = ausleihe.getAusleihStartdatum();
+		if(a.getAusleihStartdatum().before(endDatum) && a.getAusleihStartdatum().after(startDatum)){
+			return true;
+		}
+		if(a.getAusleihRueckgabedatum().after(startDatum) && a.getAusleihRueckgabedatum().before(endDatum)) {
+			return true;
+		}
+		if(a.getAusleihStartdatum().equals(startDatum) || a.getAusleihStartdatum().equals(endDatum)) {
+			return true;
+		}
+		if(a.getAusleihRueckgabedatum().equals(startDatum)|| a.getAusleihRueckgabedatum().equals(endDatum)) {
+			return true;
+		}
+		return false;
+	}
+
+	public void bearbeiteAusleihe() {
         // Ausleihestatus schon ergänzt in Model etc?
         // Dann bearbeite in Ausleihe nur den Status und aktualisiere
     }
+
+	public void lehneAusleiheAb(Ausleihe ausleihe) {
+		ausleihe.setAusleihStatus(Status.ABGELEHNT);
+		Artikel artikel = ausleihe.getArtikel();
+		List<Ausleihe> list = artikel.getAusgeliehen();
+		list.remove(ausleihe);
+		artikel.setAusgeliehen(list);
+		artikelRepo.save(artikel);
+		ausleiheRepo.save(ausleihe);
+	}
 }

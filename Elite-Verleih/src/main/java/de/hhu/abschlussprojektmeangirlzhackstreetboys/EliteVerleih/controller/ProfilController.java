@@ -56,6 +56,10 @@ public class ProfilController {
 			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
 			ausleiheManager.bestaetigeAusleihe(ausleihe);
             return "redirect:/Profil?id=" + id;
+		} else if (name.equals("Ablehnen")) {
+			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
+			ausleiheManager.lehneAusleiheAb(ausleihe);
+			return "redirect:/Profil?id=" + id;
 		}
     	else { 
     		return "redirect:/Uebersicht?id=" + id;

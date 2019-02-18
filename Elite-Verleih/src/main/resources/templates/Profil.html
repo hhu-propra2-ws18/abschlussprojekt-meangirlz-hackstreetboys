@@ -53,7 +53,7 @@
 								<form method="post" th:object="${anfrage}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${anfrage.getAusleihId()}|">
 									
 									<input class="btn btn-outline-success" type="submit" name="submitButton" value="Bestaetigen"/>
-									<input class="btn btn-outline-danger" type="submit" value="Ablehnen" />
+									<input class="btn btn-outline-danger" type="submit" name="submitButton" value="Ablehnen" />
 								</form>
 							</center>
 						</div>
