@@ -180,7 +180,7 @@
         <module name="MethodParamPad"/>
         <module name="NoWhitespaceBefore">
             <property name="tokens"
-             value="SEMI, POST_INC, POST_DEC, DOT, ELLIPSIS"/>
+             value="SEMI, POST_INC, POST_DEC, DOT"/>
             <property name="allowLineBreaks" value="true"/>
         </module>
         <module name="ParenPad"/>
