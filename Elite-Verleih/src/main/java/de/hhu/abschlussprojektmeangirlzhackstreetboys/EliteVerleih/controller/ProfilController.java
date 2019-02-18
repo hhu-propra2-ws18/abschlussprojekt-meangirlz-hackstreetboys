@@ -42,6 +42,12 @@ public class ProfilController {
     	List<Ausleihe> zurueckerhaltene = benutzerManager.sucheAnfragen(benutzer, Status.ABGEGEBEN);
     	List<Ausleihe> bestaetigte = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BESTAETIGT);
     	List<Ausleihe> zurueckgegebene = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ABGEGEBEN);
+    	List<Ausleihe> verliehenes = benutzerManager.sucheAnfragen(benutzer, Status.BESTAETIGT);
+    	verliehenes.addAll(benutzerManager.sucheAnfragen(benutzer, Status.AKTIV));
+    	List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BEENDET);
+
+		model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
+    	model.addAttribute("verliehenes", verliehenes);
     	model.addAttribute("zurueckerhaltene", zurueckerhaltene);
     	model.addAttribute("zurueckgegebene", zurueckgegebene);
     	model.addAttribute("bestaetigte", bestaetigte);
@@ -69,6 +75,13 @@ public class ProfilController {
 		} else if(name.equals("Zurueckgeben")) {
 			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
 			ausleiheManager.zurueckGeben(ausleihe);
+			return "redirect:/Profil?id=" + id;
+		} else if(name.equals("Akzeptieren")){
+			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
+			ausleiheManager.rueckgabeAkzeptieren(ausleihe);
+			return "redirect:/Profil?id=" + id;
+		} else if(name.equals("Entfernen")){
+			//ausleiheManager.loescheAusleihe(ausleihId);
 			return "redirect:/Profil?id=" + id;
 		}
     	else { 

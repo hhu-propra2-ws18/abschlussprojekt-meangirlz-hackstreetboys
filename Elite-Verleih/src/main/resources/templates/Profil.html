@@ -158,7 +158,7 @@
     		  <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
         	  <button class="btn btn-success mx-auto btn-lg mr-sm-2" type="button"> + </button>
     		  </a>
-			</div> </center>
+		  </div> </center>
         </tr>
         <tr th:unless="${(benutzer.getArtikel()).empty}">
           <h3>Verliehenes</h3>
@@ -172,7 +172,24 @@
 	      		  <a href="/Detailansicht">Details</a>
 	    		</div>
 	  		</div>
-  		  </div>
+
+			  <div th:each="verliehene: ${verliehenes}">
+				  <div class="card" style="width: 17rem;">
+					  <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
+					  <div class="card-body">
+						  <h5 class="card-title" th:text="${verliehene.getArtikel().getArtikelName()}">ArtikelName</h5>
+						  <h5 class="card-title" th:text="${verliehene.getAusleihStatus()}">Status</h5>
+						  <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+						  <a href="/Detailansicht">Details</a>
+						  <center>
+							  <form method="post" th:object="${verliehene}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${verliehene.getAusleihId()}|">
+								  <center><input class="btn btn-outline-danger" type="submit" name="submitButton" value="Problem"/></center>
+							  </form>
+						  </center>
+					  </div>
+				  </div>
+			  </div>
+  		       </div>
   		  <br/>
   		  <h3>Angebotene</h3>
   		  <p>Deine Artikel zum verleihen.</p>
@@ -217,15 +234,16 @@
       			<p class="card-text">Dauer</p>
       			<a href="/Detailansicht">Details</a>
       			<center>Bestaetigung des Besitzers gewarte
-      		    <form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
-           		  <center>
-           		    <input class="btn btn-outline-success" type="submit" value="Akzeptieren" />
-           		    <input class="btn btn-outline-danger" type="submit" value="Konflikt" />
-      			  </center>
-      			</form>
-      			
+      		     	<form method="post" th:action="@{/Profil}"> <!-- TODO!!! Bearbeiten????-->
+           		  		<center>
+           		    		<input class="btn btn-outline-success" type="submitButton" value="Akzeptieren" />
+           		    		<input class="btn btn-outline-danger" type="submitButton" value="Konflikt" />
+      			  		</center>
+      				</form>
+				 </center>
     		  </div>
-  			</div>
+			</div>
+
   			
   			<div th:each="zurueckerhalten: ${zurueckerhaltene}">
           	<div class="card" style="width: 17rem;">
@@ -268,6 +286,7 @@
     </div>
     <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
 	  <div class="container jumbotron center">
+		  <h3>Ausstehend(e)</h3>
 	  <p>Wir warten noch auf die Bestaetigung des Besitzers, dass der ausgeliehene Artikel in Ordnung ist.</p>
   		<div class="row">
 		  <div class="card" style="width: 17rem;">
@@ -306,7 +325,25 @@
   		  
   		  
 		</div>
-      </div>
+		<br/>
+		<h3>Erfolgreich</h3>
+		<div th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
+			<div class="card" style="width: 17rem;">
+				<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">ArtikelName</h5>
+					<h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getAusleihStatus()}">Status</h5>
+					<!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+					<a href="/Detailansicht">Details</a>
+					<center>
+						<form method="post" th:object="${erfolgreichZurueckgegeben}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${erfolgreichZurueckgegeben.getAusleihId()}|">
+							<center><input class="btn btn-outline-danger" type="submit" name="submitButton" value="Entfernen"/></center>
+						</form>
+					</center>
+				</div>
+			</div>
+		</div>
+	  </div>
     </div>
   </div>
 

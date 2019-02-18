@@ -134,4 +134,15 @@ public class AusleiheManager {
 		artikelRepo.save(artikel);
 		ausleiheRepo.save(ausleihe);
 	}
+
+    public void rueckgabeAkzeptieren(Ausleihe ausleihe) {
+		Artikel artikel = ausleihe.getArtikel();
+		List<Ausleihe> list = artikel.getAusgeliehen();
+		int i = list.indexOf(ausleihe);
+		ausleihe.setAusleihStatus(Status.BEENDET);
+		list.set(i, ausleihe);
+		artikel.setAusgeliehen(list);
+		artikelRepo.save(artikel);
+		ausleiheRepo.save(ausleihe);
+    }
 }
