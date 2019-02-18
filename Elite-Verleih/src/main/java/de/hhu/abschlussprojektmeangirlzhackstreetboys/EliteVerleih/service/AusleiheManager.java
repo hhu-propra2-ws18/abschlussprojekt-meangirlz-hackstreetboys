@@ -161,4 +161,17 @@ public class AusleiheManager {
         ausleihe.setAusleihStatus(Status.valueOf(name));
         ausleiheRepo.save(ausleihe);
     }
+
+	public void konfliktAusleihe(Long ausleihId) {
+		Ausleihe ausleihe = getAusleiheById(ausleihId);
+		Artikel artikel = ausleihe.getArtikel();
+		List<Ausleihe> list = artikel.getAusgeliehen();
+		int i = list.indexOf(ausleihe);
+		ausleihe.setAusleihStatus(Status.KONFLIKT);
+		list.set(i, ausleihe);
+		artikel.setAusgeliehen(list);
+		artikelRepo.save(artikel);
+		ausleiheRepo.save(ausleihe);
+
+	}
 }

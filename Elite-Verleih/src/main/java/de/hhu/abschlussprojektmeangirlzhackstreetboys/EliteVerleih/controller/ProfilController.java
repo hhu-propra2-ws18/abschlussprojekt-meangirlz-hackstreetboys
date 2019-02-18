@@ -40,6 +40,7 @@ public class ProfilController {
     	model.addAttribute("benutzer",benutzer);
     	List<Ausleihe> wartend = benutzerManager.sucheAnfragen(benutzer, Status.ANGEFRAGT);
     	List<Ausleihe> zurueckerhaltene = benutzerManager.sucheAnfragen(benutzer, Status.ABGEGEBEN);
+    	zurueckerhaltene.addAll(benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
     	List<Ausleihe> bestaetigte = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BESTAETIGT);
     	List<Ausleihe> zurueckgegebene = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ABGEGEBEN);
     	List<Ausleihe> verliehenes = benutzerManager.sucheAnfragen(benutzer, Status.BESTAETIGT);
@@ -87,6 +88,9 @@ public class ProfilController {
 			return "redirect:/Profil?id=" + id;
 		} else if(name.equals("Zurueckziehen")){
 		    //ausleiheManager.loescheAusleihe(ausleihId);
+            return "redirect:/Profil?id=" + id;
+        } else if(name.equals("Konflikt")){
+		    ausleiheManager.konfliktAusleihe(ausleihId);
             return "redirect:/Profil?id=" + id;
         }
     	else { 
