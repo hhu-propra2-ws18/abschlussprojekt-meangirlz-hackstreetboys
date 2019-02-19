@@ -114,6 +114,17 @@ public class AusleiheManager {
         // Dann bearbeite in Ausleihe nur den Status und aktualisiere
     }
 
+    public boolean isAusgeliehen (Long artikelId, Date startDatum, Date endDatum) {
+
+        Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+        for(Ausleihe ausleihe : artikel.getAusgeliehen()) {
+            if(!endDatum.before(ausleihe.getAusleihStartdatum()) && !(startDatum.after(ausleihe.getAusleihRueckgabedatum()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 	public void lehneAusleiheAb(Ausleihe ausleihe) {
 		ausleihe.setAusleihStatus(Status.ABGELEHNT);
 		Artikel artikel = ausleihe.getArtikel();
