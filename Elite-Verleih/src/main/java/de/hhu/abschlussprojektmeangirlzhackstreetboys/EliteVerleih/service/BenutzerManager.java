@@ -20,6 +20,8 @@ public class BenutzerManager {
     @Autowired
     BenutzerRepository benutzerRepo;
 
+    DataSync sync = new DataSync();
+
     public List<Benutzer> getAllBenutzer() {
         return benutzerRepo.findAll();
     }
@@ -41,6 +43,8 @@ public class BenutzerManager {
 
     public Benutzer erstelleBenutzer(Benutzer benutzer) {
         if(nameSchonVorhanden(benutzer.getBenutzerName())) return null;
+        sync.getAccount(benutzer.getBenutzerName());
+        System.out.println(sync.getAccount(benutzer.getBenutzerName()).getAmount());
 
         return benutzerRepo.save(benutzer);
     }
