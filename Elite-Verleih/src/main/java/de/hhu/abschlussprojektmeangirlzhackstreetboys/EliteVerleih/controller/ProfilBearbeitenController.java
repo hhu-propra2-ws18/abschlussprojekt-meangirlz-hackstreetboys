@@ -25,7 +25,7 @@ public class ProfilBearbeitenController {
     		return "redirect:/";
     	}
     	Benutzer benutzer = benutzerManager.getBenutzerById(id);
-        double geld = sync.getAccount(benutzer.getBenutzerName()).getAmount();
+        int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
 
         model.addAttribute("Betrag", geld);
     	model.addAttribute("benutzer",benutzer);

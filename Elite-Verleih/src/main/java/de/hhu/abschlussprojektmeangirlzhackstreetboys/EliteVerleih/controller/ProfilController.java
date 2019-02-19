@@ -50,7 +50,7 @@ public class ProfilController {
     	verliehenes.addAll(benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
     	List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BEENDET);
     	List<Ausleihe> eigeneAnfragen = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ANGEFRAGT);
-    	double geld = sync.getAccount(benutzer.getBenutzerName()).getAmount();
+    	int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
 
     	model.addAttribute("wartendeAnfragen", eigeneAnfragen);
 		model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
