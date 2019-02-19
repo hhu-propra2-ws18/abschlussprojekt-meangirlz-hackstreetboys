@@ -16,18 +16,18 @@
         </button>
     </nav>
 
-    <div class="container jumbotron center">
-        <div class="row">
-            <div class="card">
-                <div class="card-header" id="headingOne">
-                    <h3 class="mb-0">
-                        <p>
-                        Ihr Problem wurde erfolgreich aufgenommen. Wir melden uns in Kürze per Mail.
-                        </p></br>
-                        <img src="https://pics.me.me/thumb_708218568995958784.png "></br>
-                    </h3>
-                </div>
-            </div>
+
+    <div class="card text-center">
+
+        <div class="card-body">
+            <h5 class="card-title">Konflikt gemeldet</h5>
+            <p class="card-text">Ihr Problem wurde erfolgreich aufgenommen. Wir melden uns in Kürze per Mail.</p>
+            <a th:href=" 'http://localhost:8080/Uebersicht?id=' + ${benutzer.getBenutzerId()}" class="btn btn-primary">Zurück zur Übersicht</a>
+        </div>
+        <div class="card-footer text-muted">
+            support kontaktieren : support@eliteverleih.de
+        </div>
+    </div>
 
 
 
