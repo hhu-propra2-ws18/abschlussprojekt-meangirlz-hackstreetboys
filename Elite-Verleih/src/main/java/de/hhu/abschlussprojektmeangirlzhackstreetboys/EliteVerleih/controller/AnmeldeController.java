@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 @Controller
 public class AnmeldeController {
@@ -73,7 +74,8 @@ public class AnmeldeController {
     }
 
     @GetMapping("/Logout")
-    public String logoutAnzeigen(Model model, Integer login) {
+    public String logoutAnzeigen( Model model, Integer login, Principal user) {
+        System.err.println("User Role: "+ user.toString());
         return "logout";
     }
 
