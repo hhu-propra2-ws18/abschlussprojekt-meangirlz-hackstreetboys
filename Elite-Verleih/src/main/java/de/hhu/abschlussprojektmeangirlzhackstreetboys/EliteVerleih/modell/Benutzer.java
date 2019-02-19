@@ -27,6 +27,8 @@ public class Benutzer {
     @OneToMany(mappedBy = "benutzer", cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
 
+    private String benutzerPasswort;
+
     public Benutzer(){
     }
 
