@@ -45,8 +45,6 @@ public class BenutzerManager {
     public Benutzer erstelleBenutzer(Benutzer benutzer) {
         if(nameSchonVorhanden(benutzer.getBenutzerName())) return null;
         AccountDTO account = sync.getAccount(benutzer.getBenutzerName());
-
-
         return benutzerRepo.save(benutzer);
     }
 

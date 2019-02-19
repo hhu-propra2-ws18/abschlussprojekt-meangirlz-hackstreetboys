@@ -1,8 +1,10 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller.DataSync;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.AusleiheRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dto.ReservationDTO;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
@@ -16,6 +18,8 @@ import java.util.List;
 
 @Service
 public class AusleiheManager {
+
+	DataSync sync = new DataSync();
 
     @Autowired
     BenutzerRepository benutzerRepo;
@@ -66,6 +70,7 @@ public class AusleiheManager {
     public void bestaetigeAusleihe(Ausleihe ausleihe){
         ausleihe.setAusleihStatus(Status.BESTAETIGT);
         loescheKollidierendeAnfragen(ausleihe);
+        sync.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getArtikel().getBenutzer().getBenutzerName(), ausleihe.getArtikel().getArtikelKaution());
         ausleiheRepo.save(ausleihe);
     }
 
