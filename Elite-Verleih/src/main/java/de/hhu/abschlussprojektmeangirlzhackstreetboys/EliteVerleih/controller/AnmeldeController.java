@@ -49,6 +49,9 @@ public class AnmeldeController {
             if (benutzer == null){
                 return "redirect:/?login=1";
             }
+            if (benutzer.getBenutzerName() == "support"){
+                return "redirect:/Konfliktloesung?id=" + benutzer.getBenutzerId();
+            }
         }
 
 

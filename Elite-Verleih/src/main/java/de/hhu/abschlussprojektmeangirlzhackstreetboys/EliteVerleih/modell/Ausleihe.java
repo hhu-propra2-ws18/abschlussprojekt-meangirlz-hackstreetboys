@@ -1,5 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import lombok.Data;
@@ -18,6 +19,7 @@ public class Ausleihe {
     @ManyToOne(fetch = FetchType.LAZY)
     private Artikel artikel;
 
+    //private Calendar ausleihStartdatum;
     private Date ausleihStartdatum;
 
     private Date ausleihRueckgabedatum;
