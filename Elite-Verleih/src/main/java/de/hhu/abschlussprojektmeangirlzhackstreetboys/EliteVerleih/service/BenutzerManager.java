@@ -1,5 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller.DataSync;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
