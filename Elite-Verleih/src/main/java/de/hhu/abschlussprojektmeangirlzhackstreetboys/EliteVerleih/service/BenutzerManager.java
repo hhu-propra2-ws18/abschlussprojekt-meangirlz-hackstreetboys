@@ -1,7 +1,9 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller.DataSync;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dto.AccountDTO;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
@@ -18,6 +20,8 @@ public class BenutzerManager {
 
     @Autowired
     BenutzerRepository benutzerRepo;
+
+    DataSync sync = new DataSync();
 
     public List<Benutzer> getAllBenutzer() {
         return benutzerRepo.findAll();
@@ -40,7 +44,7 @@ public class BenutzerManager {
 
     public Benutzer erstelleBenutzer(Benutzer benutzer) {
         if(nameSchonVorhanden(benutzer.getBenutzerName())) return null;
-
+        AccountDTO account = sync.getAccount(benutzer.getBenutzerName());
         return benutzerRepo.save(benutzer);
     }
 
@@ -90,6 +94,10 @@ public class BenutzerManager {
 	}
 
 
+    public void geldAufladen(Benutzer newBenutzer, int aufladen) {
+        System.out.println(aufladen);
+        sync.GuthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
+    }
 }
 
 

@@ -30,6 +30,8 @@ public class ProfilController {
 	@Autowired
 	ArtikelManager artikelManager;
 
+	DataSync sync = new DataSync();
+
     @GetMapping("/Profil")
     public String ProfilAnzeigen(Long id, Model model){
     	if(id == null) {
@@ -48,6 +50,7 @@ public class ProfilController {
     	verliehenes.addAll(benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
     	List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BEENDET);
     	List<Ausleihe> eigeneAnfragen = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ANGEFRAGT);
+    	int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
 
     	model.addAttribute("wartendeAnfragen", eigeneAnfragen);
 		model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
@@ -57,6 +60,7 @@ public class ProfilController {
     	model.addAttribute("bestaetigte", bestaetigte);
 		model.addAttribute("anfragen", wartend);
 		model.addAttribute("konflikte", konflikte);
+		model.addAttribute("Betrag", geld);
 
         return "Profil";
     }
