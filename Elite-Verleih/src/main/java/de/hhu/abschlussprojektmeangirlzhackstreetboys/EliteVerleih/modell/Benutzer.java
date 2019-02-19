@@ -1,5 +1,7 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell;
 //import lombok.Data;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dto.AccountDTO;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dto.ReservationDTO;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,7 +29,6 @@ public class Benutzer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
 
-    private int guthaben;
 
     public Benutzer(){
     }

@@ -3,6 +3,7 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller.DataSync;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dto.AccountDTO;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
@@ -43,8 +44,8 @@ public class BenutzerManager {
 
     public Benutzer erstelleBenutzer(Benutzer benutzer) {
         if(nameSchonVorhanden(benutzer.getBenutzerName())) return null;
-        sync.getAccount(benutzer.getBenutzerName());
-        System.out.println(sync.getAccount(benutzer.getBenutzerName()).getAmount());
+        AccountDTO account = sync.getAccount(benutzer.getBenutzerName());
+
 
         return benutzerRepo.save(benutzer);
     }

@@ -28,11 +28,12 @@ public class ProfilBearbeitenController {
     }
 
     @PostMapping("/ProfilBearbeiten")
-    public String ProfilBearbeitenSpeichern(Long id, @ModelAttribute Benutzer ben, Model model){
+    public String ProfilBearbeitenSpeichern(Long id, @ModelAttribute Benutzer ben, Model model, int aufladen){
     	if(id == null) {
     		return "redirect:/";
     	}
 
+    	System.out.println(aufladen);
     	Benutzer benutzer = benutzerManager.getBenutzerById(id);
     	Benutzer newBenutzer = benutzerManager.editBenutzer(benutzer, ben.getBenutzerEmail());
     	model.addAttribute("benutzer",newBenutzer);
