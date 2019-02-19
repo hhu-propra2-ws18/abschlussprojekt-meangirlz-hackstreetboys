@@ -1,8 +1,10 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller.DataSync;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.AusleiheRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dto.ReservationDTO;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
@@ -10,12 +12,17 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Status
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class AusleiheManager {
+
+	DataSync sync = new DataSync();
 
     @Autowired
     BenutzerRepository benutzerRepo;
@@ -66,6 +73,8 @@ public class AusleiheManager {
     public void bestaetigeAusleihe(Ausleihe ausleihe){
         ausleihe.setAusleihStatus(Status.BESTAETIGT);
         loescheKollidierendeAnfragen(ausleihe);
+        ReservationDTO r1 = sync.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getArtikel().getBenutzer().getBenutzerName(), ausleihe.getArtikel().getArtikelKaution());
+        ausleihe.setReservationsId(r1.getId());
         ausleiheRepo.save(ausleihe);
     }
 
@@ -137,6 +146,14 @@ public class AusleiheManager {
 
 	public void zurueckGeben(Ausleihe ausleihe) {
 		Artikel artikel = ausleihe.getArtikel();
+		Date start = ausleihe.getAusleihStartdatum();
+
+		Date date = new Date();
+		int tage = getAnzahlTage(ausleihe);
+		int kosten = ausleihe.getArtikel().getArtikelTarif() * tage;
+		sync.ueberweisen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getArtikel().getBenutzer().getBenutzerName(), kosten);
+		System.out.println(tage);
+
 		List<Ausleihe> list = artikel.getAusgeliehen();
 		int i = list.indexOf(ausleihe);
 		ausleihe.setAusleihStatus(Status.ABGEGEBEN);
@@ -146,7 +163,22 @@ public class AusleiheManager {
 		ausleiheRepo.save(ausleihe);
 	}
 
-    public void rueckgabeAkzeptieren(Ausleihe ausleihe) {
+	private int getAnzahlTage(Ausleihe ausleihe) {
+    	int ergebnis = 0;
+    	Date start = ausleihe.getAusleihStartdatum();
+		Date date=new Date(System.currentTimeMillis());
+    	if(date.equals(start)){
+    		return 1;
+		}
+    	if(date.after(start)){
+    		long milli = date.getTime() - start.getTime();
+
+			ergebnis = (int) TimeUnit.DAYS.convert(milli, TimeUnit.MILLISECONDS) + 1;
+		}
+    	return ergebnis;
+	}
+
+	public void rueckgabeAkzeptieren(Ausleihe ausleihe) {
 		Artikel artikel = ausleihe.getArtikel();
 		List<Ausleihe> list = artikel.getAusgeliehen();
 		int i = list.indexOf(ausleihe);

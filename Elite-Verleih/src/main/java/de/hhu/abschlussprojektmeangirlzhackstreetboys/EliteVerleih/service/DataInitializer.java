@@ -84,7 +84,7 @@ public class DataInitializer implements ServletContextInitializer {
 
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("Wohn mit mir zusammen");
-        a1.setArtikelKaution(500000);
+        a1.setArtikelKaution(50000);
         a1.setArtikelName("Ich - das Nashorn");
         a1.setArtikelOrt("wo du wohnst");
         a1.setArtikelTarif(1);
@@ -161,12 +161,12 @@ public class DataInitializer implements ServletContextInitializer {
         Date eD0 = new Date(2019, 5, 10);
         Ausleihe test0 =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sD0, eD0);
 
-        Date sD1 = new Date(2019, 5, 8);
-        Date eD1 = new Date(2019, 5, 10);
+        Date sD1 = new Date(119, 1, 19);
+        Date eD1 = new Date(119, 1, 28);
         Ausleihe test1 =  ausleiheM.erstelleAusleihe(new Long(3),new Long(7), sD1, eD1);
 
         
-        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(8), sD0, eD0);
+        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(9), sD0, eD0);
         Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5),new Long(10), sD0, eD0);
 
         ausleiheM.setzeSatusAusleihe(test, "KONFLIKT");

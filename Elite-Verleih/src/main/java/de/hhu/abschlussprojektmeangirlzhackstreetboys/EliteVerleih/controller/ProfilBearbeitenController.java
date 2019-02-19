@@ -16,25 +16,33 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.Benut
 public class ProfilBearbeitenController {
 	@Autowired
 	BenutzerManager benutzerManager;
-	
+
+    DataSync sync = new DataSync();
+
     @GetMapping("/ProfilBearbeiten")
     public String ProfilBearbeitenAnzeigen(Long id, Model model){
     	if(id == null) {
     		return "redirect:/";
     	}
     	Benutzer benutzer = benutzerManager.getBenutzerById(id);
+        int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
+
+        model.addAttribute("Betrag", geld);
     	model.addAttribute("benutzer",benutzer);
 		return "ProfilBearbeiten";
     }
 
     @PostMapping("/ProfilBearbeiten")
-    public String ProfilBearbeitenSpeichern(Long id, @ModelAttribute Benutzer ben, Model model){
+    public String ProfilBearbeitenSpeichern(Long id, @ModelAttribute Benutzer ben, Model model, int aufladen){
     	if(id == null) {
     		return "redirect:/";
     	}
 
+
+    	System.out.println(aufladen);
     	Benutzer benutzer = benutzerManager.getBenutzerById(id);
     	Benutzer newBenutzer = benutzerManager.editBenutzer(benutzer, ben.getBenutzerEmail());
+        benutzerManager.geldAufladen(newBenutzer, aufladen);
     	model.addAttribute("benutzer",newBenutzer);
 		return "redirect:/Profil?id=" + id;
     }
