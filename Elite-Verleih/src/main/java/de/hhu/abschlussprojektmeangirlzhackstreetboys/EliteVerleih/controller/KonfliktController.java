@@ -18,6 +18,8 @@ import java.util.List;
 @Controller
 public class KonfliktController {
 
+    DataSync sync = new DataSync();
+
     @Autowired
     BenutzerManager benutzerManager;
 
@@ -43,25 +45,21 @@ public class KonfliktController {
                                  @ModelAttribute Ausleihe anfrage, Long ausleihId) {
 
         Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
-        Benutzer benutzer;
-
-        System.out.println("Test:"+ ausleihId);
+        Benutzer benutzer = ausleihe.getBenutzer();
 
         if (name.equals("Buchung Verleihender")) {
-            System.out.println("Test1 ");
-            benutzer = ausleihe.getArtikel().getBenutzer();
-            // Kaution wird an Verleihenden gezahlt
+            sync.getAccount(benutzer.getBenutzerName());
+            sync.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
         }
 
         if (name.equals("Buchung Ausleihender")) {
-            benutzer = ausleihe.getBenutzer();
-            // Kaution wird an Ausleihenden zurückgezahlt
+            sync.getAccount(benutzer.getBenutzerName());
+            sync.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
         }
 
         if (name.equals("Konflikt beenden")) {
             ausleiheManager.setzeSatusAusleihe(ausleihe, "BEENDET");
         }
-
 
         return "redirect:/Konfliktloesung?id=1";
 

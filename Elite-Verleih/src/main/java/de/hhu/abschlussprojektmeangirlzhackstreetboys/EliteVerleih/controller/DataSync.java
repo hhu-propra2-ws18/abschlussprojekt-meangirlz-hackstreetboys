@@ -13,10 +13,11 @@ public class DataSync {
     RestTemplate rt = new RestTemplate();
     final String URL = "http://localhost:8888/";
 
-    public void getAccount(String benutzername){
+    public AccountDTO getAccount(String benutzername){
 
         ResponseEntity<AccountDTO> result = rt.getForEntity(URL + "account/"+ benutzername , AccountDTO.class);
         AccountDTO acc = result.getBody();
+        return acc;
     }
 
     public void GuthabenAufladen(String benutzername, int anzahl){
