@@ -70,7 +70,8 @@ public class AusleiheManager {
     public void bestaetigeAusleihe(Ausleihe ausleihe){
         ausleihe.setAusleihStatus(Status.BESTAETIGT);
         loescheKollidierendeAnfragen(ausleihe);
-        sync.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getArtikel().getBenutzer().getBenutzerName(), ausleihe.getArtikel().getArtikelKaution());
+        ReservationDTO r1 = sync.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getArtikel().getBenutzer().getBenutzerName(), ausleihe.getArtikel().getArtikelKaution());
+        ausleihe.setReservationsId(r1.getId());
         ausleiheRepo.save(ausleihe);
     }
 
