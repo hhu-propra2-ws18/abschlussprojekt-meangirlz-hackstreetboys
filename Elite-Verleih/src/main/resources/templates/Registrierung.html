@@ -26,23 +26,19 @@
 
 <div class="container login-container jumbotron center">
     <div class="row">
-        <div class="col-md-6 login">
-            <h3>Login</h3>
-            <form method="post">
+        <div class="col-md-6 registrieren">
+            <h3>Registrieren</h3>
+            <form method="post" th:object="${benutzer}">
                 <div class="form-group">
-                    <input type="text" class="form-control is-invalid" placeholder="Benutzername *" name="username"  id="username" required/>
-                    <div th:if="${istFalsch == 1}" class="invalid-feedback">
-                        Benutzername nicht vorhanden!
-                    </div>
+                    <input type="text" class="form-control" placeholder="Benutzername *" th:field="*{benutzerName}" name="registBenutzername" required/>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control is-invalid" placeholder="Passwort *" name="password" id="password" required/>
+                    <input type="text" class="form-control" placeholder="Email *"  th:field="*{benutzerEmail}" name="registEmail" required/>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btnSubmit" name="submitButton" id="loginButton" value="Anmelden" />
+                    <input type="submit" class="btnSubmit" name="submitButton" id="registButton" value="Registrieren" />
                 </div>
             </form>
-            <a href="/registrieren">noch keinen Account?</a>
         </div>
     </div>
 </div>
