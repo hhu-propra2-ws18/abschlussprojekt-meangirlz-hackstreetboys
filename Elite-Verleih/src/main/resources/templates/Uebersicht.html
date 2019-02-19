@@ -55,21 +55,17 @@
     </div>
 </nav>
 
-<div class="container jumbotron center">
-    <div class="row">
-        <a th:each="artikel : ${artikels}"  style="text-decoration: none" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|">
-            <div class="card" style="width: 17rem;" >
+<div class="container">
+    <div class="card-columns lg">
+        <a   th:each="artikel : ${artikels}" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|">
+            <div class="card" >
                 <img th:src="${artikel.getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${artikel.getArtikelName()}">Artikelname</h5>
                     <p class="card-text" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>
                     <p class="card-text" th:text="|Kosten/Tag : ${artikel.getArtikelTarif()},00€|">Kosten/Tag</p>
-
-
-
                 </div>
-            </div>
-        </a>
+            </div></a>
     </div>
 </div>
 
