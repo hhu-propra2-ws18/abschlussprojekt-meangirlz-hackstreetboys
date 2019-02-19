@@ -67,8 +67,20 @@
 
                     <li class ="list-group-item">
                         <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
-                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Verleihender" name="submitButton"/>
-                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Ausleihender" name="submitButton" />
+
+                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Verleihender" name="submitButton" onclick="clicked(event)"/>
+                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Ausleihender" name="submitButton" onclick="clicked(event)"/>
+
+
+
+                            <script>
+                                function clicked(e)
+                                {
+                                    if(!confirm('Kaution gebucht!'))e.preventDefault();
+                                }
+                            </script>
+
+
                         </form>
                     </li>
                     <li class ="list-group-item">
