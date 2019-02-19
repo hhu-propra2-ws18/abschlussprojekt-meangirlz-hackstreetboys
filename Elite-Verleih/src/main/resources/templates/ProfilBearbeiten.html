@@ -9,7 +9,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top ">
       <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">Elite Verleih</a>
-      <a th:href="@{'/ProfilBearbeiten?id=' + ${benutzer.getBenutzerId()}}"><img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="30px" width="30px" th:text="${benutzer.getBenutzerName()} + ' ' + ${benutzer.getBenutzerEmail()}"> Betrag</a>
+      <a th:href="@{'/ProfilBearbeiten?id=' + ${benutzer.getBenutzerId()}}"><img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="30px" width="30px" th:text="${benutzer.getBenutzerName()} + ' ' + ${benutzer.getBenutzerEmail()} + ' ' + ${Betrag}+'€'"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>Anfrage
       </button>
@@ -37,7 +37,7 @@
 					  <div class="form-group row">
 						<label for="inputAufladen" class="col-sm-2 col-form-label">Aufladen</label>
 						<div class="col-sm-10">
-							<input type="number" class="form-control" id="inputAufladen" name="aufladen" th:value="*{benutzer.getAccountDTO().getAmount}"required/>
+							<input type="number" class="form-control" id="inputAufladen" name="aufladen" th:value="${Betrag}"required/>
 						</div>
 					  </div>
 			            <input class="btn btn-outline-success" type="submit" value="Speichern" />

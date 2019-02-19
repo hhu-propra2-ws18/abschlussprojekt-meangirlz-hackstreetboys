@@ -96,6 +96,10 @@ public class BenutzerManager {
 	}
 
 
+    public void geldAufladen(Benutzer newBenutzer, int aufladen) {
+        System.out.println(aufladen);
+        sync.GuthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
+    }
 }
 
 
