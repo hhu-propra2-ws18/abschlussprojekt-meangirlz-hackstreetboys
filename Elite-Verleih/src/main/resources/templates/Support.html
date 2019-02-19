@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:margin-top="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -22,7 +22,30 @@
         <div class="card-body">
             <h5 class="card-title">Konflikt gemeldet</h5>
             <p class="card-text">Ihr Problem wurde erfolgreich aufgenommen. Wir melden uns in Kürze per Mail.</p>
-            <a th:href=" 'http://localhost:8080/Uebersicht?id=' + ${benutzer.getBenutzerId()}" class="btn btn-primary">Zurück zur Übersicht</a>
+            <img src="https://pics.me.me/thumb_708218568995958784.png" class="rounded mx-auto d-block" alt="...">
+
+
+            <!--a th:href=" 'http://localhost:8080/Uebersicht?id=' + ${benutzer.getBenutzerId()}" class="btn btn-primary">Zurück zur Übersicht</a-->
+            <br>
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Zurück</button>
+            </br>
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                        </div>
+                        <div class="modal-body">
+                            <img src="https://static1.fjcdn.com/comments/Pongonsofmors+pls+_bc2ca8da0be90ab4a116cbe1a0bc612d.jpg" class="rounded mx-auto d-block" alt="...">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="card-footer text-muted">
             support kontaktieren : support@eliteverleih.de
