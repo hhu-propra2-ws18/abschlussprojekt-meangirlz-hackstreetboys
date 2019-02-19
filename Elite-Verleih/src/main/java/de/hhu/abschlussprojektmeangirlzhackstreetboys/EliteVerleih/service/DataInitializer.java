@@ -31,6 +31,13 @@ public class DataInitializer implements ServletContextInitializer {
             throws ServletException {
         System.out.println("Populating the database");
 
+        Benutzer support = new Benutzer();
+        support.setBenutzerEmail("support@hhu.de");
+        support.setBenutzerName("support");
+        support.setArtikel(new ArrayList<Artikel>());
+        benutzerM.erstelleBenutzer(support);
+        Long supportId= benutzerM.findBenutzerByName("support").getBenutzerId();
+
         Benutzer bJens = new Benutzer();
         bJens.setBenutzerEmail("Jemail@hhu.de");
         bJens.setBenutzerName("Jens");
@@ -131,22 +138,29 @@ public class DataInitializer implements ServletContextInitializer {
         artikelM.erstelleArtikel(sVId,a8);
 
         Artikel a6_longText = new Artikel();
-        a6_longText.setArtikelBeschreibung("Perfekt zum Zerkleinern jeglicher Gartenabfälle, pflanzlicher Überreste, Blätter, Grashalme, " +
-                "kleine bis grosse Bäume, Informanten, Geiseln. Sträucher, Hecken, sowie dem Buchsbaum." +
-
-                "" +
-
-                "Dazu ist die Schere fast noch nie benutzt worden, und nach ihrer letzten Benutzung sehr ordentlich gesäubert worden.");
+        a6_longText.setArtikelBeschreibung("Perfekt zum Zerkleinern jeglicher Gartenabfälle, " +
+                "pflanzlicher Überreste, Blätter, Grashalme, kleine bis grosse Bäume, Informanten, " +
+                "Geiseln. Sträucher, Hecken, sowie dem Buchsbaum. Dazu ist die Schere fast noch " +
+                "nie benutzt worden, und nach ihrer letzten Benutzung sehr ordentlich gesäubert worden.");
         a6_longText.setArtikelKaution(300);
         a6_longText.setArtikelName("Gartenschere");
         a6_longText.setArtikelOrt("Pizzeria Vapioso");
         a6_longText.setArtikelTarif(30);
-        artikelM.erstelleArtikel(sVId,a6_longText);
+        artikelM.erstelleArtikel(mUId,a6_longText);
         
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
-        ausleiheM.erstelleAusleihe(new Long(1), new Long(2), sD0, eD0);
+        Ausleihe test0 =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sD0, eD0);
+
+        Date sD1 = new Date(2019, 5, 8);
+        Date eD1 = new Date(2019, 5, 10);
+        Ausleihe test1 =  ausleiheM.erstelleAusleihe(new Long(3),new Long(7), sD1, eD1);
+
         
-        
+        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(8), sD0, eD0);
+        Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5),new Long(10), sD0, eD0);
+
+        ausleiheM.setzeSatusAusleihe(test, "KONFLIKT");
+        ausleiheM.setzeSatusAusleihe(testtest, "KONFLIKT");
     }
 }

@@ -61,8 +61,6 @@ public class DetailansichtController {
             return "redirect:/Ausgeliehen?id="+b.getBenutzerId();
         }
         Ausleihe aus = ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
-        artikel.getAusgeliehen().add(aus);
-        arikelRepo.save(artikel);
         return "redirect:/Uebersicht?id=" + b.getBenutzerId();
     }
 

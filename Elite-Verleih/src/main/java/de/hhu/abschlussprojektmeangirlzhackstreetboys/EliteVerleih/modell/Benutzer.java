@@ -21,10 +21,10 @@ public class Benutzer {
 
     private String benutzerEmail;
 
-    @OneToMany(mappedBy = "benutzer", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Artikel> artikel;
 
-    @OneToMany(mappedBy = "benutzer", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
 
     private String benutzerPasswort;
