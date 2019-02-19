@@ -40,11 +40,12 @@ public class ProfilController {
     	model.addAttribute("benutzer",benutzer);
     	List<Ausleihe> wartend = benutzerManager.sucheAnfragen(benutzer, Status.ANGEFRAGT);
     	List<Ausleihe> zurueckerhaltene = benutzerManager.sucheAnfragen(benutzer, Status.ABGEGEBEN);
-    	zurueckerhaltene.addAll(benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
+    	List<Ausleihe> konflikte = (benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
     	List<Ausleihe> bestaetigte = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BESTAETIGT);
     	List<Ausleihe> zurueckgegebene = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ABGEGEBEN);
     	List<Ausleihe> verliehenes = benutzerManager.sucheAnfragen(benutzer, Status.BESTAETIGT);
     	verliehenes.addAll(benutzerManager.sucheAnfragen(benutzer, Status.AKTIV));
+    	verliehenes.addAll(benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
     	List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BEENDET);
     	List<Ausleihe> eigeneAnfragen = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ANGEFRAGT);
 
@@ -55,6 +56,7 @@ public class ProfilController {
     	model.addAttribute("zurueckgegebene", zurueckgegebene);
     	model.addAttribute("bestaetigte", bestaetigte);
 		model.addAttribute("anfragen", wartend);
+		model.addAttribute("konflikte", konflikte);
 
         return "Profil";
     }
@@ -92,7 +94,11 @@ public class ProfilController {
         } else if(name.equals("Konflikt")){
 		    ausleiheManager.konfliktAusleihe(ausleihId);
             return "redirect:/Profil?id=" + id;
-        }
+        } else if(name.equals("Geloest")){
+			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
+			ausleiheManager.rueckgabeAkzeptieren(ausleihe);
+			return "redirect:/Profil?id=" + id;
+		}
     	else { 
     		return "redirect:/Uebersicht?id=" + id;
     	}

@@ -157,7 +157,7 @@ public class DataInitializer implements ServletContextInitializer {
         Ausleihe test1 =  ausleiheM.erstelleAusleihe(new Long(3),new Long(7), sD1, eD1);
 
         
-        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sD0, eD0);
+        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(8), sD0, eD0);
         Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5),new Long(10), sD0, eD0);
 
         ausleiheM.setzeSatusAusleihe(test, "KONFLIKT");
