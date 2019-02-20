@@ -73,34 +73,28 @@ public class ProfilController {
     	}
 
 		if (name.equals("Bestaetigen")) {
-			Benutzer benutzer = benutzerManager.getBenutzerById(id);
-			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
-			ausleiheManager.bestaetigeAusleihe(ausleihe);
+			ausleiheManager.bestaetigeAusleihe(ausleihId);
             return "redirect:/Profil?id=" + id;
 		} else if (name.equals("Ablehnen")) {
-			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
-			ausleiheManager.lehneAusleiheAb(ausleihe);
+			ausleiheManager.bearbeiteAusleihe(ausleihId,Status.ABGELEHNT);
 			return "redirect:/Profil?id=" + id;
 		} else if(name.equals("Zurueckgeben")) {
-			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
-			ausleiheManager.zurueckGeben(ausleihe);
+			ausleiheManager.zurueckGeben(ausleihId);
 			return "redirect:/Profil?id=" + id;
 		} else if(name.equals("Akzeptieren")){
-			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
-			ausleiheManager.rueckgabeAkzeptieren(ausleihe);
+			ausleiheManager.bearbeiteAusleihe(ausleihId,Status.BEENDET);
 			return "redirect:/Profil?id=" + id;
 		} else if(name.equals("Entfernen")){
-			//ausleiheManager.loescheAusleihe(ausleihId);
+			ausleiheManager.loescheAusleihe(ausleihId);
 			return "redirect:/Profil?id=" + id;
 		} else if(name.equals("Zurueckziehen")){
-		    //ausleiheManager.loescheAusleihe(ausleihId);
+		    ausleiheManager.loescheAusleihe(ausleihId);
             return "redirect:/Profil?id=" + id;
         } else if(name.equals("Konflikt")){
 		    ausleiheManager.konfliktAusleihe(ausleihId);
             return "redirect:/Profil?id=" + id;
         } else if(name.equals("Geloest")){
-			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
-			ausleiheManager.rueckgabeAkzeptieren(ausleihe);
+			ausleiheManager.bearbeiteAusleihe(ausleihId,Status.BEENDET);
 			return "redirect:/Profil?id=" + id;
 		}
     	else { 

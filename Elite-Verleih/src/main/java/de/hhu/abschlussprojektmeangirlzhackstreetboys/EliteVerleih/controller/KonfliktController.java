@@ -58,7 +58,7 @@ public class KonfliktController {
         }
 
         if (name.equals("Konflikt beenden")) {
-            ausleiheManager.setzeSatusAusleihe(ausleihe, "BEENDET");
+            ausleiheManager.bearbeiteAusleihe(ausleihId,Status.BEENDET);
         }
 
         return "redirect:/Konfliktloesung?id=1";
