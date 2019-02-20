@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.1.RELEASE'
+		springBootVersion = '2.1.2.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -20,6 +20,13 @@ sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
+}
+
+apply plugin: 'checkstyle'
+
+checkstyle {
+	configFile = new File(rootDir, 'Elite-Google-Checkstyle.xml')
+	toolVersion = '6.7'
 }
 
 dependencies {
