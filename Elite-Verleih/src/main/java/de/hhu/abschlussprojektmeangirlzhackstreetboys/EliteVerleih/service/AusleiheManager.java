@@ -165,16 +165,11 @@ public class AusleiheManager {
         return true;
     }
 
-    public void lehneAusleiheAb(Long ausleiheId) {
-        bearbeiteAusleihe(ausleiheId,Status.ABGELEHNT);
-    }
-
     public void zurueckGeben(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
         int tage = getAnzahlTage(ausleiheId);
         int kosten = ausleihe.getArtikel().getArtikelTarif() * tage;
         sync.ueberweisen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getArtikel().getBenutzer().getBenutzerName(), kosten);
-        //System.out.println(tage);
         bearbeiteAusleihe(ausleiheId,Status.ABGEGEBEN);
     }
 
@@ -192,10 +187,6 @@ public class AusleiheManager {
         return ergebnis;
     }
 
-    public void rueckgabeAkzeptieren(Long ausleiheId) {
-        bearbeiteAusleihe(ausleiheId,Status.BEENDET);
-    }
-
     public List<Ausleihe> getKonflike(List<Ausleihe> liste){
         List<Ausleihe> konflikeAusleihe = new ArrayList<>();
         for( Ausleihe a: liste ) {
@@ -204,13 +195,5 @@ public class AusleiheManager {
             }
         }
         return konflikeAusleihe;
-    }
-
-    public void setzeSatusAusleihe(Long ausleiheId, String name){
-        bearbeiteAusleihe(ausleiheId,Status.valueOf(name));
-    }
-
-    public void konfliktAusleihe(Long ausleihId) {
-        bearbeiteAusleihe(ausleihId,Status.KONFLIKT);
     }
 }

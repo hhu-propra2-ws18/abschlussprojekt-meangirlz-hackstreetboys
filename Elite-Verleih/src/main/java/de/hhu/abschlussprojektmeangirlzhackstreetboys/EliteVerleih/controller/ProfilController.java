@@ -91,7 +91,7 @@ public class ProfilController {
 		    ausleiheManager.loescheAusleihe(ausleihId);
             return "redirect:/Profil?id=" + id;
         } else if(name.equals("Konflikt")){
-		    ausleiheManager.konfliktAusleihe(ausleihId);
+		    ausleiheManager.bearbeiteAusleihe(ausleihId,Status.KONFLIKT);
             return "redirect:/Profil?id=" + id;
         } else if(name.equals("Geloest")){
 			ausleiheManager.bearbeiteAusleihe(ausleihId,Status.BEENDET);
