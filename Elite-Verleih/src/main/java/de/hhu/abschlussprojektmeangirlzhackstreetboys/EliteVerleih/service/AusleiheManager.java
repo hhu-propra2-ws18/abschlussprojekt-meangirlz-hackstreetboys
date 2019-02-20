@@ -30,7 +30,7 @@ public class AusleiheManager {
         return ausleiheRepo.findAll();
     }
 
-   public Ausleihe erstelleAusleihe(Long benutzerId, Long artikelId, Date ausleihStartdatum, Date ausleihRueckgabedatum){
+    public Ausleihe erstelleAusleihe(Long benutzerId, Long artikelId, Date ausleihStartdatum, Date ausleihRueckgabedatum){
         Ausleihe ausleihe = new Ausleihe();
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         ausleihe.setBenutzer(benutzer);
@@ -45,14 +45,14 @@ public class AusleiheManager {
         return ausleihe;
     }
 
-    public void setzeAusleiheBenutzer(Long benutzerId, Ausleihe ausleihe){
+    private void setzeAusleiheBenutzer(Long benutzerId, Ausleihe ausleihe){
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         if(b.getAusgeliehen()==null) b.setAusgeliehen(new ArrayList<Ausleihe>());
         b.getAusgeliehen().add(ausleihe);
         benutzerRepo.save(b);
     }
 
-    public void setzeAusleiheArtikel(Long artikelId, Ausleihe ausleihe){
+    private void setzeAusleiheArtikel(Long artikelId, Ausleihe ausleihe){
         Artikel a = artikelRepo.findArtikelByArtikelId(artikelId);
         if(a.getAusgeliehen()==null) a.setAusgeliehen(new ArrayList<Ausleihe>());
         a.getAusgeliehen().add(ausleihe);
@@ -68,8 +68,40 @@ public class AusleiheManager {
         ausleiheRepo.save(ausleihe);
     }
 
-    public void bearbeiteAusleihe() {
-        // Ausleihestatus schon ergänzt in Model etc?
-        // Dann bearbeite in Ausleihe nur den Status und aktualisiere
+    public void loescheAusleihe(Long ausleihId){
+        Ausleihe a = ausleiheRepo.findAusleiheByAusleihId(ausleihId);
+        loescheAusleiheFuerBenutzer(a.getBenutzer().getBenutzerId(),a);
+        loescheAusleiheFuerArtikelundBesitzer(a.getArtikel().getBenutzer().getBenutzerId(),a.getArtikel(),a);
+        ausleiheRepo.delete(a);
+    }
+
+    private void loescheAusleiheFuerBenutzer(Long benutzerId, Ausleihe ausleihe){//muss mit Ausleihe aus dem Repo augerufen werden
+        Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        b.getAusgeliehen().remove(ausleihe);
+        benutzerRepo.save(b);
+    }
+
+    private void loescheAusleiheFuerArtikelundBesitzer(Long benutzerId, Artikel artikel, Ausleihe ausleihe){
+        Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        List<Artikel> alArt = b.getArtikel();
+        for(Artikel a : alArt){
+            if(a.getArtikelId()==artikel.getArtikelId()){
+                int i = alArt.indexOf(a);
+                System.err.println("i: "+i);
+                System.err.println("a.getAusgeliehen.size(): "+a.getAusgeliehen().size());
+                a.getAusgeliehen().remove(ausleihe);
+                artikelRepo.save(a);
+                System.err.println("a.getAusgeliehen.size(): "+a.getAusgeliehen().size());
+                alArt.set(i,a);
+            }
+        }
+        b.setArtikel(alArt);
+        benutzerRepo.save(b);
+    }
+
+    public Ausleihe bearbeiteAusleihe(Long ausleiheId, Status neuerAusleiheStatus){
+        Ausleihe newA = getAusleiheById(ausleiheId);
+        newA.setAusleihStatus(neuerAusleiheStatus);
+        return ausleiheRepo.save(newA);
     }
 }

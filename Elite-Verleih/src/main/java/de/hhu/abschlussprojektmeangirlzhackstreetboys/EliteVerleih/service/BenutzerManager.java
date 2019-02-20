@@ -59,27 +59,23 @@ public class BenutzerManager {
         benutzerRepo.saveAll(Arrays.asList(alterBenutzer));
     }
 
-    //TODO: Löschen!
 	public Benutzer editBenutzer(Benutzer benutzer, String email) {
         benutzer.setBenutzerEmail(email);
         benutzerRepo.save(benutzer);
 		return benutzer;
 	}
 
-	public List<Ausleihe> sucheAnfragen(Benutzer benutzer){
-
+	public List<Ausleihe> sucheAnfragen(Benutzer benutzer) {
         List<Ausleihe> wartend = new ArrayList<>();
-        for( Artikel a: benutzer.getArtikel() ) {
-            for (Ausleihe b: a.getAusgeliehen() ){
-                if (b.getAusleihStatus()== Status.ANGEFRAGT){
+        for (Artikel a : benutzer.getArtikel()) {
+            for (Ausleihe b : a.getAusgeliehen()) {
+                if (b.getAusleihStatus() == Status.ANGEFRAGT) {
                     wartend.add(b);
                 }
             }
         }
         return wartend;
     }
-
-
 }
 
 
