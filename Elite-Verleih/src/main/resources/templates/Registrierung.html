@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:https="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,33 +26,28 @@
 
 <div class="container login-container jumbotron center">
     <div class="row">
-        <div class="col-md-6 login">
-            <h3>Login</h3>
-            <form method="post">
-                <div class="form-group">
-                    <input type="text" class="form-control is-invalid" placeholder="Benutzername *" name="loginBenutzername" required/>
-                    <div th:if="${istFalsch == 1}" class="invalid-feedback">
-                        Benutzername nicht vorhanden!
-                    </div>
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btnSubmit" name="submitButton" id="loginButton" value="Anmelden" />
-                </div>
-            </form>
-        </div>
         <div class="col-md-6 registrieren">
             <h3>Registrieren</h3>
             <form method="post" th:object="${benutzer}">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Benutzername *" th:field="*{benutzerName}" name="registBenutzername" required/>
+                    <p th:each="error : ${#fields.errors('benutzerName')}" th:text="${error}">Validation Error</p>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Email *"  th:field="*{benutzerEmail}" name="registEmail" required/>
+                    <input type="email" class="form-control" placeholder="Email *"  th:field="*{benutzerEmail}" name="registEmail" required/>
+                    <p th:each="error : ${#fields.errors('benutzerErmail')}" th:text="${error}">Validation Error</p>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btnSubmit" name="submitButton" id="registButton" value="Registrieren" />
+                    <input class="form-control" type="password" th:field="*{benutzerPasswort}" placeholder="Passwort *" required/>
+                    <p th:each="error: ${#fields.error('benutzerPasswort')}" th:text="${error}">Validation Error</p>
                 </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" name="submitButton" id="registButton" value="Registrieren" />
+                    <a th:href="|/login" type="button" class="btn btn-secondary" name="login" value="Zurueck zum Login">Zurueck zum Login</a>
+                </div>
+
             </form>
+
         </div>
     </div>
 </div>

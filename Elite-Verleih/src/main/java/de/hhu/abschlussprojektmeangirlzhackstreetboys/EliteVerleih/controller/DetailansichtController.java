@@ -2,6 +2,7 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.ArtikelManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.AusleiheManager;
@@ -61,6 +62,10 @@ public class DetailansichtController {
 
         Benutzer b = benutzerManager.getBenutzerById(id);
         Artikel artikel = artikelManager.getArtikelById(artikelId);
+        if (!ausleiheManager.isAusgeliehen(artikelId, startDatum, endDatum)) {
+            return "redirect:/Ausgeliehen?id="+b.getBenutzerId();
+        }
+        Ausleihe aus = ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
 
         double guthabenB = sync.getAccount(b.getBenutzerName()).getAmount();
 
@@ -75,7 +80,11 @@ public class DetailansichtController {
         return "redirect:/Uebersicht?id=" + b.getBenutzerId();
     }
 
-
+    @GetMapping("Ausgeliehen")
+    public String ausgeliehenError (Long id, Model model) {
+        model.addAttribute("benutzer", benutzerManager.getBenutzerById(id));
+        return "Ausgeliehen-Error";
+    }
 
 
 
