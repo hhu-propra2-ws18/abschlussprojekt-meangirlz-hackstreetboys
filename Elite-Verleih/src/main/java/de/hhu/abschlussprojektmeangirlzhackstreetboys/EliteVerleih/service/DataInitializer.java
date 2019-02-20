@@ -79,7 +79,7 @@ public class DataInitializer implements ServletContextInitializer {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Jens's-Werkstatt, a.k.a. HHU");
         a0.setArtikelTarif(1);
-        a0.setArtikelBildURL("https://upload.wikimedia.org/wikipedia/commons/b/b8/Patent-Motorwagen_Nr.1_Benz_2.jpg");
+        a0.setArtikelBildURL("https://c.pxhere.com/photos/c5/a6/hammer_car_automobile_nature_off_road-619096.jpg!d");
         artikelM.erstelleArtikel(jensId,a0);
 
         Artikel a1 = new Artikel();
@@ -97,7 +97,7 @@ public class DataInitializer implements ServletContextInitializer {
         a2.setArtikelName("Timo's Stift");
         a2.setArtikelOrt("Timo's Bude");
         a2.setArtikelTarif(1);
-        a2.setArtikelBildURL("https://www.merkur.de/bilder/2017/05/09/8281587/1578562437-waehrend-start-landung-gehen-flugzeug-lichter-aus-doch-wieso-X1DHAIVKyNG.jpg");
+        a2.setArtikelBildURL("https://www.bettmer.de/out/pictures/generated/product/1/395_395_90/2-in-1-stift-clic-clac-teruel_dunkelgrau_300011_302097_1.jpg");
         artikelM.erstelleArtikel(timoId,a2);
 
         Artikel a3 = new Artikel();
@@ -106,7 +106,7 @@ public class DataInitializer implements ServletContextInitializer {
         a3.setArtikelName("Timo's altes Kaugummi");
         a3.setArtikelOrt("Timo's Bude");
         a3.setArtikelTarif(10000);
-        a3.setArtikelBildURL("https://images.lecker.de/,id=58212d91,b=lecker,w=610,cg=c.jpg");
+        a3.setArtikelBildURL("http://cdn3.spiegel.de/images/image-1341296-860_galleryfree-dshe-1341296.jpg");
         artikelM.erstelleArtikel(timoId,a3);
 
         Artikel a4 = new Artikel();
@@ -115,7 +115,7 @@ public class DataInitializer implements ServletContextInitializer {
         a4.setArtikelName("ROLLLEX");
         a4.setArtikelOrt("PN");
         a4.setArtikelTarif(100);
-        a4.setArtikelBildURL("https://www.bettmer.de/out/pictures/generated/product/1/395_395_90/2-in-1-stift-clic-clac-teruel_dunkelgrau_300011_302097_1.jpg");
+        a4.setArtikelBildURL("http://www.replicauhrendeutschland.com/wp-content/uploads/2018/04/Replica-Rolex-Submariner-Two-Tone.jpg");
         artikelM.erstelleArtikel(sVId,a4);
 
         Artikel a5 = new Artikel();
@@ -124,7 +124,7 @@ public class DataInitializer implements ServletContextInitializer {
         a5.setArtikelName("Armanni Hemd");
         a5.setArtikelOrt("PN");
         a5.setArtikelTarif(100);
-        a5.setArtikelBildURL("https://www.bfh24.eu/images/artikel/zoom/120563150-0-Staedtler-Metall-Lineal-15cm563-15.jpg");
+        a5.setArtikelBildURL("https://images-na.ssl-images-amazon.com/images/I/51d4N9L0qaL._UX385_.jpg");
         artikelM.erstelleArtikel(sVId,a5);
 
         Artikel a7 = new Artikel();
@@ -133,7 +133,7 @@ public class DataInitializer implements ServletContextInitializer {
         a7.setArtikelName("Guci Hemd");
         a7.setArtikelOrt("PN");
         a7.setArtikelTarif(100);
-        a7.setArtikelBildURL("https://static.tonight.de/thumbs/img/News/16/77/99/p/p_pano/london-feuerwehr-will-papagei-retten-und-wird-von-ihm-beschimpft-997716.jpg");
+        a7.setArtikelBildURL("https://cms.brnstc.de/product_images/435x596/18/06/100080616717000_0.jpg");
         artikelM.erstelleArtikel(sVId,a7);
 
         Artikel a8 = new Artikel();
@@ -142,7 +142,7 @@ public class DataInitializer implements ServletContextInitializer {
         a8.setArtikelName("Pradda Hemd");
         a8.setArtikelOrt("PN");
         a8.setArtikelTarif(100);
-        a8.setArtikelBildURL("https://www.veolia.de/sites/g/files/dvc1936/f/styles/custom_resize/public/2017/02/400x0/Ratte.jpg");
+        a8.setArtikelBildURL("https://cdn.raffaello-network.com/deutsch/mode-detail/500827/350/prada-herrenbekleidung_pramclo-ucn2011tv41tv4-f0124-medium-1.jpg");
         artikelM.erstelleArtikel(sVId,a8);
 
         Artikel a6_longText = new Artikel();
@@ -154,7 +154,7 @@ public class DataInitializer implements ServletContextInitializer {
         a6_longText.setArtikelName("Gartenschere");
         a6_longText.setArtikelOrt("Pizzeria Vapioso");
         a6_longText.setArtikelTarif(30);
-        a6_longText.setArtikelBildURL("https://cdn02.plentymarkets.com/bl8cypz80juz/item/images/917667/full/Edelstahl-Automatik-Muelleimer---Abfalleimer-18-Li.jpg");
+        a6_longText.setArtikelBildURL("https://static1.squarespace.com/static/58bf3d9a44024364324fb36f/58ff1ec19de4bb751e120a54/58ff33c9f5e2313f31104f1e/1493119955235/Sunken+Garden-032.jpg?format=500w");
         artikelM.erstelleArtikel(mUId,a6_longText);
         
         Date sD0 = new Date(2019, 5, 8);
