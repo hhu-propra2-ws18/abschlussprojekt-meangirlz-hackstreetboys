@@ -3,27 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http:thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
-          integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
+          integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" rel="stylesheet">
     <title>Profil</title>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
     <a class="navbar-brand" th:href="'/Uebersicht'">
-        <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
-             height="50">
+        <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
+             width="180">
     </a>
     <div class="ml-auto">
         <a class="" th:text="'Guthaben: ' + ${Betrag} + ',00 €'"></a>
     </div>
     <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">
-            <b th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></b>
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+           id="navbarDropdownMenuLink">
+            <b class="fas fa-user" th:text="${benutzer.getBenutzerName()}"></b>
         </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
+        <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right dropdown-info">
             <a class="dropdown-item" th:href="'/ProfilBearbeiten'">Profil bearbeiten</a>
 
 
@@ -33,20 +33,19 @@
 </nav>
 
 
-
 <div id="accordionOne">
     <div class="card">
         <div class="card-header" id="headingOne">
             <h3 class="mb-0">
                 <center>
-                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                            aria-controls="collapseOne">
+                    <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-link" data-target="#collapseOne"
+                            data-toggle="collapse">
                         <h3>Anfragen</h3>
                     </button>
                 </center>
             </h3>
         </div>
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionOne">
+        <div aria-labelledby="headingOne" class="collapse show" data-parent="#accordionOne" id="collapseOne">
             <div class="container jumbotron center">
                 <tr th:if="${anfragen.empty}">
                     <p> Du hast noch keine eingendende Anfragen</p>
@@ -58,10 +57,11 @@
 
                     <p>Jemand moechte einen Artikel von dir ausleihen.</p>
                     <div class="row">
-						<div th:each="anfrage: ${anfragen}">
-                        <div class="card" style="width: 17rem;">
+                        <div th:each="anfrage: ${anfragen}">
+                            <div class="card" style="width: 17rem;">
                                 <div class="card" style="width: 17rem;">
-                                    <img th:src= "${anfrage.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
+                                    <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                         th:src="${anfrage.getArtikel().getArtikelBildUrl()}">
                                     <div class="card-body">
                                         <h5 class="card-title" th:text="${anfrage.getArtikel().getArtikelName()}">
                                             ArtikelName</h5>
@@ -70,12 +70,12 @@
                                         <a th:href="|/Detailansicht/${anfrage.getArtikel().getArtikelId()}|">Details</a>
 
                                         <center>
-                                            <form method="post" th:object="${anfrage}"
-                                                  th:action="|/Profil?ausleihId=${anfrage.getAusleihId()}|">
+                                            <form method="post" th:action="|/Profil?ausleihId=${anfrage.getAusleihId()}|"
+                                                  th:object="${anfrage}">
 
-                                                <input class="btn btn-outline-success" type="submit" name="submitButton"
+                                                <input class="btn btn-outline-success" name="submitButton" type="submit"
                                                        value="Bestaetigen"/>
-                                                <input class="btn btn-outline-danger" type="submit" name="submitButton"
+                                                <input class="btn btn-outline-danger" name="submitButton" type="submit"
                                                        value="Ablehnen"/>
                                             </form>
                                         </center>
@@ -83,8 +83,8 @@
                                 </div>
 
 
+                            </div>
                         </div>
-						</div>
                     </div>
                 </tr>
             </div>
@@ -97,14 +97,14 @@
             <div class="card-header" id="headingTwo">
                 <h3 class="mb-0">
                     <center>
-                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo"
-                                aria-expanded="true" aria-controls="collapseTwo">
+                        <button aria-controls="collapseTwo" aria-expanded="true" class="btn btn-link"
+                                data-target="#collapseTwo" data-toggle="collapse">
                             <h3>Ausgeliehenes</h3>
                         </button>
                     </center>
                 </h3>
             </div>
-            <div id="collapseTwo" class="collapse show" adfria-labelledby="headingTwo" data-parent="#accordionTwo">
+            <div adfria-labelledby="headingTwo" class="collapse show" data-parent="#accordionTwo" id="collapseTwo">
                 <div class="container jumbotron center">
                     <h3>Aktiv</h3>
                     <tr th:if="${bestaetigte.empty}">
@@ -118,7 +118,8 @@
 
                             <div th:each="bestaetigt: ${bestaetigte}">
                                 <div class="card" style="width: 17rem;">
-                                    <img th:src= "${bestaetigt.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
+                                    <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                         th:src="${bestaetigt.getArtikel().getArtikelBildUrl()}">
                                     <div class="card-body">
                                         <h5 class="card-title" th:text="${bestaetigt.getArtikel().getArtikelName()}">
                                             ArtikelName</h5>
@@ -126,10 +127,10 @@
                                         <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
                                         <a th:href="|/Detailansicht/${bestaetigt.getArtikel().getArtikelId()}|">Details</a>
                                         <center>
-                                            <form method="post" th:object="${bestaetigt}"
-                                                  th:action="|/Profil?ausleihId=${bestaetigt.getAusleihId()}|">
-                                                <center><input class="btn btn-outline-success" type="submit"
-                                                               name="submitButton" value="Zurueckgeben"/></center>
+                                            <form method="post" th:action="|/Profil?ausleihId=${bestaetigt.getAusleihId()}|"
+                                                  th:object="${bestaetigt}">
+                                                <center><input class="btn btn-outline-success" name="submitButton"
+                                                               type="submit" value="Zurueckgeben"/></center>
                                             </form>
                                         </center>
                                     </div>
@@ -150,7 +151,8 @@
                         <div class="row">
                             <div th:each="wartendeAnfrage: ${wartendeAnfragen}">
                                 <div class="card" style="width: 17rem;">
-                                    <img th:src= "${wartendeAnfrage.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
+                                    <img alt="Kein Bild vorhanden!"
+                                         class="card-img-top" th:src="${wartendeAnfrage.getArtikel().getArtikelBildUrl()}">
                                     <div class="card-body">
                                         <h5 class="card-title"
                                             th:text="${wartendeAnfrage.getArtikel().getArtikelName()}">ArtikelName</h5>
@@ -159,10 +161,10 @@
                                         <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
                                         <a th:href="|/Detailansicht/${wartendeAnfrage.getArtikel().getArtikelId()}|">Details</a>
                                         <center>
-                                            <form method="post" th:object="${wartendeAnfrage}"
-                                                  th:action="|/Profil?ausleihId=${wartendeAnfrage.getAusleihId()}|">
-                                                <center><input class="btn btn-outline-danger" type="submit"
-                                                               name="submitButton" value="Zurueckziehen"/></center>
+                                            <form method="post" th:action="|/Profil?ausleihId=${wartendeAnfrage.getAusleihId()}|"
+                                                  th:object="${wartendeAnfrage}">
+                                                <center><input class="btn btn-outline-danger" name="submitButton"
+                                                               type="submit" value="Zurueckziehen"/></center>
                                             </form>
                                         </center>
                                     </div>
@@ -182,8 +184,8 @@
                 <div class="card-header" id="headingThree">
                     <h3 class="mb-0">
                         <center>
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree"
-                                    aria-expanded="true" aria-controls="collapseThree">
+                            <button aria-controls="collapseThree" aria-expanded="true" class="btn btn-link"
+                                    data-target="#collapseThree" data-toggle="collapse">
                                 <h3>Eigene Artikel</h3>
                             </button>
                         </center>
@@ -193,7 +195,8 @@
                 </div>
 
 
-                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionThree">
+                <div aria-labelledby="headingThree" class="collapse show" data-parent="#accordionThree"
+                     id="collapseThree">
                     <div class="container jumbotron center">
                         <tr th:if="${(benutzer.getArtikel()).empty}">
                             <center><p> Du hast noch keine Artikel eingestellt. Sharing is caring! </br></br>Erstelle
@@ -211,7 +214,8 @@
                             <div class="row">
                                 <div th:each="verliehene: ${verliehenes}">
                                     <div class="card" style="width: 17rem;">
-                                        <img th:src= "${verliehene.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
+                                        <img alt="Kein Bild vorhanden!"
+                                             class="card-img-top" th:src="${verliehene.getArtikel().getArtikelBildUrl()}">
                                         <div class="card-body">
                                             <h5 class="card-title"
                                                 th:text="${verliehene.getArtikel().getArtikelName()}">ArtikelName</h5>
@@ -220,10 +224,10 @@
                                             <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
                                             <a th:href="|/Detailansicht/${verliehene.getArtikel().getArtikelId()}|">Details</a>
                                             <center>
-                                                <form method="post" th:object="${verliehene}"
-                                                      th:action="|/Profil?ausleihId=${verliehene.getAusleihId()}|">
-                                                    <center><input class="btn btn-outline-danger" type="submit"
-                                                                   name="submitButton" value="Konflikt"/></center>
+                                                <form method="post" th:action="|/Profil?ausleihId=${verliehene.getAusleihId()}|"
+                                                      th:object="${verliehene}">
+                                                    <center><input class="btn btn-outline-danger" name="submitButton"
+                                                                   type="submit" value="Konflikt"/></center>
                                                 </form>
                                             </center>
                                         </div>
@@ -236,7 +240,8 @@
                             <div class="row">
                                 <div th:each="artikel: ${benutzer.getArtikel()}">
                                     <div class="card" style="width: 17rem;">
-                                        <img th:src= "${artikel.getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
+                                        <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                             th:src="${artikel.getArtikelBildUrl()}">
                                         <div class="card-body">
                                             <h5 class="card-title" th:text="${artikel.getArtikelName()}">
                                                 ArtikelName</h5>
@@ -260,7 +265,8 @@
                             <div class="row">
                                 <div th:each="zurueckerhalten: ${zurueckerhaltene}">
                                     <div class="card" style="width: 17rem;">
-                                        <img th:src= "${zurueckerhalten.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
+                                        <img alt="Kein Bild vorhanden!"
+                                             class="card-img-top" th:src="${zurueckerhalten.getArtikel().getArtikelBildUrl()}">
                                         <div class="card-body">
                                             <h5 class="card-title"
                                                 th:text="${zurueckerhalten.getArtikel().getArtikelName()}">
@@ -270,13 +276,13 @@
                                             <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
                                             <a th:href="|/Detailansicht/${zurueckerhalten.getArtikel().getArtikelId()}|">Details</a>
                                             <center>
-                                                <form method="post" th:object="${zurueckerhalten}"
-                                                      th:action="|/Profil?ausleihId=${zurueckerhalten.getAusleihId()}|">
+                                                <form method="post" th:action="|/Profil?ausleihId=${zurueckerhalten.getAusleihId()}|"
+                                                      th:object="${zurueckerhalten}">
                                                     <center>
-                                                        <input class="btn btn-outline-success" type="submit"
-                                                               name="submitButton" value="Akzeptieren"/>
-                                                        <input class="btn btn-outline-danger" type="submit"
-                                                               name="submitButton" value="Konflikt"/></center>
+                                                        <input class="btn btn-outline-success" name="submitButton"
+                                                               type="submit" value="Akzeptieren"/>
+                                                        <input class="btn btn-outline-danger" name="submitButton"
+                                                               type="submit" value="Konflikt"/></center>
                                                 </form>
                                             </center>
                                         </div>
@@ -298,15 +304,15 @@
                 <div class="card-header" id="headingFour">
                     <h3 class="mb-0">
                         <center>
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour"
-                                    aria-expanded="true" aria-controls="collapseFour">
+                            <button aria-controls="collapseFour" aria-expanded="true" class="btn btn-link"
+                                    data-target="#collapseFour" data-toggle="collapse">
                                 <h3>Zurueckgegebene Artikel</h3>
                             </button>
                         </center>
                     </h3>
                 </div>
             </div>
-            <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordionFour">
+            <div aria-labelledby="headingFour" class="collapse show" data-parent="#accordionFour" id="collapseFour">
                 <div class="container jumbotron center">
                     <h3>Ausstehend(e)</h3>
                     <tr th:if="${zurueckgegebene.empty}">
@@ -318,7 +324,8 @@
                         <div class="row">
                             <div th:each="zurueckgegeben: ${zurueckgegebene}">
                                 <div class="card" style="width: 17rem;">
-                                    <img th:src= "${zurueckgegeben.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
+                                    <img alt="Kein Bild vorhanden!"
+                                         class="card-img-top" th:src="${zurueckgegeben.getArtikel().getArtikelBildUrl()}">
                                     <div class="card-body">
                                         <h5 class="card-title"
                                             th:text="${zurueckgegeben.getArtikel().getArtikelName()}">ArtikelName</h5>
@@ -327,10 +334,10 @@
                                         <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
                                         <a th:href="|/Detailansicht/${zurueckgegeben.getArtikel().getArtikelId()}|">Details</a>
                                         <center>
-                                            <form method="post" th:object="${zurueckgegeben}"
-                                                  th:action="|/Profil?ausleihId=${zurueckgegeben.getAusleihId()}|">
-                                                <center><input class="btn btn-outline-danger" type="submit"
-                                                               name="submitButton" value="Problem"/></center>
+                                            <form method="post" th:action="|/Profil?ausleihId=${zurueckgegeben.getAusleihId()}|"
+                                                  th:object="${zurueckgegeben}">
+                                                <center><input class="btn btn-outline-danger" name="submitButton"
+                                                               type="submit" value="Problem"/></center>
                                             </form>
                                         </center>
                                     </div>
@@ -345,7 +352,8 @@
                     <p>Deine erfolgreich zurueckgegebenen Artikel</p>
                     <div th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
                         <div class="card" style="width: 17rem;">
-                            <img th:src= "${erfolgreichZurueckgegeben.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
+                            <img alt="Kein Bild vorhanden!"
+                                 class="card-img-top" th:src="${erfolgreichZurueckgegeben.getArtikel().getArtikelBildUrl()}">
                             <div class="card-body">
                                 <h5 class="card-title"
                                     th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">
@@ -355,9 +363,9 @@
                                 <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
                                 <a th:href="|/Detailansicht/${erfolgreichZurueckgegeben.getArtikel().getArtikelId()}|">Details</a>
                                 <center>
-                                    <form method="post" th:object="${erfolgreichZurueckgegeben}"
-                                          th:action="|/Profil?ausleihId=${erfolgreichZurueckgegeben.getAusleihId()}|">
-                                        <center><input class="btn btn-outline-danger" type="submit" name="submitButton"
+                                    <form method="post" th:action="|/Profil?ausleihId=${erfolgreichZurueckgegeben.getAusleihId()}|"
+                                          th:object="${erfolgreichZurueckgegeben}">
+                                        <center><input class="btn btn-outline-danger" name="submitButton" type="submit"
                                                        value="Entfernen"/></center>
                                     </form>
                                 </center>
@@ -374,14 +382,14 @@
                 <div class="card-header" id="headingFive">
                     <h3 class="mb-0">
                         <center>
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFive"
-                                    aria-expanded="true" aria-controls="collapseFive">
+                            <button aria-controls="collapseFive" aria-expanded="true" class="btn btn-link"
+                                    data-target="#collapseFive" data-toggle="collapse">
                                 <h3>Konflikte</h3>
                             </button>
                         </center>
                     </h3>
                 </div>
-                <div id="collapseFive" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionFive">
+                <div aria-labelledby="headingOne" class="collapse show" data-parent="#accordionFive" id="collapseFive">
                     <div class="container jumbotron center">
                         <tr th:if="${konflikte.empty}">
                             <p> Keine Konflikte vorhanden. </p>
@@ -398,8 +406,8 @@
 
                                     <div th:each="konflikt: ${konflikte}">
                                         <div class="card" style="width: 17rem;">
-                                            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
-                                                 class="card-img-top" alt="...">
+                                            <img alt="..."
+                                                 class="card-img-top" src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg">
                                             <div class="card-body">
                                                 <h5 class="card-title"
                                                     th:text="${konflikt.getArtikel().getArtikelName()}">ArtikelName</h5>
@@ -409,11 +417,11 @@
                                                 <a th:href="|/Detailansicht/${konflikt.getArtikel().getArtikelId()}|">Details</a>
 
                                                 <center>
-                                                    <form method="post" th:object="${konflikt}"
-                                                          th:action="|/Profil?ausleihId=${konflikt.getAusleihId()}|">
+                                                    <form method="post" th:action="|/Profil?ausleihId=${konflikt.getAusleihId()}|"
+                                                          th:object="${konflikt}">
 
-                                                        <input class="btn btn-outline-success" type="submit"
-                                                               name="submitButton" value="Geloest"/>
+                                                        <input class="btn btn-outline-success" name="submitButton"
+                                                               type="submit" value="Geloest"/>
                                                     </form>
                                                 </center>
                                             </div>
@@ -428,14 +436,14 @@
             </div>
 
 
-            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            <script crossorigin="anonymous"
                     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                    crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script crossorigin="anonymous"
                     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-                    crossorigin="anonymous"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"
+                    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script crossorigin="anonymous"
                     integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
-                    crossorigin="anonymous"></script>
+                    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>

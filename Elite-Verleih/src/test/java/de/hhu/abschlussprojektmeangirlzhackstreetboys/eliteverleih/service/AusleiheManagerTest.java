@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-@Import({AusleiheManager.class})
+@Import( {AusleiheManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class AusleiheManagerTest {
@@ -77,7 +77,7 @@ public class AusleiheManagerTest {
         return ausleihe.getAusleihId();
     }
 
-    private ArrayList<Long> konfiguriereErstelleBeispiel(){
+    private ArrayList<Long> konfiguriereErstelleBeispiel() {
         Benutzer bAusleiher = new Benutzer();
         bAusleiher.setBenutzerEmail("test@yahoo");
         bAusleiher.setBenutzerName("Ausleiher");
@@ -101,67 +101,73 @@ public class AusleiheManagerTest {
 
         ArrayList<Long> alId = new ArrayList<>();
         alId.addAll(Arrays.asList(bAusleiher.getBenutzerId(),   //0
-                bBesitzer.getBenutzerId(),                      //1
-                artikel.getArtikelId()));                       //2
+            bBesitzer.getBenutzerId(),                      //1
+            artikel.getArtikelId()));                       //2
         return alId;
     }
 
     @Rollback
     @Test
-    public void erstelleAusleihe_RichtigErstellt(){
+    public void erstelleAusleihe_RichtigErstellt() {
         ArrayList<Long> alId = konfiguriereErstelleBeispiel();
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
-        ausleiheM.erstelleAusleihe(alId.get(0),alId.get(2),sD0,eD0);
+        ausleiheM.erstelleAusleihe(alId.get(0), alId.get(2), sD0, eD0);
         Assertions.assertThat(artikelRepo.findArtikelByArtikelId(alId.get(2)).getAusgeliehen()).hasSize(1);
     }
 
     @Rollback
     @Test
-    public void erstelleAusleihe_Mappings_inBesitzer(){
+    public void erstelleAusleihe_Mappings_inBesitzer() {
         ArrayList<Long> alId = konfiguriereErstelleBeispiel();
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
-        ausleiheM.erstelleAusleihe(alId.get(0),alId.get(2),sD0,eD0);
+        ausleiheM.erstelleAusleihe(alId.get(0), alId.get(2), sD0, eD0);
         Benutzer besitzer = benutzerRepo.findBenutzerByBenutzerId(alId.get(1));
-        if(besitzer.getArtikel()!=null) {
-            if(besitzer.getArtikel().get(0).getAusgeliehen()!=null){
+        if (besitzer.getArtikel() != null) {
+            if (besitzer.getArtikel().get(0).getAusgeliehen() != null) {
                 Assertions.assertThat(besitzer.getArtikel().get(0).getAusgeliehen()).hasSize(1);
+            } else {
+                Assertions.fail("besitzer.getArtikel0 = null");
             }
-            else Assertions.fail("besitzer.getArtikel0 = null");
+        } else {
+            Assertions.fail("besitzer.artikel = null");
         }
-        else Assertions.fail("besitzer.artikel = null");
     }
 
     @Rollback
     @Test
-    public void erstelleAusleihe_Mappings_inAusleiher(){
+    public void erstelleAusleihe_Mappings_inAusleiher() {
         ArrayList<Long> alId = konfiguriereErstelleBeispiel();
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
-        ausleiheM.erstelleAusleihe(alId.get(0),alId.get(2),sD0,eD0);
+        ausleiheM.erstelleAusleihe(alId.get(0), alId.get(2), sD0, eD0);
         Benutzer ausleiher = benutzerRepo.findBenutzerByBenutzerId(alId.get(0));
-        if(ausleiher.getAusgeliehen()!=null)
+        if (ausleiher.getAusgeliehen() != null) {
             Assertions.assertThat(ausleiher.getAusgeliehen()).hasSize(1);
-        else Assertions.fail("ausleiher.ausgeliehen = null");
+        } else {
+            Assertions.fail("ausleiher.ausgeliehen = null");
+        }
     }
 
     @Rollback
     @Test
-    public void erstelleAusleihe_Mappings_inArtikel(){
+    public void erstelleAusleihe_Mappings_inArtikel() {
         ArrayList<Long> alId = konfiguriereErstelleBeispiel();
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
-        ausleiheM.erstelleAusleihe(alId.get(0),alId.get(2),sD0,eD0);
+        ausleiheM.erstelleAusleihe(alId.get(0), alId.get(2), sD0, eD0);
         Artikel artikel = artikelRepo.findArtikelByArtikelId(alId.get(2));
-        if(artikel.getAusgeliehen()!=null)
+        if (artikel.getAusgeliehen() != null) {
             Assertions.assertThat(artikel.getAusgeliehen()).hasSize(1);
-        else Assertions.fail("ausleiher.ausgeliehen = null");
+        } else {
+            Assertions.fail("ausleiher.ausgeliehen = null");
+        }
     }
 
     @Rollback
     @Test
-    public void bearbeiteAusleihe_RichtigGeaendert(){
+    public void bearbeiteAusleihe_RichtigGeaendert() {
         Long ausleiheId = erstelleBeispiel();
         Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
         Assertions.assertThat(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus()).isEqualTo(Status.AKTIV);
@@ -205,17 +211,17 @@ public class AusleiheManagerTest {
 */
     @Rollback
     @Test
-    public void bearbeiteAusleihe_Mappings_AusleiheInAusleiher(){
+    public void bearbeiteAusleihe_Mappings_AusleiheInAusleiher() {
         Long ausleiheId = erstelleBeispiel();
         Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
 
         Benutzer newInstance = benutzerRepo.findBenutzerByBenutzerName("Ausleiher").get();
-        if(newInstance.getAusgeliehen() != null) {
+        if (newInstance.getAusgeliehen() != null) {
             Assertions.assertThat(newInstance.getAusgeliehen()).hasSize(1);
             Assertions.assertThat(newInstance.getAusgeliehen().get(0).getAusleihStatus()).isEqualTo(Status.AKTIV);
-        }
-        else
+        } else {
             Assertions.fail("BenutzerAusleiher.getAusgeliehen war null");
+        }
     }
 
     @Rollback
@@ -227,8 +233,9 @@ public class AusleiheManagerTest {
         if (a.getAusgeliehen() != null) {
             Assertions.assertThat(a.getAusgeliehen()).hasSize(1);
             Assertions.assertThat(a.getAusgeliehen().get(0).getAusleihStatus()).isEqualTo(Status.AKTIV);
-        } else
+        } else {
             Assertions.fail("Artikel.getAusgeliehen war null");
+        }
     }
 
     @Rollback
@@ -241,62 +248,72 @@ public class AusleiheManagerTest {
             if (a.getAusgeliehen() != null) {
                 Assertions.assertThat(a.getAusgeliehen()).hasSize(1);
                 Assertions.assertThat(a.getAusgeliehen().get(0).getAusleihStatus()).isEqualTo(Status.AKTIV);
-            } else
+            } else {
                 Assertions.fail("BenutzerBesitzer.getAusgeliehen war null");
+            }
         }
     }
 
     @Rollback
     @Test
-    public void loescheAusleihe_AusleiheGeloescht(){
+    public void loescheAusleihe_AusleiheGeloescht() {
         Long ausleiheId = erstelleBeispiel();
 
         ausleiheM.loescheAusleihe(ausleiheId);
 
-        if(ausleiheRepo.findAll() != null)
+        if (ausleiheRepo.findAll() != null) {
             Assertions.assertThat(ausleiheRepo.findAll().size()).isEqualTo(0);
-        else Assertions.fail("ausleiher.getAusgeliehen == null");
+        } else {
+            Assertions.fail("ausleiher.getAusgeliehen == null");
+        }
     }
 
     @Rollback
     @Test
-    public void loescheAusleihe_Mappings_AusleiheInAusleiher(){
+    public void loescheAusleihe_Mappings_AusleiheInAusleiher() {
         Long ausleiheId = erstelleBeispiel();
 
         ausleiheM.loescheAusleihe(ausleiheId);
         Benutzer newInstance = benutzerRepo.findBenutzerByBenutzerName("Ausleiher").get();
 
-        if(newInstance.getAusgeliehen() != null)
+        if (newInstance.getAusgeliehen() != null) {
             Assertions.assertThat(newInstance.getAusgeliehen().size()).isEqualTo(0);
-        else Assertions.fail("ausleiher.getAusgeliehen == null");
+        } else {
+            Assertions.fail("ausleiher.getAusgeliehen == null");
+        }
     }
 
     @Rollback
     @Test
-    public void loescheAusleihe_Mappings_AusleiheInArtikel(){
+    public void loescheAusleihe_Mappings_AusleiheInArtikel() {
         Long ausleiheId = erstelleBeispiel();
 
         ausleiheM.loescheAusleihe(ausleiheId);
         Artikel a = artikelRepo.findAll().get(0);
 
-        if(a.getAusgeliehen()!=null)
+        if (a.getAusgeliehen() != null) {
             Assertions.assertThat(a.getAusgeliehen().size()).isEqualTo(0);
-        else Assertions.fail("a.getAusgeliehen == null");
+        } else {
+            Assertions.fail("a.getAusgeliehen == null");
+        }
     }
 
     @Rollback
     @Test
-    public void loescheAusleihe_Mappings_AusleiheInBesitzer(){
+    public void loescheAusleihe_Mappings_AusleiheInBesitzer() {
         Long ausleiheId = erstelleBeispiel();
 
         ausleiheM.loescheAusleihe(ausleiheId);
         Benutzer newInstance = benutzerRepo.findBenutzerByBenutzerName("Besitzer").get();
 
-        if(newInstance.getArtikel()!=null){
-            if(newInstance.getArtikel().get(0).getAusgeliehen()!=null)
+        if (newInstance.getArtikel() != null) {
+            if (newInstance.getArtikel().get(0).getAusgeliehen() != null) {
                 Assertions.assertThat(newInstance.getArtikel().get(0).getAusgeliehen().size()).isEqualTo(0);
-            else Assertions.fail("besitzer.getArtikel0.getAusgeliehen == null");
+            } else {
+                Assertions.fail("besitzer.getArtikel0.getAusgeliehen == null");
+            }
+        } else {
+            Assertions.fail("besitzer.getArtikel == null");
         }
-        else Assertions.fail("besitzer.getArtikel == null");
     }
 }

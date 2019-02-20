@@ -2,8 +2,8 @@
 <html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Elite-Verleih</title>
 
@@ -17,7 +17,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" id="bootstrap-css" rel="stylesheet">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -26,28 +26,29 @@
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
     <a class="navbar-brand" th:href="'/Uebersicht'">
-        <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
-             height="50">
+        <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
+             width="180">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline" method="post">
             <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" name="suchBegriff" placeholder="Suchen" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sucheButton">Suchen</button>
+                <input aria-label="Search" class="form-control mr-sm-2" name="suchBegriff" placeholder="Suchen"
+                       type="text">
+                <button class="btn btn-outline-success my-2 my-sm-0" name="sucheButton" type="submit">Suchen</button>
             </div>
         </form>
     </div>
 
     <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">
-            <i th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></i>
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+           id="navbarDropdownMenuLink">
+            <i class="fas fa-user" th:text="${benutzer.getBenutzerName()}"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
+        <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right dropdown-info">
             <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
 
             <a class="dropdown-item" href="/logout">Ausloggen</a>
@@ -57,34 +58,35 @@
 
 <div class="container">
     <div class="card-columns lg">
-        <a   th:each="artikel : ${artikels}" th:href="|/Detailansicht/${artikel.getArtikelId()}|">
-            <div class="card" >
-                <img th:src="${artikel.getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
+        <a th:each="artikel : ${artikels}" th:href="|/Detailansicht/${artikel.getArtikelId()}|">
+            <div class="card">
+                <img alt="Kein Bild vorhanden!" class="card-img-top" th:src="${artikel.getArtikelBildUrl()}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${artikel.getArtikelName()}">Artikelname</h5>
                     <p class="card-text text-truncate" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>
                     <p class="card-text" th:text="|Kosten/Tag : ${artikel.getArtikelTarif()},00€|">Kosten/Tag</p>
                 </div>
-            </div></a>
+            </div>
+        </a>
     </div>
 </div>
 
 <div>
     <a th:href="|/Erstellen|">
-        <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom" type="button"> + </button>
+        <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom" type="button"> +</button>
     </a>
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+<script crossorigin="anonymous"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </body>
 </html>

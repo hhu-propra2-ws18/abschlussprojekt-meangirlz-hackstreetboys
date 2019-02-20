@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
+
 @Controller
 public class KonfliktController {
 
@@ -32,14 +33,14 @@ public class KonfliktController {
     ArtikelManager artikelManager;
 
     @GetMapping("/Konfliktloesung")
-    public String konfliktloesungAnzeigen(Model model, Principal account){
+    public String konfliktloesungAnzeigen(Model model, Principal account) {
         List<Ausleihe> ausleihe = ausleiheManager.getAllAusleihe();
         model.addAttribute("konflikt", ausleiheManager.getKonflike(ausleihe));
         return "Konfliktloesung";
     }
 
     @PostMapping("/Konfliktloesung")
-    public String konfliktLoesen(@RequestParam(value= "submitButton") String name,
+    public String konfliktLoesen(@RequestParam(value = "submitButton") String name,
                                  @ModelAttribute Ausleihe anfrage, Long ausleihId) {
 
         Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
@@ -56,7 +57,7 @@ public class KonfliktController {
         }
 
         if (name.equals("Konflikt beenden")) {
-            ausleiheManager.bearbeiteAusleihe(ausleihId,Status.BEENDET);
+            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
         }
 
         return "redirect:/Konfliktloesung";

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +21,15 @@ public class RegistrierenController {
     BenutzerManager benutzerManager;
 
     @GetMapping("/registrieren")
-    public String registrierenAnzeigen (Model model){
+    public String registrierenAnzeigen(Model model) {
         model.addAttribute("benutzer", new Benutzer());
         return "Registrierung";
     }
+
     @PostMapping("/registrieren")
-    public String registereBenutzer
-            (@ModelAttribute @Valid Benutzer benutzer,
-             BindingResult result, HttpServletRequest request) throws ServletException {
+    public String registereBenutzer(@ModelAttribute @Valid Benutzer benutzer,
+                                    BindingResult result,
+                                    HttpServletRequest request) throws ServletException {
         Benutzer registered = new Benutzer();
 
         if (!result.hasErrors()) {

@@ -16,27 +16,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
+        throws Exception {
         auth.userDetailsService(userDetailsService);
     }
 
     @Override
-    public void configure(HttpSecurity httpSecurity) throws Exception{
+    public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().authorizeRequests()
-                .antMatchers("/registrieren").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/Konfliktloesung").hasRole("ADMIN")
-                .antMatchers("/*").hasAnyRole("USER","ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/Uebersicht?id=1",true)
-                .failureUrl("/login?error")
-                .permitAll()
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
+            .antMatchers("/registrieren").permitAll()
+            .antMatchers("/login").permitAll()
+            .antMatchers("/Konfliktloesung").hasRole("ADMIN")
+            .antMatchers("/*").hasAnyRole("USER", "ADMIN")
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .usernameParameter("username")
+            .passwordParameter("password")
+            .loginProcessingUrl("/perform_login")
+            .defaultSuccessUrl("/Uebersicht?id=1", true)
+            .failureUrl("/login?error")
+            .permitAll()
+            .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
     }
 }

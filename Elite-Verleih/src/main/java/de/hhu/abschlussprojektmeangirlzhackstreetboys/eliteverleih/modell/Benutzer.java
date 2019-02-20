@@ -1,11 +1,11 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell;
 //import lombok.Data;
-import lombok.*;
-import javax.persistence.*;
 
+import lombok.Data;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 @Data
@@ -13,7 +13,7 @@ import java.util.List;
 public class Benutzer {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long benutzerId;
 
     private String benutzerName;
@@ -30,10 +30,10 @@ public class Benutzer {
 
     private String benutzerRolle;
 
-    public Benutzer(){
+    public Benutzer() {
     }
 
-    public Benutzer(String benutzerName, String benutzerEmail){
+    public Benutzer(String benutzerName, String benutzerEmail) {
         this.benutzerName = benutzerName;
         this.benutzerEmail = benutzerEmail;
 
@@ -42,7 +42,7 @@ public class Benutzer {
 
     }
 
-    public Benutzer(String benutzerName, String benutzerEmail, List<Ausleihe> ausgeliehen){
+    public Benutzer(String benutzerName, String benutzerEmail, List<Ausleihe> ausgeliehen) {
         this.benutzerName = benutzerName;
         this.benutzerEmail = benutzerEmail;
         this.ausgeliehen = ausgeliehen;

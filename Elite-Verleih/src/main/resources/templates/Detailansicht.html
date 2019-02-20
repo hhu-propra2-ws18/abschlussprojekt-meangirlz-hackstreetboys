@@ -2,8 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
     <title>Detailansicht</title>
 
 </head>
@@ -11,28 +12,28 @@
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
     <a class="navbar-brand" th:href="'/Uebersicht'">
-        <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
-             height="50">
+        <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
+             width="180">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline">
             <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <input aria-label="Search" class="form-control mr-sm-2" placeholder="Search" type="text">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </div>
         </form>
     </div>
 
     <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">
-            <i th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></i>
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+           id="navbarDropdownMenuLink">
+            <i class="fas fa-user" th:text="${benutzer.getBenutzerName()}"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
+        <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right dropdown-info">
             <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
 
             <a class="dropdown-item" href="/logout">Ausloggen</a>
@@ -41,12 +42,12 @@
 </nav>
 
 
-<section th:if="${artikel==null}" class="jumbotron text-center">
-        <p class="lead text-muted">Artikel nicht vorhanden.</p>
+<section class="jumbotron text-center" th:if="${artikel==null}">
+    <p class="lead text-muted">Artikel nicht vorhanden.</p>
 </section>
 
-<div th:if="${artikel!=null}" class="album py-5 bg-light">
-    <div class="container-fluid" >
+<div class="album py-5 bg-light" th:if="${artikel!=null}">
+    <div class="container-fluid">
 
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -57,74 +58,81 @@
                             <span th:text="${artikel.artikelName}"></span>
                         </h3>
                         <div class="thumbnail">
-                            <img th:src="${artikel.getArtikelBildURL()}" alt="Bild" class="img-fluid" >
+                            <img alt="Bild" class="img-fluid" th:src="${artikel.getArtikelBildUrl()}">
 
                         </div>
-                        <div class="card text-center" th:object="${artikel}" th:method="get">
+                        <div class="card text-center" th:method="get" th:object="${artikel}">
 
                             <li class="list-group">
 
-                            <li class="list-group-item"  th:name="artikelName" th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
-                            <li class="list-group-item"  th:name="artikelBeschreibung" th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
-                            <li class="list-group-item"  th:name="benutzerName" th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
-                            <li class="list-group-item"  th:name="artikelKaution" th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
-                            <li class="list-group-item"  th:name="artikelTarif" th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
-                            <li class="list-group-item"  th:name="artikelOrt" th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
+                            <li class="list-group-item" th:name="artikelName"
+                                th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
+                            <li class="list-group-item" th:name="artikelBeschreibung"
+                                th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
+                            <li class="list-group-item" th:name="benutzerName"
+                                th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
+                            <li class="list-group-item" th:name="artikelKaution"
+                                th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
+                            <li class="list-group-item" th:name="artikelTarif"
+                                th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
+                            <li class="list-group-item" th:name="artikelOrt"
+                                th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
 
 
-
-                        <td th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}">
-                            <li class="list-group-item">
-                                <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">
-                                        Bearbeiten<!-- führt zur benutzer seite-->
-                                    </button>
-                                </a>
-                            </li>
-                            <li class="list-group-item">
-                                <a th:href="|/Loeschen/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">
-                                        Loeschen<!-- führt zur benutzer seite-->
-                                    </button>
-                                </a>
-                            </li>
-                        </td>
+                            <td th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}">
+                                <li class="list-group-item">
+                                    <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
+                                        <button class="btn btn-sm btn-outline-secondary" type="button">
+                                            Bearbeiten<!-- führt zur benutzer seite-->
+                                        </button>
+                                    </a>
+                                </li>
+                                <li class="list-group-item">
+                                    <a th:href="|/Loeschen/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
+                                        <button class="btn btn-sm btn-outline-secondary" type="button">
+                                            Loeschen<!-- führt zur benutzer seite-->
+                                        </button>
+                                    </a>
+                                </li>
+                            </td>
 
                             <li class="list-group-item">
                                 <div class="container">
-                                    <form action="#" th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}" method="post">
+                                    <form action="#" method="post"
+                                          th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}">
 
 
                                         <div class="row justify-content-center">
 
 
-
-                                            <div class="input-daterange input-group" id="datepicker" data-date-format="dd-mm-yyy">
-                                                <input type="date" class="input-sm form-control" name="startDatumString" placeholder="From date"/>
+                                            <div class="input-daterange input-group" data-date-format="dd-mm-yyy"
+                                                 id="datepicker">
+                                                <input class="input-sm form-control" name="startDatumString" placeholder="From date"
+                                                       type="date"/>
                                                 <span class="input-group-text" id="">to</span>
-                                                <input type="date" class="input-sm form-control" name="endDatumString" placeholder="To date"/>
+                                                <input class="input-sm form-control" name="endDatumString" placeholder="To date"
+                                                       type="date"/>
                                             </div>
                                         </div>
                                         <script type="text/javascript">
                                             $(function () {
                                                 $("#datepicker").datepicker({
-                                                    autoclose:true,
-                                                    todayHighlight:true
+                                                    autoclose: true,
+                                                    todayHighlight: true
                                                 }).datepicker('getDate', new Date());
                                             });
                                         </script>
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                        <button class="btn btn-sm btn-outline-secondary" type="submit">
                                             Artikel ausleihen
                                         </button>
                                     </form>
 
 
-
-
                                 </div>
                         </div>
                         </li>
-                        <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li>
+                        <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar
+                        </li>
 
 
                     </div>
@@ -135,17 +143,15 @@
     </div>
 </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+<script crossorigin="anonymous"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-
-
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
 </body>

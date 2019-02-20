@@ -22,27 +22,30 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     BenutzerManager benutzerManager;
 
-    public UserDetails loadUserByUsername(String Benutzername)
-            throws UsernameNotFoundException {
+    private static List<GrantedAuthority> getAuthority(String role) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role));
+        return authorities;
+    }
 
-        Benutzer benutzer = benutzerManager.findBenutzerByName(Benutzername);
+    public UserDetails loadUserByUsername(String benutzername)
+        throws UsernameNotFoundException {
+
+        Benutzer benutzer = benutzerManager.findBenutzerByName(benutzername);
         if (benutzer == null) {
             throw new UsernameNotFoundException(
-                    "No user found with username: "+ Benutzername);
+                "No user found with username: " + benutzername);
         }
         boolean enabled = true;
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
-        return  new org.springframework.security.core.userdetails.User
-                (benutzer.getBenutzerName(),
-                        "{noop}"+ benutzer.getBenutzerPasswort(), enabled, accountNonExpired,
-                        credentialsNonExpired, accountNonLocked,
-                        getAuthority(benutzer.getBenutzerRolle()));
-    }
-    private static List<GrantedAuthority> getAuthority (String role) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role));
-        return authorities;
+        return new org.springframework.security.core.userdetails.User(benutzer.getBenutzerName(),
+            "{noop}" + benutzer.getBenutzerPasswort(),
+            enabled,
+            accountNonExpired,
+            credentialsNonExpired,
+            accountNonLocked,
+            getAuthority(benutzer.getBenutzerRolle()));
     }
 }

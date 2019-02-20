@@ -10,7 +10,10 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.Propa
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.text.ParseException;
@@ -35,14 +38,14 @@ public class DetailansichtController {
 
 
     @GetMapping("/Detailansicht/{artikelId}")
-    public String detailansichtAnzeigen(@PathVariable Long artikelId, Model model, Principal account){
+    public String detailansichtAnzeigen(@PathVariable Long artikelId, Model model, Principal account) {
         model.addAttribute("artikel", artikelManager.getArtikelById(artikelId));
         model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
         return "Detailansicht";
     }
 
     @GetMapping("/FehlendesGuthaben")
-    public String fehlendesGuthaben(Model model, Principal account){
+    public String fehlendesGuthaben(Model model, Principal account) {
         model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
 
         return "FehlendesGuthaben";
@@ -50,8 +53,8 @@ public class DetailansichtController {
 
     @PostMapping("/Detailansicht/{artikelId}")
     public String erstelleAusleihe(@RequestParam(required = false) String startDatumString,
-                        @RequestParam(required = false) String endDatumString,
-                        @PathVariable Long artikelId, Principal account) {
+                                   @RequestParam(required = false) String endDatumString,
+                                   @PathVariable Long artikelId, Principal account) {
 
         Date startDatum = new Date();
         Date endDatum = new Date();
@@ -60,10 +63,10 @@ public class DetailansichtController {
         Calendar calEndDatum = new GregorianCalendar();
 
         try {
-            startDatum = new SimpleDateFormat( "yyyy-MM-dd" ).parse(startDatumString);
+            startDatum = new SimpleDateFormat("yyyy-MM-dd").parse(startDatumString);
             calStartDatum.setTime(startDatum);
             System.out.println("StartString: " + startDatumString + " StartDatum: " + startDatum.toString());
-            endDatum = new SimpleDateFormat( "yyyy-MM-dd" ).parse(endDatumString);
+            endDatum = new SimpleDateFormat("yyyy-MM-dd").parse(endDatumString);
             calEndDatum.setTime(endDatum);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -77,23 +80,21 @@ public class DetailansichtController {
 
         double guthabenB = sync.getAccount(b.getBenutzerName()).getAmount();
 
-        if(guthabenB < artikel.getArtikelKaution()){
+        if (guthabenB < artikel.getArtikelKaution()) {
             return "redirect:/FehlendesGuthaben";
-        }else{
-            ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),calStartDatum,calEndDatum);
+        } else {
+            ausleiheManager.erstelleAusleihe(b.getBenutzerId(), artikel.getArtikelId(), calStartDatum, calEndDatum);
         }
-
 
 
         return "redirect:/Uebersicht";
     }
 
     @GetMapping("Ausgeliehen")
-    public String ausgeliehenError (Model model, Principal account) {
+    public String ausgeliehenError(Model model, Principal account) {
         model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
         return "Ausgeliehen-Error";
     }
-
 
 
 }

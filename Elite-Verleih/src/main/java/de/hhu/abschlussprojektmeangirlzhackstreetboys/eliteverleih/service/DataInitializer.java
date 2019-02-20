@@ -10,7 +10,10 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 @Component
 public class DataInitializer implements ServletContextInitializer {
@@ -20,7 +23,7 @@ public class DataInitializer implements ServletContextInitializer {
 
     @Autowired
     ArtikelManager artikelM;
-    
+
     @Autowired
     AusleiheManager ausleiheM;
 
@@ -29,7 +32,7 @@ public class DataInitializer implements ServletContextInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext)
-            throws ServletException {
+        throws ServletException {
         System.out.println("Populating the database");
 
         Benutzer support = new Benutzer();
@@ -39,7 +42,7 @@ public class DataInitializer implements ServletContextInitializer {
         support.setBenutzerPasswort(standardPasswort);
         support.setBenutzerRolle("ROLE_ADMIN");
         benutzerM.erstelleBenutzer(support);
-        Long supportId= benutzerM.findBenutzerByName("support").getBenutzerId();
+        Long supportId = benutzerM.findBenutzerByName("support").getBenutzerId();
 
         Benutzer bJens = new Benutzer();
         bJens.setBenutzerEmail("Jemail@hhu.de");
@@ -92,8 +95,8 @@ public class DataInitializer implements ServletContextInitializer {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Jens's-Werkstatt, a.k.a. HHU");
         a0.setArtikelTarif(1);
-        a0.setArtikelBildURL("https://c.pxhere.com/photos/c5/a6/hammer_car_automobile_nature_off_road-619096.jpg!d");
-        artikelM.erstelleArtikel(jensId,a0);
+        a0.setArtikelBildUrl("https://c.pxhere.com/photos/c5/a6/hammer_car_automobile_nature_off_road-619096.jpg!d");
+        artikelM.erstelleArtikel(jensId, a0);
 
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("Wohn mit mir zusammen");
@@ -101,8 +104,8 @@ public class DataInitializer implements ServletContextInitializer {
         a1.setArtikelName("Ich - das Nashorn");
         a1.setArtikelOrt("wo du wohnst");
         a1.setArtikelTarif(1);
-        a1.setArtikelBildURL("https://static.geo.de/bilder/ef/25/11530/article_image_big/b2e2b87b03bb10e6bd37f28957c7c246.jpg");
-        artikelM.erstelleArtikel(antoineId,a1);
+        a1.setArtikelBildUrl("https://static.geo.de/bilder/ef/25/11530/article_image_big/b2e2b87b03bb10e6bd37f28957c7c246.jpg");
+        artikelM.erstelleArtikel(antoineId, a1);
 
         Artikel a2 = new Artikel();
         a2.setArtikelBeschreibung("Ich habe mit diesem Stift einmal FAST eine 1 geschrieben.");
@@ -110,8 +113,8 @@ public class DataInitializer implements ServletContextInitializer {
         a2.setArtikelName("Timo's Stift");
         a2.setArtikelOrt("Timo's Bude");
         a2.setArtikelTarif(1);
-        a2.setArtikelBildURL("https://www.bettmer.de/out/pictures/generated/product/1/395_395_90/2-in-1-stift-clic-clac-teruel_dunkelgrau_300011_302097_1.jpg");
-        artikelM.erstelleArtikel(timoId,a2);
+        a2.setArtikelBildUrl("https://www.bettmer.de/out/pictures/generated/product/1/395_395_90/2-in-1-stift-clic-clac-teruel_dunkelgrau_300011_302097_1.jpg");
+        artikelM.erstelleArtikel(timoId, a2);
 
         Artikel a3 = new Artikel();
         a3.setArtikelBeschreibung("Ich bin fertig damit, aber wenn sonst einer das will..");
@@ -119,8 +122,8 @@ public class DataInitializer implements ServletContextInitializer {
         a3.setArtikelName("Timo's altes Kaugummi");
         a3.setArtikelOrt("Timo's Bude");
         a3.setArtikelTarif(10000);
-        a3.setArtikelBildURL("http://cdn3.spiegel.de/images/image-1341296-860_galleryfree-dshe-1341296.jpg");
-        artikelM.erstelleArtikel(timoId,a3);
+        a3.setArtikelBildUrl("http://cdn3.spiegel.de/images/image-1341296-860_galleryfree-dshe-1341296.jpg");
+        artikelM.erstelleArtikel(timoId, a3);
 
         Artikel a4 = new Artikel();
         a4.setArtikelBeschreibung("ORIGINAL!!! Bester Preis DIGGAHH!");
@@ -128,8 +131,8 @@ public class DataInitializer implements ServletContextInitializer {
         a4.setArtikelName("ROLLLEX");
         a4.setArtikelOrt("PN");
         a4.setArtikelTarif(100);
-        a4.setArtikelBildURL("http://www.replicauhrendeutschland.com/wp-content/uploads/2018/04/Replica-Rolex-Submariner-Two-Tone.jpg");
-        artikelM.erstelleArtikel(sVId,a4);
+        a4.setArtikelBildUrl("http://www.replicauhrendeutschland.com/wp-content/uploads/2018/04/Replica-Rolex-Submariner-Two-Tone.jpg");
+        artikelM.erstelleArtikel(sVId, a4);
 
         Artikel a5 = new Artikel();
         a5.setArtikelBeschreibung("ORIGINAL!!! Bester Preis mann!");
@@ -137,8 +140,8 @@ public class DataInitializer implements ServletContextInitializer {
         a5.setArtikelName("Armanni Hemd");
         a5.setArtikelOrt("PN");
         a5.setArtikelTarif(100);
-        a5.setArtikelBildURL("https://images-na.ssl-images-amazon.com/images/I/51d4N9L0qaL._UX385_.jpg");
-        artikelM.erstelleArtikel(sVId,a5);
+        a5.setArtikelBildUrl("https://images-na.ssl-images-amazon.com/images/I/51d4N9L0qaL._UX385_.jpg");
+        artikelM.erstelleArtikel(sVId, a5);
 
         Artikel a7 = new Artikel();
         a7.setArtikelBeschreibung("ORIGINAL!!! 2. bester Preis JUNGE!");
@@ -146,8 +149,8 @@ public class DataInitializer implements ServletContextInitializer {
         a7.setArtikelName("Guci Hemd");
         a7.setArtikelOrt("PN");
         a7.setArtikelTarif(100);
-        a7.setArtikelBildURL("https://cms.brnstc.de/product_images/435x596/18/06/100080616717000_0.jpg");
-        artikelM.erstelleArtikel(sVId,a7);
+        a7.setArtikelBildUrl("https://cms.brnstc.de/product_images/435x596/18/06/100080616717000_0.jpg");
+        artikelM.erstelleArtikel(sVId, a7);
 
         Artikel a8 = new Artikel();
         a8.setArtikelBeschreibung("ORIGINAL!!! Bester Preis mann!");
@@ -155,28 +158,28 @@ public class DataInitializer implements ServletContextInitializer {
         a8.setArtikelName("Pradda Hemd");
         a8.setArtikelOrt("PN");
         a8.setArtikelTarif(100);
-        a8.setArtikelBildURL("https://cdn.raffaello-network.com/deutsch/mode-detail/500827/350/prada-herrenbekleidung_pramclo-ucn2011tv41tv4-f0124-medium-1.jpg");
-        artikelM.erstelleArtikel(sVId,a8);
+        a8.setArtikelBildUrl("https://cdn.raffaello-network.com/deutsch/mode-detail/500827/350/prada-herrenbekleidung_pramclo-ucn2011tv41tv4-f0124-medium-1.jpg");
+        artikelM.erstelleArtikel(sVId, a8);
 
         Artikel a6_longText = new Artikel();
         a6_longText.setArtikelBeschreibung("Perfekt zum Zerkleinern jeglicher Gartenabfälle, " +
-                "pflanzlicher Überreste, Blätter, Grashalme, kleine bis grosse Bäume, Informanten, " +
-                "Geiseln. Sträucher, Hecken, sowie dem Buchsbaum. Dazu ist die Schere fast noch " +
-                "nie benutzt worden, und nach ihrer letzten Benutzung sehr ordentlich gesäubert worden.");
+            "pflanzlicher Überreste, Blätter, Grashalme, kleine bis grosse Bäume, Informanten, " +
+            "Geiseln. Sträucher, Hecken, sowie dem Buchsbaum. Dazu ist die Schere fast noch " +
+            "nie benutzt worden, und nach ihrer letzten Benutzung sehr ordentlich gesäubert worden.");
         a6_longText.setArtikelKaution(300);
         a6_longText.setArtikelName("Gartenschere");
         a6_longText.setArtikelOrt("Pizzeria Vapioso");
         a6_longText.setArtikelTarif(30);
-        a6_longText.setArtikelBildURL("https://static1.squarespace.com/static/58bf3d9a44024364324fb36f/58ff1ec19de4bb751e120a54/58ff33c9f5e2313f31104f1e/1493119955235/Sunken+Garden-032.jpg?format=500w");
-        artikelM.erstelleArtikel(mUId,a6_longText);
-        
+        a6_longText.setArtikelBildUrl("https://static1.squarespace.com/static/58bf3d9a44024364324fb36f/58ff1ec19de4bb751e120a54/58ff33c9f5e2313f31104f1e/1493119955235/Sunken+Garden-032.jpg?format=500w");
+        artikelM.erstelleArtikel(mUId, a6_longText);
+
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
         Calendar sCal0 = new GregorianCalendar();
         sCal0.setTime(sD0);
         Calendar eCal0 = new GregorianCalendar();
         eCal0.setTime(eD0);
-        Ausleihe test0 =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sCal0, eCal0);
+        Ausleihe test0 = ausleiheM.erstelleAusleihe(new Long(1), new Long(7), sCal0, eCal0);
 
         Date sD1 = new Date(119, 1, 19);
         Date eD1 = new Date(119, 1, 28);
@@ -184,13 +187,13 @@ public class DataInitializer implements ServletContextInitializer {
         sCal1.setTime(sD1);
         Calendar eCal1 = new GregorianCalendar();
         eCal1.setTime(eD1);
-        Ausleihe test1 =  ausleiheM.erstelleAusleihe(new Long(3),new Long(7), sCal1, eCal1);
+        Ausleihe test1 = ausleiheM.erstelleAusleihe(new Long(3), new Long(7), sCal1, eCal1);
 
-        
-        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(9), sCal0, eCal0);
-        Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5),new Long(10), sCal0, eCal0);
 
-        ausleiheM.bearbeiteAusleihe(test.getAusleihId(),Status.KONFLIKT);
-        ausleiheM.bearbeiteAusleihe(testtest.getAusleihId(),Status.KONFLIKT);
+        Ausleihe test = ausleiheM.erstelleAusleihe(new Long(1), new Long(9), sCal0, eCal0);
+        Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5), new Long(10), sCal0, eCal0);
+
+        ausleiheM.bearbeiteAusleihe(test.getAusleihId(), Status.KONFLIKT);
+        ausleiheM.bearbeiteAusleihe(testtest.getAusleihId(), Status.KONFLIKT);
     }
 }

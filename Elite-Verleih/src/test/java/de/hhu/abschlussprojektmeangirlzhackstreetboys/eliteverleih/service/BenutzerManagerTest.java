@@ -5,7 +5,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@Import({BenutzerManager.class})
+@Import( {BenutzerManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class BenutzerManagerTest {

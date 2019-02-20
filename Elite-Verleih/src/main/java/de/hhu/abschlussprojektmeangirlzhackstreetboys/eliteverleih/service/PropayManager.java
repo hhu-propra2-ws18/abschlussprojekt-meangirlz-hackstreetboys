@@ -1,8 +1,8 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDTO;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.ReservationDTO;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.ReservationDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -10,41 +10,51 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class PropayManager {
 
+    final String url = "http://localhost:8888/";
     RestTemplate rt = new RestTemplate();
-    final String URL = "http://localhost:8888/";
 
-    public AccountDTO getAccount(String benutzername){
+    public AccountDto getAccount(String benutzername) {
 
-        ResponseEntity<AccountDTO> result = rt.getForEntity(URL + "account/"+ benutzername , AccountDTO.class);
-        AccountDTO acc = result.getBody();
+        ResponseEntity<AccountDto> result = rt.getForEntity(url + "account/" + benutzername, AccountDto.class);
+        AccountDto acc = result.getBody();
         return acc;
     }
 
-    public void GuthabenAufladen(String benutzername, int anzahl){
+    public void guthabenAufladen(String benutzername, int anzahl) {
 
-        ResponseEntity<AccountDTO> result = rt.postForEntity(URL + "account/"+ benutzername +"?amount="+anzahl,null, AccountDTO.class);
-        AccountDTO acc = result.getBody();
+        ResponseEntity<AccountDto> result = rt.postForEntity(url
+            + "account/"
+            + benutzername
+            + "?amount="
+            + anzahl, null, AccountDto.class);
+        AccountDto acc = result.getBody();
 
     }
-    public boolean ueberweisen(String vonBenutzername, String zuBenutzername, int anzahl){
 
-        String urlueberweisenUrl = URL + "account/"+ vonBenutzername +"/transfer/"+ zuBenutzername +"?amount=" + anzahl;
+    public boolean ueberweisen(String vonBenutzername, String zuBenutzername, int anzahl) {
+
+        String urlueberweisenUrl = url
+            + "account/"
+            + vonBenutzername
+            + "/transfer/"
+            + zuBenutzername
+            + "?amount="
+            + anzahl;
         try {
-            rt.postForEntity(urlueberweisenUrl,null,AccountDTO.class);
+            rt.postForEntity(urlueberweisenUrl, null, AccountDto.class);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             return false;
         }
     }
 
-    public ReservationDTO kautionReserviern(String vonBenutzername, String zuBenutzername, int anzahl){
+    public ReservationDto kautionReserviern(String vonBenutzername, String zuBenutzername, int anzahl) {
 
-        String kautionUrl = URL + "reservation/reserve/"+ vonBenutzername +"/"+zuBenutzername+"?amount=" + anzahl;
+        String kautionUrl = url + "reservation/reserve/" + vonBenutzername + "/" + zuBenutzername + "?amount=" + anzahl;
         try {
-            ResponseEntity<ReservationDTO> result = rt.postForEntity(kautionUrl, null, ReservationDTO.class);
-            ReservationDTO res = result.getBody();
+            ResponseEntity<ReservationDto> result = rt.postForEntity(kautionUrl, null, ReservationDto.class);
+            ReservationDto res = result.getBody();
             return res;
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -52,22 +62,22 @@ public class PropayManager {
         }
     }
 
-    public boolean kautionEinziehen(String benutzername, int reservationsid){
+    public boolean kautionEinziehen(String benutzername, int reservationsid) {
 
-        String kautionUrl = URL + "reservation/punish/"+ benutzername +"?reservationId=" + reservationsid;
+        String kautionUrl = url + "reservation/punish/" + benutzername + "?reservationId=" + reservationsid;
         return kautionManager(kautionUrl);
     }
 
-    public boolean kautionFreigeben(String benutzername, int reservationsid){
+    public boolean kautionFreigeben(String benutzername, int reservationsid) {
 
-        String kautionUrl = URL + "reservation/release/"+ benutzername +"?reservationId=" + reservationsid;
+        String kautionUrl = url + "reservation/release/" + benutzername + "?reservationId=" + reservationsid;
         return kautionManager(kautionUrl);
     }
 
     private boolean kautionManager(String kautionUrl) {
         try {
-            ResponseEntity<AccountDTO> result = rt.postForEntity(kautionUrl, null, AccountDTO.class);
-            AccountDTO acc = result.getBody();
+            ResponseEntity<AccountDto> result = rt.postForEntity(kautionUrl, null, AccountDto.class);
+            AccountDto acc = result.getBody();
             return true;
         } catch (Exception e) {
             System.err.println(e.getMessage());

@@ -1,10 +1,9 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell;
 
-import java.util.Calendar;
-
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Calendar;
 
 
 @Data
@@ -12,7 +11,7 @@ import javax.persistence.*;
 public class Ausleihe {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ausleihId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,10 +29,11 @@ public class Ausleihe {
 
     private int reservationsId;
 
-    public Ausleihe (){};
+    public Ausleihe() {
+    }
 
     public Ausleihe(Artikel artikel, Calendar ausleihStartdatum, Calendar ausleihRueckgabedatum, Benutzer benutzer,
-                    Status ausleihStatus, int reservationsId){
+                    Status ausleihStatus, int reservationsId) {
         this.artikel = artikel;
         this.ausleihStartdatum = ausleihStartdatum;
         this.ausleihRueckgabedatum = ausleihRueckgabedatum;

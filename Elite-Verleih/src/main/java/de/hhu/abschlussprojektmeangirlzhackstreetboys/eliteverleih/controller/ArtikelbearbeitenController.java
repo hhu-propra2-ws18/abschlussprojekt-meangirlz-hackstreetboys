@@ -33,7 +33,7 @@ public class ArtikelbearbeitenController {
     AusleiheRepository ausleiheRepo;
 
     @GetMapping("/Bearbeiten/{artikelId}")
-    public String artikelBearbeitungAnzeigen(@PathVariable long artikelId, Model model, Principal account){
+    public String artikelBearbeitungAnzeigen(@PathVariable long artikelId, Model model, Principal account) {
 
         model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
         model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
@@ -41,7 +41,10 @@ public class ArtikelbearbeitenController {
     }
 
     @PostMapping("/Bearbeiten/{artikelId}")
-    public String artikelBearbeiten(@PathVariable long artikelId, @ModelAttribute Artikel newArtikel, Model model, Principal account) {
+    public String artikelBearbeiten(Model model,
+                                    @PathVariable long artikelId,
+                                    @ModelAttribute Artikel newArtikel,
+                                    Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
@@ -53,13 +56,13 @@ public class ArtikelbearbeitenController {
     }
 
     @RequestMapping("/Loeschen/{artikelId}")
-    public String artikelLoeschen(@PathVariable long artikelId, Principal account){
+    public String artikelLoeschen(@PathVariable long artikelId, Principal account) {
         artikelManager.deleteArtikel(artikelId);
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         return "redirect:/Uebersicht";
     }
 
-    private void bearbeiteArtikel(Artikel newArtikel, Artikel oldArtikel){
+    private void bearbeiteArtikel(Artikel newArtikel, Artikel oldArtikel) {
         oldArtikel.setArtikelName(newArtikel.getArtikelName());
         oldArtikel.setArtikelBeschreibung(newArtikel.getArtikelBeschreibung());
         oldArtikel.setBenutzer(newArtikel.getBenutzer());

@@ -2,10 +2,13 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto;
 
 import lombok.Data;
 
-@Data
-public class ReservationDTO {
+import java.util.List;
 
+@Data
+public class AccountDto {
+
+    private String account;
     private double amount;
-    private int id;
+    private List<ReservationDto> resavations;
 
 }

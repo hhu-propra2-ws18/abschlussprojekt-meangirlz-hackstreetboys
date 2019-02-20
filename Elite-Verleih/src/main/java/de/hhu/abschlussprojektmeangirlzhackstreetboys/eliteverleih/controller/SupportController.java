@@ -16,9 +16,9 @@ public class SupportController {
     BenutzerManager benutzerManager;
 
     @GetMapping("/Support")
-    public String DetailansichtAnzeigen(Model model, Principal account){
+    public String detailansichtAnzeigen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        model.addAttribute("benutzer",benutzer);
+        model.addAttribute("benutzer", benutzer);
 
         return "Support";
     }

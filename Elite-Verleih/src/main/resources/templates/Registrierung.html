@@ -2,8 +2,8 @@
 <html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Elite-Verleih</title>
 
@@ -17,7 +17,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" id="bootstrap-css" rel="stylesheet">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -28,31 +28,35 @@
     <div class="row">
         <div class="col-md-6 registrieren">
             <h3>Registrieren</h3>
-            <form method="post" th:object="${benutzer}" action="/registrieren">
-                <div th:if="${param.error}" class="form-group">
-                    <input type="text" class="form-control is-invalid" placeholder="Benutzername *" th:field="*{benutzerName}" name="registBenutzername" required/>
-                    <div th:if="${param.error}" class="invalid-feedback">
+            <form action="/registrieren" method="post" th:object="${benutzer}">
+                <div class="form-group" th:if="${param.error}">
+                    <input class="form-control is-invalid" name="registBenutzername" placeholder="Benutzername *"
+                           required th:field="*{benutzerName}" type="text"/>
+                    <div class="invalid-feedback" th:if="${param.error}">
                         Dieser Benutzername existiert bereits.
                     </div>
                 </div>
-                <div th:unless="${param.error}" class="form-group">
-                    <input type="text" class="form-control" placeholder="Benutzername *" th:field="*{benutzerName}" name="registBenutzername" required/>
+                <div class="form-group" th:unless="${param.error}">
+                    <input class="form-control" name="registBenutzername" placeholder="Benutzername *" required
+                           th:field="*{benutzerName}" type="text"/>
                 </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Email *"  th:field="*{benutzerEmail}" name="registEmail" required/>
+                    <input class="form-control" name="registEmail" placeholder="Email *" required
+                           th:field="*{benutzerEmail}" type="email"/>
                 </div>
                 <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Passwort *"  th:field="*{benutzerPasswort}" name="registPasswort" required/>
+                    <input class="form-control" name="registPasswort" placeholder="Passwort *" required
+                           th:field="*{benutzerPasswort}" type="password"/>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-primary" name="submitButton" id="registButton" value="Registrieren" />
-                    <a href="/login" class="btn btn-secondary" name="toLogin" >Zurueck zum Login</a>
+                    <input class="btn btn-primary" id="registButton" name="submitButton" type="submit"
+                           value="Registrieren"/>
+                    <a class="btn btn-secondary" href="/login" name="toLogin">Zurueck zum Login</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 
 
 <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->

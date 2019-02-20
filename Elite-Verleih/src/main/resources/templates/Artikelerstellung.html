@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
 
 </head>
 <body>
@@ -15,28 +15,28 @@
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
     <a class="navbar-brand" th:href="'/Uebersicht'">
-        <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
-             height="50">
+        <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
+             width="180">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline">
             <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <input aria-label="Search" class="form-control mr-sm-2" placeholder="Search" type="text">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </div>
         </form>
     </div>
 
     <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-           aria-expanded="false">
-            <i th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></i>
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+           id="navbarDropdownMenuLink">
+            <i class="fas fa-user" th:text="${benutzer.getBenutzerName()}"></i>
         </a>
-        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
+        <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right dropdown-info">
             <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
 
             <a class="dropdown-item" href="/logout">Ausloggen</a>
@@ -49,75 +49,75 @@
         <div class="col">
         </div>
         <div class="col">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card text-center">
-                        <h1 class="card-header">
-                            Artikel anbieten
-                        </h1>
-                        <div class="card-body">
-                            <form class="form-horizontal" th:action="'Erstellen?id='+${benutzer.getBenutzerId()}"
-                                  th:object="${artikel}" method="post">
-                                <div class="form-group">
-                                    <label class="control-label col-xs-2"><h5>Name: </h5></label>
-                                    <div class="col-xs-10">
-                                        <input type="text" th:field="*{artikelName}" class="form-control"/>
-                                    </div>
+            <div class="card mb-4 shadow-sm">
+                <div class="card text-center">
+                    <h1 class="card-header">
+                        Artikel anbieten
+                    </h1>
+                    <div class="card-body">
+                        <form class="form-horizontal" method="post"
+                              th:action="'Erstellen?id='+${benutzer.getBenutzerId()}" th:object="${artikel}">
+                            <div class="form-group">
+                                <label class="control-label col-xs-2"><h5>Name: </h5></label>
+                                <div class="col-xs-10">
+                                    <input class="form-control" th:field="*{artikelName}" type="text"/>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-xs-2"><h5>Beschreibung: </h5></label>
-                                    <div class="col-xs-10">
-                                        <textarea type="text" th:field="*{artikelBeschreibung}"
-                                                  class="form-control"></textarea>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2"><h5>Beschreibung: </h5></label>
+                                <div class="col-xs-10">
+                                        <textarea class="form-control" th:field="*{artikelBeschreibung}"
+                                                  type="text"></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-xs-2"><h5>Kaution: </h5></label>
-                                    <div class="col-xs-10">
-                                        <input type="number" th:field="*{artikelKaution}" class="form-control"/>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2"><h5>Kaution: </h5></label>
+                                <div class="col-xs-10">
+                                    <input class="form-control" th:field="*{artikelKaution}" type="number"/>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-xs-2"><h5>Tarif (pro Tag): </h5></label>
-                                    <div class="col-xs-10">
-                                        <input type="number" th:field="*{artikelTarif}" class="form-control"/>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2"><h5>Tarif (pro Tag): </h5></label>
+                                <div class="col-xs-10">
+                                    <input class="form-control" th:field="*{artikelTarif}" type="number"/>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-xs-4"><h5>Abholort: </h5></label>
-                                    <div class="col-xs-10">
-                                        <input type="text" th:field="*{artikelOrt}" class="form-control"/>
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4"><h5>Abholort: </h5></label>
+                                <div class="col-xs-10">
+                                    <input class="form-control" th:field="*{artikelOrt}" type="text"/>
                                 </div>
-                                <div>
-                                    <label class="control-label"><h5>URL zu Artikelfoto: </h5></label>
-                                    <div class="col-xs-10">
-                                        <input type="url" th:field="*{artikelBildURL}" class="form-control"/>
-                                    </div>
+                            </div>
+                            <div>
+                                <label class="control-label"><h5>URL zu Artikelfoto: </h5></label>
+                                <div class="col-xs-10">
+                                    <input class="form-control" th:field="*{artikelBildUrl}" type="url"/>
                                 </div>
-                                <p>
-                                    <button type="submit" class="btn btn-primary my-2">Submit</button>
-                                    <button class="btn btn-primary my-2" type="reset">Reset</button>
-                                </p>
-                            </form>
+                            </div>
+                            <p>
+                                <button class="btn btn-primary my-2" type="submit">Submit</button>
+                                <button class="btn btn-primary my-2" type="reset">Reset</button>
+                            </p>
+                        </form>
 
-                        </div>
                     </div>
                 </div>
+            </div>
         </div>
 
         <div class="col">
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+<script crossorigin="anonymous"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 </body>
 </html>

@@ -26,25 +26,27 @@ public class ArtikelManager {
         return artikelRepo.findAll();
     }
 
-    public void erstelleArtikel(Long benutzerId, Artikel artikel){
+    public void erstelleArtikel(Long benutzerId, Artikel artikel) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
         artikel = artikelRepo.save(artikel);
-        setzeArtikel(benutzerId,artikel);
+        setzeArtikel(benutzerId, artikel);
     }
 
-    public void setzeArtikel(Long benutzerId, Artikel artikel){
+    public void setzeArtikel(Long benutzerId, Artikel artikel) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
-        if(b.getArtikel()==null) b.setArtikel(new ArrayList<Artikel>());
+        if (b.getArtikel() == null) {
+            b.setArtikel(new ArrayList<Artikel>());
+        }
         b.getArtikel().add(artikel);
         benutzerRepo.save(b);
     }
 
-    public Artikel getArtikelById(Long artikelId){
+    public Artikel getArtikelById(Long artikelId) {
         return artikelRepo.findArtikelByArtikelId(artikelId);
     }
 
-    void bearbeiteArtikel(Long artikelId, Artikel artikel){
+    void bearbeiteArtikel(Long artikelId, Artikel artikel) {
         Artikel alterArtikel = getArtikelById(artikelId);
 
         alterArtikel.setArtikelBeschreibung(artikel.getArtikelBeschreibung());
@@ -56,18 +58,20 @@ public class ArtikelManager {
         artikelRepo.saveAll(Arrays.asList(alterArtikel));
     }
 
-    public void deleteArtikel(Long artikelId){
-        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(artikelRepo.findArtikelByArtikelId(artikelId).getBenutzer().getBenutzerId());
+    public void deleteArtikel(Long artikelId) {
+        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(artikelRepo.findArtikelByArtikelId(artikelId)
+            .getBenutzer()
+            .getBenutzerId());
+
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         List<Ausleihe> ausleihen = benutzer.getAusgeliehen();
-        if(artikel.getAusgeliehen().isEmpty()){
+        if (artikel.getAusgeliehen().isEmpty()) {
             benutzer.getArtikel().remove(artikel);
             benutzerRepo.save(benutzer);
             artikelRepo.delete(artikel);
-        }
-        else {
-            for(Ausleihe a: ausleihen ){
-                if(a.getAusleihStatus()!= Status.BESTAETIGT){
+        } else {
+            for (Ausleihe a : ausleihen) {
+                if (a.getAusleihStatus() != Status.BESTAETIGT) {
                     benutzer.getArtikel().remove(artikel);
                     benutzerRepo.save(benutzer);
                     artikelRepo.delete(artikel);
@@ -76,7 +80,7 @@ public class ArtikelManager {
         }
     }
 
-    public List<Artikel> getArtikelListSortByName(String suchBegriff){
+    public List<Artikel> getArtikelListSortByName(String suchBegriff) {
         return artikelRepo.findAllByArtikelNameContainsOrderByArtikelNameAsc(suchBegriff);
     }
 }

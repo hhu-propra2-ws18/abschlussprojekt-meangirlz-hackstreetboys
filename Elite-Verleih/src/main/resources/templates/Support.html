@@ -1,85 +1,92 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:margin-top="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
+          integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" rel="stylesheet">
     <title>Support</title>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-        <a class="navbar-brand" th:href="'/Uebersicht'">
-            <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
-                 height="50">
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="form-inline">
-                <div class="md-form my-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-               aria-expanded="false">
-                <i th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
-
-                <a class="dropdown-item" href="/logout">Ausloggen</a>
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" th:href="'/Uebersicht'">
+        <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
+             width="180">
+    </a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline">
+            <div class="md-form my-0">
+                <input aria-label="Search" class="form-control mr-sm-2" placeholder="Search" type="text">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </div>
+        </form>
+    </div>
+
+    <div class="nav-item dropdown">
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+           id="navbarDropdownMenuLink">
+            <i class="fas fa-user" th:text="${benutzer.getBenutzerName()}"></i>
+        </a>
+        <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right dropdown-info">
+            <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
+
+            <a class="dropdown-item" href="/logout">Ausloggen</a>
         </div>
-    </nav>
+    </div>
+</nav>
 
 
-    <div class="card text-center">
+<div class="card text-center">
 
-        <div class="card-body">
-            <h5 class="card-title">Konflikt gemeldet</h5>
-            <p class="card-text">Ihr Problem wurde erfolgreich aufgenommen. Wir melden uns in Kürze per Mail.</p>
-            <img src="https://pics.me.me/thumb_708218568995958784.png" class="rounded mx-auto d-block" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">Konflikt gemeldet</h5>
+        <p class="card-text">Ihr Problem wurde erfolgreich aufgenommen. Wir melden uns in Kürze per Mail.</p>
+        <img alt="..." class="rounded mx-auto d-block" src="https://pics.me.me/thumb_708218568995958784.png">
 
 
-            <!--a th:href=" 'http://localhost:8080/Uebersicht'" class="btn btn-primary">Zurück zur Übersicht</a-->
-            <br>
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Zurück</button>
-            </br>
-            <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog">
+        <!--a th:href=" 'http://localhost:8080/Uebersicht'" class="btn btn-primary">Zurück zur Übersicht</a-->
+        <br>
+        <button class="btn btn-info btn-lg" data-target="#myModal" data-toggle="modal" type="button">Zurück</button>
+        </br>
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
 
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" type="button">&times;</button>
 
-                        </div>
-                        <div class="modal-body">
-                            <img src="https://static1.fjcdn.com/comments/Pongonsofmors+pls+_bc2ca8da0be90ab4a116cbe1a0bc612d.jpg" class="rounded mx-auto d-block" alt="...">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <img alt="..."
+                             class="rounded mx-auto d-block" src="https://static1.fjcdn.com/comments/Pongonsofmors+pls+_bc2ca8da0be90ab4a116cbe1a0bc612d.jpg">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card-footer text-muted">
-            support kontaktieren : support@eliteverleih.de
-        </div>
     </div>
+    <div class="card-footer text-muted">
+        support kontaktieren : support@eliteverleih.de
+    </div>
+</div>
 
 
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
 </body>
 
 </html>

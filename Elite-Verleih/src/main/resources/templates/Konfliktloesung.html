@@ -2,8 +2,8 @@
 <html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
     <title>Konfliktloesung</title>
 
@@ -17,7 +17,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" id="bootstrap-css" rel="stylesheet">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -26,18 +26,18 @@
 
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-    <a class="navbar-brand" >
-        <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
-             height="50">
+    <a class="navbar-brand">
+        <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
+             width="180">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline">
             <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <input aria-label="Search" class="form-control mr-sm-2" placeholder="Search" type="text">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </div>
         </form>
@@ -52,11 +52,12 @@
 
 
             <div class="card-img-top">
-                <img src="https://staticr1.blastingcdn.com/media/photogallery/2017/5/24/660x290/b_620x273/meeseeks-google-search-mi-247-final-project-mr-meeseeks-pinterestcom_1345963.jpg"  alt="Bild" class="img-fluid" align="middle" >
+                <img align="middle"
+                     alt="Bild" class="img-fluid" src="https://staticr1.blastingcdn.com/media/photogallery/2017/5/24/660x290/b_620x273/meeseeks-google-search-mi-247-final-project-mr-meeseeks-pinterestcom_1345963.jpg">
 
             </div>
             <div class="card-body">
-                <div class="card text-center" th:object="${ausleihe}" th:method="get">
+                <div class="card text-center" th:method="get" th:object="${ausleihe}">
 
                     <li class="list-group">
                     <li class="list-group-item">
@@ -65,24 +66,28 @@
                         </h3>
                     </li>
 
-                    <li class="list-group-item"   th:text="'Artikel von: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerName()}"></li>
-                    <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerEmail()}"></li>
-                    <li class="list-group-item"   th:text="'Ausgeliehen von: '+${ausleihe?.getBenutzer().getBenutzerName()}"></li>
-                    <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getBenutzer().getBenutzerEmail()}"></li>
+                    <li class="list-group-item"
+                        th:text="'Artikel von: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerName()}"></li>
+                    <li class="list-group-item"
+                        th:text="'Email: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerEmail()}"></li>
+                    <li class="list-group-item"
+                        th:text="'Ausgeliehen von: '+${ausleihe?.getBenutzer().getBenutzerName()}"></li>
+                    <li class="list-group-item" th:text="'Email: '+${ausleihe?.getBenutzer().getBenutzerEmail()}"></li>
 
 
-                    <li class ="list-group-item">
-                        <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
+                    <li class="list-group-item">
+                        <form method="post" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|"
+                              th:object="${ausleihe}">
 
-                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Verleihender" name="submitButton" onclick="clicked(event)"/>
-                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Ausleihender" name="submitButton" onclick="clicked(event)"/>
-
+                            <input class="btn btn-sm btn-outline-secondary" name="submitButton" onclick="clicked(event)"
+                                   type="submit" value="Buchung Verleihender"/>
+                            <input class="btn btn-sm btn-outline-secondary" name="submitButton" onclick="clicked(event)"
+                                   type="submit" value="Buchung Ausleihender"/>
 
 
                             <script>
-                                function clicked(e)
-                                {
-                                    if(!confirm('Kaution gebucht!'))e.preventDefault();
+                                function clicked(e) {
+                                    if (!confirm('Kaution gebucht!')) e.preventDefault();
                                 }
                             </script>
 

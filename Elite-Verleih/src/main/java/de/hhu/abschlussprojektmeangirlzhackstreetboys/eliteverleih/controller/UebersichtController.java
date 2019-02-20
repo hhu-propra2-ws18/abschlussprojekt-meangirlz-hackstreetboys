@@ -25,7 +25,7 @@ public class UebersichtController {
     ArtikelManager artikelManager;
 
     @GetMapping("/Uebersicht")
-    public String uebersichtAnzeigen(Model model, String suche, Principal account){
+    public String uebersichtAnzeigen(Model model, String suche, Principal account) {
 
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
 
@@ -33,12 +33,11 @@ public class UebersichtController {
 
         if (suche != null) {
             sortiertelListe = artikelManager.getArtikelListSortByName(suche);
-        }
-        else {
+        } else {
             sortiertelListe = artikelManager.getArtikelListSortByName("");
         }
 
-        model.addAttribute("benutzer",benutzer);
+        model.addAttribute("benutzer", benutzer);
         model.addAttribute("artikels", sortiertelListe);
 
         return "Uebersicht";
@@ -50,8 +49,7 @@ public class UebersichtController {
                                Principal account) {
         if (suchBegriff != null) {
             return "redirect:/Uebersicht" + "?suche=" + suchBegriff;
-        }
-        else {
+        } else {
             return "redirect:/Uebersicht";
         }
     }

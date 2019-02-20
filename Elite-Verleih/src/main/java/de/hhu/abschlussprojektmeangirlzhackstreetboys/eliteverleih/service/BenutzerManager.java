@@ -1,7 +1,7 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.BenutzerRepository;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDTO;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
@@ -25,11 +25,11 @@ public class BenutzerManager {
         return benutzerRepo.findAll();
     }
 
-    public boolean nameSchonVorhanden(String name){
+    public boolean nameSchonVorhanden(String name) {
         List<Benutzer> alleBenutzer = getAllBenutzer();
 
-        for(Benutzer benutzer: alleBenutzer){
-            if(benutzer.getBenutzerName().equals(name)){
+        for (Benutzer benutzer : alleBenutzer) {
+            if (benutzer.getBenutzerName().equals(name)) {
                 return true;
             }
         }
@@ -41,14 +41,18 @@ public class BenutzerManager {
     }
 
     public Benutzer erstelleBenutzer(Benutzer benutzer) {
-        if(nameSchonVorhanden(benutzer.getBenutzerName())) return null;
-        AccountDTO account = sync.getAccount(benutzer.getBenutzerName());
+        if (nameSchonVorhanden(benutzer.getBenutzerName())) {
+            return null;
+        }
+        AccountDto account = sync.getAccount(benutzer.getBenutzerName());
         return benutzerRepo.save(benutzer);
     }
 
-    public Benutzer findBenutzerByName(String name){
+    public Benutzer findBenutzerByName(String name) {
 
-        if(!benutzerRepo.findBenutzerByBenutzerName(name).isPresent()) return null;
+        if (!benutzerRepo.findBenutzerByBenutzerName(name).isPresent()) {
+            return null;
+        }
 
         return benutzerRepo.findBenutzerByBenutzerName(name).get();
     }
@@ -61,17 +65,17 @@ public class BenutzerManager {
         benutzerRepo.saveAll(Arrays.asList(alterBenutzer));
     }
 
-	public Benutzer editBenutzer(Benutzer benutzer, String email) {
+    public Benutzer editBenutzer(Benutzer benutzer, String email) {
         benutzer.setBenutzerEmail(email);
         benutzerRepo.save(benutzer);
-		return benutzer;
-	}
+        return benutzer;
+    }
 
-	public List<Ausleihe> sucheAnfragen(Benutzer benutzer, Status status) {
+    public List<Ausleihe> sucheAnfragen(Benutzer benutzer, Status status) {
         List<Ausleihe> wartend = new ArrayList<>();
-        for( Artikel a: benutzer.getArtikel() ) {
-            for (Ausleihe b: a.getAusgeliehen() ){
-                if (b.getAusleihStatus().equals(status)){
+        for (Artikel a : benutzer.getArtikel()) {
+            for (Ausleihe b : a.getAusgeliehen()) {
+                if (b.getAusleihStatus().equals(status)) {
                     wartend.add(b);
                 }
             }
@@ -79,20 +83,20 @@ public class BenutzerManager {
         return wartend;
     }
 
-	public List<Ausleihe> sucheEigeneAnfragen(Benutzer benutzer, Status status) {
-		List<Ausleihe> list = new ArrayList<Ausleihe>();
-		for (Ausleihe b : benutzer.getAusgeliehen()) {
-    		if(b.getAusleihStatus().equals(status)) {
-    			list.add(b);
-    		}
-    	}
-		return list;
-	}
+    public List<Ausleihe> sucheEigeneAnfragen(Benutzer benutzer, Status status) {
+        List<Ausleihe> list = new ArrayList<Ausleihe>();
+        for (Ausleihe b : benutzer.getAusgeliehen()) {
+            if (b.getAusleihStatus().equals(status)) {
+                list.add(b);
+            }
+        }
+        return list;
+    }
 
 
     public void geldAufladen(Benutzer newBenutzer, int aufladen) {
         System.out.println(aufladen);
-        sync.GuthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
+        sync.guthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
     }
 }
 

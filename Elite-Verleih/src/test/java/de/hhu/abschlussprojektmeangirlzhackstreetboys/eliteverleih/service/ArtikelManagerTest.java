@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 
-@Import({ArtikelManager.class})
+@Import( {ArtikelManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class ArtikelManagerTest {
@@ -27,7 +27,7 @@ public class ArtikelManagerTest {
 
     @Rollback
     @Test
-    public void createArtikel_EqualName(){
+    public void createArtikel_EqualName() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -40,13 +40,13 @@ public class ArtikelManagerTest {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
-        artikelM.erstelleArtikel(bId,a0);
+        artikelM.erstelleArtikel(bId, a0);
         Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelName().equals("Hammer"));
     }
 
     @Rollback
     @Test
-    public void bearbeiteArtikel_AndereName(){
+    public void bearbeiteArtikel_AndereName() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -59,20 +59,20 @@ public class ArtikelManagerTest {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
-        artikelM.erstelleArtikel(bId,a0);
+        artikelM.erstelleArtikel(bId, a0);
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("beschreibung");
         a1.setArtikelKaution(3);
         a1.setArtikelName("Hammer2");
         a1.setArtikelOrt("Werkstatt");
         a1.setArtikelTarif(1);
-        artikelM.bearbeiteArtikel(artikelM.getAllArtikel().get(0).getArtikelId(),a1);
+        artikelM.bearbeiteArtikel(artikelM.getAllArtikel().get(0).getArtikelId(), a1);
         Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelName()).isEqualTo("Hammer2");
     }
 
     @Rollback
     @Test
-    public void bearbeiteArtikel_AndereBeschreibung(){
+    public void bearbeiteArtikel_AndereBeschreibung() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -85,14 +85,14 @@ public class ArtikelManagerTest {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
-        artikelM.erstelleArtikel(bId,a0);
+        artikelM.erstelleArtikel(bId, a0);
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("test");
         a1.setArtikelKaution(3);
         a1.setArtikelName("Hammer2");
         a1.setArtikelOrt("Werkstatt");
         a1.setArtikelTarif(1);
-        artikelM.bearbeiteArtikel(artikelM.getAllArtikel().get(0).getArtikelId(),a1);
+        artikelM.bearbeiteArtikel(artikelM.getAllArtikel().get(0).getArtikelId(), a1);
         Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelBeschreibung().equals("test"));
     }
 }

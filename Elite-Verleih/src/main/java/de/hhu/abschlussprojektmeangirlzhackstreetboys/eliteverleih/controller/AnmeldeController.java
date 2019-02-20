@@ -23,17 +23,17 @@ public class AnmeldeController {
         model.addAttribute("benutzer", new Benutzer());
         return "Anmeldung";
     }
+
     @PostMapping("/login")
     public String login(HttpServletRequest request,
                         @RequestParam(required = false) String username,
-                        @RequestParam(required = false) String password){
-        if(!benutzerManager.nameSchonVorhanden(username)){
+                        @RequestParam(required = false) String password) {
+        if (!benutzerManager.nameSchonVorhanden(username)) {
             return "redirect:/login?error";
         }
         try {
-            request.login(username,password);
-        }
-        catch(ServletException e){
+            request.login(username, password);
+        } catch (ServletException e) {
             System.err.println(e.getMessage());
             return "redirect:/login?error";
         }
