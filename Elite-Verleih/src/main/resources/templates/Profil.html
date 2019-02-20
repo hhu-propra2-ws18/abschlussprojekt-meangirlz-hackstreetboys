@@ -1,362 +1,461 @@
 <!doctype html>
 <html lang="en">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http:thymeleaf.org">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
+          integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
     <title>Profil</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top ">
-      <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">Elite Verleih</a>
-      <a th:href="'/ProfilBearbeiten?id=' + ${benutzer.getBenutzerId()}"><img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="30px" width="30px" th:text="${benutzer.getBenutzerName()} + ' ' + ${benutzer.getBenutzerEmail()} + ' ' + ${Betrag} + '€'"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>Anfrage
-      </button>
-    </nav>
+</head>
+<body>
 
-	<div id="accordion">
-	  <div class="card">
-	    <div class="card-header" id="headingOne">
-	      <h3 class="mb-0">
-	        <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-	          <h3>Anfragen</h3>
-	        </button></center>
-	      </h3>
-	    </div>
-	  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-	    <div class="container jumbotron center">
-			<tr th:if="${anfragen.empty}">
-				<p> Du hast noch keine eingendende Anfragen</p>
-			</tr>
-
-
-			<tr th:unless="${anfragen.empty}">
-
-
-	    <p>Jemand moechte einen Artikel von dir ausleihen.</p>
-	      <div class="row">
-	        <div class="card" style="width: 17rem;">
-
-
-				<div th:each="anfrage: ${anfragen}">
-					<div class="card" style="width: 17rem;">
-						<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
-						<div class="card-body">
-							<h5 class="card-title" th:text="${anfrage.getArtikel().getArtikelName()}">ArtikelName</h5>
-							<h5 class="card-title" th:text="${anfrage.getAusleihStatus()}">Status</h5>
-							<!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-							<a th:href="|/Detailansicht/${anfrage.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
-
-							<center>
-								<form method="post" th:object="${anfrage}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${anfrage.getAusleihId()}|">
-									
-									<input class="btn btn-outline-success" type="submit" name="submitButton" value="Bestaetigen"/>
-									<input class="btn btn-outline-danger" type="submit" name="submitButton" value="Ablehnen" />
-								</form>
-							</center>
-						</div>
-					</div>
-
-				</div>
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">
+        <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
+             height="50">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline">
+            <div class="md-form my-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </div>
-	      </div>
-			</tr>
-	    </div>  
-     </div>
-   </div>
+        </form>
+    </div>
+
+    <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+           aria-expanded="false">
+            <b th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></b>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" th:text="'Guthaben: ' + ${Betrag} + ',00 €'"></a>
+            <a class="dropdown-item" th:href="'/ProfilBearbeiten?id=' + ${benutzer.getBenutzerId()}">Profil bearbeiten</a>
 
 
-  <div id="accordion">
+            <a class="dropdown-item" href="#">Ausloggen</a>
+        </div>
+    </div>
+</nav>
+
+
+
+<div id="accordion">
     <div class="card">
-      <div class="card-header" id="headingTwo">
-        <h3 class="mb-0">
-          <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-            <h3>Ausgeliehenes</h3>
-          </button></center>
-        </h3>
-      </div>
-    <div id="collapseTwo" class="collapse show" adfria-labelledby="headingTwo" data-parent="#accordion">
-      <div class="container jumbotron center">
-          <h3>Aktiv</h3>
-          <tr th:if="${bestaetigte.empty}">
-              <p> Du hast gerade keine ausgeliehene Artikel</p>
-          </tr>
+        <div class="card-header" id="headingOne">
+            <h3 class="mb-0">
+                <center>
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                            aria-controls="collapseOne">
+                        <h3>Anfragen</h3>
+                    </button>
+                </center>
+            </h3>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="container jumbotron center">
+                <tr th:if="${anfragen.empty}">
+                    <p> Du hast noch keine eingendende Anfragen</p>
+                </tr>
 
-          <tr th:unless="${bestaetigte.empty}">
 
-        <p>Deine ausgeliehenen Artikel</p>
-        <div class="row">
-          
-          <div th:each="bestaetigt: ${bestaetigte}">
-          	<div class="card" style="width: 17rem;">
-            	<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-		    	<div class="card-body">
-					<h5 class="card-title" th:text="${bestaetigt.getArtikel().getArtikelName()}">ArtikelName</h5>
-					<h5 class="card-title" th:text="${bestaetigt.getAusleihStatus()}">Status</h5>
-					<!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-					<a th:href="|/Detailansicht/${bestaetigt.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
-							<center>
-								<form method="post" th:object="${bestaetigt}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${bestaetigt.getAusleihId()}|">
-									<center><input class="btn btn-outline-success" type="submit" name="submitButton" value="Zurueckgeben"/></center>
-								</form>
-							</center>
-				</div>
-    	    </div>
-          </div>
-     </div>
-          </tr>
-  	    <br/>
-  	    <h3>Wartend</h3>
-          <tr th:if="${wartendeAnfragen.empty}">
-              <p> Du hast gerade keine Artikel angefragt</p>
-              <p> Suche <a th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">hier</a> nach Artikeln </p>
-          </tr>
+                <tr th:unless="${anfragen.empty}">
 
-          <tr th:unless="${wartendeAnfragen.empty}">
-  	    <p>Es wird auf die Bestaetigung des Besitzers gewartet.</p>
-  	    <div class="row">
-            <div th:each="wartendeAnfrage: ${wartendeAnfragen}">
-                <div class="card" style="width: 17rem;">
-                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${wartendeAnfrage.getArtikel().getArtikelName()}">ArtikelName</h5>
-                        <h5 class="card-title" th:text="${wartendeAnfrage.getAusleihStatus()}">Status</h5>
-                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                        <a th:href="|/Detailansicht/${wartendeAnfrage.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+
+                    <p>Jemand moechte einen Artikel von dir ausleihen.</p>
+                    <div class="row">
+                        <div class="card" style="width: 17rem;">
+
+
+                            <div th:each="anfrage: ${anfragen}">
+                                <div class="card" style="width: 17rem;">
+                                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
+                                         class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title" th:text="${anfrage.getArtikel().getArtikelName()}">
+                                            ArtikelName</h5>
+                                        <h5 class="card-title" th:text="${anfrage.getAusleihStatus()}">Status</h5>
+                                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                        <a th:href="|/Detailansicht/${anfrage.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+
+                                        <center>
+                                            <form method="post" th:object="${anfrage}"
+                                                  th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${anfrage.getAusleihId()}|">
+
+                                                <input class="btn btn-outline-success" type="submit" name="submitButton"
+                                                       value="Bestaetigen"/>
+                                                <input class="btn btn-outline-danger" type="submit" name="submitButton"
+                                                       value="Ablehnen"/>
+                                            </form>
+                                        </center>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </tr>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h3 class="mb-0">
+                    <center>
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo"
+                                aria-expanded="true" aria-controls="collapseTwo">
+                            <h3>Ausgeliehenes</h3>
+                        </button>
+                    </center>
+                </h3>
+            </div>
+            <div id="collapseTwo" class="collapse show" adfria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="container jumbotron center">
+                    <h3>Aktiv</h3>
+                    <tr th:if="${bestaetigte.empty}">
+                        <p> Du hast gerade keine ausgeliehene Artikel</p>
+                    </tr>
+
+                    <tr th:unless="${bestaetigte.empty}">
+
+                        <p>Deine ausgeliehenen Artikel</p>
+                        <div class="row">
+
+                            <div th:each="bestaetigt: ${bestaetigte}">
+                                <div class="card" style="width: 17rem;">
+                                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
+                                         heigt="25px" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title" th:text="${bestaetigt.getArtikel().getArtikelName()}">
+                                            ArtikelName</h5>
+                                        <h5 class="card-title" th:text="${bestaetigt.getAusleihStatus()}">Status</h5>
+                                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                        <a th:href="|/Detailansicht/${bestaetigt.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                        <center>
+                                            <form method="post" th:object="${bestaetigt}"
+                                                  th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${bestaetigt.getAusleihId()}|">
+                                                <center><input class="btn btn-outline-success" type="submit"
+                                                               name="submitButton" value="Zurueckgeben"/></center>
+                                            </form>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                    <br/>
+                    <h3>Wartend</h3>
+                    <tr th:if="${wartendeAnfragen.empty}">
+                        <p> Du hast gerade keine Artikel angefragt</p>
+                        <p> Suche <a th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">hier</a> nach Artikeln
+                        </p>
+                    </tr>
+
+                    <tr th:unless="${wartendeAnfragen.empty}">
+                        <p>Es wird auf die Bestaetigung des Besitzers gewartet.</p>
+                        <div class="row">
+                            <div th:each="wartendeAnfrage: ${wartendeAnfragen}">
+                                <div class="card" style="width: 17rem;">
+                                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
+                                         heigt="25px" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title"
+                                            th:text="${wartendeAnfrage.getArtikel().getArtikelName()}">ArtikelName</h5>
+                                        <h5 class="card-title" th:text="${wartendeAnfrage.getAusleihStatus()}">
+                                            Status</h5>
+                                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                        <a th:href="|/Detailansicht/${wartendeAnfrage.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                        <center>
+                                            <form method="post" th:object="${wartendeAnfrage}"
+                                                  th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${wartendeAnfrage.getAusleihId()}|">
+                                                <center><input class="btn btn-outline-danger" type="submit"
+                                                               name="submitButton" value="Zurueckziehen"/></center>
+                                            </form>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tr>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingThree">
+                    <h3 class="mb-0">
                         <center>
-                            <form method="post" th:object="${wartendeAnfrage}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${wartendeAnfrage.getAusleihId()}|">
-                                <center><input class="btn btn-outline-danger" type="submit" name="submitButton" value="Zurueckziehen"/></center>
-                            </form>
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree"
+                                    aria-expanded="true" aria-controls="collapseThree">
+                                <h3>Eigene Artikel</h3>
+                            </button>
                         </center>
+                    </h3>
+
+
+                </div>
+
+
+                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="container jumbotron center">
+                        <tr th:if="${(benutzer.getArtikel()).empty}">
+                            <center><p> Du hast noch keine Artikel eingestellt. Sharing is caring! </br></br>Erstelle
+                                jetzt deinen ersten Artikel! </p>
+                                <div>
+                                    <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
+                                        <button class="btn btn-success mx-auto btn-lg mr-sm-2" type="button"> +</button>
+                                    </a>
+                                </div>
+                            </center>
+                        </tr>
+                        <tr th:unless="${(benutzer.getArtikel()).empty}">
+                            <h3>Verliehenes</h3>
+                            <p>Deine aktiv verliehenen Artikel</p>
+                            <div class="row">
+                                <div th:each="verliehene: ${verliehenes}">
+                                    <div class="card" style="width: 17rem;">
+                                        <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
+                                             heigt="25px" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title"
+                                                th:text="${verliehene.getArtikel().getArtikelName()}">ArtikelName</h5>
+                                            <h5 class="card-title" th:text="${verliehene.getAusleihStatus()}">
+                                                Status</h5>
+                                            <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                            <a th:href="|/Detailansicht/${verliehene.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                            <center>
+                                                <form method="post" th:object="${verliehene}"
+                                                      th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${verliehene.getAusleihId()}|">
+                                                    <center><input class="btn btn-outline-danger" type="submit"
+                                                                   name="submitButton" value="Konflikt"/></center>
+                                                </form>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <h3>Angebotene</h3>
+                            <p>Deine Artikel zum verleihen.</p>
+                            <div class="row">
+                                <div th:each="artikel: ${benutzer.getArtikel()}">
+                                    <div class="card" style="width: 17rem;">
+                                        <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
+                                             class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title" th:text="${artikel.getArtikelName()}">
+                                                ArtikelName</h5>
+                                            <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                            <a th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
+                                            <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom"
+                                                    type="button"> +
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <h3>Zurueckerhaltenes</h3>
+                            <p>Deine zurueckerhaltenen Artikel.
+                                <br/> Bei Problemen benachrichtige bitte unseren Support.</p>
+                            <div class="row">
+                                <div th:each="zurueckerhalten: ${zurueckerhaltene}">
+                                    <div class="card" style="width: 17rem;">
+                                        <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
+                                             heigt="25px" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                            <h5 class="card-title"
+                                                th:text="${zurueckerhalten.getArtikel().getArtikelName()}">
+                                                ArtikelName</h5>
+                                            <h5 class="card-title" th:text="${zurueckerhalten.getAusleihStatus()}">
+                                                Status</h5>
+                                            <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                            <a th:href="|/Detailansicht/${zurueckerhalten.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                            <center>
+                                                <form method="post" th:object="${zurueckerhalten}"
+                                                      th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${zurueckerhalten.getAusleihId()}|">
+                                                    <center>
+                                                        <input class="btn btn-outline-success" type="submit"
+                                                               name="submitButton" value="Akzeptieren"/>
+                                                        <input class="btn btn-outline-danger" type="submit"
+                                                               name="submitButton" value="Konflikt"/></center>
+                                                </form>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </tr>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingFour">
+                    <h3 class="mb-0">
+                        <center>
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour"
+                                    aria-expanded="true" aria-controls="collapseFour">
+                                <h3>Zurueckgegebene Artikel</h3>
+                            </button>
+                        </center>
+                    </h3>
+                </div>
+            </div>
+            <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
+                <div class="container jumbotron center">
+                    <h3>Ausstehend(e)</h3>
+                    <tr th:if="${zurueckgegebene.empty}">
+                        <p>Alle Rueckgaben wurden akzeptiert.</p>
+                    </tr>
+                    <tr th:unless="${zurueckgegebene.empty}">
+                        <p>Wir warten noch auf die Bestaetigung des Besitzers, dass der ausgeliehene Artikel in Ordnung
+                            ist.</p>
+                        <div class="row">
+                            <div th:each="zurueckgegeben: ${zurueckgegebene}">
+                                <div class="card" style="width: 17rem;">
+                                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
+                                         heigt="25px" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title"
+                                            th:text="${zurueckgegeben.getArtikel().getArtikelName()}">ArtikelName</h5>
+                                        <h5 class="card-title" th:text="${zurueckgegeben.getAusleihStatus()}">
+                                            Status</h5>
+                                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                        <a th:href="|/Detailansicht/${zurueckgegeben.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                        <center>
+                                            <form method="post" th:object="${zurueckgegeben}"
+                                                  th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${zurueckgegeben.getAusleihId()}|">
+                                                <center><input class="btn btn-outline-danger" type="submit"
+                                                               name="submitButton" value="Problem"/></center>
+                                            </form>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </tr>
+                    <br/>
+                    <h3>Erfolgreich</h3>
+                    <p>Deine erfolgreich zurueckgegebenen Artikel</p>
+                    <div th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
+                        <div class="card" style="width: 17rem;">
+                            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
+                                 heigt="25px" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title"
+                                    th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">
+                                    ArtikelName</h5>
+                                <h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getAusleihStatus()}">
+                                    Status</h5>
+                                <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                <a th:href="|/Detailansicht/${erfolgreichZurueckgegeben.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                <center>
+                                    <form method="post" th:object="${erfolgreichZurueckgegeben}"
+                                          th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${erfolgreichZurueckgegeben.getAusleihId()}|">
+                                        <center><input class="btn btn-outline-danger" type="submit" name="submitButton"
+                                                       value="Entfernen"/></center>
+                                    </form>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" id="headingFive">
+                    <h3 class="mb-0">
+                        <center>
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFive"
+                                    aria-expanded="true" aria-controls="collapseFive">
+                                <h3>Konflikte</h3>
+                            </button>
+                        </center>
+                    </h3>
+                </div>
+                <div id="collapseFive" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="container jumbotron center">
+                        <tr th:if="${konflikte.empty}">
+                            <p> Keine Konflikte vorhanden. </p>
+                        </tr>
+
+
+                        <tr th:unless="${konflikte.empty}">
+
+
+                            <p>Es gibt aktive Konflikte.</p>
+                            <div class="row">
+                                <div class="card" style="width: 17rem;">
+
+
+                                    <div th:each="konflikt: ${konflikte}">
+                                        <div class="card" style="width: 17rem;">
+                                            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
+                                                 class="card-img-top" alt="...">
+                                            <div class="card-body">
+                                                <h5 class="card-title"
+                                                    th:text="${konflikt.getArtikel().getArtikelName()}">ArtikelName</h5>
+                                                <h5 class="card-title" th:text="${konflikt.getAusleihStatus()}">
+                                                    Status</h5>
+                                                <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                                <a th:href="|/Detailansicht/${konflikt.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+
+                                                <center>
+                                                    <form method="post" th:object="${konflikt}"
+                                                          th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${konflikt.getAusleihId()}|">
+
+                                                        <input class="btn btn-outline-success" type="submit"
+                                                               name="submitButton" value="Geloest"/>
+                                                    </form>
+                                                </center>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </tr>
                     </div>
                 </div>
             </div>
 
 
-  	    </div>
-          </tr>
-	  </div>
-    </div>
-  </div>
-
-
-  <div id="accordion">
-    <div class="card">
-      <div class="card-header" id="headingThree">
-        <h3 class="mb-0">
-          <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-            <h3>Eigene Artikel</h3>
-          </button></center>
-        </h3>
-        
-        
-       
-      </div>
-      
-      
-      <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
-        <div class="container jumbotron center">
-        <tr th:if="${(benutzer.getArtikel()).empty}">
-          <center>	<p> Du hast noch keine Artikel eingestellt. Sharing is caring! </br></br>Erstelle jetzt deinen ersten Artikel! </p>
-          <div>
-    		  <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
-        	  <button class="btn btn-success mx-auto btn-lg mr-sm-2" type="button"> + </button>
-    		  </a>
-		  </div> </center>
-        </tr>
-        <tr th:unless="${(benutzer.getArtikel()).empty}">
-          <h3>Verliehenes</h3>
-            <p>Deine aktiv verliehenen Artikel</p>
-          <div class="row">
-			  <div th:each="verliehene: ${verliehenes}">
-				  <div class="card" style="width: 17rem;">
-					  <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-					  <div class="card-body">
-						  <h5 class="card-title" th:text="${verliehene.getArtikel().getArtikelName()}">ArtikelName</h5>
-						  <h5 class="card-title" th:text="${verliehene.getAusleihStatus()}">Status</h5>
-						  <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-						  <a th:href="|/Detailansicht/${verliehene.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
-						  <center>
-							  <form method="post" th:object="${verliehene}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${verliehene.getAusleihId()}|">
-								  <center><input class="btn btn-outline-danger" type="submit" name="submitButton" value="Konflikt"/></center>
-							  </form>
-						  </center>
-					  </div>
-				  </div>
-			  </div>
-  		       </div>
-  		  <br/>
-  		  <h3>Angebotene</h3>
-  		  <p>Deine Artikel zum verleihen.</p>
-          <div class="row">
-	  		<div th:each="artikel: ${benutzer.getArtikel()}">
-	  		  <div class="card" style="width: 17rem;">
-	    	    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
-	    		<div class="card-body">
-	      		  <h5 class="card-title" th:text="${artikel.getArtikelName()}">ArtikelName</h5>
-	      		  <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-	      		  <a th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
-	    		</div>
-	  		</div>
-	  		  <div>
-    		   <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
-        		<button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom" type="button"> + </button>
-    		   </a>
-			  </div>
-  		  </div>
-  		  </div>
-  		  <br/>
-  		  <h3>Zurueckerhaltenes</h3>
-  		  <p>Deine zurueckerhaltenen Artikel. 
-  		  <br/> Bei Problemen benachrichtige bitte unseren Support.</p>
-    	  <div class="row">
-  			<div th:each="zurueckerhalten: ${zurueckerhaltene}">
-          	<div class="card" style="width: 17rem;">
-            	<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-		    	<div class="card-body">
-					<h5 class="card-title" th:text="${zurueckerhalten.getArtikel().getArtikelName()}">ArtikelName</h5>
-					<h5 class="card-title" th:text="${zurueckerhalten.getAusleihStatus()}">Status</h5>
-					<!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-					<a th:href="|/Detailansicht/${zurueckerhalten.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
-							<center>
-								<form method="post" th:object="${zurueckerhalten}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${zurueckerhalten.getAusleihId()}|">
-									<center>
-									<input class="btn btn-outline-success" type="submit" name="submitButton" value="Akzeptieren" />
-           		    				<input class="btn btn-outline-danger" type="submit" name="submitButton" value="Konflikt" /></center>
-								</form>
-							</center>
-				</div>
-    	    </div>
-          </div>
-  			
-  			
-  		  </div>
-  		   </tr>
-  		</div>
-  	  </div>
-  	 
-  	</div>
-  </div>
-
-
-  <div id="accordion">
-    <div class="card">
-      <div class="card-header" id="headingFour">
-        <h3 class="mb-0">
-          <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-            <h3>Zurueckgegebene Artikel</h3>
-            </button></center>
-        </h3>
-      </div>
-    </div>
-    <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
-	  <div class="container jumbotron center">
-		  <h3>Ausstehend(e)</h3>
-          <tr th:if="${zurueckgegebene.empty}">
-            <p>Alle Rueckgaben wurden akzeptiert.</p>
-          </tr>
-          <tr th:unless="${zurueckgegebene.empty}">
-	  <p>Wir warten noch auf die Bestaetigung des Besitzers, dass der ausgeliehene Artikel in Ordnung ist.</p>
-  		<div class="row">
-  		  <div th:each="zurueckgegeben: ${zurueckgegebene}">
-          	<div class="card" style="width: 17rem;">
-            	<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-		    	<div class="card-body">
-					<h5 class="card-title" th:text="${zurueckgegeben.getArtikel().getArtikelName()}">ArtikelName</h5>
-					<h5 class="card-title" th:text="${zurueckgegeben.getAusleihStatus()}">Status</h5>
-					<!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-					<a th:href="|/Detailansicht/${zurueckgegeben.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
-							<center>
-								<form method="post" th:object="${zurueckgegeben}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${zurueckgegeben.getAusleihId()}|">
-									<center><input class="btn btn-outline-danger" type="submit" name="submitButton" value="Problem"/></center>
-								</form>
-							</center>
-				</div>
-    	    </div>
-          </div>
-  		  
-  		  
-		</div>
-          </tr>
-		<br/>
-		<h3>Erfolgreich</h3>
-          <p>Deine erfolgreich zurueckgegebenen Artikel</p>
-		<div th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
-			<div class="card" style="width: 17rem;">
-				<img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="25px" class="card-img-top" alt="...">
-				<div class="card-body">
-					<h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">ArtikelName</h5>
-					<h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getAusleihStatus()}">Status</h5>
-					<!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-					<a th:href="|/Detailansicht/${erfolgreichZurueckgegeben.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
-					<center>
-						<form method="post" th:object="${erfolgreichZurueckgegeben}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${erfolgreichZurueckgegeben.getAusleihId()}|">
-							<center><input class="btn btn-outline-danger" type="submit" name="submitButton" value="Entfernen"/></center>
-						</form>
-					</center>
-				</div>
-			</div>
-		</div>
-	  </div>
-    </div>
-  </div>
-
-
-	  <div id="accordion">
-		  <div class="card">
-			  <div class="card-header" id="headingFive">
-				  <h3 class="mb-0">
-					  <center><button class="btn btn-link" data-toggle="collapse" data-target="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-						  <h3>Konflikte</h3>
-					  </button></center>
-				  </h3>
-			  </div>
-			  <div id="collapseFive" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-				  <div class="container jumbotron center">
-					  <tr th:if="${konflikte.empty}">
-						  <p> Keine Konflikte vorhanden. </p>
-					  </tr>
-
-
-					  <tr th:unless="${konflikte.empty}">
-
-
-						  <p>Es gibt aktive Konflikte.</p>
-						  <div class="row">
-							  <div class="card" style="width: 17rem;">
-
-
-								  <div th:each="konflikt: ${konflikte}">
-									  <div class="card" style="width: 17rem;">
-										  <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" class="card-img-top" alt="...">
-										  <div class="card-body">
-											  <h5 class="card-title" th:text="${konflikt.getArtikel().getArtikelName()}">ArtikelName</h5>
-											  <h5 class="card-title" th:text="${konflikt.getAusleihStatus()}">Status</h5>
-											  <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-											  <a th:href="|/Detailansicht/${konflikt.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
-
-											  <center>
-												  <form method="post" th:object="${konflikt}" th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${konflikt.getAusleihId()}|">
-
-													  <input class="btn btn-outline-success" type="submit" name="submitButton" value="Geloest"/>
-												  </form>
-											  </center>
-										  </div>
-									  </div>
-
-								  </div>
-							  </div>
-						  </div>
-					  </tr>
-				  </div>
-			  </div>
-		  </div>
-
-
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
-  </body>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                    crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                    crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"
+                    integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
+                    crossorigin="anonymous"></script>
+</body>
 </html>
