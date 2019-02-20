@@ -41,15 +41,9 @@
 </nav>
 
 
-<section class="jumbotron text-center">
-
-    <tr th:if="${artikel==null}">
+<section th:if="${artikel==null}" class="jumbotron text-center">
         <p class="lead text-muted">Artikel nicht vorhanden.</p>
-    </tr>
-
 </section>
-
-
 
 <div th:if="${artikel!=null}" class="album py-5 bg-light">
     <div class="container-fluid" >
@@ -63,7 +57,7 @@
                             <span th:text="${artikel.artikelName}"></span>
                         </h3>
                         <div class="thumbnail">
-                            <img src="http://cdn3.spiegel.de/images/image-1341296-860_galleryfree-dshe-1341296.jpg" alt="Bild" class="img-fluid" >
+                            <img th:src="${artikel.getArtikelBildURL()}" alt="Bild" class="img-fluid" >
 
                         </div>
                         <div class="card text-center" th:object="${artikel}" th:method="get">
