@@ -27,7 +27,7 @@ public class DataInitializer implements ServletContextInitializer {
     @Autowired
     AusleiheManager ausleiheM;
 
-    private String standardPasswort = "passwort";
+    private String standardPasswort = "1";
     private String userRolle = "ROLE_USER";
 
     @Override
