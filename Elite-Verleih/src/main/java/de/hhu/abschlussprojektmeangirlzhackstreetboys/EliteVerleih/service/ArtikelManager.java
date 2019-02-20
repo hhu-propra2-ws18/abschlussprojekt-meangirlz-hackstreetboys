@@ -3,7 +3,9 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,9 +59,20 @@ public class ArtikelManager {
     public void deleteArtikel(Long artikelId){
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(artikelRepo.findArtikelByArtikelId(artikelId).getBenutzer().getBenutzerId());
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
-        benutzer.getArtikel().remove(artikel);
-
-        benutzerRepo.save(benutzer);
-        artikelRepo.delete(artikel);
+        List<Ausleihe> ausleihen = benutzer.getAusgeliehen();
+        if(artikel.getAusgeliehen().isEmpty()){
+            benutzer.getArtikel().remove(artikel);
+            benutzerRepo.save(benutzer);
+            artikelRepo.delete(artikel);
+        }
+        else {
+            for(Ausleihe a: ausleihen ){
+                if(a.getAusleihStatus()!= Status.BESTAETIGT){
+                    benutzer.getArtikel().remove(artikel);
+                    benutzerRepo.save(benutzer);
+                    artikelRepo.delete(artikel);
+                }
+            }
+        }
     }
 }
