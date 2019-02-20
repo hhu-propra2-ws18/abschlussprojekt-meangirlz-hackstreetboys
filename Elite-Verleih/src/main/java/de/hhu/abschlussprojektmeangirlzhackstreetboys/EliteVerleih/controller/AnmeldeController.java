@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 
 @Controller
 public class AnmeldeController {
@@ -25,64 +23,25 @@ public class AnmeldeController {
     @Autowired
     BenutzerManager benutzerManager;
 
-    private RequestCache requestCache = new HttpSessionRequestCache();
-
     @GetMapping("/login")
     public String AnmeldungAnzeigen(Model model, Integer login) {
-        if (login != null) {
-            model.addAttribute("istFalsch", login);
-        } else {
-            model.addAttribute("istFalsch", 0);
-        }
         model.addAttribute("benutzer", new Benutzer());
         return "Anmeldung";
     }
-
-    /*
-    @PostMapping("/login")
-    public String login(HttpServletRequest request, HttpServletResponse response, BindingResult result,
-                        @RequestParam(required = false) String username,
-                        @RequestParam(required = false) String password) {
-
-        System.err.println("Panik!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        Benutzer benutzer = benutzerManager.findBenutzerByName(username);
-        if (benutzer == null) {
-            return "redirect:/";
-        }
-        try {
-            request.login(username, password);
-            SavedRequest savedRequest = requestCache.getRequest(request, response);
-            if (savedRequest == null) {
-                return "redirect:/";
-            }
-
-        } catch (Exception e) {
-            result.rejectValue(null, "authentication.failed");
-            return "login";
-        }
-
-        return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
-    } */
     @PostMapping("/login")
     public String login(HttpServletRequest request,
                         @RequestParam(required = false) String username,
-                        @RequestParam(required = false) String password) throws ServletException {
-
-        System.err.println("Panik!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + username);
-        request.login(username,password);
+                        @RequestParam(required = false) String password){
+        if(!benutzerManager.nameSchonVorhanden(username)){
+            return "redirect:/login?error";
+        }
+        try {
+            request.login(username,password);
+        }
+        catch(ServletException e){
+            System.err.println(e.getMessage());
+            return "redirect:/login?error";
+        }
         return "redirect:/Uebersicht?id=1";
-    }
-
-    @GetMapping("/Logout")
-    public String logoutAnzeigen( Model model, Integer login, Principal user) {
-        System.err.println("User Role: "+ user.toString());
-        return "logout";
-    }
-
-    @PostMapping("/Logout")
-    public String logout(HttpServletRequest request,Model model, Integer login) throws ServletException {
-
-        request.logout();
-        return "redirect:/logout";
     }
 }

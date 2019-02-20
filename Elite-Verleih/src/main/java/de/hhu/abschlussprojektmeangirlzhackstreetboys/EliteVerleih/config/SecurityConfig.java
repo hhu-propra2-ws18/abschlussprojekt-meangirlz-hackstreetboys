@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf().disable().authorizeRequests()
                 .antMatchers("/registrieren").permitAll()
-                .antMatchers("/Logout").permitAll()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/*").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
@@ -34,14 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/Uebersicht?id=1",true)
-                .failureUrl("/login?error=true")
+                .failureUrl("/login?error")
                 .permitAll()
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        //auth.inMemoryAuthentication()
-               // .withUser("Jens").password("{noop}password").roles("USER");
     }
 }
