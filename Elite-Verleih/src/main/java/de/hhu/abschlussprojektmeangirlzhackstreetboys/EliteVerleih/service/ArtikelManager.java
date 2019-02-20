@@ -53,4 +53,8 @@ public class ArtikelManager {
 
         artikelRepo.saveAll(Arrays.asList(alterArtikel));
     }
+
+    public List<Artikel> getArtikelListSortByName(String suchBegriff){
+        return artikelRepo.findAllByArtikelNameContainsOrderByArtikelNameAsc(suchBegriff);
+    }
 }
