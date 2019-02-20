@@ -36,17 +36,9 @@ public class MyUserDetailsService implements UserDetailsService {
         boolean accountNonLocked = true;
         return  new org.springframework.security.core.userdetails.User
                 (benutzer.getBenutzerName(),
-                        "{noop}password", enabled, accountNonExpired,
+                        "{noop}"+ benutzer.getBenutzerPasswort(), enabled, accountNonExpired,
                         credentialsNonExpired, accountNonLocked,
-                        getAuthority("ROLE_USER"));
-    }
-
-    private static List<GrantedAuthority> getAuthorities (List<String> roles) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role));
-        }
-        return authorities;
+                        getAuthority(benutzer.getBenutzerRolle()));
     }
     private static List<GrantedAuthority> getAuthority (String role) {
         List<GrantedAuthority> authorities = new ArrayList<>();

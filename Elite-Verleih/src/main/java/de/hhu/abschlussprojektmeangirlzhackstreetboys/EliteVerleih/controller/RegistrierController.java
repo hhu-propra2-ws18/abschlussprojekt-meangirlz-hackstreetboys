@@ -35,8 +35,10 @@ public class RegistrierController {
             (@ModelAttribute @Valid Benutzer benutzer,
              BindingResult result, HttpServletRequest request) throws ServletException {
         Benutzer registered = new Benutzer();
-        if (!result.hasErrors()) {
 
+        if (!result.hasErrors()) {
+            benutzer.setBenutzerPasswort(benutzer.getBenutzerPasswort());
+            benutzer.setBenutzerRolle("ROLE_USER");
             registered = benutzerManager.erstelleBenutzer(benutzer);
         }
         if (registered == null) {
