@@ -24,6 +24,9 @@ public class DataInitializer implements ServletContextInitializer {
     @Autowired
     AusleiheManager ausleiheM;
 
+    private String standardPasswort = "passwort";
+    private String userRolle = "ROLE_USER";
+
     @Override
     public void onStartup(ServletContext servletContext)
             throws ServletException {
@@ -33,6 +36,8 @@ public class DataInitializer implements ServletContextInitializer {
         support.setBenutzerEmail("support@hhu.de");
         support.setBenutzerName("support");
         support.setArtikel(new ArrayList<Artikel>());
+        support.setBenutzerPasswort(standardPasswort);
+        support.setBenutzerRolle("ROLE_ADMIN");
         benutzerM.erstelleBenutzer(support);
         Long supportId= benutzerM.findBenutzerByName("support").getBenutzerId();
 
@@ -40,6 +45,8 @@ public class DataInitializer implements ServletContextInitializer {
         bJens.setBenutzerEmail("Jemail@hhu.de");
         bJens.setBenutzerName("Jens");
         bJens.setArtikel(new ArrayList<Artikel>());
+        bJens.setBenutzerPasswort(standardPasswort);
+        bJens.setBenutzerRolle(userRolle);
         benutzerM.erstelleBenutzer(bJens);
         Long jensId = benutzerM.findBenutzerByName("Jens").getBenutzerId();
 
@@ -47,6 +54,8 @@ public class DataInitializer implements ServletContextInitializer {
         bAntoine.setBenutzerEmail("nashorn@wgpartner.nh");
         bAntoine.setBenutzerName("Antoine");
         bAntoine.setArtikel(new ArrayList<Artikel>());
+        bAntoine.setBenutzerPasswort(standardPasswort);
+        bAntoine.setBenutzerRolle(userRolle);
         benutzerM.erstelleBenutzer(bAntoine);
         Long antoineId = benutzerM.findBenutzerByName("Antoine").getBenutzerId();
 
@@ -54,6 +63,8 @@ public class DataInitializer implements ServletContextInitializer {
         bTimo.setBenutzerEmail("timo@edithackstreetboys.de");
         bTimo.setBenutzerName("Timo");
         bTimo.setArtikel(new ArrayList<Artikel>());
+        bTimo.setBenutzerPasswort(standardPasswort);
+        bTimo.setBenutzerRolle(userRolle);
         benutzerM.erstelleBenutzer(bTimo);
         Long timoId = benutzerM.findBenutzerByName("Timo").getBenutzerId();
 
@@ -61,6 +72,8 @@ public class DataInitializer implements ServletContextInitializer {
         bSchwarzmarktVerkäufer.setBenutzerEmail("scam@yohoo.de");
         bSchwarzmarktVerkäufer.setBenutzerName("SchwarzmarktVerkäufer");
         bSchwarzmarktVerkäufer.setArtikel(new ArrayList<Artikel>());
+        bSchwarzmarktVerkäufer.setBenutzerPasswort(standardPasswort);
+        bSchwarzmarktVerkäufer.setBenutzerRolle(userRolle);
         benutzerM.erstelleBenutzer(bSchwarzmarktVerkäufer);
         Long sVId = benutzerM.findBenutzerByName("SchwarzmarktVerkäufer").getBenutzerId();
 
@@ -68,6 +81,8 @@ public class DataInitializer implements ServletContextInitializer {
         bMafiaUser07.setBenutzerEmail("mafioso@mafia.it");
         bMafiaUser07.setBenutzerName("MafiaUser07");
         bMafiaUser07.setArtikel(new ArrayList<Artikel>());
+        bMafiaUser07.setBenutzerPasswort(standardPasswort);
+        bMafiaUser07.setBenutzerRolle(userRolle);
         benutzerM.erstelleBenutzer(bMafiaUser07);
         Long mUId = benutzerM.findBenutzerByName("MafiaUser07").getBenutzerId();
 
