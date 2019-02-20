@@ -1,7 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
@@ -20,6 +19,8 @@ import java.util.Date;
 @Controller
 public class DetailansichtController {
 
+    DataSync sync = new DataSync();
+
     @Autowired
     AusleiheManager ausleiheManager;
 
@@ -29,15 +30,19 @@ public class DetailansichtController {
     @Autowired
     BenutzerManager benutzerManager;
 
-    @Autowired
-    ArtikelRepository arikelRepo;
-
 
     @GetMapping("/Detailansicht/{artikelId}")
     public String DetailansichtAnzeigen(@PathVariable Long artikelId, Model model, Long id){
         model.addAttribute("artikel", artikelManager.getArtikelById(artikelId));
         model.addAttribute("benutzer", benutzerManager.getBenutzerById(id));
         return "Detailansicht";
+    }
+
+    @GetMapping("/FehlendesGuthaben")
+    public String fehlendesGuthaben(Model model, Long id){
+        model.addAttribute("benutzer", benutzerManager.getBenutzerById(id));
+
+        return "FehlendesGuthaben";
     }
 
     @PostMapping("/Detailansicht/{artikelId}")
@@ -61,6 +66,17 @@ public class DetailansichtController {
             return "redirect:/Ausgeliehen?id="+b.getBenutzerId();
         }
         Ausleihe aus = ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
+
+        double guthabenB = sync.getAccount(b.getBenutzerName()).getAmount();
+
+        if(guthabenB < artikel.getArtikelKaution()){
+            return "redirect:/FehlendesGuthaben?id=" + b.getBenutzerId();
+        }else{
+            ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
+        }
+
+
+
         return "redirect:/Uebersicht?id=" + b.getBenutzerId();
     }
 
