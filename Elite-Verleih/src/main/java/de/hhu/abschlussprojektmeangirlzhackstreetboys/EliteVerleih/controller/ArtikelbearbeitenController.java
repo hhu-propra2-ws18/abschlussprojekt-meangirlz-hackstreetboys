@@ -1,15 +1,21 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.AusleiheRepository;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.ArtikelManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class ArtikelbearbeitenController {
@@ -19,6 +25,15 @@ public class ArtikelbearbeitenController {
 
     @Autowired
     BenutzerManager benutzerManager;
+
+    @Autowired
+    ArtikelManager artikelManager;
+
+    @Autowired
+    BenutzerRepository benutzerRepo;
+
+    @Autowired
+    AusleiheRepository ausleiheRepo;
 
     @GetMapping("/Bearbeiten/{artikelId}")
     public String bearbeiteArtikel(@PathVariable long artikelId, Model model, Long id ){
@@ -43,9 +58,8 @@ public class ArtikelbearbeitenController {
 
     @RequestMapping("/Loeschen/{artikelId}")
     public String delete(@PathVariable long artikelId, Long id){
+        artikelManager.deleteArtikel(artikelId);
         Benutzer benutzer = benutzerManager.getBenutzerById(id);
-        //Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
-        artikelRepo.deleteById(artikelId);
         return "redirect:/Uebersicht?id=" + benutzer.getBenutzerId();
     }
 

@@ -53,4 +53,13 @@ public class ArtikelManager {
 
         artikelRepo.saveAll(Arrays.asList(alterArtikel));
     }
+
+    public void deleteArtikel(Long artikelId){
+        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(artikelRepo.findArtikelByArtikelId(artikelId).getBenutzer().getBenutzerId());
+        Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+        benutzer.getArtikel().remove(artikel);
+
+        benutzerRepo.save(benutzer);
+        artikelRepo.delete(artikel);
+    }
 }
