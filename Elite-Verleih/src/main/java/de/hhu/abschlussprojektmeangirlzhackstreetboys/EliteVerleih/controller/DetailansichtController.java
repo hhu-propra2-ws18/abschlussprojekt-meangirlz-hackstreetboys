@@ -18,6 +18,8 @@ import java.util.Date;
 @Controller
 public class DetailansichtController {
 
+    DataSync sync = new DataSync();
+
     @Autowired
     AusleiheManager ausleiheManager;
 
@@ -33,6 +35,13 @@ public class DetailansichtController {
         model.addAttribute("artikel", artikelManager.getArtikelById(artikelId));
         model.addAttribute("benutzer", benutzerManager.getBenutzerById(id));
         return "Detailansicht";
+    }
+
+    @GetMapping("/FehlendesGuthaben")
+    public String fehlendesGuthaben(Model model, Long id){
+        model.addAttribute("benutzer", benutzerManager.getBenutzerById(id));
+
+        return "FehlendesGuthaben";
     }
 
     @PostMapping("/Detailansicht/{artikelId}")
@@ -53,7 +62,15 @@ public class DetailansichtController {
         Benutzer b = benutzerManager.getBenutzerById(id);
         Artikel artikel = artikelManager.getArtikelById(artikelId);
 
-        ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
+        double guthabenB = sync.getAccount(b.getBenutzerName()).getAmount();
+
+        if(guthabenB < artikel.getArtikelKaution()){
+            return "redirect:/FehlendesGuthaben?id=" + b.getBenutzerId();
+        }else{
+            ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
+        }
+
+
 
         return "redirect:/Uebersicht?id=" + b.getBenutzerId();
     }
