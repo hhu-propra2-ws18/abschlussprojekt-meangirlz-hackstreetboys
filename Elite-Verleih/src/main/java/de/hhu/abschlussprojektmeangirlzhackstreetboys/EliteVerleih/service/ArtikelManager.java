@@ -75,4 +75,8 @@ public class ArtikelManager {
             }
         }
     }
+
+    public List<Artikel> getArtikelListSortByName(String suchBegriff){
+        return artikelRepo.findAllByArtikelNameContainsOrderByArtikelNameAsc(suchBegriff);
+    }
 }

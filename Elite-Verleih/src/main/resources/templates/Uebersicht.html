@@ -34,10 +34,10 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline">
+        <form class="form-inline" method="post">
             <div class="md-form my-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2" type="text" name="suchBegriff" placeholder="Suchen" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="sucheButton">Suchen</button>
             </div>
         </form>
     </div>
@@ -50,7 +50,7 @@
         <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" th:href="'/Profil?id=' + ${benutzer.getBenutzerId()}">Mein Profil</a>
 
-            <a class="dropdown-item" href="#">Ausloggen</a>
+            <a class="dropdown-item" href="/Logout">Ausloggen</a>
         </div>
     </div>
 </nav>
@@ -62,7 +62,7 @@
                 <img th:src="${artikel.getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${artikel.getArtikelName()}">Artikelname</h5>
-                    <p class="card-text" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>
+                    <p class="card-text text-truncate" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>
                     <p class="card-text" th:text="|Kosten/Tag : ${artikel.getArtikelTarif()},00€|">Kosten/Tag</p>
                 </div>
             </div></a>
