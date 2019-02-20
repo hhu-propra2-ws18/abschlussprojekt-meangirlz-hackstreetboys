@@ -14,7 +14,7 @@
 
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">
         <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
              height="50">
     </a>
@@ -30,18 +30,17 @@
             </div>
         </form>
     </div>
-    <!--TODO: Dropdown für Profil und Ausloggen machen-->
 
     <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false">
-            <i class="fas fa-user"></i>Profile
+            <i th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Mein Profil</a>
+            <a class="dropdown-item" th:href="'/Profil?id=' + ${benutzer.getBenutzerId()}">Mein Profil</a>
+
             <a class="dropdown-item" href="#">Ausloggen</a>
         </div>
-        <!--button class="btn btn-default btn-sm" type="button" th:text="${benutzer?.getBenutzerName()}"></button-->
     </div>
 </nav>
 
