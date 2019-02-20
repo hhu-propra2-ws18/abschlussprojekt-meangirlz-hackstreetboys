@@ -67,7 +67,7 @@ public class ArtikelManagerTest {
         a1.setArtikelOrt("Werkstatt");
         a1.setArtikelTarif(1);
         artikelM.bearbeiteArtikel(artikelM.getAllArtikel().get(0).getArtikelId(),a1);
-        Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelName().equals("Hammer2"));
+        Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelName()).isEqualTo("Hammer2");
     }
 
     @Rollback

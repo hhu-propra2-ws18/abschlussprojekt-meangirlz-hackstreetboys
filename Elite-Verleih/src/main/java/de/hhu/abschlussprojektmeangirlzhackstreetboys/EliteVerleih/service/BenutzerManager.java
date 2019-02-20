@@ -63,15 +63,13 @@ public class BenutzerManager {
         benutzerRepo.saveAll(Arrays.asList(alterBenutzer));
     }
 
-    //TODO: Löschen!
 	public Benutzer editBenutzer(Benutzer benutzer, String email) {
         benutzer.setBenutzerEmail(email);
         benutzerRepo.save(benutzer);
 		return benutzer;
 	}
 
-	public List<Ausleihe> sucheAnfragen(Benutzer benutzer, Status status){
-
+	public List<Ausleihe> sucheAnfragen(Benutzer benutzer, Status status) {
         List<Ausleihe> wartend = new ArrayList<>();
         for( Artikel a: benutzer.getArtikel() ) {
             for (Ausleihe b: a.getAusgeliehen() ){

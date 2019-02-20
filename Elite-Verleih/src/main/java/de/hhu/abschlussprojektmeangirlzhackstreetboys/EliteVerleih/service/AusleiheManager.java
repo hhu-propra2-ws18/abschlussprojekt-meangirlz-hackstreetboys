@@ -50,14 +50,14 @@ public class AusleiheManager {
         return ausleihe;
     }
 
-    public void setzeAusleiheBenutzer(Long benutzerId, Ausleihe ausleihe){
+    private void setzeAusleiheBenutzer(Long benutzerId, Ausleihe ausleihe){
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         if(b.getAusgeliehen()==null) b.setAusgeliehen(new ArrayList<Ausleihe>());
         b.getAusgeliehen().add(ausleihe);
         benutzerRepo.save(b);
     }
 
-    public void setzeAusleiheArtikel(Long artikelId, Ausleihe ausleihe){
+    private void setzeAusleiheArtikel(Long artikelId, Ausleihe ausleihe){
         Artikel a = artikelRepo.findArtikelByArtikelId(artikelId);
         if(a.getAusgeliehen()==null) a.setAusgeliehen(new ArrayList<Ausleihe>());
         a.getAusgeliehen().add(ausleihe);
@@ -68,61 +68,92 @@ public class AusleiheManager {
         return ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
     }
 
-    public void bestaetigeAusleihe(Ausleihe ausleihe){
-        ausleihe.setAusleihStatus(Status.BESTAETIGT);
-        loescheKollidierendeAnfragen(ausleihe);
-        ReservationDTO r1 = sync.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getArtikel().getBenutzer().getBenutzerName(), ausleihe.getArtikel().getArtikelKaution());
+    public void bestaetigeAusleihe(Long ausleiheId){
+        bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
+        loescheKollidierendeAnfragen(ausleiheId);
+        Ausleihe ausleihe = getAusleiheById(ausleiheId);
+        Artikel artikel = ausleihe.getArtikel();
+        ReservationDTO r1 = sync.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
+                artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
         ausleihe.setReservationsId(r1.getId());
         ausleiheRepo.save(ausleihe);
     }
 
-    private void loescheKollidierendeAnfragen(Ausleihe ausleihe) {
+    public void loescheAusleihe(Long ausleihId){
+        Ausleihe a = ausleiheRepo.findAusleiheByAusleihId(ausleihId);
+        loescheAusleiheFuerBenutzer(a.getBenutzer().getBenutzerId(),a);
+        loescheAusleiheFuerArtikelundBesitzer(a.getArtikel().getBenutzer().getBenutzerId(),a.getArtikel(),a);
+        ausleiheRepo.delete(a);
+    }
 
-		Artikel artikel = ausleihe.getArtikel();
-		List<Ausleihe> ausleihList = artikel.getAusgeliehen();
-		for(Ausleihe a : ausleihList) {
-			if(a.getAusleihId() != ausleihe.getAusleihId()) {
-				if(kollidiertMitAusleihe(a, ausleihe)) {
-					a.setAusleihStatus(Status.ABGELEHNT);
-					ausleiheRepo.save(a);
-				}
-			}
-		}
-		List<Ausleihe> neueListe = new ArrayList<Ausleihe>();
-		for(Ausleihe a: ausleihList) {
-			if(!a.getAusleihStatus().equals(Status.ABGELEHNT)) {
-				neueListe.add(a);
-			}
-		}
-		artikel.setAusgeliehen(neueListe);
-		artikelRepo.save(artikel);
-	}
+    private void loescheAusleiheFuerBenutzer(Long benutzerId, Ausleihe ausleihe){//muss mit Ausleihe aus dem Repo augerufen werden
+        Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        b.getAusgeliehen().remove(ausleihe);
+        benutzerRepo.save(b);
+    }
 
-	private boolean kollidiertMitAusleihe(Ausleihe a, Ausleihe ausleihe) {
-		Calendar endDatum = ausleihe.getAusleihRueckgabedatum();
-    	Calendar startDatum = ausleihe.getAusleihStartdatum();
-		if(a.getAusleihStartdatum().before(endDatum) && a.getAusleihStartdatum().after(startDatum)){
-			return true;
-		}
-		if(a.getAusleihRueckgabedatum().after(startDatum) && a.getAusleihRueckgabedatum().before(endDatum)) {
-			return true;
-		}
-		if(a.getAusleihStartdatum().equals(startDatum) || a.getAusleihStartdatum().equals(endDatum)) {
-			return true;
-		}
-		if(a.getAusleihRueckgabedatum().equals(startDatum)|| a.getAusleihRueckgabedatum().equals(endDatum)) {
-			return true;
-		}
-		return false;
-	}
+    private void loescheAusleiheFuerArtikelundBesitzer(Long benutzerId, Artikel artikel, Ausleihe ausleihe){
+        Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        List<Artikel> alArt = b.getArtikel();
+        for(Artikel a : alArt){
+            if(a.getArtikelId()==artikel.getArtikelId()){
+                int i = alArt.indexOf(a);
+                System.err.println("i: "+i);
+                System.err.println("a.getAusgeliehen.size(): "+a.getAusgeliehen().size());
+                a.getAusgeliehen().remove(ausleihe);
+                artikelRepo.save(a);
+                System.err.println("a.getAusgeliehen.size(): "+a.getAusgeliehen().size());
+                alArt.set(i,a);
+            }
+        }
+        b.setArtikel(alArt);
+        benutzerRepo.save(b);
+    }
 
-	public void bearbeiteAusleihe() {
-        // Ausleihestatus schon ergänzt in Model etc?
-        // Dann bearbeite in Ausleihe nur den Status und aktualisiere
+    public Ausleihe bearbeiteAusleihe(Long ausleiheId, Status neuerAusleiheStatus){
+        Ausleihe newA = getAusleiheById(ausleiheId);
+        newA.setAusleihStatus(neuerAusleiheStatus);
+        return ausleiheRepo.save(newA);
+    }
+
+    private void loescheKollidierendeAnfragen(Long ausleiheId) {
+        Artikel artikel = getAusleiheById(ausleiheId).getArtikel();
+        List<Ausleihe> ausleihList = artikel.getAusgeliehen();
+        for(Ausleihe a : ausleihList) {
+            if(a.getAusleihId() != ausleiheId) {
+                if(kollidiertMitAusleihe(a.getAusleihId(), ausleiheId)) {
+                    bearbeiteAusleihe(a.getAusleihId(),Status.ABGELEHNT);
+                }
+            }
+        }
+        for(Ausleihe a: ausleihList) {
+            if(a.getAusleihStatus().equals(Status.ABGELEHNT)) {
+                loescheAusleihe(ausleiheId);
+            }
+        }
+    }
+
+    private boolean kollidiertMitAusleihe(Long aId, Long akzeptierteAId) {
+        Ausleihe ausleihe = getAusleiheById(aId);
+        Ausleihe akzeptierteAusleihe = getAusleiheById(akzeptierteAId);
+        Calendar endDatum = akzeptierteAusleihe.getAusleihRueckgabedatum();
+        Calendar startDatum = akzeptierteAusleihe.getAusleihStartdatum();
+        if(ausleihe.getAusleihStartdatum().before(endDatum) && ausleihe.getAusleihStartdatum().after(startDatum)){
+            return true;
+        }
+        if(ausleihe.getAusleihRueckgabedatum().after(startDatum) && ausleihe.getAusleihRueckgabedatum().before(endDatum)) {
+            return true;
+        }
+        if(ausleihe.getAusleihStartdatum().equals(startDatum) || ausleihe.getAusleihStartdatum().equals(endDatum)) {
+            return true;
+        }
+        if(ausleihe.getAusleihRueckgabedatum().equals(startDatum)|| ausleihe.getAusleihRueckgabedatum().equals(endDatum)) {
+            return true;
+        }
+        return false;
     }
 
     public boolean isAusgeliehen (Long artikelId, Calendar startDatum, Calendar endDatum) {
-
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         for(Ausleihe ausleihe : artikel.getAusgeliehen()) {
         	if(!ausleihe.getAusleihStatus().equals(Status.ANGEFRAGT) && !ausleihe.getAusleihStatus().equals(Status.BEENDET)) {
@@ -144,42 +175,21 @@ public class AusleiheManager {
         return false;
     }
 
-	public void lehneAusleiheAb(Ausleihe ausleihe) {
-		ausleihe.setAusleihStatus(Status.ABGELEHNT);
-		Artikel artikel = ausleihe.getArtikel();
-		List<Ausleihe> list = artikel.getAusgeliehen();
-		list.remove(ausleihe);
-		artikel.setAusgeliehen(list);
-		artikelRepo.save(artikel);
-		ausleiheRepo.save(ausleihe);
-	}
+    public void zurueckGeben(Long ausleiheId) {
+        Ausleihe ausleihe = getAusleiheById(ausleiheId);
+        int tage = getAnzahlTage(ausleiheId);
+        int kosten = ausleihe.getArtikel().getArtikelTarif() * tage;
+        sync.ueberweisen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getArtikel().getBenutzer().getBenutzerName(), kosten);
+        bearbeiteAusleihe(ausleiheId,Status.ABGEGEBEN);
+    }
 
-	public void zurueckGeben(Ausleihe ausleihe) {
-		Artikel artikel = ausleihe.getArtikel();
-		Calendar start = ausleihe.getAusleihStartdatum();
-
-		Date date = new Date();
-		int tage = getAnzahlTage(ausleihe);
-		int kosten = ausleihe.getArtikel().getArtikelTarif() * tage;
-		sync.ueberweisen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getArtikel().getBenutzer().getBenutzerName(), kosten);
-		System.out.println(tage);
-
-		List<Ausleihe> list = artikel.getAusgeliehen();
-		int i = list.indexOf(ausleihe);
-		ausleihe.setAusleihStatus(Status.ABGEGEBEN);
-		list.set(i, ausleihe);
-		artikel.setAusgeliehen(list);
-		artikelRepo.save(artikel);
-		ausleiheRepo.save(ausleihe);
-	}
-
-	private int getAnzahlTage(Ausleihe ausleihe) {
+	private int getAnzahlTage(Long ausleiheId) {
     	int ergebnis = 0;
-    	Calendar start = ausleihe.getAusleihStartdatum();
+        Calendar start = getAusleiheById(ausleiheId).getAusleihStartdatum();
 		Date date=new Date(System.currentTimeMillis());
 		Calendar dateCal = new GregorianCalendar();
 		dateCal.setTime(date);
-    	if(date.equals(start)){
+    	if(dateCal.equals(start)){
     		return 1;
 		}
     	if(dateCal.after(start)){
@@ -190,20 +200,8 @@ public class AusleiheManager {
     	return ergebnis;
 	}
 
-	public void rueckgabeAkzeptieren(Ausleihe ausleihe) {
-		Artikel artikel = ausleihe.getArtikel();
-		List<Ausleihe> list = artikel.getAusgeliehen();
-		int i = list.indexOf(ausleihe);
-		ausleihe.setAusleihStatus(Status.BEENDET);
-		list.set(i, ausleihe);
-		artikel.setAusgeliehen(list);
-		artikelRepo.save(artikel);
-		ausleiheRepo.save(ausleihe);
-    }
-
     public List<Ausleihe> getKonflike(List<Ausleihe> liste){
         List<Ausleihe> konflikeAusleihe = new ArrayList<>();
-
         for( Ausleihe a: liste ) {
             if (a.getAusleihStatus()== Status.KONFLIKT){
                 konflikeAusleihe.add(a);
@@ -211,22 +209,4 @@ public class AusleiheManager {
         }
         return konflikeAusleihe;
     }
-
-    public void setzeSatusAusleihe(Ausleihe ausleihe, String name){
-        ausleihe.setAusleihStatus(Status.valueOf(name));
-        ausleiheRepo.save(ausleihe);
-    }
-
-	public void konfliktAusleihe(Long ausleihId) {
-		Ausleihe ausleihe = getAusleiheById(ausleihId);
-		Artikel artikel = ausleihe.getArtikel();
-		List<Ausleihe> list = artikel.getAusgeliehen();
-		int i = list.indexOf(ausleihe);
-		ausleihe.setAusleihStatus(Status.KONFLIKT);
-		list.set(i, ausleihe);
-		artikel.setAusgeliehen(list);
-		artikelRepo.save(artikel);
-		ausleiheRepo.save(ausleihe);
-
-	}
 }

@@ -56,7 +56,10 @@ public class KonfliktController {
             sync.getAccount(benutzer.getBenutzerName());
             sync.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
         }
-        ausleiheManager.setzeSatusAusleihe(ausleihe, "BEENDET");
+
+        if (name.equals("Konflikt beenden")) {
+            ausleiheManager.bearbeiteAusleihe(ausleihId,Status.BEENDET);
+        }
 
         return "redirect:/Konfliktloesung?id=1";
     }
