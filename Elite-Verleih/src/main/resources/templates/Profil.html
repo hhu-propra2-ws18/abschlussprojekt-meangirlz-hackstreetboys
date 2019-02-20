@@ -27,14 +27,16 @@
             </div>
         </form>
     </div>
+<div>
 
+	<a class="" th:text="'Guthaben: ' + ${Betrag} + ',00 €'"></a>
+</div>
     <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false">
             <b th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></b>
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" th:text="'Guthaben: ' + ${Betrag} + ',00 €'"></a>
             <a class="dropdown-item" th:href="'/ProfilBearbeiten?id=' + ${benutzer.getBenutzerId()}">Profil bearbeiten</a>
 
 
