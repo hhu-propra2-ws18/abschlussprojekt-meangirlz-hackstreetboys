@@ -10,7 +10,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-    <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">
+    <a class="navbar-brand" th:href="'/Uebersicht'">
         <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
              height="50">
     </a>
@@ -33,9 +33,9 @@
             <i th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" th:href="'/Profil?id=' + ${benutzer.getBenutzerId()}">Mein Profil</a>
+            <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
 
-            <a class="dropdown-item" href="#">Ausloggen</a>
+            <a class="dropdown-item" href="/logout">Ausloggen</a>
         </div>
     </div>
 </nav>
@@ -92,7 +92,7 @@
 
                             <li class="list-group-item">
                                 <div class="container">
-                                    <form action="#" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|" th:object="${artikel}" method="post">
+                                    <form action="#" th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}" method="post">
 
 
                                         <div class="row justify-content-center">

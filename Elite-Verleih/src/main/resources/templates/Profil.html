@@ -11,7 +11,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-    <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">
+    <a class="navbar-brand" th:href="'/Uebersicht'">
         <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
              height="50">
     </a>
@@ -24,10 +24,10 @@
             <b th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></b>
         </a>
         <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" th:href="'/ProfilBearbeiten?id=' + ${benutzer.getBenutzerId()}">Profil bearbeiten</a>
+            <a class="dropdown-item" th:href="'/ProfilBearbeiten'">Profil bearbeiten</a>
 
 
-            <a class="dropdown-item" href="#">Ausloggen</a>
+            <a class="dropdown-item" href="/logout">Ausloggen</a>
         </div>
     </div>
 </nav>
@@ -67,11 +67,11 @@
                                             ArtikelName</h5>
                                         <h5 class="card-title" th:text="${anfrage.getAusleihStatus()}">Status</h5>
                                         <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                        <a th:href="|/Detailansicht/${anfrage.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                        <a th:href="|/Detailansicht/${anfrage.getArtikel().getArtikelId()}|">Details</a>
 
                                         <center>
                                             <form method="post" th:object="${anfrage}"
-                                                  th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${anfrage.getAusleihId()}|">
+                                                  th:action="|/Profil?ausleihId=${anfrage.getAusleihId()}|">
 
                                                 <input class="btn btn-outline-success" type="submit" name="submitButton"
                                                        value="Bestaetigen"/>
@@ -124,10 +124,10 @@
                                             ArtikelName</h5>
                                         <h5 class="card-title" th:text="${bestaetigt.getAusleihStatus()}">Status</h5>
                                         <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                        <a th:href="|/Detailansicht/${bestaetigt.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                        <a th:href="|/Detailansicht/${bestaetigt.getArtikel().getArtikelId()}|">Details</a>
                                         <center>
                                             <form method="post" th:object="${bestaetigt}"
-                                                  th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${bestaetigt.getAusleihId()}|">
+                                                  th:action="|/Profil?ausleihId=${bestaetigt.getAusleihId()}|">
                                                 <center><input class="btn btn-outline-success" type="submit"
                                                                name="submitButton" value="Zurueckgeben"/></center>
                                             </form>
@@ -141,7 +141,7 @@
                     <h3>Wartend</h3>
                     <tr th:if="${wartendeAnfragen.empty}">
                         <p> Du hast gerade keine Artikel angefragt</p>
-                        <p> Suche <a th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">hier</a> nach Artikeln
+                        <p> Suche <a th:href="'/Uebersicht'">hier</a> nach Artikeln
                         </p>
                     </tr>
 
@@ -157,10 +157,10 @@
                                         <h5 class="card-title" th:text="${wartendeAnfrage.getAusleihStatus()}">
                                             Status</h5>
                                         <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                        <a th:href="|/Detailansicht/${wartendeAnfrage.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                        <a th:href="|/Detailansicht/${wartendeAnfrage.getArtikel().getArtikelId()}|">Details</a>
                                         <center>
                                             <form method="post" th:object="${wartendeAnfrage}"
-                                                  th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${wartendeAnfrage.getAusleihId()}|">
+                                                  th:action="|/Profil?ausleihId=${wartendeAnfrage.getAusleihId()}|">
                                                 <center><input class="btn btn-outline-danger" type="submit"
                                                                name="submitButton" value="Zurueckziehen"/></center>
                                             </form>
@@ -199,7 +199,7 @@
                             <center><p> Du hast noch keine Artikel eingestellt. Sharing is caring! </br></br>Erstelle
                                 jetzt deinen ersten Artikel! </p>
                                 <div>
-                                    <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
+                                    <a th:href="|/Erstellen|">
                                         <button class="btn btn-success mx-auto btn-lg mr-sm-2" type="button"> +</button>
                                     </a>
                                 </div>
@@ -218,10 +218,10 @@
                                             <h5 class="card-title" th:text="${verliehene.getAusleihStatus()}">
                                                 Status</h5>
                                             <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                            <a th:href="|/Detailansicht/${verliehene.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                            <a th:href="|/Detailansicht/${verliehene.getArtikel().getArtikelId()}|">Details</a>
                                             <center>
                                                 <form method="post" th:object="${verliehene}"
-                                                      th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${verliehene.getAusleihId()}|">
+                                                      th:action="|/Profil?ausleihId=${verliehene.getAusleihId()}|">
                                                     <center><input class="btn btn-outline-danger" type="submit"
                                                                    name="submitButton" value="Konflikt"/></center>
                                                 </form>
@@ -241,11 +241,11 @@
                                             <h5 class="card-title" th:text="${artikel.getArtikelName()}">
                                                 ArtikelName</h5>
                                             <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                            <a th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                            <a th:href="|/Detailansicht/${artikel.getArtikelId()}|">Details</a>
                                         </div>
                                     </div>
                                     <div>
-                                        <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
+                                        <a th:href="|/Erstellen|">
                                             <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom"
                                                     type="button"> +
                                             </button>
@@ -268,10 +268,10 @@
                                             <h5 class="card-title" th:text="${zurueckerhalten.getAusleihStatus()}">
                                                 Status</h5>
                                             <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                            <a th:href="|/Detailansicht/${zurueckerhalten.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                            <a th:href="|/Detailansicht/${zurueckerhalten.getArtikel().getArtikelId()}|">Details</a>
                                             <center>
                                                 <form method="post" th:object="${zurueckerhalten}"
-                                                      th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${zurueckerhalten.getAusleihId()}|">
+                                                      th:action="|/Profil?ausleihId=${zurueckerhalten.getAusleihId()}|">
                                                     <center>
                                                         <input class="btn btn-outline-success" type="submit"
                                                                name="submitButton" value="Akzeptieren"/>
@@ -325,10 +325,10 @@
                                         <h5 class="card-title" th:text="${zurueckgegeben.getAusleihStatus()}">
                                             Status</h5>
                                         <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                        <a th:href="|/Detailansicht/${zurueckgegeben.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                        <a th:href="|/Detailansicht/${zurueckgegeben.getArtikel().getArtikelId()}|">Details</a>
                                         <center>
                                             <form method="post" th:object="${zurueckgegeben}"
-                                                  th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${zurueckgegeben.getAusleihId()}|">
+                                                  th:action="|/Profil?ausleihId=${zurueckgegeben.getAusleihId()}|">
                                                 <center><input class="btn btn-outline-danger" type="submit"
                                                                name="submitButton" value="Problem"/></center>
                                             </form>
@@ -353,10 +353,10 @@
                                 <h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getAusleihStatus()}">
                                     Status</h5>
                                 <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                <a th:href="|/Detailansicht/${erfolgreichZurueckgegeben.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                <a th:href="|/Detailansicht/${erfolgreichZurueckgegeben.getArtikel().getArtikelId()}|">Details</a>
                                 <center>
                                     <form method="post" th:object="${erfolgreichZurueckgegeben}"
-                                          th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${erfolgreichZurueckgegeben.getAusleihId()}|">
+                                          th:action="|/Profil?ausleihId=${erfolgreichZurueckgegeben.getAusleihId()}|">
                                         <center><input class="btn btn-outline-danger" type="submit" name="submitButton"
                                                        value="Entfernen"/></center>
                                     </form>
@@ -406,11 +406,11 @@
                                                 <h5 class="card-title" th:text="${konflikt.getAusleihStatus()}">
                                                     Status</h5>
                                                 <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                                <a th:href="|/Detailansicht/${konflikt.getArtikel().getArtikelId()}?id=${benutzer.getBenutzerId()}|">Details</a>
+                                                <a th:href="|/Detailansicht/${konflikt.getArtikel().getArtikelId()}|">Details</a>
 
                                                 <center>
                                                     <form method="post" th:object="${konflikt}"
-                                                          th:action="|/Profil?id=${benutzer.getBenutzerId()}&ausleihId=${konflikt.getAusleihId()}|">
+                                                          th:action="|/Profil?ausleihId=${konflikt.getAusleihId()}|">
 
                                                         <input class="btn btn-outline-success" type="submit"
                                                                name="submitButton" value="Geloest"/>

@@ -9,7 +9,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-        <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">
+        <a class="navbar-brand" th:href="'/Uebersicht'">
             <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
                  height="50">
         </a>
@@ -32,9 +32,9 @@
                 <i th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" th:href="'/Profil?id=' + ${benutzer.getBenutzerId()}">Mein Profil</a>
+                <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
 
-                <a class="dropdown-item" href="#">Ausloggen</a>
+                <a class="dropdown-item" href="/logout">Ausloggen</a>
             </div>
         </div>
     </nav>
@@ -48,7 +48,7 @@
             <img src="https://pics.me.me/thumb_708218568995958784.png" class="rounded mx-auto d-block" alt="...">
 
 
-            <!--a th:href=" 'http://localhost:8080/Uebersicht?id=' + ${benutzer.getBenutzerId()}" class="btn btn-primary">Zurück zur Übersicht</a-->
+            <!--a th:href=" 'http://localhost:8080/Uebersicht'" class="btn btn-primary">Zurück zur Übersicht</a-->
             <br>
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Zurück</button>
             </br>

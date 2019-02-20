@@ -8,7 +8,7 @@
   </head>
   <body>
   <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-	  <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">
+	  <a class="navbar-brand" th:href="'/Uebersicht'">
 		  <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
 			   height="50">
 	  </a>
@@ -34,10 +34,10 @@
 			  <b th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></b>
 		  </a>
 		  <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
-			  <a class="dropdown-item" th:href="'/Profil?id=' + ${benutzer.getBenutzerId()}">Mein Profil</a>
+			  <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
 
 
-			  <a class="dropdown-item" href="#">Ausloggen</a>
+			  <a class="dropdown-item" href="/logout">Ausloggen</a>
 		  </div>
 	  </div>
   </nav>
@@ -67,7 +67,7 @@
 						</div>
 					  </div>
 			            <input class="btn btn-outline-success" type="submit" value="Speichern" />
-			            <a class="btn btn-outline-danger" th:href="'/Profil?id=' + ${benutzer.getBenutzerId()}" role="button">Abbrechen</a>
+			            <a class="btn btn-outline-danger" th:href="'/Profil'" role="button">Abbrechen</a>
 		            </div>
 		         </form>
 	      </div> </center>
