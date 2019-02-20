@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 @Controller
 public class DetailansichtController {
@@ -53,26 +55,31 @@ public class DetailansichtController {
         Date startDatum = new Date();
         Date endDatum = new Date();
 
+        Calendar calStartDatum = new GregorianCalendar();
+        Calendar calEndDatum = new GregorianCalendar();
+
         try {
-            startDatum = new SimpleDateFormat( "yyyy-mm-dd" ).parse(startDatumString);
-            endDatum = new SimpleDateFormat( "yyyy-mm-dd" ).parse(endDatumString);
+            startDatum = new SimpleDateFormat( "yyyy-MM-dd" ).parse(startDatumString);
+            calStartDatum.setTime(startDatum);
+            System.out.println("StartString: " + startDatumString + " StartDatum: " + startDatum.toString());
+            endDatum = new SimpleDateFormat( "yyyy-MM-dd" ).parse(endDatumString);
+            calEndDatum.setTime(endDatum);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         Benutzer b = benutzerManager.getBenutzerById(id);
         Artikel artikel = artikelManager.getArtikelById(artikelId);
-        if (!ausleiheManager.isAusgeliehen(artikelId, startDatum, endDatum)) {
+        if (ausleiheManager.isAusgeliehen(artikelId, calStartDatum, calEndDatum)) {
             return "redirect:/Ausgeliehen?id="+b.getBenutzerId();
         }
-        Ausleihe aus = ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
 
         double guthabenB = sync.getAccount(b.getBenutzerName()).getAmount();
 
         if(guthabenB < artikel.getArtikelKaution()){
             return "redirect:/FehlendesGuthaben?id=" + b.getBenutzerId();
         }else{
-            ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
+            ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),calStartDatum,calEndDatum);
         }
 
 

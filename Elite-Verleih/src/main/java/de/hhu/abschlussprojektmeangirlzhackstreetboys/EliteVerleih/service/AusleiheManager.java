@@ -14,9 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -37,7 +35,7 @@ public class AusleiheManager {
         return ausleiheRepo.findAll();
     }
 
-   public Ausleihe erstelleAusleihe(Long benutzerId, Long artikelId, Date ausleihStartdatum, Date ausleihRueckgabedatum){
+   public Ausleihe erstelleAusleihe(Long benutzerId, Long artikelId, Calendar ausleihStartdatum, Calendar ausleihRueckgabedatum){
         Ausleihe ausleihe = new Ausleihe();
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         ausleihe.setBenutzer(benutzer);
@@ -101,8 +99,8 @@ public class AusleiheManager {
 	}
 
 	private boolean kollidiertMitAusleihe(Ausleihe a, Ausleihe ausleihe) {
-		Date endDatum = ausleihe.getAusleihRueckgabedatum();
-    	Date startDatum = ausleihe.getAusleihStartdatum();
+		Calendar endDatum = ausleihe.getAusleihRueckgabedatum();
+    	Calendar startDatum = ausleihe.getAusleihStartdatum();
 		if(a.getAusleihStartdatum().before(endDatum) && a.getAusleihStartdatum().after(startDatum)){
 			return true;
 		}
@@ -123,15 +121,27 @@ public class AusleiheManager {
         // Dann bearbeite in Ausleihe nur den Status und aktualisiere
     }
 
-    public boolean isAusgeliehen (Long artikelId, Date startDatum, Date endDatum) {
+    public boolean isAusgeliehen (Long artikelId, Calendar startDatum, Calendar endDatum) {
 
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         for(Ausleihe ausleihe : artikel.getAusgeliehen()) {
-            if(!endDatum.before(ausleihe.getAusleihStartdatum()) && !(startDatum.after(ausleihe.getAusleihRueckgabedatum()))) {
-                return false;
-            }
+        	if(!ausleihe.getAusleihStatus().equals(Status.ANGEFRAGT) && !ausleihe.getAusleihStatus().equals(Status.BEENDET)) {
+
+				if (startDatum.before(ausleihe.getAusleihStartdatum()) && (endDatum.after(ausleihe.getAusleihStartdatum()))) {
+					return true;
+				}
+				if (startDatum.before(ausleihe.getAusleihRueckgabedatum()) && endDatum.after(ausleihe.getAusleihRueckgabedatum())) {
+					return true;
+				}
+				if (startDatum.equals(ausleihe.getAusleihStartdatum()) || endDatum.equals(ausleihe.getAusleihRueckgabedatum()) || startDatum.equals(ausleihe.getAusleihRueckgabedatum()) || endDatum.equals(ausleihe.getAusleihStartdatum())) {
+					return true;
+				}
+				if(startDatum.after(ausleihe.getAusleihStartdatum()) && startDatum.before(ausleihe.getAusleihRueckgabedatum())){
+					return true;
+				}
+			}
         }
-        return true;
+        return false;
     }
 
 	public void lehneAusleiheAb(Ausleihe ausleihe) {
@@ -146,7 +156,7 @@ public class AusleiheManager {
 
 	public void zurueckGeben(Ausleihe ausleihe) {
 		Artikel artikel = ausleihe.getArtikel();
-		Date start = ausleihe.getAusleihStartdatum();
+		Calendar start = ausleihe.getAusleihStartdatum();
 
 		Date date = new Date();
 		int tage = getAnzahlTage(ausleihe);
@@ -165,13 +175,15 @@ public class AusleiheManager {
 
 	private int getAnzahlTage(Ausleihe ausleihe) {
     	int ergebnis = 0;
-    	Date start = ausleihe.getAusleihStartdatum();
+    	Calendar start = ausleihe.getAusleihStartdatum();
 		Date date=new Date(System.currentTimeMillis());
+		Calendar dateCal = new GregorianCalendar();
+		dateCal.setTime(date);
     	if(date.equals(start)){
     		return 1;
 		}
-    	if(date.after(start)){
-    		long milli = date.getTime() - start.getTime();
+    	if(dateCal.after(start)){
+    		long milli = date.getTime() - start.getTimeInMillis();
 
 			ergebnis = (int) TimeUnit.DAYS.convert(milli, TimeUnit.MILLISECONDS) + 1;
 		}

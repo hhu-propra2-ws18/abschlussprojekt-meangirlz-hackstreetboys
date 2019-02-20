@@ -10,9 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class DataInitializer implements ServletContextInitializer {
@@ -159,15 +157,23 @@ public class DataInitializer implements ServletContextInitializer {
         
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
-        Ausleihe test0 =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sD0, eD0);
+        Calendar sCal0 = new GregorianCalendar();
+        sCal0.setTime(sD0);
+        Calendar eCal0 = new GregorianCalendar();
+        eCal0.setTime(eD0);
+        Ausleihe test0 =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sCal0, eCal0);
 
         Date sD1 = new Date(119, 1, 19);
         Date eD1 = new Date(119, 1, 28);
-        Ausleihe test1 =  ausleiheM.erstelleAusleihe(new Long(3),new Long(7), sD1, eD1);
+        Calendar sCal1 = new GregorianCalendar();
+        sCal1.setTime(sD1);
+        Calendar eCal1 = new GregorianCalendar();
+        eCal1.setTime(eD1);
+        Ausleihe test1 =  ausleiheM.erstelleAusleihe(new Long(3),new Long(7), sCal1, eCal1);
 
         
-        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(9), sD0, eD0);
-        Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5),new Long(10), sD0, eD0);
+        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(9), sCal0, eCal0);
+        Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5),new Long(10), sCal0, eCal0);
 
         ausleiheM.setzeSatusAusleihe(test, "KONFLIKT");
         ausleiheM.setzeSatusAusleihe(testtest, "KONFLIKT");
