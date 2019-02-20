@@ -15,23 +15,10 @@
         <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
              width="180">
     </a>
-    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline">
-            <div class="md-form my-0">
-                <input aria-label="Search" class="form-control mr-sm-2" placeholder="Search" type="text">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </div>
-        </form>
-    </div>
-
-    <div class="nav-item dropdown">
+    <div class="nav-item dropdown ml-auto">
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
            id="navbarDropdownMenuLink">
-            <i class="fas fa-user" th:text="${benutzer.getBenutzerName()}"></i>
+            <b class="fas fa-user" th:text="${benutzer.getBenutzerName()}"></b>
         </a>
         <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right dropdown-info">
             <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
@@ -46,7 +33,7 @@
     <p class="lead text-muted">Artikel nicht vorhanden.</p>
 </section>
 
-<div class="album py-5 bg-light" th:if="${artikel!=null}">
+<div class="album py-5" th:if="${artikel!=null}">
     <div class="container-fluid">
 
         <div class="row justify-content-center">
@@ -81,14 +68,14 @@
 
                             <td th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}">
                                 <li class="list-group-item">
-                                    <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
+                                    <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}|">
                                         <button class="btn btn-sm btn-outline-secondary" type="button">
                                             Bearbeiten<!-- führt zur benutzer seite-->
                                         </button>
                                     </a>
                                 </li>
                                 <li class="list-group-item">
-                                    <a th:href="|/Loeschen/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
+                                    <a th:href="|/Loeschen/${artikel?.getArtikelId()}|">
                                         <button class="btn btn-sm btn-outline-secondary" type="button">
                                             Loeschen<!-- führt zur benutzer seite-->
                                         </button>
@@ -107,10 +94,12 @@
 
                                             <div class="input-daterange input-group" data-date-format="dd-mm-yyy"
                                                  id="datepicker">
-                                                <input class="input-sm form-control" name="startDatumString" placeholder="From date"
+                                                <input class="input-sm form-control" name="startDatumString"
+                                                       placeholder="From date"
                                                        type="date"/>
                                                 <span class="input-group-text" id="">to</span>
-                                                <input class="input-sm form-control" name="endDatumString" placeholder="To date"
+                                                <input class="input-sm form-control" name="endDatumString"
+                                                       placeholder="To date"
                                                        type="date"/>
                                             </div>
                                         </div>
