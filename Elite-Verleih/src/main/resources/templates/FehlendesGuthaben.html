@@ -8,14 +8,36 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top ">
-    <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">Elite Verleih</a>
-    <a th:href="'/ProfilBearbeiten?id=' + ${benutzer.getBenutzerId()}"><img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg" heigt="30px" width="30px" th:text="${benutzer.getBenutzerName()} + ' ' + ${benutzer.getBenutzerEmail()}"> Betrag</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>Anfrage
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" th:href="'/Uebersicht?id=' + ${benutzer.getBenutzerId()}">
+        <img src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png" alt="" width="180"
+             height="50">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
     </button>
-</nav>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="form-inline">
+            <div class="md-form my-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
 
+    <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+           aria-expanded="false">
+            <i th:text="${benutzer.getBenutzerName()}" class="fas fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" th:href="'/Profil?id=' + ${benutzer.getBenutzerId()}">Mein Profil</a>
+
+            <a class="dropdown-item" href="#">Ausloggen</a>
+        </div>
+    </div>
+</nav>
 
 <div class="card text-center">
 
