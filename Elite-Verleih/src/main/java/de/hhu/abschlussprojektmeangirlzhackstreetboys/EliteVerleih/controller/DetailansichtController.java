@@ -1,7 +1,9 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller;
 
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.ArtikelManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service.AusleiheManager;
@@ -26,6 +28,9 @@ public class DetailansichtController {
 
     @Autowired
     BenutzerManager benutzerManager;
+
+    @Autowired
+    ArtikelRepository arikelRepo;
 
 
     @GetMapping("/Detailansicht/{artikelId}")
@@ -52,13 +57,18 @@ public class DetailansichtController {
 
         Benutzer b = benutzerManager.getBenutzerById(id);
         Artikel artikel = artikelManager.getArtikelById(artikelId);
-
-        ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
-
+        if (!ausleiheManager.isAusgeliehen(artikelId, startDatum, endDatum)) {
+            return "redirect:/Ausgeliehen?id="+b.getBenutzerId();
+        }
+        Ausleihe aus = ausleiheManager.erstelleAusleihe(b.getBenutzerId(),artikel.getArtikelId(),startDatum,endDatum);
         return "redirect:/Uebersicht?id=" + b.getBenutzerId();
     }
 
-
+    @GetMapping("Ausgeliehen")
+    public String ausgeliehenError (Long id, Model model) {
+        model.addAttribute("benutzer", benutzerManager.getBenutzerById(id));
+        return "Ausgeliehen-Error";
+    }
 
 
 

@@ -31,6 +31,13 @@ public class DataInitializer implements ServletContextInitializer {
             throws ServletException {
         System.out.println("Populating the database");
 
+        Benutzer support = new Benutzer();
+        support.setBenutzerEmail("support@hhu.de");
+        support.setBenutzerName("support");
+        support.setArtikel(new ArrayList<Artikel>());
+        benutzerM.erstelleBenutzer(support);
+        Long supportId= benutzerM.findBenutzerByName("support").getBenutzerId();
+
         Benutzer bJens = new Benutzer();
         bJens.setBenutzerEmail("Jemail@hhu.de");
         bJens.setBenutzerName("Jens");
@@ -72,14 +79,16 @@ public class DataInitializer implements ServletContextInitializer {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Jens's-Werkstatt, a.k.a. HHU");
         a0.setArtikelTarif(1);
+        a0.setArtikelBildURL("https://upload.wikimedia.org/wikipedia/commons/b/b8/Patent-Motorwagen_Nr.1_Benz_2.jpg");
         artikelM.erstelleArtikel(jensId,a0);
 
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("Wohn mit mir zusammen");
-        a1.setArtikelKaution(500000);
+        a1.setArtikelKaution(50000);
         a1.setArtikelName("Ich - das Nashorn");
         a1.setArtikelOrt("wo du wohnst");
         a1.setArtikelTarif(1);
+        a1.setArtikelBildURL("https://static.geo.de/bilder/ef/25/11530/article_image_big/b2e2b87b03bb10e6bd37f28957c7c246.jpg");
         artikelM.erstelleArtikel(antoineId,a1);
 
         Artikel a2 = new Artikel();
@@ -88,6 +97,7 @@ public class DataInitializer implements ServletContextInitializer {
         a2.setArtikelName("Timo's Stift");
         a2.setArtikelOrt("Timo's Bude");
         a2.setArtikelTarif(1);
+        a2.setArtikelBildURL("https://www.merkur.de/bilder/2017/05/09/8281587/1578562437-waehrend-start-landung-gehen-flugzeug-lichter-aus-doch-wieso-X1DHAIVKyNG.jpg");
         artikelM.erstelleArtikel(timoId,a2);
 
         Artikel a3 = new Artikel();
@@ -96,14 +106,16 @@ public class DataInitializer implements ServletContextInitializer {
         a3.setArtikelName("Timo's altes Kaugummi");
         a3.setArtikelOrt("Timo's Bude");
         a3.setArtikelTarif(10000);
+        a3.setArtikelBildURL("https://images.lecker.de/,id=58212d91,b=lecker,w=610,cg=c.jpg");
         artikelM.erstelleArtikel(timoId,a3);
 
         Artikel a4 = new Artikel();
-        a4.setArtikelBeschreibung("ORIGINAL!!! Bester Preis mann!");
+        a4.setArtikelBeschreibung("ORIGINAL!!! Bester Preis DIGGAHH!");
         a4.setArtikelKaution(10000);
         a4.setArtikelName("ROLLLEX");
         a4.setArtikelOrt("PN");
         a4.setArtikelTarif(100);
+        a4.setArtikelBildURL("https://www.bettmer.de/out/pictures/generated/product/1/395_395_90/2-in-1-stift-clic-clac-teruel_dunkelgrau_300011_302097_1.jpg");
         artikelM.erstelleArtikel(sVId,a4);
 
         Artikel a5 = new Artikel();
@@ -112,14 +124,16 @@ public class DataInitializer implements ServletContextInitializer {
         a5.setArtikelName("Armanni Hemd");
         a5.setArtikelOrt("PN");
         a5.setArtikelTarif(100);
+        a5.setArtikelBildURL("https://www.bfh24.eu/images/artikel/zoom/120563150-0-Staedtler-Metall-Lineal-15cm563-15.jpg");
         artikelM.erstelleArtikel(sVId,a5);
 
         Artikel a7 = new Artikel();
-        a7.setArtikelBeschreibung("ORIGINAL!!! Bester Preis mann!");
+        a7.setArtikelBeschreibung("ORIGINAL!!! 2. bester Preis JUNGE!");
         a7.setArtikelKaution(10000);
         a7.setArtikelName("Guci Hemd");
         a7.setArtikelOrt("PN");
         a7.setArtikelTarif(100);
+        a7.setArtikelBildURL("https://static.tonight.de/thumbs/img/News/16/77/99/p/p_pano/london-feuerwehr-will-papagei-retten-und-wird-von-ihm-beschimpft-997716.jpg");
         artikelM.erstelleArtikel(sVId,a7);
 
         Artikel a8 = new Artikel();
@@ -128,6 +142,7 @@ public class DataInitializer implements ServletContextInitializer {
         a8.setArtikelName("Pradda Hemd");
         a8.setArtikelOrt("PN");
         a8.setArtikelTarif(100);
+        a8.setArtikelBildURL("https://www.veolia.de/sites/g/files/dvc1936/f/styles/custom_resize/public/2017/02/400x0/Ratte.jpg");
         artikelM.erstelleArtikel(sVId,a8);
 
         Artikel a6_longText = new Artikel();
@@ -139,11 +154,22 @@ public class DataInitializer implements ServletContextInitializer {
         a6_longText.setArtikelName("Gartenschere");
         a6_longText.setArtikelOrt("Pizzeria Vapioso");
         a6_longText.setArtikelTarif(30);
+        a6_longText.setArtikelBildURL("https://cdn02.plentymarkets.com/bl8cypz80juz/item/images/917667/full/Edelstahl-Automatik-Muelleimer---Abfalleimer-18-Li.jpg");
         artikelM.erstelleArtikel(mUId,a6_longText);
         
         Date sD0 = new Date(2019, 5, 8);
         Date eD0 = new Date(2019, 5, 10);
-        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sD0, eD0);
+        Ausleihe test0 =  ausleiheM.erstelleAusleihe(new Long(1),new Long(7), sD0, eD0);
+
+        Date sD1 = new Date(119, 1, 19);
+        Date eD1 = new Date(119, 1, 28);
+        Ausleihe test1 =  ausleiheM.erstelleAusleihe(new Long(3),new Long(7), sD1, eD1);
+
         
+        Ausleihe test =  ausleiheM.erstelleAusleihe(new Long(1),new Long(9), sD0, eD0);
+        Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5),new Long(10), sD0, eD0);
+
+        ausleiheM.setzeSatusAusleihe(test, "KONFLIKT");
+        ausleiheM.setzeSatusAusleihe(testtest, "KONFLIKT");
     }
 }
