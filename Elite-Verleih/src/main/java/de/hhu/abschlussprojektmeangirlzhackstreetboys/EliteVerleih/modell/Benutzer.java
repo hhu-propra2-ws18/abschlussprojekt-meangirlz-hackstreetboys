@@ -27,6 +27,10 @@ public class Benutzer {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
 
+    private String benutzerPasswort;
+
+    private String benutzerRolle;
+
     public Benutzer(){
     }
 
