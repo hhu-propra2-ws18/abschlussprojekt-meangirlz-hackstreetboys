@@ -30,6 +30,8 @@ public class ProfilController {
 	@Autowired
 	ArtikelManager artikelManager;
 
+	DataSync sync = new DataSync();
+
     @GetMapping("/Profil")
     public String ProfilAnzeigen(Long id, Model model){
     	if(id == null) {
@@ -38,8 +40,27 @@ public class ProfilController {
     	
     	Benutzer benutzer = benutzerManager.getBenutzerById(id);
     	model.addAttribute("benutzer",benutzer);
-    	List<Ausleihe> wartend = benutzerManager.sucheAnfragen(benutzer);
+    	List<Ausleihe> wartend = benutzerManager.sucheAnfragen(benutzer, Status.ANGEFRAGT);
+    	List<Ausleihe> zurueckerhaltene = benutzerManager.sucheAnfragen(benutzer, Status.ABGEGEBEN);
+    	List<Ausleihe> konflikte = (benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
+    	List<Ausleihe> bestaetigte = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BESTAETIGT);
+    	List<Ausleihe> zurueckgegebene = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ABGEGEBEN);
+    	List<Ausleihe> verliehenes = benutzerManager.sucheAnfragen(benutzer, Status.BESTAETIGT);
+    	verliehenes.addAll(benutzerManager.sucheAnfragen(benutzer, Status.AKTIV));
+    	verliehenes.addAll(benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
+    	List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BEENDET);
+    	List<Ausleihe> eigeneAnfragen = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ANGEFRAGT);
+    	int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
+
+    	model.addAttribute("wartendeAnfragen", eigeneAnfragen);
+		model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
+    	model.addAttribute("verliehenes", verliehenes);
+    	model.addAttribute("zurueckerhaltene", zurueckerhaltene);
+    	model.addAttribute("zurueckgegebene", zurueckgegebene);
+    	model.addAttribute("bestaetigte", bestaetigte);
 		model.addAttribute("anfragen", wartend);
+		model.addAttribute("konflikte", konflikte);
+		model.addAttribute("Betrag", geld);
 
         return "Profil";
     }
@@ -56,6 +77,31 @@ public class ProfilController {
 			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
 			ausleiheManager.bestaetigeAusleihe(ausleihe);
             return "redirect:/Profil?id=" + id;
+		} else if (name.equals("Ablehnen")) {
+			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
+			ausleiheManager.lehneAusleiheAb(ausleihe);
+			return "redirect:/Profil?id=" + id;
+		} else if(name.equals("Zurueckgeben")) {
+			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
+			ausleiheManager.zurueckGeben(ausleihe);
+			return "redirect:/Profil?id=" + id;
+		} else if(name.equals("Akzeptieren")){
+			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
+			ausleiheManager.rueckgabeAkzeptieren(ausleihe);
+			return "redirect:/Profil?id=" + id;
+		} else if(name.equals("Entfernen")){
+			//ausleiheManager.loescheAusleihe(ausleihId);
+			return "redirect:/Profil?id=" + id;
+		} else if(name.equals("Zurueckziehen")){
+		    //ausleiheManager.loescheAusleihe(ausleihId);
+            return "redirect:/Profil?id=" + id;
+        } else if(name.equals("Konflikt")){
+		    ausleiheManager.konfliktAusleihe(ausleihId);
+            return "redirect:/Profil?id=" + id;
+        } else if(name.equals("Geloest")){
+			Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
+			ausleiheManager.rueckgabeAkzeptieren(ausleihe);
+			return "redirect:/Profil?id=" + id;
 		}
     	else { 
     		return "redirect:/Uebersicht?id=" + id;
