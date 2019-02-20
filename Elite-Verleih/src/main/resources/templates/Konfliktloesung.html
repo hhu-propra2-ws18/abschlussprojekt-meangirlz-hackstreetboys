@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
-    <title>Elite-Verleih</title>
+    <title>Konfliktloesung</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -35,37 +35,58 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
-    <div>
-        <a th:href="|/Profil?id=${benutzer.getBenutzerId()}|">
-            <button class="btn btn-default btn-sm" type="button" th:text="${benutzer.getBenutzerName()}"></button>
-        </a>
-    </div>
+
 
 </nav>
 
 <div class="container jumbotron center">
     <div class="row">
-        <a th:each="artikel : ${artikels}"  style="text-decoration: none" th:href="|/Detailansicht/${artikel.getArtikelId()}?id=${benutzer.getBenutzerId()}|">
-            <div class="card" style="width: 17rem;" >
-                <img th:src="${artikel.getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${artikel.getArtikelName()}">Artikelname</h5>
-                    <p class="card-text" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>
-                    <p class="card-text" th:text="|Kosten/Tag : ${artikel.getArtikelTarif()},00€|">Kosten/Tag</p>
+
+        <div class="card" style="width: 17rem;" th:each="ausleihe : ${konflikt}">
 
 
+            <div class="card-img-top">
+                <img src="https://staticr1.blastingcdn.com/media/photogallery/2017/5/24/660x290/b_620x273/meeseeks-google-search-mi-247-final-project-mr-meeseeks-pinterestcom_1345963.jpg"  alt="Bild" class="img-fluid" align="middle" >
+
+            </div>
+            <div class="card-body">
+                <div class="card text-center" th:object="${ausleihe}" th:method="get">
+
+                    <li class="list-group">
+                    <li class="list-group-item">
+                        <h3 class="text-center">
+                            <span th:text="${ausleihe?.getArtikel().getArtikelName()}"></span>
+                        </h3>
+                    </li>
+
+                    <li class="list-group-item"   th:text="'Artikel von: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerName()}"></li>
+                    <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getArtikel().getBenutzer().getBenutzerEmail()}"></li>
+                    <li class="list-group-item"   th:text="'Ausgeliehen von: '+${ausleihe?.getBenutzer().getBenutzerName()}"></li>
+                    <li class="list-group-item"   th:text="'Email: '+${ausleihe?.getBenutzer().getBenutzerEmail()}"></li>
+
+
+                    <li class ="list-group-item">
+                        <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
+                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Verleihender" name="submitButton"/>
+                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Buchung Ausleihender" name="submitButton" />
+                        </form>
+                    </li>
+                    <li class ="list-group-item">
+                        <form method="post" th:object="${ausleihe}" th:action="|/Konfliktloesung?ausleihId=${ausleihe?.getAusleihId()}|">
+                            <input class="btn btn-sm btn-outline-secondary" type="submit" value="Konflikt beenden" name="submitButton"/>
+                        </form>
+                    </li>
 
                 </div>
+
+
             </div>
-        </a>
+        </div>
+
     </div>
 </div>
 
-<div>
-    <a th:href="|/Erstellen?id=${benutzer.getBenutzerId()}|">
-        <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom" type="button"> + </button>
-    </a>
-</div>
+
 
 <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

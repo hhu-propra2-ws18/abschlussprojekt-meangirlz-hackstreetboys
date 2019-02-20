@@ -13,6 +13,7 @@
         });
 
     </script>
+    <title>Detailansicht</title>
 
 </head>
 <body>
@@ -77,6 +78,13 @@
                                 <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
                                     <button type="button" class="btn btn-sm btn-outline-secondary">
                                         Bearbeiten<!-- führt zur benutzer seite-->
+                                    </button>
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a th:href="|/Loeschen/${artikel?.getArtikelId()}?id=${benutzer?.getBenutzerId()}|">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                                        Loeschen<!-- führt zur benutzer seite-->
                                     </button>
                                 </a>
                             </li>

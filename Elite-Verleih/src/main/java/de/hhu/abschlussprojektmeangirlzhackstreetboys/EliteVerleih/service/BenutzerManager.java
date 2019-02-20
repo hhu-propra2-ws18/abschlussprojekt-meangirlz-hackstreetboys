@@ -1,7 +1,9 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.service;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.controller.DataSync;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dataaccess.BenutzerRepository;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.dto.AccountDTO;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.EliteVerleih.modell.Benutzer;
@@ -18,6 +20,8 @@ public class BenutzerManager {
 
     @Autowired
     BenutzerRepository benutzerRepo;
+
+    DataSync sync = new DataSync();
 
     public List<Benutzer> getAllBenutzer() {
         return benutzerRepo.findAll();
@@ -40,7 +44,7 @@ public class BenutzerManager {
 
     public Benutzer erstelleBenutzer(Benutzer benutzer) {
         if(nameSchonVorhanden(benutzer.getBenutzerName())) return null;
-
+        AccountDTO account = sync.getAccount(benutzer.getBenutzerName());
         return benutzerRepo.save(benutzer);
     }
 
@@ -65,16 +69,32 @@ public class BenutzerManager {
 		return benutzer;
 	}
 
-	public List<Ausleihe> sucheAnfragen(Benutzer benutzer) {
+	public List<Ausleihe> sucheAnfragen(Benutzer benutzer, Status status) {
         List<Ausleihe> wartend = new ArrayList<>();
-        for (Artikel a : benutzer.getArtikel()) {
-            for (Ausleihe b : a.getAusgeliehen()) {
-                if (b.getAusleihStatus() == Status.ANGEFRAGT) {
+        for( Artikel a: benutzer.getArtikel() ) {
+            for (Ausleihe b: a.getAusgeliehen() ){
+                if (b.getAusleihStatus().equals(status)){
                     wartend.add(b);
                 }
             }
         }
         return wartend;
+    }
+
+	public List<Ausleihe> sucheEigeneAnfragen(Benutzer benutzer, Status status) {
+		List<Ausleihe> list = new ArrayList<Ausleihe>();
+		for (Ausleihe b : benutzer.getAusgeliehen()) {
+    		if(b.getAusleihStatus().equals(status)) {
+    			list.add(b);
+    		}
+    	}
+		return list;
+	}
+
+
+    public void geldAufladen(Benutzer newBenutzer, int aufladen) {
+        System.out.println(aufladen);
+        sync.GuthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
     }
 }
 
