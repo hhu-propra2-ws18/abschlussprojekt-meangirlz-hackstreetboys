@@ -27,10 +27,10 @@
             </div>
         </form>
     </div>
-<div>
+
 
 	<a class="" th:text="'Guthaben: ' + ${Betrag} + ',00 €'"></a>
-</div>
+
     <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
            aria-expanded="false">
@@ -47,7 +47,7 @@
 
 
 
-<div id="accordion">
+<div id="accordionOne">
     <div class="card">
         <div class="card-header" id="headingOne">
             <h3 class="mb-0">
@@ -59,7 +59,7 @@
                 </center>
             </h3>
         </div>
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionOne">
             <div class="container jumbotron center">
                 <tr th:if="${anfragen.empty}">
                     <p> Du hast noch keine eingendende Anfragen</p>
@@ -71,13 +71,10 @@
 
                     <p>Jemand moechte einen Artikel von dir ausleihen.</p>
                     <div class="row">
+						<div th:each="anfrage: ${anfragen}">
                         <div class="card" style="width: 17rem;">
-
-
-                            <div th:each="anfrage: ${anfragen}">
                                 <div class="card" style="width: 17rem;">
-                                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
-                                         class="card-img-top" alt="...">
+                                    <img th:src= "${anfrage.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                                     <div class="card-body">
                                         <h5 class="card-title" th:text="${anfrage.getArtikel().getArtikelName()}">
                                             ArtikelName</h5>
@@ -98,8 +95,9 @@
                                     </div>
                                 </div>
 
-                            </div>
+
                         </div>
+						</div>
                     </div>
                 </tr>
             </div>
@@ -107,7 +105,7 @@
     </div>
 
 
-    <div id="accordion">
+    <div id="accordionTwo">
         <div class="card">
             <div class="card-header" id="headingTwo">
                 <h3 class="mb-0">
@@ -119,7 +117,7 @@
                     </center>
                 </h3>
             </div>
-            <div id="collapseTwo" class="collapse show" adfria-labelledby="headingTwo" data-parent="#accordion">
+            <div id="collapseTwo" class="collapse show" adfria-labelledby="headingTwo" data-parent="#accordionTwo">
                 <div class="container jumbotron center">
                     <h3>Aktiv</h3>
                     <tr th:if="${bestaetigte.empty}">
@@ -133,8 +131,7 @@
 
                             <div th:each="bestaetigt: ${bestaetigte}">
                                 <div class="card" style="width: 17rem;">
-                                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
-                                         heigt="25px" class="card-img-top" alt="...">
+                                    <img th:src= "${bestaetigt.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                                     <div class="card-body">
                                         <h5 class="card-title" th:text="${bestaetigt.getArtikel().getArtikelName()}">
                                             ArtikelName</h5>
@@ -166,8 +163,7 @@
                         <div class="row">
                             <div th:each="wartendeAnfrage: ${wartendeAnfragen}">
                                 <div class="card" style="width: 17rem;">
-                                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
-                                         heigt="25px" class="card-img-top" alt="...">
+                                    <img th:src= "${wartendeAnfrage.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                                     <div class="card-body">
                                         <h5 class="card-title"
                                             th:text="${wartendeAnfrage.getArtikel().getArtikelName()}">ArtikelName</h5>
@@ -194,7 +190,7 @@
         </div>
 
 
-        <div id="accordion">
+        <div id="accordionThree">
             <div class="card">
                 <div class="card-header" id="headingThree">
                     <h3 class="mb-0">
@@ -210,7 +206,7 @@
                 </div>
 
 
-                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionThree">
                     <div class="container jumbotron center">
                         <tr th:if="${(benutzer.getArtikel()).empty}">
                             <center><p> Du hast noch keine Artikel eingestellt. Sharing is caring! </br></br>Erstelle
@@ -228,8 +224,7 @@
                             <div class="row">
                                 <div th:each="verliehene: ${verliehenes}">
                                     <div class="card" style="width: 17rem;">
-                                        <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
-                                             heigt="25px" class="card-img-top" alt="...">
+                                        <img th:src= "${verliehene.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                                         <div class="card-body">
                                             <h5 class="card-title"
                                                 th:text="${verliehene.getArtikel().getArtikelName()}">ArtikelName</h5>
@@ -254,8 +249,7 @@
                             <div class="row">
                                 <div th:each="artikel: ${benutzer.getArtikel()}">
                                     <div class="card" style="width: 17rem;">
-                                        <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
-                                             class="card-img-top" alt="...">
+                                        <img th:src= "${artikel.getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                                         <div class="card-body">
                                             <h5 class="card-title" th:text="${artikel.getArtikelName()}">
                                                 ArtikelName</h5>
@@ -279,8 +273,7 @@
                             <div class="row">
                                 <div th:each="zurueckerhalten: ${zurueckerhaltene}">
                                     <div class="card" style="width: 17rem;">
-                                        <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
-                                             heigt="25px" class="card-img-top" alt="...">
+                                        <img th:src= "${zurueckerhalten.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                                         <div class="card-body">
                                             <h5 class="card-title"
                                                 th:text="${zurueckerhalten.getArtikel().getArtikelName()}">
@@ -313,7 +306,7 @@
         </div>
 
 
-        <div id="accordion">
+        <div id="accordionFour">
             <div class="card">
                 <div class="card-header" id="headingFour">
                     <h3 class="mb-0">
@@ -326,7 +319,7 @@
                     </h3>
                 </div>
             </div>
-            <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordion">
+            <div id="collapseFour" class="collapse show" aria-labelledby="headingFour" data-parent="#accordionFour">
                 <div class="container jumbotron center">
                     <h3>Ausstehend(e)</h3>
                     <tr th:if="${zurueckgegebene.empty}">
@@ -338,8 +331,7 @@
                         <div class="row">
                             <div th:each="zurueckgegeben: ${zurueckgegebene}">
                                 <div class="card" style="width: 17rem;">
-                                    <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
-                                         heigt="25px" class="card-img-top" alt="...">
+                                    <img th:src= "${zurueckgegeben.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                                     <div class="card-body">
                                         <h5 class="card-title"
                                             th:text="${zurueckgegeben.getArtikel().getArtikelName()}">ArtikelName</h5>
@@ -366,8 +358,7 @@
                     <p>Deine erfolgreich zurueckgegebenen Artikel</p>
                     <div th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
                         <div class="card" style="width: 17rem;">
-                            <img src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg"
-                                 heigt="25px" class="card-img-top" alt="...">
+                            <img th:src= "${erfolgreichZurueckgegeben.getArtikel().getArtikelBildURL()}" class="card-img-top" alt="Kein Bild vorhanden!">
                             <div class="card-body">
                                 <h5 class="card-title"
                                     th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">
@@ -391,7 +382,7 @@
         </div>
 
 
-        <div id="accordion">
+        <div id="accordionFive">
             <div class="card">
                 <div class="card-header" id="headingFive">
                     <h3 class="mb-0">
@@ -403,7 +394,7 @@
                         </center>
                     </h3>
                 </div>
-                <div id="collapseFive" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                <div id="collapseFive" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionFive">
                     <div class="container jumbotron center">
                         <tr th:if="${konflikte.empty}">
                             <p> Keine Konflikte vorhanden. </p>
