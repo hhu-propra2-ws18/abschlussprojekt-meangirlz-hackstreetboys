@@ -19,6 +19,13 @@ public class PropayManager {
     final String url = "http://localhost:8888/";
     RestTemplate rt = new RestTemplate();
 
+    /**
+     * Gibt die Informationen zu einem Account zurück.
+     * Wenn der Account noch nicht existiert, wird ein leerer Account angelegt.
+     *
+     * @param benutzername Gibt den Account namen an
+     * @return
+     */
     public AccountDto getAccount(String benutzername) {
 
         ResponseEntity<AccountDto> result = rt.getForEntity(url + "account/" + benutzername, AccountDto.class);
@@ -26,6 +33,13 @@ public class PropayManager {
         return acc;
     }
 
+    /**
+     * Wenn der Account noch nicht existiert, wird er angelegt.
+     * Erhöht den Account um den Wert in anzahl.
+     *
+     * @param benutzername Ziel Accountname
+     * @param anzahl       Summe die aufgeladen werden soll
+     */
     public void guthabenAufladen(String benutzername, int anzahl) {
 
         ResponseEntity<AccountDto> result = rt.postForEntity(url
@@ -37,6 +51,15 @@ public class PropayManager {
 
     }
 
+    /**
+     * Ueberweist von Quellaccount zu dem Zielaccount. Wenn der Quellaccount nicht genug Geld hat
+     * wird nicht ueberwiesen und es wird ein false zurueck gegeben. Ansonsten true.
+     *
+     * @param vonBenutzername Quellaccountname
+     * @param zuBenutzername  Zielaccountname
+     * @param anzahl          zu ueberweisende Summe
+     * @return boolean true wenn alles klappt und false bei einem Fehler
+     */
     public boolean ueberweisen(String vonBenutzername, String zuBenutzername, int anzahl) {
 
         String urlueberweisenUrl = url
@@ -55,6 +78,16 @@ public class PropayManager {
         }
     }
 
+    /**
+     * Die Kaution wird auf dem Quellaccount reserviert. Damit wird das nicht abgehoben sondern nur reserviert.
+     * Also kann der Quellaccount nicht mehr sein Geld bis zum Kontostand 0 ausgeben sondern nur noch so viel das er
+     * noch genug fuer die Kaution hat.
+     *
+     * @param vonBenutzername Quellaccount wo die Kaution reserviert wird
+     * @param zuBenutzername  Zielaccount falls die Kaution eingezogen wird geht sie hier hin
+     * @param anzahl          Summe der Kaution
+     * @return ReservationDto ist ein Reservation Objekt welches die ReservationsId und einen Betrag beinhaltet
+     */
     public ReservationDto kautionReserviern(String vonBenutzername, String zuBenutzername, int anzahl) {
 
         String kautionUrl = url + "reservation/reserve/" + vonBenutzername + "/" + zuBenutzername + "?amount=" + anzahl;
@@ -68,12 +101,28 @@ public class PropayManager {
         }
     }
 
+    /**
+     * Zieht dem Account das reservierte Guthaben ab und überträgt den reservierten Betrag
+     * an den zuvor definierten Zielaccount.
+     *
+     * @param benutzername   Quellaccount
+     * @param reservationsid Id der Reservation
+     * @return true falls es klappt.
+     */
     public boolean kautionEinziehen(String benutzername, int reservationsid) {
 
         String kautionUrl = url + "reservation/punish/" + benutzername + "?reservationId=" + reservationsid;
         return kautionManager(kautionUrl);
     }
 
+    /**
+     * Loese eine Reservierung. In diesem Fall wird dem Account sein Guthaben wieder zur freien Verfügung gegeben
+     * und die Reservierung wird restlos geloescht.
+     *
+     * @param benutzername   Quellaccount
+     * @param reservationsid Id der Reservation
+     * @return true falls es klappt.
+     */
     public boolean kautionFreigeben(String benutzername, int reservationsid) {
 
         String kautionUrl = url + "reservation/release/" + benutzername + "?reservationId=" + reservationsid;
