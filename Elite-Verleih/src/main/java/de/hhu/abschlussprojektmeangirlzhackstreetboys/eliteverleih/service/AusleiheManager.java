@@ -94,13 +94,19 @@ public class AusleiheManager {
      * @param ausleiheId Id der Ausleihe.
      */
     public void bestaetigeAusleihe(Long ausleiheId) {
-        bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
-        loescheKollidierendeAnfragen(ausleiheId);
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
         Artikel artikel = ausleihe.getArtikel();
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
-        ausleihe.setReservationsId(r1.getId());
+        System.out.println("R1: " + r1);
+        if(r1 == null) {
+            bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
+        } else {
+            bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
+            loescheKollidierendeAnfragen(ausleiheId);
+            ausleihe.setReservationsId(r1.getId());
+        }
+
         ausleiheRepo.save(ausleihe);
     }
 
