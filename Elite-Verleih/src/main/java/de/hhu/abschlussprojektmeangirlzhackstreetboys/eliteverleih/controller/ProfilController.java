@@ -94,7 +94,7 @@ public class ProfilController {
             ausleiheManager.zurueckGeben(ausleihId);
             return "redirect:/Profil";
         } else if (name.equals("Akzeptieren")) {
-            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
+            ausleiheManager.rueckgabeAkzeptieren(ausleihId);
             return "redirect:/Profil";
         } else if (name.equals("Entfernen")) {
             ausleiheManager.loescheAusleihe(ausleihId);

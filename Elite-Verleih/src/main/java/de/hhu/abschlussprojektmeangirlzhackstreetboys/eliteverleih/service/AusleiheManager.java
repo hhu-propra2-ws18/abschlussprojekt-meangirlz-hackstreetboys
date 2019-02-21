@@ -102,7 +102,7 @@ public class AusleiheManager {
             bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
         } else {
             bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
-            //loescheKollidierendeAnfragen(ausleiheId);
+            loescheKollidierendeAnfragen(ausleiheId);
             ausleihe.setReservationsId(r1.getId());
         }
 
@@ -175,14 +175,20 @@ public class AusleiheManager {
     private void loescheKollidierendeAnfragen(Long ausleiheId) {
         Artikel artikel = getAusleiheById(ausleiheId).getArtikel();
         List<Ausleihe> ausleihList = artikel.getAusgeliehen();
-        for (Ausleihe a : ausleihList) {
+        List<Ausleihe> anfrageList = new ArrayList<>();
+        for(Ausleihe a: ausleihList) {
+            if (a.getAusleihStatus().equals(Status.ANGEFRAGT)){
+                anfrageList.add(a);
+            }
+        }
+        for (Ausleihe a : anfrageList) {
             if (a.getAusleihId() != ausleiheId) {
                 if (kollidiertMitAusleihe(a.getAusleihId(), ausleiheId)) {
                     bearbeiteAusleihe(a.getAusleihId(), Status.ABGELEHNT);
                 }
             }
         }
-        for (Ausleihe a : ausleihList) {
+        for (Ausleihe a : anfrageList) {
             if (a.getAusleihStatus().equals(Status.ABGELEHNT)) {
                 loescheAusleihe(ausleiheId);
             }
@@ -225,9 +231,12 @@ public class AusleiheManager {
      */
     public boolean isAusgeliehen(Long artikelId, Calendar startDatum, Calendar endDatum) {
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+        System.out.println("AusleihListe: " + artikel.getAusgeliehen().size());
         for (Ausleihe ausleihe : artikel.getAusgeliehen()) {
+            System.out.println(ausleihe.getAusleihStatus());
             if (!ausleihe.getAusleihStatus().equals(Status.ANGEFRAGT)
-                && !ausleihe.getAusleihStatus().equals(Status.BEENDET)) {
+                && !ausleihe.getAusleihStatus().equals(Status.BEENDET)
+                && !ausleihe.getAusleihStatus().equals(Status.ABGELEHNT)) {
 
                 if (startDatum.before(ausleihe.getAusleihStartdatum())
                     && (endDatum.after(ausleihe.getAusleihStartdatum()))) {
@@ -278,5 +287,11 @@ public class AusleiheManager {
         } else {
             bearbeiteAusleihe(ausleiheId, Status.KONFLIKT);
         }
+    }
+
+    public void rueckgabeAkzeptieren(Long ausleihId) {
+        bearbeiteAusleihe(ausleihId, Status.BEENDET);
+        Ausleihe ausleihe = getAusleiheById(ausleihId);
+        propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
     }
 }

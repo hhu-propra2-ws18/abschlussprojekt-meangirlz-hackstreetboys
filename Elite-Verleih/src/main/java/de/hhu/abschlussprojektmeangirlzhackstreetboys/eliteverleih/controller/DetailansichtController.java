@@ -65,7 +65,6 @@ public class DetailansichtController {
         try {
             startDatum = new SimpleDateFormat("yyyy-MM-dd").parse(startDatumString);
             calStartDatum.setTime(startDatum);
-            System.out.println("StartString: " + startDatumString + " StartDatum: " + startDatum.toString());
             endDatum = new SimpleDateFormat("yyyy-MM-dd").parse(endDatumString);
             calEndDatum.setTime(endDatum);
         } catch (ParseException e) {
