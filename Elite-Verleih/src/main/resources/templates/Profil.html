@@ -1,11 +1,9 @@
 <!doctype html>
-<html lang="en">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http:thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
-          integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" rel="stylesheet">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
     <title>Profil</title>
 </head>
 <body>
@@ -36,429 +34,525 @@
 <div id="accordionOne">
     <div class="card">
         <div class="card-header" id="headingOne">
-            <h3 class="mb-0">
-                <center>
-                    <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-link"
-                            data-target="#collapseOne"
-                            data-toggle="collapse">
-                        <h3>Anfragen</h3>
-                    </button>
-                </center>
-            </h3>
+            <div class="mb-0">
+                <button aria-controls="collapseOne" aria-expanded="true" class="btn btn-link"
+                        data-target="#collapseOne"
+                        data-toggle="collapse">
+                    <h3>Anfragen</h3>
+                </button>
+            </div>
         </div>
         <div aria-labelledby="headingOne" class="collapse show" data-parent="#accordionOne" id="collapseOne">
             <div class="container jumbotron center">
-                <tr th:if="${anfragen.empty}">
+                <div th:if="${anfragen.isEmpty()}">
                     <p> Du hast noch keine eingendende Anfragen</p>
-                </tr>
-
-
-                <tr th:unless="${anfragen.empty}">
-
-
-                    <p>Jemand moechte einen Artikel von dir ausleihen.</p>
+                </div>
+                <div th:unless="${anfragen.isEmpty()}">
+                    <p>Jemand möchte einen Artikel von dir ausleihen.</p>
                     <div class="row">
-                        <div th:each="anfrage: ${anfragen}">
-                            <div class="card" style="width: 17rem;">
-                                <div class="card" style="width: 17rem;">
-                                    <img alt="Kein Bild vorhanden!" class="card-img-top"
-                                         th:src="${anfrage.getArtikel().getArtikelBildUrl()}">
-                                    <div class="card-body">
-                                        <h5 class="card-title" th:text="${anfrage.getArtikel().getArtikelName()}">
-                                            ArtikelName</h5>
-                                        <h5 class="card-title" th:text="${anfrage.getAusleihStatus()}">Status</h5>
-                                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                        <a th:href="|/Detailansicht/${anfrage.getArtikel().getArtikelId()}|">Details</a>
+                        <div class="card" th:each="anfrage: ${anfragen}">
+                            <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                 style="max-height: 180px;"
+                                 th:src="${anfrage.getArtikel().getArtikelBildUrl()}">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${anfrage.getArtikel().getArtikelName()}">
+                                    ArtikelName</h5>
+                                <p class="card-text"
+                                   th:text="'Angefragt von: ' + ${anfrage.getBenutzer().getBenutzerName()}">Benutzer</p>
+                                <p class="card-text" th:text="'Von: '
+                                + ${anfrage.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${anfrage.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${anfrage.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                <p class="card-text" th:text="'Bis: '
+                                + ${anfrage.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${anfrage.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${anfrage.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                    Rückgabedatumdatum</p>
 
-                                        <center>
-                                            <form method="post"
-                                                  th:action="|/Profil?ausleihId=${anfrage.getAusleihId()}|"
-                                                  th:object="${anfrage}">
+                                <a th:href="|/Detailansicht/${anfrage.getArtikel().getArtikelId()}|">Details</a>
 
-                                                <input class="btn btn-outline-success" name="submitButton" type="submit"
-                                                       value="Bestaetigen"/>
-                                                <input class="btn btn-outline-danger" name="submitButton" type="submit"
-                                                       value="Ablehnen"/>
-                                            </form>
-                                        </center>
-                                    </div>
-                                </div>
+                                <form method="post"
+                                      th:action="'/Profil?ausleihId=' + ${anfrage.getAusleihId()}"
+                                      th:object="${anfrage}">
 
-
+                                    <input class="btn btn-outline-success" name="submitButton" type="submit"
+                                           value="Bestaetigen"/>
+                                    <input class="btn btn-outline-danger" name="submitButton" type="submit"
+                                           value="Ablehnen"/>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </tr>
+                </div>
+                <div th:unless="${anfragen.isEmpty()}">
+                    <p>Abgelehnte Anfragen:</p>
+                    <div class="row">
+                        <div class="card" th:each="abgelehnteAnfrage: ${abgelehnteAnfragen}">
+                            <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                 style="max-height: 180px;"
+                                 th:src="${abgelehnteAnfrage.getArtikel().getArtikelBildUrl()}">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${abgelehnteAnfrage.getArtikel().getArtikelName()}">
+                                    ArtikelName</h5>
+                                <p class="card-text"
+                                   th:text="'Abgelehnt von: ' + ${abgelehnteAnfrage.getArtikel().getBenutzer().getBenutzerName()}">Benutzer</p>
+                                <p class="card-text" th:text="'Von: '
+                                + ${abgelehnteAnfrage.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${abgelehnteAnfrage.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${abgelehnteAnfrage.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                <p class="card-text" th:text="'Bis: '
+                                + ${abgelehnteAnfrage.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${abgelehnteAnfrage.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${abgelehnteAnfrage.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                    Rückgabedatumdatum</p>
+
+                                <a th:href="|/Detailansicht/${abgelehnteAnfrage.getArtikel().getArtikelId()}|">Details</a>
+
+                                <form method="post"
+                                      th:action="'/Profil?ausleihId=' + ${abgelehnteAnfrage.getAusleihId()}"
+                                      th:object="${abgelehnteAnfrage}">
+
+                                    <input class="btn btn-outline-success" name="submitButton" type="submit"
+                                           value="Entfernen"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
 
-    <div id="accordionTwo">
-        <div class="card">
-            <div class="card-header" id="headingTwo">
-                <h3 class="mb-0">
-                    <center>
-                        <button aria-controls="collapseTwo" aria-expanded="true" class="btn btn-link"
-                                data-target="#collapseTwo" data-toggle="collapse">
-                            <h3>Ausgeliehenes</h3>
-                        </button>
-                    </center>
-                </h3>
-            </div>
-            <div adfria-labelledby="headingTwo" class="collapse show" data-parent="#accordionTwo" id="collapseTwo">
-                <div class="container jumbotron center">
-                    <h3>Aktiv</h3>
-                    <tr th:if="${bestaetigte.empty}">
-                        <p> Du hast gerade keine ausgeliehene Artikel</p>
-                    </tr>
-
-                    <tr th:unless="${bestaetigte.empty}">
-
-                        <p>Deine ausgeliehenen Artikel</p>
-                        <div class="row">
-
-                            <div th:each="bestaetigt: ${bestaetigte}">
-                                <div class="card" style="width: 17rem;">
-                                    <img alt="Kein Bild vorhanden!" class="card-img-top"
-                                         th:src="${bestaetigt.getArtikel().getArtikelBildUrl()}">
-                                    <div class="card-body">
-                                        <h5 class="card-title" th:text="${bestaetigt.getArtikel().getArtikelName()}">
-                                            ArtikelName</h5>
-                                        <h5 class="card-title" th:text="${bestaetigt.getAusleihStatus()}">Status</h5>
-                                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                        <a th:href="|/Detailansicht/${bestaetigt.getArtikel().getArtikelId()}|">Details</a>
-                                        <center>
-                                            <form method="post"
-                                                  th:action="|/Profil?ausleihId=${bestaetigt.getAusleihId()}|"
-                                                  th:object="${bestaetigt}">
-                                                <center><input class="btn btn-outline-success" name="submitButton"
-                                                               type="submit" value="Zurueckgeben"/></center>
-                                            </form>
-                                        </center>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </tr>
-                    <br/>
-                    <h3>Wartend</h3>
-                    <tr th:if="${wartendeAnfragen.empty}">
-                        <p> Du hast gerade keine Artikel angefragt</p>
-                        <p> Suche <a th:href="'/Uebersicht'">hier</a> nach Artikeln
-                        </p>
-                    </tr>
-
-                    <tr th:unless="${wartendeAnfragen.empty}">
-                        <p>Es wird auf die Bestaetigung des Besitzers gewartet.</p>
-                        <div class="row">
-                            <div th:each="wartendeAnfrage: ${wartendeAnfragen}">
-                                <div class="card" style="width: 17rem;">
-                                    <img alt="Kein Bild vorhanden!"
-                                         class="card-img-top"
-                                         th:src="${wartendeAnfrage.getArtikel().getArtikelBildUrl()}">
-                                    <div class="card-body">
-                                        <h5 class="card-title"
-                                            th:text="${wartendeAnfrage.getArtikel().getArtikelName()}">ArtikelName</h5>
-                                        <h5 class="card-title" th:text="${wartendeAnfrage.getAusleihStatus()}">
-                                            Status</h5>
-                                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                        <a th:href="|/Detailansicht/${wartendeAnfrage.getArtikel().getArtikelId()}|">Details</a>
-                                        <center>
-                                            <form method="post"
-                                                  th:action="|/Profil?ausleihId=${wartendeAnfrage.getAusleihId()}|"
-                                                  th:object="${wartendeAnfrage}">
-                                                <center><input class="btn btn-outline-danger" name="submitButton"
-                                                               type="submit" value="Zurueckziehen"/></center>
-                                            </form>
-                                        </center>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </tr>
-                </div>
+<div id="accordionTwo">
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <div class="mb-0">
+                <button aria-controls="collapseTwo" aria-expanded="true" class="btn btn-link"
+                        data-target="#collapseTwo"
+                        data-toggle="collapse">
+                    <h3>Ausgeliehenes</h3>
+                </button>
             </div>
         </div>
+        <div aria-labelledby="headingTwo" class="collapse show" data-parent="#accordionTwo" id="collapseTwo">
+            <div class="container jumbotron center">
 
-
-        <div id="accordionThree">
-            <div class="card">
-                <div class="card-header" id="headingThree">
-                    <h3 class="mb-0">
-                        <center>
-                            <button aria-controls="collapseThree" aria-expanded="true" class="btn btn-link"
-                                    data-target="#collapseThree" data-toggle="collapse">
-                                <h3>Eigene Artikel</h3>
-                            </button>
-                        </center>
-                    </h3>
-
-
+                <h3>Aktiv</h3>
+                <div th:if="${bestaetigte.isEmpty()}">
+                    <p> Du hast gerade keine ausgeliehene Artikel</p>
                 </div>
+                <div th:unless="${bestaetigte.isEmpty()}">
+                    <p>Deine ausgeliehenen Artikel</p>
+                    <div class="row">
+                        <div class="card" th:each="bestaetigt: ${bestaetigte}">
+                            <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                 style="max-height: 180px;"
+                                 th:src="${bestaetigt.getArtikel().getArtikelBildUrl()}">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${bestaetigt.getArtikel().getArtikelName()}">
+                                    ArtikelName</h5>
+                                <p class="card-text"
+                                   th:text="'Angefragt von: ' + ${bestaetigt.getBenutzer().getBenutzerName()}">
+                                    Benutzer</p>
+                                <p class="card-text" th:text="'Von: '
+                                + ${bestaetigt.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${bestaetigt.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${bestaetigt.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                <p class="card-text" th:text="'Bis: '
+                                + ${bestaetigt.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${bestaetigt.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${bestaetigt.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                    Rückgabedatumdatum</p>
 
+                                <a th:href="|/Detailansicht/${bestaetigt.getArtikel().getArtikelId()}|">Details</a>
 
-                <div aria-labelledby="headingThree" class="collapse show" data-parent="#accordionThree"
-                     id="collapseThree">
-                    <div class="container jumbotron center">
-                        <tr th:if="${(benutzer.getArtikel()).empty}">
-                            <center><p> Du hast noch keine Artikel eingestellt. Sharing is caring! </br></br>Erstelle
-                                jetzt deinen ersten Artikel! </p>
-                                <div>
-                                    <a th:href="|/Erstellen|">
-                                        <button class="btn btn-success mx-auto btn-lg mr-sm-2" type="button"> +</button>
-                                    </a>
-                                </div>
-                            </center>
-                        </tr>
-                        <tr th:unless="${(benutzer.getArtikel()).empty}">
-                            <h3>Verliehenes</h3>
-                            <p>Deine aktiv verliehenen Artikel</p>
-                            <div class="row">
-                                <div th:each="verliehene: ${verliehenes}">
-                                    <div class="card" style="width: 17rem;">
-                                        <img alt="Kein Bild vorhanden!"
-                                             class="card-img-top"
-                                             th:src="${verliehene.getArtikel().getArtikelBildUrl()}">
-                                        <div class="card-body">
-                                            <h5 class="card-title"
-                                                th:text="${verliehene.getArtikel().getArtikelName()}">ArtikelName</h5>
-                                            <h5 class="card-title" th:text="${verliehene.getAusleihStatus()}">
-                                                Status</h5>
-                                            <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                            <a th:href="|/Detailansicht/${verliehene.getArtikel().getArtikelId()}|">Details</a>
-                                            <center>
-                                                <form method="post"
-                                                      th:action="|/Profil?ausleihId=${verliehene.getAusleihId()}|"
-                                                      th:object="${verliehene}">
-                                                    <center><input class="btn btn-outline-danger" name="submitButton"
-                                                                   type="submit" value="Konflikt"/></center>
-                                                </form>
-                                            </center>
-                                        </div>
-                                    </div>
-                                </div>
+                                <form method="post"
+                                      th:action="'/Profil?ausleihId=' + ${bestaetigt.getAusleihId()}"
+                                      th:object="${bestaetigt}">
+
+                                    <input class="btn btn-outline-success" name="submitButton"
+                                           type="submit" value="Zurueckgeben"/>
+                                </form>
                             </div>
-                            <br/>
-                            <h3>Angebotene</h3>
-                            <p>Deine Artikel zum verleihen.</p>
-                            <div class="row">
-                                <div th:each="artikel: ${benutzer.getArtikel()}">
-                                    <div class="card" style="width: 17rem;">
-                                        <img alt="Kein Bild vorhanden!" class="card-img-top"
-                                             th:src="${artikel.getArtikelBildUrl()}">
-                                        <div class="card-body">
-                                            <h5 class="card-title" th:text="${artikel.getArtikelName()}">
-                                                ArtikelName</h5>
-                                            <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                            <a th:href="|/Detailansicht/${artikel.getArtikelId()}|">Details</a>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <a th:href="|/Erstellen|">
-                                            <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom"
-                                                    type="button"> +
-                                            </button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <h3>Zurueckerhaltenes</h3>
-                            <p>Deine zurueckerhaltenen Artikel.
-                                <br/> Bei Problemen benachrichtige bitte unseren Support.</p>
-                            <div class="row">
-                                <div th:each="zurueckerhalten: ${zurueckerhaltene}">
-                                    <div class="card" style="width: 17rem;">
-                                        <img alt="Kein Bild vorhanden!"
-                                             class="card-img-top"
-                                             th:src="${zurueckerhalten.getArtikel().getArtikelBildUrl()}">
-                                        <div class="card-body">
-                                            <h5 class="card-title"
-                                                th:text="${zurueckerhalten.getArtikel().getArtikelName()}">
-                                                ArtikelName</h5>
-                                            <h5 class="card-title" th:text="${zurueckerhalten.getAusleihStatus()}">
-                                                Status</h5>
-                                            <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                            <a th:href="|/Detailansicht/${zurueckerhalten.getArtikel().getArtikelId()}|">Details</a>
-                                            <center>
-                                                <form method="post"
-                                                      th:action="|/Profil?ausleihId=${zurueckerhalten.getAusleihId()}|"
-                                                      th:object="${zurueckerhalten}">
-                                                    <center>
-                                                        <input class="btn btn-outline-success" name="submitButton"
-                                                               type="submit" value="Akzeptieren"/>
-                                                        <input class="btn btn-outline-danger" name="submitButton"
-                                                               type="submit" value="Konflikt"/></center>
-                                                </form>
-                                            </center>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </tr>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-        </div>
+                <h3>Wartend</h3>
+                <div th:if="${wartendeAnfragen.isEmpty()}">
+                    <p> Du hast gerade keine Artikel angefragt</p>
+                </div>
+                <div th:unless="${wartendeAnfragen.isEmpty()}">
+                    <p>Es wird auf die Bestätigung des Besitzers gewartet.</p>
+                    <div class="row">
+                        <div class="card" th:each="wartendeAnfrage: ${wartendeAnfragen}">
+                            <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                 style="max-height: 180px;"
+                                 th:src="${wartendeAnfrage.getArtikel().getArtikelBildUrl()}">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${wartendeAnfrage.getArtikel().getArtikelName()}">
+                                    ArtikelName</h5>
+                                <p class="card-text"
+                                   th:text="'Angefragt von: ' + ${wartendeAnfrage.getBenutzer().getBenutzerName()}">
+                                    Benutzer</p>
+                                <p class="card-text" th:text="'Von: '
+                                + ${wartendeAnfrage.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${wartendeAnfrage.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${wartendeAnfrage.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                <p class="card-text" th:text="'Bis: '
+                                + ${wartendeAnfrage.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${wartendeAnfrage.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${wartendeAnfrage.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                    Rückgabedatumdatum</p>
 
+                                <a th:href="|/Detailansicht/${wartendeAnfrage.getArtikel().getArtikelId()}|">Details</a>
 
-        <div id="accordionFour">
-            <div class="card">
-                <div class="card-header" id="headingFour">
-                    <h3 class="mb-0">
-                        <center>
-                            <button aria-controls="collapseFour" aria-expanded="true" class="btn btn-link"
-                                    data-target="#collapseFour" data-toggle="collapse">
-                                <h3>Zurueckgegebene Artikel</h3>
-                            </button>
-                        </center>
-                    </h3>
+                                <form method="post"
+                                      th:action="'/Profil?ausleihId=' + ${wartendeAnfrage.getAusleihId()}"
+                                      th:object="${wartendeAnfrage}">
+
+                                    <input class="btn btn-outline-danger" name="submitButton"
+                                           type="submit" value="Zurueckziehen"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div aria-labelledby="headingFour" class="collapse show" data-parent="#accordionFour" id="collapseFour">
-                <div class="container jumbotron center">
-                    <h3>Ausstehend(e)</h3>
-                    <tr th:if="${zurueckgegebene.empty}">
-                        <p>Alle Rueckgaben wurden akzeptiert.</p>
-                    </tr>
-                    <tr th:unless="${zurueckgegebene.empty}">
-                        <p>Wir warten noch auf die Bestaetigung des Besitzers, dass der ausgeliehene Artikel in Ordnung
-                            ist.</p>
-                        <div class="row">
-                            <div th:each="zurueckgegeben: ${zurueckgegebene}">
-                                <div class="card" style="width: 17rem;">
-                                    <img alt="Kein Bild vorhanden!"
-                                         class="card-img-top"
-                                         th:src="${zurueckgegeben.getArtikel().getArtikelBildUrl()}">
-                                    <div class="card-body">
-                                        <h5 class="card-title"
-                                            th:text="${zurueckgegeben.getArtikel().getArtikelName()}">ArtikelName</h5>
-                                        <h5 class="card-title" th:text="${zurueckgegeben.getAusleihStatus()}">
-                                            Status</h5>
-                                        <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                        <a th:href="|/Detailansicht/${zurueckgegeben.getArtikel().getArtikelId()}|">Details</a>
-                                        <center>
-                                            <form method="post"
-                                                  th:action="|/Profil?ausleihId=${zurueckgegeben.getAusleihId()}|"
-                                                  th:object="${zurueckgegeben}">
-                                                <center><input class="btn btn-outline-danger" name="submitButton"
-                                                               type="submit" value="Problem"/></center>
-                                            </form>
-                                        </center>
-                                    </div>
-                                </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="accordionThree">
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <div class="mb-0">
+                <button aria-controls="collapseThree" aria-expanded="true" class="btn btn-link"
+                        data-target="#collapseThree"
+                        data-toggle="collapse">
+                    <h3>Eigene Artikel</h3>
+                </button>
+            </div>
+        </div>
+        <div aria-labelledby="headingThree" class="collapse show" data-parent="#accordionThree" id="collapseThree">
+            <div class="container jumbotron center">
+
+                <div th:if="${benutzer.getArtikel().isEmpty()}">
+                    <p> Du hast noch keine Artikel eingestellt. Sharing is caring! </br></br>Erstelle
+                        jetzt deinen ersten Artikel! </p>
+                    <div>
+                        <a th:href="|/Erstellen|">
+                            <button class="btn btn-success mx-auto btn-lg mr-sm-2" type="button"> +</button>
+                        </a>
+                    </div>
+                </div>
+
+                <div th:unless="${benutzer.getArtikel().isEmpty()}">
+                    <h3>Verliehenes</h3>
+                    <p>Deine aktiv verliehenen Artikel</p>
+                    <div class="row">
+                        <div class="card" th:each="verliehene: ${verliehenes}">
+                            <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                 style="max-height: 180px;"
+                                 th:src="${verliehene.getArtikel().getArtikelBildUrl()}">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${verliehene.getArtikel().getArtikelName()}">
+                                    ArtikelName</h5>
+                                <p class="card-text"
+                                   th:text="'Ausgeliehen von dir.'">
+                                    Benutzer</p>
+                                <p class="card-text" th:text="'Von: '
+                                + ${verliehene.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${verliehene.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${verliehene.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                <p class="card-text" th:text="'Bis: '
+                                + ${verliehene.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${verliehene.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${verliehene.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                    Rückgabedatumdatum</p>
+
+                                <a th:href="|/Detailansicht/${verliehene.getArtikel().getArtikelId()}|">Details</a>
+
+                                <form method="post"
+                                      th:action="'/Profil?ausleihId=' + ${verliehene.getAusleihId()}"
+                                      th:object="${verliehene}">
+
+                                    <input class="btn btn-outline-danger" name="submitButton"
+                                           type="submit" value="Konflikt"/>
+                                </form>
                             </div>
-
-
                         </div>
-                    </tr>
-                    <br/>
-                    <h3>Erfolgreich</h3>
+                    </div>
+                </div>
+
+                <h3>Angebotene</h3>
+                <p>Deine Artikel zum verleihen.</p>
+                <div class="row">
+                    <div class="card" th:each="artikel: ${benutzer.getArtikel()}">
+                        <img alt="Kein Bild vorhanden!" class="card-img-top"
+                             style="max-height: 180px;"
+                             th:src="${artikel.getArtikelBildUrl()}">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${artikel.getArtikelName()}">
+                                ArtikelName</h5>
+                            <p class="card-text"
+                               th:text="${artikel.getArtikelBeschreibung()}">
+                            <a th:href="|/Detailansicht/${artikel.getArtikelId()}|">Details</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <a th:href="|/Erstellen|">
+                            <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom"
+                                    type="button"> +
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+
+                <h3>Zurueckerhaltenes</h3>
+                <p>Deine zurueckerhaltenen Artikel.
+                    <br/> Bei Problemen benachrichtige bitte unseren Support.</p>
+                <div class="row">
+                    <div class="card" th:each="zurueckerhalten: ${zurueckerhaltene}">
+                        <img alt="Kein Bild vorhanden!" class="card-img-top"
+                             style="max-height: 180px;"
+                             th:src="${zurueckerhalten.getArtikel().getArtikelBildUrl()}">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${zurueckerhalten.getArtikel().getArtikelName()}">
+                                ArtikelName</h5>
+                            <p class="card-text"
+                               th:text="'Ausgeliehen von dir.'">
+                                Benutzer</p>
+                            <p class="card-text" th:text="'Von: '
+                                + ${zurueckerhalten.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${zurueckerhalten.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${zurueckerhalten.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                            <p class="card-text" th:text="'Bis: '
+                                + ${zurueckerhalten.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${zurueckerhalten.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${zurueckerhalten.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                Rückgabedatumdatum</p>
+
+                            <a th:href="|/Detailansicht/${zurueckerhalten.getArtikel().getArtikelId()}|">Details</a>
+
+                            <form method="post"
+                                  th:action="'/Profil?ausleihId=' + ${zurueckerhalten.getAusleihId()}"
+                                  th:object="${zurueckerhalten}">
+
+                                <input class="btn btn-outline-success" name="submitButton"
+                                       type="submit" value="Akzeptieren"/>
+                                <input class="btn btn-outline-danger" name="submitButton"
+                                       type="submit" value="Konflikt"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="accordionFour">
+    <div class="card">
+        <div class="card-header" id="headingFour">
+            <div class="mb-0">
+                <button aria-controls="collapseFour" aria-expanded="true" class="btn btn-link"
+                        data-target="#collapseFour" data-toggle="collapse">
+                    <h3>Zurueckgegebene Artikel</h3>
+                </button>
+            </div>
+        </div>
+        <div aria-labelledby="headingFour" class="collapse show" data-parent="#accordionFour" id="collapseFour">
+            <div class="container jumbotron center">
+
+                <h3>Ausstehend(e)</h3>
+                <div th:if="${zurueckgegebene.isEmpty()}">
+                    <p>Alle Rueckgaben wurden akzeptiert.</p>
+                </div>
+                <div th:unless="${zurueckgegebene.isEmpty()}">
+                    <p>Wir warten noch auf die Bestaetigung des Besitzers, dass der ausgeliehene Artikel in Ordnung
+                        ist.</p>
+                    <div class="row">
+                        <div class="card" th:each="zurueckgegeben: ${zurueckgegebene}">
+                            <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                 style="max-height: 180px;"
+                                 th:src="${zurueckgegeben.getArtikel().getArtikelBildUrl()}">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${zurueckgegeben.getArtikel().getArtikelName()}">
+                                    ArtikelName</h5>
+                                <p class="card-text"
+                                   th:text="'Angefragt von: ' + ${zurueckgegeben.getBenutzer().getBenutzerName()}">
+                                    Benutzer</p>
+                                <p class="card-text" th:text="'Von: '
+                                + ${zurueckgegeben.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${zurueckgegeben.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${zurueckgegeben.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                <p class="card-text" th:text="'Bis: '
+                                + ${zurueckgegeben.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${zurueckgegeben.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${zurueckgegeben.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                    Rückgabedatumdatum</p>
+
+                                <a th:href="|/Detailansicht/${zurueckgegeben.getArtikel().getArtikelId()}|">Details</a>
+
+                                <form method="post"
+                                      th:action="'/Profil?ausleihId=' + ${zurueckgegeben.getAusleihId()}"
+                                      th:object="${zurueckgegeben}">
+
+                                    <input class="btn btn-outline-danger" name="submitButton"
+                                           type="submit" value="Problem"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Erfolgreich</h3>
                     <p>Deine erfolgreich zurueckgegebenen Artikel</p>
-                    <div th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
-                        <div class="card" style="width: 17rem;">
-                            <img alt="Kein Bild vorhanden!"
-                                 class="card-img-top"
+                    <div class="row">
+                        <div class="card" th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
+                            <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                 style="max-height: 180px;"
                                  th:src="${erfolgreichZurueckgegeben.getArtikel().getArtikelBildUrl()}">
                             <div class="card-body">
-                                <h5 class="card-title"
-                                    th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">
+                                <h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">
                                     ArtikelName</h5>
-                                <h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getAusleihStatus()}">
-                                    Status</h5>
-                                <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
+                                <p class="card-text"
+                                   th:text="'Zurückgegeben von: ' + ${erfolgreichZurueckgegeben.getBenutzer().getBenutzerName()}">
+                                    Benutzer</p>
+                                <p class="card-text" th:text="'Von: '
+                                + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                <p class="card-text" th:text="'Bis: '
+                                + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                    Rückgabedatumdatum
+                                </p>
+
                                 <a th:href="|/Detailansicht/${erfolgreichZurueckgegeben.getArtikel().getArtikelId()}|">Details</a>
-                                <center>
-                                    <form method="post"
-                                          th:action="|/Profil?ausleihId=${erfolgreichZurueckgegeben.getAusleihId()}|"
-                                          th:object="${erfolgreichZurueckgegeben}">
-                                        <center><input class="btn btn-outline-danger" name="submitButton" type="submit"
-                                                       value="Entfernen"/></center>
-                                    </form>
-                                </center>
+
+                                <form method="post"
+                                      th:action="'/Profil?ausleihId=' + ${erfolgreichZurueckgegeben.getAusleihId()}"
+                                      th:object="${erfolgreichZurueckgegeben}">
+
+                                    <input class="btn btn-outline-danger" name="submitButton" type="submit"
+                                           value="Entfernen"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="accordionFive">
+    <div class="card">
+        <div class="card-header" id="headingFive">
+            <div class="mb-0">
+                <button aria-controls="collapseFive" aria-expanded="true" class="btn btn-link"
+                        data-target="#collapseFive" data-toggle="collapse">
+                    <h3>Konflikte</h3>
+                </button>
+            </div>
+        </div>
+        <div aria-labelledby="headingOne" class="collapse show" data-parent="#accordionFive" id="collapseFive">
+            <div class="container jumbotron center">
+                <div th:if="${konflikte.isEmpty()}">
+                    <p> Keine Konflikte vorhanden. </p>
+                </div>
+
+                <div th:unless="${konflikte.isEmpty()}">
+                    <p>Es gibt aktive Konflikte.</p>
+                    <div class="row">
+                        <div class="card" th:each="konflikt: ${konflikte}">
+                            <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                 style="max-height: 180px;"
+                                 th:src="${konflikt.getArtikel().getArtikelBildUrl()}">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${konflikt.getArtikel().getArtikelName()}">
+                                    ArtikelName</h5>
+                                <p class="card-text"
+                                   th:text="'Ausgeliehen von: ' + ${konflikt.getBenutzer().getBenutzerName()}">
+                                    Benutzer</p>
+                                <p class="card-text" th:text="'Von: '
+                                + ${konflikt.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${konflikt.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${konflikt.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                <p class="card-text" th:text="'Bis: '
+                                + ${konflikt.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${konflikt.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${konflikt.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                    Rückgabedatumdatum
+                                </p>
+
+                                <a th:href="|/Detailansicht/${konflikt.getArtikel().getArtikelId()}|">Details</a>
+
+                                <form method="post"
+                                      th:action="'/Profil?ausleihId=' + ${konflikt.getAusleihId()}"
+                                      th:object="${konflikt}">
+
+                                    <input class="btn btn-outline-success" name="submitButton"
+                                           type="submit" value="Geloest"/>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
+                <div th:unless="${ausgehendeKonflikte.isEmpty()}">
+                    <p>Es gibt aktive Konflikte.</p>
+                    <div class="row">
+                        <div class="card" th:each="ausgehendeKonflikt: ${ausgehendeKonflikte}">
+                            <img alt="Kein Bild vorhanden!" class="card-img-top"
+                                 style="max-height: 180px;"
+                                 th:src="${ausgehendeKonflikt.getArtikel().getArtikelBildUrl()}">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${ausgehendeKonflikt.getArtikel().getArtikelName()}">
+                                    ArtikelName</h5>
+                                <p class="card-text"
+                                   th:text="'Ausgeliehen von: ' + ${ausgehendeKonflikt.getArtikel().getBenutzer().getBenutzerName()}">
+                                    Benutzer</p>
+                                <p class="card-text" th:text="'Von: '
+                                + ${ausgehendeKonflikt.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${ausgehendeKonflikt.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${ausgehendeKonflikt.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                <p class="card-text" th:text="'Bis: '
+                                + ${ausgehendeKonflikt.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${ausgehendeKonflikt.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${ausgehendeKonflikt.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                    Rückgabedatumdatum
+                                </p>
 
-        <div id="accordionFive">
-            <div class="card">
-                <div class="card-header" id="headingFive">
-                    <h3 class="mb-0">
-                        <center>
-                            <button aria-controls="collapseFive" aria-expanded="true" class="btn btn-link"
-                                    data-target="#collapseFive" data-toggle="collapse">
-                                <h3>Konflikte</h3>
-                            </button>
-                        </center>
-                    </h3>
-                </div>
-                <div aria-labelledby="headingOne" class="collapse show" data-parent="#accordionFive" id="collapseFive">
-                    <div class="container jumbotron center">
-                        <tr th:if="${konflikte.empty}">
-                            <p> Keine Konflikte vorhanden. </p>
-                        </tr>
-
-
-                        <tr th:unless="${konflikte.empty}">
-
-
-                            <p>Es gibt aktive Konflikte.</p>
-                            <div class="row">
-                                <div class="card" style="width: 17rem;">
-
-
-                                    <div th:each="konflikt: ${konflikte}">
-                                        <div class="card" style="width: 17rem;">
-                                            <img alt="..."
-                                                 class="card-img-top"
-                                                 src="https://as2.ftcdn.net/jpg/01/93/27/93/500_F_193279355_zcwJvt3VuNdRJfELOjzkz9CSKmBKWnDL.jpg">
-                                            <div class="card-body">
-                                                <h5 class="card-title"
-                                                    th:text="${konflikt.getArtikel().getArtikelName()}">ArtikelName</h5>
-                                                <h5 class="card-title" th:text="${konflikt.getAusleihStatus()}">
-                                                    Status</h5>
-                                                <!--p class="card-text" th:text="${artikel.getArtikelBenutzer()}">Benutzer</p-->
-                                                <a th:href="|/Detailansicht/${konflikt.getArtikel().getArtikelId()}|">Details</a>
-
-                                                <center>
-                                                    <form method="post"
-                                                          th:action="|/Profil?ausleihId=${konflikt.getAusleihId()}|"
-                                                          th:object="${konflikt}">
-
-                                                        <input class="btn btn-outline-success" name="submitButton"
-                                                               type="submit" value="Geloest"/>
-                                                    </form>
-                                                </center>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
+                                <a th:href="|/Detailansicht/${ausgehendeKonflikt.getArtikel().getArtikelId()}|">Details</a>
                             </div>
-                        </tr>
+                        </div>
                     </div>
                 </div>
+
             </div>
+        </div>
+    </div>
+</div>
 
-
-            <script crossorigin="anonymous"
-                    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-            <script crossorigin="anonymous"
-                    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-                    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-            <script crossorigin="anonymous"
-                    integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
-                    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>
