@@ -71,7 +71,7 @@ public class BenutzerManager {
         return benutzer;
     }
 
-    public List<Ausleihe> sucheAnfragen(Benutzer benutzer, Status status) {
+    public List<Ausleihe> sucheEingehendeAnfragen(Benutzer benutzer, Status status) {
         List<Ausleihe> wartend = new ArrayList<>();
         for (Artikel a : benutzer.getArtikel()) {
             for (Ausleihe b : a.getAusgeliehen()) {
@@ -83,7 +83,7 @@ public class BenutzerManager {
         return wartend;
     }
 
-    public List<Ausleihe> sucheEigeneAnfragen(Benutzer benutzer, Status status) {
+    public List<Ausleihe> sucheAusgehendeAnfragen(Benutzer benutzer, Status status) {
         List<Ausleihe> list = new ArrayList<Ausleihe>();
         for (Ausleihe b : benutzer.getAusgeliehen()) {
             if (b.getAusleihStatus().equals(status)) {
