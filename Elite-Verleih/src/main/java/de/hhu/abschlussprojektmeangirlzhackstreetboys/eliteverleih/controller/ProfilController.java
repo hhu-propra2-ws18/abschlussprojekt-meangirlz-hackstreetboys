@@ -33,9 +33,9 @@ public class ProfilController {
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilseite.
-     * @param model
-     * @param account
-     * @return
+     * @param model Das zu uebergebende Model
+     * @param account Principal des Benutzers
+     * @return "Profil"
      */
     @GetMapping("/Profil")
     public String profilAnzeigen(Model model, Principal account) {
@@ -70,12 +70,12 @@ public class ProfilController {
 
     /**
      * Uebernimmt das Verarbeiten der Buttons auf dem Profil.
-     * @param model
-     * @param name
-     * @param anfrage
-     * @param ausleihId
-     * @param account
-     * @return
+     * @param model Das zu uebergebende Model
+     * @param name Der name des Buttons
+     * @param anfrage Das Ausleih Objekt
+     * @param ausleihId Die Id der Ausleihe
+     * @param account Der account des Benutzers
+     * @return "Profil"
      */
     @PostMapping("/Profil")
     public String profilAnzeigen(Model model, @RequestParam(value = "submitButton") String name,
