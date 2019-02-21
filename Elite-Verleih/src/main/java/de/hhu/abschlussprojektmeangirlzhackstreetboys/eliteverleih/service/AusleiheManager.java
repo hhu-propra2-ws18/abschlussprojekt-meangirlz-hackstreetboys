@@ -29,20 +29,20 @@ public class AusleiheManager {
     AusleiheRepository ausleiheRepo;
 
     /**
-     *
-     * @return
+     * Getter fuer alle Ausleihen der Datenbank.
+     * @return Liste von Ausleihen.
      */
     public List<Ausleihe> getAllAusleihe() {
         return ausleiheRepo.findAll();
     }
 
     /**
-     *
-     * @param benutzerId
-     * @param artikelId
-     * @param ausleihStartdatum
-     * @param ausleihRueckgabedatum
-     * @return
+     * Erstellt eine Ausleihe mit allen Abhaengigkeiten.
+     * @param benutzerId Id des Ausleihenden.
+     * @param artikelId Id des Artikels.
+     * @param ausleihStartdatum Startdatum der Ausleihe.
+     * @param ausleihRueckgabedatum Rueckgabedatum der Ausleihe.
+     * @return Ausleihe.
      */
     public Ausleihe erstelleAusleihe(Long benutzerId,
                                      Long artikelId,
@@ -62,11 +62,6 @@ public class AusleiheManager {
         return ausleihe;
     }
 
-    /**
-     *
-     * @param benutzerId
-     * @param ausleihe
-     */
     private void setzeAusleiheBenutzer(Long benutzerId, Ausleihe ausleihe) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         if (b.getAusgeliehen() == null) {
@@ -76,11 +71,6 @@ public class AusleiheManager {
         benutzerRepo.save(b);
     }
 
-    /**
-     *
-     * @param artikelId
-     * @param ausleihe
-     */
     private void setzeAusleiheArtikel(Long artikelId, Ausleihe ausleihe) {
         Artikel a = artikelRepo.findArtikelByArtikelId(artikelId);
         if (a.getAusgeliehen() == null) {
@@ -91,17 +81,17 @@ public class AusleiheManager {
     }
 
     /**
-     *
-     * @param ausleiheId
-     * @return
+     * Getter fuer die Ausleihen via ausleiheId.
+     * @param ausleiheId Id der Ausleihe.
+     * @return Ausleihe.
      */
     public Ausleihe getAusleiheById(Long ausleiheId) {
         return ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
     }
 
     /**
-     *
-     * @param ausleiheId
+     * Bestaetigt eine Ausleihe und beachtet die Abhaengigkeiten dabei.
+     * @param ausleiheId Id der Ausleihe.
      */
     public void bestaetigeAusleihe(Long ausleiheId) {
         bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
@@ -115,8 +105,8 @@ public class AusleiheManager {
     }
 
     /**
-     *
-     * @param ausleihId
+     * Loescht die Ausleihe und beachtet die Abhaengigkeiten dabei.
+     * @param ausleihId Id der Ausleihe.
      */
     public void loescheAusleihe(Long ausleihId) {
         Ausleihe a = ausleiheRepo.findAusleiheByAusleihId(ausleihId);
@@ -126,21 +116,22 @@ public class AusleiheManager {
     }
 
     /**
-     *
-     * @param benutzerId
-     * @param ausleihe
+     * Loescht die Ausleihe fuer den Benutzer.
+     * Muss mit Ausleihe aus dem Repo augerufen werden
+     * @param benutzerId Id des Ausleihenden.
+     * @param ausleihe Id der Ausleihe.
      */
-    private void loescheAusleiheFuerBenutzer(Long benutzerId, Ausleihe ausleihe) { //muss mit Ausleihe aus dem Repo augerufen werden
+    private void loescheAusleiheFuerBenutzer(Long benutzerId, Ausleihe ausleihe) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         b.getAusgeliehen().remove(ausleihe);
         benutzerRepo.save(b);
     }
 
     /**
-     *
-     * @param benutzerId
-     * @param artikel
-     * @param ausleihe
+     * Loescht die Ausleihe fuer den Benutzer und den Artikel.
+     * @param benutzerId Id des Artikelbesitzers.
+     * @param artikel Artikel.
+     * @param ausleihe Ausleihe.
      */
     private void loescheAusleiheFuerArtikelundBesitzer(Long benutzerId, Artikel artikel, Ausleihe ausleihe) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
@@ -161,10 +152,10 @@ public class AusleiheManager {
     }
 
     /**
-     *
-     * @param ausleiheId
-     * @param neuerAusleiheStatus
-     * @return
+     * Setzt den Status der Ausleihe wie uebergebn.
+     * @param ausleiheId Id der Ausleihe.
+     * @param neuerAusleiheStatus Neuer Status fuer die Ausleihe.
+     * @return Ausleihe.
      */
     public Ausleihe bearbeiteAusleihe(Long ausleiheId, Status neuerAusleiheStatus) {
         Ausleihe newA = getAusleiheById(ausleiheId);
@@ -173,8 +164,8 @@ public class AusleiheManager {
     }
 
     /**
-     *
-     * @param ausleiheId
+     * Loescht alle Anfragen, welche sich mit der angegebenen Anfrage zeitlich ueberschneiden.
+     * @param ausleiheId Id der Ausleihe.
      */
     private void loescheKollidierendeAnfragen(Long ausleiheId) {
         Artikel artikel = getAusleiheById(ausleiheId).getArtikel();
@@ -194,10 +185,10 @@ public class AusleiheManager {
     }
 
     /**
-     *
-     * @param ausleiheId
-     * @param akzeptierteAId
-     * @return
+     * Ueberprueft ob sich die beiden ausleihen ueberschneiden.
+     * @param ausleiheId Id der ersten Ausleihe.
+     * @param akzeptierteAId Id der anderen Ausleihe.
+     * @return boolean ob die Ausleihen miteinander kollidieren.
      */
     private boolean kollidiertMitAusleihe(Long ausleiheId, Long akzeptierteAId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
@@ -222,9 +213,9 @@ public class AusleiheManager {
 
     /**
      * Ueberprueft ob der der Artikel fuer die angegebene Zeit bereits ausgeliehen ist.
-     * @param artikelId
-     * @param startDatum
-     * @param endDatum
+     * @param artikelId Id des Artikels.
+     * @param startDatum Startdatum der zu ueberpruefenden Anfrage.
+     * @param endDatum Enddatum der zu ueberpruefenden Anfrage.
      * @return true, falls der Artikel an mindestens einem der Tage bereits verliehen ist. Sonst false.
      */
     public boolean isAusgeliehen(Long artikelId, Calendar startDatum, Calendar endDatum) {
@@ -257,9 +248,9 @@ public class AusleiheManager {
     }
 
     /**
-     *
-     * @param liste
-     * @return
+     * Getter fuer alle Konflikte des Benutzers.
+     * @param liste Liste von Ausleihen.
+     * @return Liste von Ausleihen, welche alle den Status KONFLIKT haben.
      */
     public List<Ausleihe> getKonflike(List<Ausleihe> liste) {
         List<Ausleihe> konflikeAusleihe = new ArrayList<>();
