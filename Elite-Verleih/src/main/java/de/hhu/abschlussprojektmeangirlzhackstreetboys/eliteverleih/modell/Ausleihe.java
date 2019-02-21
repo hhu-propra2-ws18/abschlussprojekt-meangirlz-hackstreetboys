@@ -4,6 +4,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 
 @Data
@@ -40,5 +43,22 @@ public class Ausleihe {
         this.benutzer = benutzer;
         this.ausleihStatus = ausleihStatus;
         this.reservationsId = reservationsId;
+    }
+
+    public int getAnzahlTage() {
+        int ergebnis = 0;
+        Calendar start = ausleihStartdatum;
+        Date date = new Date(System.currentTimeMillis());
+        Calendar dateCal = new GregorianCalendar();
+        dateCal.setTime(date);
+        if (dateCal.equals(start)) {
+            return 1;
+        }
+        if (dateCal.after(start)) {
+            long milli = date.getTime() - start.getTimeInMillis();
+
+            ergebnis = (int) TimeUnit.DAYS.convert(milli, TimeUnit.MILLISECONDS) + 1;
+        }
+        return ergebnis;
     }
 }

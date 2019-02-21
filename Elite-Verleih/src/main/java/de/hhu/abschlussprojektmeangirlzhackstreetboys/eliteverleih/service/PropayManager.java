@@ -3,12 +3,18 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.ReservationDto;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
 public class PropayManager {
+
+    @Autowired
+    AusleiheManager ausleiheM;
 
     final String url = "http://localhost:8888/";
     RestTemplate rt = new RestTemplate();
@@ -83,5 +89,15 @@ public class PropayManager {
             System.err.println(e.getMessage());
             return false;
         }
+    }
+
+    public void zurueckGeben(Long ausleiheId) {
+        Ausleihe ausleihe = ausleiheM.getAusleiheById(ausleiheId);
+        int tage = ausleihe.getAnzahlTage();
+        int kosten = ausleihe.getArtikel().getArtikelTarif() * tage;
+        ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
+            ausleihe.getArtikel().getBenutzer().getBenutzerName(),
+            kosten);
+        ausleiheM.bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
     }
 }

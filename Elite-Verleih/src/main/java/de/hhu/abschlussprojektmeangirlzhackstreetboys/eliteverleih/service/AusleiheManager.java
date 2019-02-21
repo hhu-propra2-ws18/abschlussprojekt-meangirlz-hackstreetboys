@@ -187,33 +187,6 @@ public class AusleiheManager {
         return false;
     }
 
-    public void zurueckGeben(Long ausleiheId) {
-        Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        int tage = getAnzahlTage(ausleiheId);
-        int kosten = ausleihe.getArtikel().getArtikelTarif() * tage;
-        propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
-            ausleihe.getArtikel().getBenutzer().getBenutzerName(),
-            kosten);
-        bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
-    }
-
-    private int getAnzahlTage(Long ausleiheId) {
-        int ergebnis = 0;
-        Calendar start = getAusleiheById(ausleiheId).getAusleihStartdatum();
-        Date date = new Date(System.currentTimeMillis());
-        Calendar dateCal = new GregorianCalendar();
-        dateCal.setTime(date);
-        if (dateCal.equals(start)) {
-            return 1;
-        }
-        if (dateCal.after(start)) {
-            long milli = date.getTime() - start.getTimeInMillis();
-
-            ergebnis = (int) TimeUnit.DAYS.convert(milli, TimeUnit.MILLISECONDS) + 1;
-        }
-        return ergebnis;
-    }
-
     public List<Ausleihe> getKonflike(List<Ausleihe> liste) {
         List<Ausleihe> konflikeAusleihe = new ArrayList<>();
         for (Ausleihe a : liste) {

@@ -75,7 +75,7 @@ public class ProfilController {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.ABGELEHNT);
             return "redirect:/Profil";
         } else if (name.equals("Zurueckgeben")) {
-            ausleiheManager.zurueckGeben(ausleihId);
+            sync.zurueckGeben(ausleihId);
             return "redirect:/Profil";
         } else if (name.equals("Akzeptieren")) {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
