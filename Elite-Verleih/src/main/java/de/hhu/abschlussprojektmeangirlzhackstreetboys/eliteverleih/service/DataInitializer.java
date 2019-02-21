@@ -173,20 +173,17 @@ public class DataInitializer implements ServletContextInitializer {
         a6_longText.setArtikelBildUrl("https://static1.squarespace.com/static/58bf3d9a44024364324fb36f/58ff1ec19de4bb751e120a54/58ff33c9f5e2313f31104f1e/1493119955235/Sunken+Garden-032.jpg?format=500w");
         artikelM.erstelleArtikel(mUId, a6_longText);
 
-        Date sD0 = new Date(2019, 5, 8);
-        Date eD0 = new Date(2019, 5, 10);
+
         Calendar sCal0 = new GregorianCalendar();
-        sCal0.setTime(sD0);
+        sCal0.set(2019,5,8);
         Calendar eCal0 = new GregorianCalendar();
-        eCal0.setTime(eD0);
+        eCal0.set(2019,5,10);
         Ausleihe test0 = ausleiheM.erstelleAusleihe(new Long(1), new Long(7), sCal0, eCal0);
 
-        Date sD1 = new Date(119, 1, 19);
-        Date eD1 = new Date(119, 1, 28);
         Calendar sCal1 = new GregorianCalendar();
-        sCal1.setTime(sD1);
+        sCal1.set(2019, 1, 19);
         Calendar eCal1 = new GregorianCalendar();
-        eCal1.setTime(eD1);
+        eCal1.set(2019, 1, 28);
         Ausleihe test1 = ausleiheM.erstelleAusleihe(new Long(3), new Long(7), sCal1, eCal1);
 
 
