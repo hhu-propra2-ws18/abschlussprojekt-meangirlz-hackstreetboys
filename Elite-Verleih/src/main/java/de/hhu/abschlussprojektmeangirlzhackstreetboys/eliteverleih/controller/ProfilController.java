@@ -33,9 +33,9 @@ public class ProfilController {
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilseite.
-     * @param model
-     * @param account
-     * @return
+     * @param model Das zu uebergebende Model
+     * @param account Principal des Benutzers
+     * @return "Profil"
      */
     @GetMapping("/Profil")
     public String profilAnzeigen(Model model, Principal account) {
@@ -54,6 +54,7 @@ public class ProfilController {
         List<Ausleihe> eigeneAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ANGEFRAGT);
         int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
         List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGELEHNT);
+        List<Ausleihe> ausgehendeKonflikte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.KONFLIKT);
 
         model.addAttribute("wartendeAnfragen", eigeneAnfragen);
         model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
@@ -64,18 +65,20 @@ public class ProfilController {
         model.addAttribute("anfragen", wartend);
         model.addAttribute("konflikte", konflikte);
         model.addAttribute("Betrag", geld);
+        model.addAttribute("abgelehnteAnfragen", abgelehnteAnfragen);
+        model.addAttribute("ausgehendeKonflikte", ausgehendeKonflikte);
 
         return "Profil";
     }
 
     /**
      * Uebernimmt das Verarbeiten der Buttons auf dem Profil.
-     * @param model
-     * @param name
-     * @param anfrage
-     * @param ausleihId
-     * @param account
-     * @return
+     * @param model Das zu uebergebende Model
+     * @param name Der name des Buttons
+     * @param anfrage Das Ausleih Objekt
+     * @param ausleihId Die Id der Ausleihe
+     * @param account Der account des Benutzers
+     * @return "Profil"
      */
     @PostMapping("/Profil")
     public String profilAnzeigen(Model model, @RequestParam(value = "submitButton") String name,
@@ -94,7 +97,7 @@ public class ProfilController {
             ausleiheManager.zurueckGeben(ausleihId);
             return "redirect:/Profil";
         } else if (name.equals("Akzeptieren")) {
-            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
+            ausleiheManager.rueckgabeAkzeptieren(ausleihId);
             return "redirect:/Profil";
         } else if (name.equals("Entfernen")) {
             ausleiheManager.loescheAusleihe(ausleihId);
