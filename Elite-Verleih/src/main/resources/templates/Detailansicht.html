@@ -97,6 +97,7 @@
                                                        type="date"/>
                                             </div>
                                         </div>
+
                                         <script type="text/javascript">
                                             $(function () {
                                                 $("#datepicker").datepicker({
@@ -112,10 +113,14 @@
 
 
                                 </div>
+                                <div class="form-group">
+                                    <div class="alert alert-success"
+                                        th:if="${#lists.isEmpty(artikel.ausgeliehen)}">
+                                        Artikel verfügbar
+                                    </div>
+                                </div>
                         </div>
-                        </li>
-                        <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar
-                        </li>
+
 
 
                     </div>
