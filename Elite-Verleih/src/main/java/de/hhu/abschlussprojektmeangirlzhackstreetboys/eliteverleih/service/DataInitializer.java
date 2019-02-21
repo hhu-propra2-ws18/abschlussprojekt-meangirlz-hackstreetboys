@@ -40,7 +40,7 @@ public class DataInitializer implements ServletContextInitializer {
         support.setBenutzerName("support");
         support.setArtikel(new ArrayList<Artikel>());
         support.setBenutzerPasswort(standardPasswort);
-        support.setBenutzerRolle("ROLE_ADMIN");
+        support.setBenutzerRolle("ROLE_SUPPORT");
         benutzerM.erstelleBenutzer(support);
         Long supportId = benutzerM.findBenutzerByName("support").getBenutzerId();
 
@@ -190,7 +190,7 @@ public class DataInitializer implements ServletContextInitializer {
         Ausleihe test1 = ausleiheM.erstelleAusleihe(new Long(3), new Long(7), sCal1, eCal1);
 
 
-        Ausleihe test = ausleiheM.erstelleAusleihe(new Long(1), new Long(9), sCal0, eCal0);
+        Ausleihe test = ausleiheM.erstelleAusleihe(new Long(4), new Long(9), sCal0, eCal0);
         Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5), new Long(10), sCal0, eCal0);
 
         ausleiheM.bearbeiteAusleihe(test.getAusleihId(), Status.KONFLIKT);
