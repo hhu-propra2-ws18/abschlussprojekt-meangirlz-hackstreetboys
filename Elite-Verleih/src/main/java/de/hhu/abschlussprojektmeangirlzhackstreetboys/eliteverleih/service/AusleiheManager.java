@@ -98,12 +98,11 @@ public class AusleiheManager {
         Artikel artikel = ausleihe.getArtikel();
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
-        System.out.println("R1: " + r1);
         if(r1 == null) {
             bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
         } else {
             bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
-            loescheKollidierendeAnfragen(ausleiheId);
+            //loescheKollidierendeAnfragen(ausleiheId);
             ausleihe.setReservationsId(r1.getId());
         }
 
@@ -266,5 +265,19 @@ public class AusleiheManager {
             }
         }
         return konflikeAusleihe;
+    }
+
+    public void zurueckGeben(Long ausleiheId) {
+        Ausleihe ausleihe = getAusleiheById(ausleiheId);
+        int tage = ausleihe.getAnzahlTage();
+        int kosten = ausleihe.getArtikel().getArtikelTarif() * tage;
+        if(propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
+            ausleihe.getArtikel().getBenutzer().getBenutzerName(),
+            kosten)){
+            bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
+        } else {
+
+        }
+        bearbeiteAusleihe(ausleiheId, Status.KONFLIKT);
     }
 }

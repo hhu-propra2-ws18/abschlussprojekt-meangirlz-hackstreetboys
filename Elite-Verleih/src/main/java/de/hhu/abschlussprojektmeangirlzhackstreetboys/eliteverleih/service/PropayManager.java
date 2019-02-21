@@ -91,13 +91,5 @@ public class PropayManager {
         }
     }
 
-    public void zurueckGeben(Long ausleiheId) {
-        Ausleihe ausleihe = ausleiheM.getAusleiheById(ausleiheId);
-        int tage = ausleihe.getAnzahlTage();
-        int kosten = ausleihe.getArtikel().getArtikelTarif() * tage;
-        ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
-            ausleihe.getArtikel().getBenutzer().getBenutzerName(),
-            kosten);
-        ausleiheM.bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
-    }
+
 }
