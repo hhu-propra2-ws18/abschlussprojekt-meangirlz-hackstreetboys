@@ -276,8 +276,7 @@ public class AusleiheManager {
             kosten)){
             bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
         } else {
-
+            bearbeiteAusleihe(ausleiheId, Status.KONFLIKT);
         }
-        bearbeiteAusleihe(ausleiheId, Status.KONFLIKT);
     }
 }
