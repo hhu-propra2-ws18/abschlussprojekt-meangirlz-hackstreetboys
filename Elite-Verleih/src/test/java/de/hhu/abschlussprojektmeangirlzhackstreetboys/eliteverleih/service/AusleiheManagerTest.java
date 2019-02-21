@@ -16,9 +16,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
 @Import( {AusleiheManager.class})
 @RunWith(SpringRunner.class)
@@ -36,6 +34,9 @@ public class AusleiheManagerTest {
 
     @Autowired
     AusleiheRepository ausleiheRepo;
+
+    private Calendar sD0 = new GregorianCalendar(2019, 5, 8);
+    private Calendar eD0 = new GregorianCalendar(2019, 5, 10);
 
     private Long erstelleBeispiel() {
         Benutzer bAusleiher = new Benutzer();
@@ -58,8 +59,6 @@ public class AusleiheManagerTest {
         artikel = artikelRepo.save(artikel);
         bBesitzer.getArtikel().add(artikel);
         bBesitzer = benutzerRepo.save(bBesitzer);
-        Date sD0 = new Date(2019, 5, 8);
-        Date eD0 = new Date(2019, 5, 10);
 
         Ausleihe ausleihe = new Ausleihe();
         ausleihe.setBenutzer(bAusleiher);
@@ -110,8 +109,6 @@ public class AusleiheManagerTest {
     @Test
     public void erstelleAusleihe_RichtigErstellt() {
         ArrayList<Long> alId = konfiguriereErstelleBeispiel();
-        Date sD0 = new Date(2019, 5, 8);
-        Date eD0 = new Date(2019, 5, 10);
         ausleiheM.erstelleAusleihe(alId.get(0), alId.get(2), sD0, eD0);
         Assertions.assertThat(artikelRepo.findArtikelByArtikelId(alId.get(2)).getAusgeliehen()).hasSize(1);
     }
@@ -120,8 +117,6 @@ public class AusleiheManagerTest {
     @Test
     public void erstelleAusleihe_Mappings_inBesitzer() {
         ArrayList<Long> alId = konfiguriereErstelleBeispiel();
-        Date sD0 = new Date(2019, 5, 8);
-        Date eD0 = new Date(2019, 5, 10);
         ausleiheM.erstelleAusleihe(alId.get(0), alId.get(2), sD0, eD0);
         Benutzer besitzer = benutzerRepo.findBenutzerByBenutzerId(alId.get(1));
         if (besitzer.getArtikel() != null) {
@@ -139,8 +134,6 @@ public class AusleiheManagerTest {
     @Test
     public void erstelleAusleihe_Mappings_inAusleiher() {
         ArrayList<Long> alId = konfiguriereErstelleBeispiel();
-        Date sD0 = new Date(2019, 5, 8);
-        Date eD0 = new Date(2019, 5, 10);
         ausleiheM.erstelleAusleihe(alId.get(0), alId.get(2), sD0, eD0);
         Benutzer ausleiher = benutzerRepo.findBenutzerByBenutzerId(alId.get(0));
         if (ausleiher.getAusgeliehen() != null) {
@@ -154,8 +147,6 @@ public class AusleiheManagerTest {
     @Test
     public void erstelleAusleihe_Mappings_inArtikel() {
         ArrayList<Long> alId = konfiguriereErstelleBeispiel();
-        Date sD0 = new Date(2019, 5, 8);
-        Date eD0 = new Date(2019, 5, 10);
         ausleiheM.erstelleAusleihe(alId.get(0), alId.get(2), sD0, eD0);
         Artikel artikel = artikelRepo.findArtikelByArtikelId(alId.get(2));
         if (artikel.getAusgeliehen() != null) {
@@ -173,42 +164,6 @@ public class AusleiheManagerTest {
         Assertions.assertThat(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus()).isEqualTo(Status.AKTIV);
     }
 
-    /*@Rollback
-    @Test
-    public void bearbeiteAusleihe_sollteKlappen(){
-        Benutzer b0 = new Benutzer();
-        b0.setBenutzerEmail("test@yahoo");
-        b0.setBenutzerName("Ausleiher");
-        b0.setAusgeliehen(new ArrayList<Ausleihe>());
-        b0 = benutzerRepo.save(b0);
-        Benutzer b1 = new Benutzer();
-        b1.setBenutzerEmail("test@yahoo");
-        b1.setBenutzerName("Besitzer");
-        b1.setArtikel(new ArrayList<Artikel>());
-        b1 = benutzerRepo.save(b1);
-        Artikel a0 = new Artikel();
-        a0.setArtikelBeschreibung("beschreibung");
-        a0.setArtikelKaution(3);
-        a0.setArtikelName("Hammer");
-        a0.setArtikelOrt("Werkstatt");
-        a0.setArtikelTarif(1);
-        a0.setBenutzer(b1);
-        a0 = artikelRepo.save(a0);
-        b1.getArtikel().add(a0);
-        b1 = benutzerRepo.save(b1);
-        Date sD0 = new Date(2019, 5, 8);
-        Date eD0 = new Date(2019, 5, 10);
-        Ausleihe ausleihe = ausleiheM.erstelleAusleihe(b0.getBenutzerId(), a0.getArtikelId(), sD0, eD0);
-
-        ausleihe = ausleiheM.bearbeiteAusleihe(ausleihe.getAusleihId(), Status.AKTIV);
-        ausleihe.setAusleihStatus(Status.ABGELEHNT);
-        if(b0.getAusgeliehen() != null)
-            Assertions.assertThat(b0.getAusgeliehen().get(0).getAusleihStatus())
-                    .isEqualTo(Status.AKTIV);
-        else
-            Assertions.fail("BenutzerAusleiher.getAusgeliehen war null");
-    }
-*/
     @Rollback
     @Test
     public void bearbeiteAusleihe_Mappings_AusleiheInAusleiher() {
