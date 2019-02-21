@@ -19,6 +19,12 @@ public class ProfilBearbeitenController {
 
     PropayManager sync = new PropayManager();
 
+    /**
+     * Kuemmert sich um das korrekte Anzeigen der Profilbearbeiten Seite.
+     * @param model
+     * @param account
+     * @return
+     */
     @GetMapping("/ProfilBearbeiten")
     public String profilBearbeitenAnzeigen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
@@ -29,6 +35,14 @@ public class ProfilBearbeitenController {
         return "ProfilBearbeiten";
     }
 
+    /**
+     * Uebernimmt das Verarbeiten der Benutzereingaben auf dem Profil.
+     * @param model
+     * @param ben
+     * @param aufladen
+     * @param account
+     * @return
+     */
     @PostMapping("/ProfilBearbeiten")
     public String profilBearbeitenSpeichern(Model model,
                                             @ModelAttribute Benutzer ben,

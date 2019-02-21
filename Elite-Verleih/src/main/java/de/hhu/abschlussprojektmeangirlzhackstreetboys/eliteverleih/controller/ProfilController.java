@@ -31,6 +31,12 @@ public class ProfilController {
 
     PropayManager sync = new PropayManager();
 
+    /**
+     * Kuemmert sich um das korrekte Anzeigen der Profilseite.
+     * @param model
+     * @param account
+     * @return
+     */
     @GetMapping("/Profil")
     public String profilAnzeigen(Model model, Principal account) {
 
@@ -47,6 +53,7 @@ public class ProfilController {
         List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BEENDET);
         List<Ausleihe> eigeneAnfragen = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ANGEFRAGT);
         int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
+        List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ABGELEHNT);
 
         model.addAttribute("wartendeAnfragen", eigeneAnfragen);
         model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
@@ -61,6 +68,15 @@ public class ProfilController {
         return "Profil";
     }
 
+    /**
+     * Uebernimmt das Verarbeiten der Buttons auf dem Profil.
+     * @param model
+     * @param name
+     * @param anfrage
+     * @param ausleihId
+     * @param account
+     * @return
+     */
     @PostMapping("/Profil")
     public String profilAnzeigen(Model model, @RequestParam(value = "submitButton") String name,
                                  @ModelAttribute Ausleihe anfrage, Long ausleihId, Principal account) {
