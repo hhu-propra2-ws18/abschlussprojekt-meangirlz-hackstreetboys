@@ -27,7 +27,7 @@ public class ArtikelManagerTest {
 
     @Rollback
     @Test
-    public void createArtikel_EqualName() {
+    public void erstelleArtikel_EqualName() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");

@@ -24,7 +24,7 @@ public class UebersichtController {
     @Autowired
     ArtikelManager artikelManager;
 
-    @GetMapping("/")
+    @GetMapping("/**")
     public String anzeigen(Model model) {
         return "redirect:/Uebersicht";
     }

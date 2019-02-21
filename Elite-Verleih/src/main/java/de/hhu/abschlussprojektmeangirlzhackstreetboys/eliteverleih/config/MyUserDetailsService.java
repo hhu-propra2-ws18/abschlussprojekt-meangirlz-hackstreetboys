@@ -28,6 +28,13 @@ public class MyUserDetailsService implements UserDetailsService {
         return authorities;
     }
 
+    /**
+     * loadUserByUsername sorgt dafuer das Spring Security die Authorisierung ueber das Benutzerrepository macht.
+     * Somit ist jeder benutzer in der Datenbank ein Account.
+     *
+     * @param benutzername Name des Accounts
+     * @return UserDetails
+     */
     public UserDetails loadUserByUsername(String benutzername)
         throws UsernameNotFoundException {
 

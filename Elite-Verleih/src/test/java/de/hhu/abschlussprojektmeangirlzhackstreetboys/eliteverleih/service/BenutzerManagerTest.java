@@ -1,16 +1,25 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.BenutzerRepository;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
+import org.assertj.core.api.Assertions;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
 
 @Import( {BenutzerManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class BenutzerManagerTest {
 
-  /*  @Autowired
+    @Autowired
     BenutzerManager benutzerM;
 
     @Autowired
@@ -18,7 +27,7 @@ public class BenutzerManagerTest {
 
     @Rollback
     @Test
-    public void createBenutzer_EqualName(){
+    public void erstelleBenutzer_EqualName(){
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -29,7 +38,7 @@ public class BenutzerManagerTest {
 
     @Rollback
     @Test
-    public void createBenutzer_EqualEmail(){
+    public void erstelleBenutzer_EqualEmail(){
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -66,5 +75,5 @@ public class BenutzerManagerTest {
     @Test
     public void nameAlreadyExists_IsNew(){
         Assertions.assertThat(benutzerM.nameSchonVorhanden("test")==false);
-    }*/
+    }
 }
