@@ -32,14 +32,30 @@ public class ArtikelbearbeitenController {
     @Autowired
     AusleiheRepository ausleiheRepo;
 
+    /**
+     * Zeigt Artikel bearbeiten view an, laedt Attribute in HTML.
+     * @param model  Datencontainer fuer View.
+     * @param account aktueller Benutzer.
+     * @return Mapping auf Artikel bearbeiten.
+     */
     @GetMapping("/Bearbeiten/{artikelId}")
-    public String artikelBearbeitungAnzeigen(@PathVariable long artikelId, Model model, Principal account) {
+    public String artikelBearbeitungAnzeigen(@PathVariable long artikelId,
+                                             Model model,
+                                             Principal account) {
 
         model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
         model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
         return "Artikelbearbeiten";
     }
 
+    /**
+     * Speichert die neuen Attribute des Artikels.
+     * @param model Datencontainer fuer die View.
+     * @param artikelId Eindeutige ID des Artikels.
+     * @param newArtikel Bearbeiteter Artikel.
+     * @param account Aktive Benutzer.
+     * @return Uebersicht seite.
+     */
     @PostMapping("/Bearbeiten/{artikelId}")
     public String artikelBearbeiten(Model model,
                                     @PathVariable long artikelId,
@@ -55,14 +71,24 @@ public class ArtikelbearbeitenController {
         return "redirect:/Uebersicht";
     }
 
+    /**
+     * Prueft, ob Ausleihen bestehen und loescht falls nicht.
+     * @param artikelId Eindeutige ID des Artikels.
+     * @param account Aktive Benutzer.
+     * @return Uebersicht beim Erfolgreichen loeschen und Error falls nicht.
+     */
     @RequestMapping("/Loeschen/{artikelId}")
-    public String artikelLoeschen(@PathVariable long artikelId, Principal account) {
-        artikelManager.deleteArtikel(artikelId);
-        Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        return "redirect:/Uebersicht";
+    public String artikelLoeschen(@PathVariable long artikelId,
+                                  Principal account) {
+        if (artikelManager.getArtikelById(artikelId).getAusgeliehen().isEmpty()) {
+            artikelManager.deleteArtikel(artikelId);
+            return "redirect:/Uebersicht";
+        }
+        return  "redirect:/Bearbeiten/" + artikelId + "?error";
     }
 
-    private void bearbeiteArtikel(Artikel newArtikel, Artikel oldArtikel) {
+    private void bearbeiteArtikel(Artikel newArtikel,
+                                  Artikel oldArtikel) {
         oldArtikel.setArtikelName(newArtikel.getArtikelName());
         oldArtikel.setArtikelBeschreibung(newArtikel.getArtikelBeschreibung());
         oldArtikel.setBenutzer(newArtikel.getBenutzer());

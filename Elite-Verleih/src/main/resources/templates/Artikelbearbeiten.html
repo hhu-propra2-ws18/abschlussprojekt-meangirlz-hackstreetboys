@@ -59,10 +59,19 @@
                             <label>Abholort </label>
                             <input class="form-control" th:field="*{artikelOrt}" type="text"/>
                         </div>
+                        <li class="list-group-item">
+                            <a th:href="|/Loeschen/${artikel?.getArtikelId()}|">
+                                <button class="btn btn-sm btn-outline-secondary" type="button">
+                                    Loeschen<!-- führt zur benutzer seite-->
+                                </button>
+                            </a>
+                        </li>
                         <p>
                             <button class="btn btn-primary my-2" type="submit">Submit</button>
                             <button class="btn btn-primary my-2" type="reset">Reset</button>
                         </p>
+                        <div th:if="${param.error}" class="alert alert-danger">Artikel wurde angefragt und kann nicht geloescht
+                            werden!</div>
                     </form>
 
                 </div>
