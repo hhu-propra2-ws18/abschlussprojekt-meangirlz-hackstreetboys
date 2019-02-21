@@ -26,6 +26,11 @@ public class ArtikelManager {
         return artikelRepo.findAll();
     }
 
+    /**
+     * Erstellt einen Artikel.
+     * @param benutzerId Id des Artikels.
+     * @param artikel Artikel.
+     */
     public void erstelleArtikel(Long benutzerId, Artikel artikel) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
@@ -33,6 +38,11 @@ public class ArtikelManager {
         setzeArtikel(benutzerId, artikel);
     }
 
+    /**
+     * Speichert den Artikel bei dem Besitzer ab.
+     * @param benutzerId Id des Besitzers.
+     * @param artikel Artikel.
+     */
     public void setzeArtikel(Long benutzerId, Artikel artikel) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         if (b.getArtikel() == null) {
@@ -46,6 +56,11 @@ public class ArtikelManager {
         return artikelRepo.findArtikelByArtikelId(artikelId);
     }
 
+    /**
+     * Speichert den bearbeiteten Artikel richtig ab.
+     * @param artikelId Id des Artikels.
+     * @param artikel Artikel.
+     */
     void bearbeiteArtikel(Long artikelId, Artikel artikel) {
         Artikel alterArtikel = getArtikelById(artikelId);
 
@@ -58,6 +73,10 @@ public class ArtikelManager {
         artikelRepo.saveAll(Arrays.asList(alterArtikel));
     }
 
+    /**
+     * Loescht den Artikel mit der angegebenen ArtikelId.
+     * @param artikelId Die ID des Artikels.
+     */
     public void deleteArtikel(Long artikelId) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(artikelRepo.findArtikelByArtikelId(artikelId)
             .getBenutzer()

@@ -36,6 +36,16 @@ public class Artikel {
     public Artikel() {
     }
 
+    /**
+     * Konstruktor.
+     * @param artikelName Name des Artikels.
+     * @param artikelBeschreibung Beschreibung des Artikels.
+     * @param benutzer Besitzer des Artikels.
+     * @param artikelKaution Kaution des Artikels.
+     * @param artikelTarif Tarif des Artikels.
+     * @param artikelOrt Ort zum abholen des Artikels.
+     * @param artikelBildUrl URL des Artikelbilds.
+     */
     public Artikel(String artikelName, String artikelBeschreibung, Benutzer benutzer, int artikelKaution,
                    int artikelTarif, String artikelOrt, String artikelBildUrl) {
         this.artikelName = artikelName;
@@ -49,6 +59,17 @@ public class Artikel {
         this.artikelBildUrl = artikelBildUrl;
     }
 
+    /**
+     * Konstruktor.
+     * @param artikelName Name des Artikels.
+     * @param artikelBeschreibung Beschreibung des Artikels.
+     * @param benutzer Besitzer des Artikels.
+     * @param artikelKaution Kaution des Artikels.
+     * @param artikelTarif Tarif des Artikels.
+     * @param artikelOrt Ort zum abholen des Artikels.
+     * @param ausleiheList Liste von Ausleihen des Artikels.
+     * @param artikelBildUrl URL des Artikelbilds.
+     */
     public Artikel(String artikelName, String artikelBeschreibung, Benutzer benutzer, int artikelKaution,
                    int artikelTarif, String artikelOrt, List<Ausleihe> ausleiheList, String artikelBildUrl) {
         this.artikelName = artikelName;
