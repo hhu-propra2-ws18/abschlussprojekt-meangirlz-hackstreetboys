@@ -84,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-                <div th:unless="${anfragen.isEmpty()}">
+                <div th:unless="${abgelehnteAnfragen.isEmpty()}">
                     <p>Abgelehnte Anfragen:</p>
                     <div class="row">
                         <div class="card" th:each="abgelehnteAnfrage: ${abgelehnteAnfragen}">
@@ -154,7 +154,7 @@
                                 <h5 class="card-title" th:text="${bestaetigt.getArtikel().getArtikelName()}">
                                     ArtikelName</h5>
                                 <p class="card-text"
-                                   th:text="'Angefragt von: ' + ${bestaetigt.getBenutzer().getBenutzerName()}">
+                                   th:text="'Besitzer: ' + ${bestaetigt.getArtikel().getBenutzer().getBenutzerName()}">
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${bestaetigt.getAusleihStartdatum().getTime().getDate()} + '.'
@@ -195,7 +195,7 @@
                                 <h5 class="card-title" th:text="${wartendeAnfrage.getArtikel().getArtikelName()}">
                                     ArtikelName</h5>
                                 <p class="card-text"
-                                   th:text="'Angefragt von: ' + ${wartendeAnfrage.getBenutzer().getBenutzerName()}">
+                                   th:text="'Besitzer: ' + ${wartendeAnfrage.getArtikel().getBenutzer().getBenutzerName()}">
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${wartendeAnfrage.getAusleihStartdatum().getTime().getDate()} + '.'
@@ -263,7 +263,7 @@
                                 <h5 class="card-title" th:text="${verliehene.getArtikel().getArtikelName()}">
                                     ArtikelName</h5>
                                 <p class="card-text"
-                                   th:text="'Ausgeliehen von dir.'">
+                                   th:text="'Ausgeliehen von: ' + ${verliehene.getBenutzer().getBenutzerName()}">
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${verliehene.getAusleihStartdatum().getTime().getDate()} + '.'
@@ -327,7 +327,7 @@
                             <h5 class="card-title" th:text="${zurueckerhalten.getArtikel().getArtikelName()}">
                                 ArtikelName</h5>
                             <p class="card-text"
-                               th:text="'Ausgeliehen von dir.'">
+                               th:text="'Zurückgegeben von: ' + ${zurueckerhalten.getBenutzer().getBenutzerName()}">
                                 Benutzer</p>
                             <p class="card-text" th:text="'Von: '
                                 + ${zurueckerhalten.getAusleihStartdatum().getTime().getDate()} + '.'
@@ -389,7 +389,7 @@
                                 <h5 class="card-title" th:text="${zurueckgegeben.getArtikel().getArtikelName()}">
                                     ArtikelName</h5>
                                 <p class="card-text"
-                                   th:text="'Angefragt von: ' + ${zurueckgegeben.getBenutzer().getBenutzerName()}">
+                                   th:text="'Besitzer: ' + ${zurueckgegeben.getArtikel().getBenutzer().getBenutzerName()}">
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${zurueckgegeben.getAusleihStartdatum().getTime().getDate()} + '.'
@@ -426,7 +426,7 @@
                                 <h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">
                                     ArtikelName</h5>
                                 <p class="card-text"
-                                   th:text="'Zurückgegeben von: ' + ${erfolgreichZurueckgegeben.getBenutzer().getBenutzerName()}">
+                                   th:text="'Besitzer: ' + ${erfolgreichZurueckgegeben.getArtikel().erfolgreichZurueckgegeben.getBenutzer().getBenutzerName()}">
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getDate()} + '.'
@@ -521,7 +521,7 @@
                                 <h5 class="card-title" th:text="${ausgehendeKonflikt.getArtikel().getArtikelName()}">
                                     ArtikelName</h5>
                                 <p class="card-text"
-                                   th:text="'Ausgeliehen von: ' + ${ausgehendeKonflikt.getArtikel().getBenutzer().getBenutzerName()}">
+                                   th:text="'Besitzer: ' + ${ausgehendeKonflikt.getArtikel().getBenutzer().getBenutzerName()}">
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${ausgehendeKonflikt.getAusleihStartdatum().getTime().getDate()} + '.'
