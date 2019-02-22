@@ -91,10 +91,18 @@ public class AusleiheManager {
 
     /**
      * Bestaetigt eine Ausleihe und beachtet die Abhaengigkeiten dabei.
+     * Sollte das Datum bei der Bestaetigung, nach dem Startdatum der Anfrage sein, wird die Ausleihe geloescht,
+     * da diese so wie angefragt nicht mehr moeglich ist.
+     *
      * @param ausleiheId Id der Ausleihe.
      */
     public void bestaetigeAusleihe(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
+        if(!ausleihe.gueltigesDatum()){
+            loescheAusleihe(ausleiheId);
+            return;
+        }
+
         Artikel artikel = ausleihe.getArtikel();
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
@@ -111,6 +119,7 @@ public class AusleiheManager {
 
     /**
      * Loescht die Ausleihe und beachtet die Abhaengigkeiten dabei.
+     *
      * @param ausleihId Id der Ausleihe.
      */
     public void loescheAusleihe(Long ausleihId) {
@@ -134,6 +143,7 @@ public class AusleiheManager {
 
     /**
      * Loescht die Ausleihe fuer den Benutzer und den Artikel.
+     *
      * @param benutzerId Id des Artikelbesitzers.
      * @param artikel Artikel.
      * @param ausleihe Ausleihe.
@@ -158,6 +168,7 @@ public class AusleiheManager {
 
     /**
      * Setzt den Status der Ausleihe wie uebergebn.
+     *
      * @param ausleiheId Id der Ausleihe.
      * @param neuerAusleiheStatus Neuer Status fuer die Ausleihe.
      * @return Ausleihe.
@@ -170,6 +181,7 @@ public class AusleiheManager {
 
     /**
      * Loescht alle Anfragen, welche sich mit der angegebenen Anfrage zeitlich ueberschneiden.
+     *
      * @param ausleiheId Id der Ausleihe.
      */
     private void loescheKollidierendeAnfragen(Long ausleiheId) {
@@ -197,6 +209,7 @@ public class AusleiheManager {
 
     /**
      * Ueberprueft ob sich die beiden ausleihen ueberschneiden.
+     *
      * @param ausleiheId Id der ersten Ausleihe.
      * @param akzeptierteAId Id der anderen Ausleihe.
      * @return boolean ob die Ausleihen miteinander kollidieren.
@@ -224,6 +237,7 @@ public class AusleiheManager {
 
     /**
      * Ueberprueft ob der der Artikel fuer die angegebene Zeit bereits ausgeliehen ist.
+     *
      * @param artikelId Id des Artikels.
      * @param startDatum Startdatum der zu ueberpruefenden Anfrage.
      * @param endDatum Enddatum der zu ueberpruefenden Anfrage.
@@ -263,6 +277,7 @@ public class AusleiheManager {
 
     /**
      * Getter fuer alle Konflikte des Benutzers.
+     *
      * @param liste Liste von Ausleihen.
      * @return Liste von Ausleihen, welche alle den Status KONFLIKT haben.
      */
@@ -276,10 +291,15 @@ public class AusleiheManager {
         return konflikeAusleihe;
     }
 
+    /**
+     * Bearbeitet das zurueckgeben einer Ausleihe und das Bezahlen dieser.
+     * Ist nicht genug Geld bei der Rueckgabe vorhanden wird die Ausleihe auf KONFLIKT gesetzt.
+     *
+     * @param ausleiheId Id der Ausleihe welche zurueckgegeben wird.
+     */
     public void zurueckGeben(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        int tage = ausleihe.getAnzahlTage();
-        int kosten = ausleihe.getArtikel().getArtikelTarif() * tage;
+        int kosten = ausleihe.berechneKosten();
         if(propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
             ausleihe.getArtikel().getBenutzer().getBenutzerName(),
             kosten)){
