@@ -51,11 +51,6 @@ public class DetailansichtController {
         return "FehlendesGuthaben";
     }
 
-    @GetMapping("/map")
-    public String mapAnzeigen() {
-        return "map";
-    }
-
     @PostMapping("/Detailansicht/{artikelId}")
     public String erstelleAusleihe(@RequestParam(required = false) String startDatumString,
                                    @RequestParam(required = false) String endDatumString,
