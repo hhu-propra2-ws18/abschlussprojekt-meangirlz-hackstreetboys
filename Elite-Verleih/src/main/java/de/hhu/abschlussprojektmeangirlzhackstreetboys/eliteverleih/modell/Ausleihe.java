@@ -58,46 +58,26 @@ public class Ausleihe {
     }
 
     /**
-     * Berechnet die Anzahl der Tage welche vom Startdatum zu heute.
+     * Berechnet die Anzahl der Tage welche vom Startdatum zu heute vergangen sind.
      * Falls die Daten uebereinstimmen, wird 1 zurueckgegeben.
      *
      * @return Anzahl der Tage welche abgedeckt werden.
      */
-    public int getAnzahlTage() {
+    public int getAnzahlTage(Calendar heute) {
         int ergebnis = 0;
         Calendar start = getAusleihStartdatum();
-        Calendar dateCal = new GregorianCalendar();
-        if (dateCal.equals(start)) {
+        if (heute.equals(start)) {
             return 1;
         }
-        if (dateCal.after(start)) {
-            long milli = dateCal.getTimeInMillis() - start.getTimeInMillis();
+        if (heute.after(start)) {
 
-            ergebnis = (int) TimeUnit.DAYS.convert(milli, TimeUnit.MILLISECONDS) + 1;
-        }
-        return ergebnis;
-    }
+            long milli = heute.getTimeInMillis() - start.getTimeInMillis();
 
-    /**
-     * Berechnet die Anzahl der Tage welche von den zwei Daten ueberdeckt werden,
-     * einschliesslich des Start- und Enddatums.
-     * Falls die Daten uebereinstimmen, wird 1 zurueckgegeben.
-     *
-     * @param start Start Calendar Datum.
-     * @param ende Ende Calendar Datum.
-     * @return Anzahl der Tage welche durch die Argumente abgedeckt wird.
-     * Ist das Startdatum nach dem Enddatum wird -1 zurueckgegeben.
-     */
-    public int getAnzahlTage(Calendar start, Calendar ende){
-        if(start.equals(ende)){
-            return 1;
-        }
-        if(start.after(ende)){
-            return -1;
-        }
-        long milli = ende.getTimeInMillis() - start.getTimeInMillis();
+            long diff = TimeUnit.DAYS.convert(milli, TimeUnit.MILLISECONDS) + 2;
+            // Start und Ende werden nicht mitbeachtet, weswegen wir +2 rechnene muessen.
 
-        int ergebnis = (int) TimeUnit.DAYS.convert(milli, TimeUnit.MILLISECONDS) + 1;
+            ergebnis = (int) diff;
+        }
         return ergebnis;
     }
 
@@ -108,10 +88,9 @@ public class Ausleihe {
      *
      * @return true, falls das Datum noch gueltig ist.
      */
-    public boolean gueltigesDatum() {
+    public boolean gueltigesDatum(Calendar jetzt) {
         Calendar start = getAusleihStartdatum();
         Calendar ende = getAusleihRueckgabedatum();
-        Calendar jetzt = new GregorianCalendar();
         if(jetzt.after(ende) || jetzt.after(start)){
             return false;
         }
@@ -125,12 +104,14 @@ public class Ausleihe {
      *
      * @return Kosten.
      */
-    public int berechneKosten() {
-        int tage = getAnzahlTage();
+    public int berechneKosten(Calendar jetzt) {
+        int tage = getAnzahlTage(jetzt);
         if(tage == 0){
             return 0;
         }
-        int ueberzogen = getAnzahlUeberzogen();
+        int ueberzogen = getAnzahlUeberzogen(jetzt);
+        System.out.println("Tage: " + tage);
+        System.out.println("ueberzogen: " + ueberzogen);
         double kosten = this.getArtikel().getArtikelTarif()*(tage + ueberzogen*0.2);
         int endKosten = (int) Math.ceil(kosten);
         return (endKosten);
@@ -141,8 +122,7 @@ public class Ausleihe {
      *
      * @return Anzahl der Tage die ueberzogen worden sind.
      */
-    private int getAnzahlUeberzogen() {
-        Calendar jetzt = new GregorianCalendar();
+    public int getAnzahlUeberzogen(Calendar jetzt) {
         Calendar ende = getAusleihRueckgabedatum();
         if(!jetzt.after(ende)){
             return 0;

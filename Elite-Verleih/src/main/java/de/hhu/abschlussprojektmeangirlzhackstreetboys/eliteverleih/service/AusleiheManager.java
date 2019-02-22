@@ -98,7 +98,8 @@ public class AusleiheManager {
      */
     public void bestaetigeAusleihe(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        if(!ausleihe.gueltigesDatum()){
+        Calendar heute = new GregorianCalendar();
+        if(!ausleihe.gueltigesDatum(heute)){
             loescheAusleihe(ausleiheId);
             return;
         }
@@ -299,7 +300,8 @@ public class AusleiheManager {
      */
     public void zurueckGeben(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        int kosten = ausleihe.berechneKosten();
+        Calendar heute = new GregorianCalendar();
+        int kosten = ausleihe.berechneKosten(heute);
         if(propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
             ausleihe.getArtikel().getBenutzer().getBenutzerName(),
             kosten)){
