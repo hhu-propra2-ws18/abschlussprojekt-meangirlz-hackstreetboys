@@ -110,8 +110,6 @@ public class Ausleihe {
             return 0;
         }
         int ueberzogen = getAnzahlUeberzogen(jetzt);
-        System.out.println("Tage: " + tage);
-        System.out.println("ueberzogen: " + ueberzogen);
         double kosten = this.getArtikel().getArtikelTarif()*(tage + ueberzogen*0.2);
         int endKosten = (int) Math.ceil(kosten);
         return (endKosten);
