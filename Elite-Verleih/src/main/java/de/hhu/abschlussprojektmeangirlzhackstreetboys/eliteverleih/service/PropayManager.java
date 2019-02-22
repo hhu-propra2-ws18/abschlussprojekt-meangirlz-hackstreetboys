@@ -3,8 +3,6 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.ReservationDto;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -13,10 +11,9 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class PropayManager {
 
+    final String url = "http://localhost:8888/";
     @Autowired
     AusleiheManager ausleiheM;
-
-    final String url = "http://localhost:8888/";
     RestTemplate rt = new RestTemplate();
 
     /**
@@ -106,12 +103,12 @@ public class PropayManager {
      * an den zuvor definierten Zielaccount.
      *
      * @param benutzername   Quellaccount
-     * @param reservationsid Id der Reservation
+     * @param reservationsId Id der Reservation
      * @return true falls es klappt.
      */
-    public boolean kautionEinziehen(String benutzername, int reservationsid) {
+    public boolean kautionEinziehen(String benutzername, int reservationsId) {
 
-        String kautionUrl = url + "reservation/punish/" + benutzername + "?reservationId=" + reservationsid;
+        String kautionUrl = url + "reservation/punish/" + benutzername + "?reservationId=" + reservationsId;
         return kautionManager(kautionUrl);
     }
 
@@ -120,12 +117,12 @@ public class PropayManager {
      * und die Reservierung wird restlos geloescht.
      *
      * @param benutzername   Quellaccount
-     * @param reservationsid Id der Reservation
+     * @param reservationsId Id der Reservation
      * @return true falls es klappt.
      */
-    public boolean kautionFreigeben(String benutzername, int reservationsid) {
+    public boolean kautionFreigeben(String benutzername, int reservationsId) {
 
-        String kautionUrl = url + "reservation/release/" + benutzername + "?reservationId=" + reservationsid;
+        String kautionUrl = url + "reservation/release/" + benutzername + "?reservationId=" + reservationsId;
         return kautionManager(kautionUrl);
     }
 

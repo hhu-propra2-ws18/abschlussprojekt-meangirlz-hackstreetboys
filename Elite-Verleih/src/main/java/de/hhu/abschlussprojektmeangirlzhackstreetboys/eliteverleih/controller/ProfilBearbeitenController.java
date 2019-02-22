@@ -21,9 +21,10 @@ public class ProfilBearbeitenController {
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilbearbeiten Seite.
-     * @param model
-     * @param account
-     * @return
+     *
+     * @param model   Das model.
+     * @param account Der Account des aktuellen Benutzers.
+     * @return "ProfilBearbeiten".
      */
     @GetMapping("/ProfilBearbeiten")
     public String profilBearbeitenAnzeigen(Model model, Principal account) {
@@ -37,11 +38,12 @@ public class ProfilBearbeitenController {
 
     /**
      * Uebernimmt das Verarbeiten der Benutzereingaben auf dem Profil.
-     * @param model
-     * @param ben
-     * @param aufladen
-     * @param account
-     * @return
+     *
+     * @param model    Das model.
+     * @param ben      Der aktuelle Benutzer.
+     * @param aufladen Die Summe zum aufladen.
+     * @param account  Der Account des Benutzers.
+     * @return "Profil".
      */
     @PostMapping("/ProfilBearbeiten")
     public String profilBearbeitenSpeichern(Model model,

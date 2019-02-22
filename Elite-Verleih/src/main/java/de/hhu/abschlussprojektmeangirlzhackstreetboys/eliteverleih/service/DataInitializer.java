@@ -12,7 +12,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 @Component
@@ -175,16 +174,22 @@ public class DataInitializer implements ServletContextInitializer {
 
 
         Calendar sCal0 = new GregorianCalendar();
-        sCal0.set(2019,5,8);
+        sCal0.set(2019, 5, 8);
         Calendar eCal0 = new GregorianCalendar();
-        eCal0.set(2019,5,10);
+        eCal0.set(2019, 5, 10);
         Ausleihe test0 = ausleiheM.erstelleAusleihe(new Long(1), new Long(7), sCal0, eCal0);
 
         Calendar sCal1 = new GregorianCalendar();
-        sCal1.set(2019, 1, 19);
+        sCal1.set(2019, 2, 19);
         Calendar eCal1 = new GregorianCalendar();
-        eCal1.set(2019, 1, 28);
+        eCal1.set(2019, 2, 21);
         Ausleihe test1 = ausleiheM.erstelleAusleihe(new Long(3), new Long(7), sCal1, eCal1);
+
+        Calendar sCal2 = new GregorianCalendar();
+        sCal2.set(2019, 2, 22);
+        Calendar eCal2 = new GregorianCalendar();
+        eCal2.set(2019, 2, 23);
+        Ausleihe test2 = ausleiheM.erstelleAusleihe(new Long(3), new Long(7), sCal2, eCal2);
 
 
         Ausleihe test = ausleiheM.erstelleAusleihe(new Long(4), new Long(9), sCal0, eCal0);

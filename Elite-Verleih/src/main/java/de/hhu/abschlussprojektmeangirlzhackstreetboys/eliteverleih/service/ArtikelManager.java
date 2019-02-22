@@ -28,8 +28,9 @@ public class ArtikelManager {
 
     /**
      * Erstellt einen Artikel.
+     *
      * @param benutzerId Id des Artikels.
-     * @param artikel Artikel.
+     * @param artikel    Artikel.
      */
     public void erstelleArtikel(Long benutzerId, Artikel artikel) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
@@ -40,8 +41,9 @@ public class ArtikelManager {
 
     /**
      * Speichert den Artikel bei dem Besitzer ab.
+     *
      * @param benutzerId Id des Besitzers.
-     * @param artikel Artikel.
+     * @param artikel    Artikel.
      */
     public void setzeArtikel(Long benutzerId, Artikel artikel) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
@@ -58,10 +60,11 @@ public class ArtikelManager {
 
     /**
      * Speichert den bearbeiteten Artikel richtig ab.
+     *
      * @param artikelId Id des Artikels.
-     * @param artikel Artikel.
+     * @param artikel   Artikel.
      */
-    void bearbeiteArtikel(Long artikelId, Artikel artikel) {
+    public void bearbeiteArtikel(Long artikelId, Artikel artikel) {
         Artikel alterArtikel = getArtikelById(artikelId);
 
         alterArtikel.setArtikelBeschreibung(artikel.getArtikelBeschreibung());
@@ -75,6 +78,7 @@ public class ArtikelManager {
 
     /**
      * Loescht den Artikel mit der angegebenen ArtikelId.
+     *
      * @param artikelId Die ID des Artikels.
      */
     public void deleteArtikel(Long artikelId) {

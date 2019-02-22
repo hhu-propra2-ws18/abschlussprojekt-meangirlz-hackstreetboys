@@ -24,7 +24,8 @@ public class ArtikelerstellenController {
 
     /**
      * GetMapping der Artikelerstellen Seite.
-     * @param model Das Model.
+     *
+     * @param model   Das Model.
      * @param account Der Account des Benutzers.
      * @return "Artikelerstellung".
      */
@@ -38,8 +39,9 @@ public class ArtikelerstellenController {
 
     /**
      * PostMapping der Artikelerstellen Seite.
+     *
      * @param artikel Der Artikel.
-     * @param model Das Model.
+     * @param model   Das Model.
      * @param account Der Account des Benutzers.
      * @return "Uebersicht".
      */
