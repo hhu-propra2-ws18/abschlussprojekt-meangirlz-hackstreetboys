@@ -84,7 +84,7 @@ public class ArtikelbearbeitenController {
     public String artikelLoeschen(@PathVariable long artikelId,
                                   Principal account) {
         if (artikelManager.getArtikelById(artikelId).getAusgeliehen().isEmpty()) {
-            artikelManager.deleteArtikel(artikelId);
+            artikelManager.loescheArtikel(artikelId);
             return "redirect:/Uebersicht";
         }
         return "redirect:/Bearbeiten/" + artikelId + "?error";

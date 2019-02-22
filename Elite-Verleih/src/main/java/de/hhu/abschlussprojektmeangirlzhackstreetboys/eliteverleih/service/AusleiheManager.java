@@ -104,6 +104,8 @@ public class AusleiheManager {
     public void bestaetigeAusleihe(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
         Calendar heute = new GregorianCalendar();
+        System.out.println(heute.getTime());
+        System.out.println(ausleihe.gueltigesDatum(heute));
         if (!ausleihe.gueltigesDatum(heute)) {
             loescheAusleihe(ausleiheId);
             return;

@@ -81,7 +81,7 @@ public class ArtikelManager {
      *
      * @param artikelId Die ID des Artikels.
      */
-    public void deleteArtikel(Long artikelId) {
+    public void loescheArtikel(Long artikelId) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(artikelRepo.findArtikelByArtikelId(artikelId)
             .getBenutzer()
             .getBenutzerId());

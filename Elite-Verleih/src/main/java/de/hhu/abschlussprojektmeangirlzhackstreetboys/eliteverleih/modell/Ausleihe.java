@@ -85,8 +85,15 @@ public class Ausleihe {
      * @return true, falls das Datum noch gueltig ist.
      */
     public boolean gueltigesDatum(Calendar jetzt) {
+        System.out.println(jetzt.getTime());
         Calendar start = getAusleihStartdatum();
         Calendar ende = getAusleihRueckgabedatum();
+        jetzt.set(Calendar.HOUR_OF_DAY, jetzt.getActualMinimum(Calendar.HOUR_OF_DAY));
+        jetzt.set(Calendar.MINUTE, jetzt.getActualMinimum(Calendar.MINUTE));
+        jetzt.set(Calendar.SECOND, jetzt.getActualMinimum(Calendar.SECOND));
+        jetzt.set(Calendar.MILLISECOND, jetzt.getActualMinimum(Calendar.MILLISECOND));
+        System.out.println(start.getTime());
+        System.out.println("lahskdg: " + jetzt.after(start));
         if (jetzt.after(start) || jetzt.after(ende)) {
             return false;
         }
@@ -100,6 +107,10 @@ public class Ausleihe {
      * @return Kosten.
      */
     public int berechneKosten(Calendar jetzt) {
+        jetzt.set(Calendar.HOUR_OF_DAY, jetzt.getActualMinimum(Calendar.HOUR_OF_DAY));
+        jetzt.set(Calendar.MINUTE, jetzt.getActualMinimum(Calendar.MINUTE));
+        jetzt.set(Calendar.SECOND, jetzt.getActualMinimum(Calendar.SECOND));
+        jetzt.set(Calendar.MILLISECOND, jetzt.getActualMinimum(Calendar.MILLISECOND));
         int tage = getAnzahlTage(jetzt);
         if (tage == 0) {
             return 0;
@@ -117,6 +128,10 @@ public class Ausleihe {
      */
     public int getAnzahlUeberzogen(Calendar jetzt) {
         Calendar ende = getAusleihRueckgabedatum();
+        ende.set(Calendar.HOUR_OF_DAY, jetzt.getActualMaximum(Calendar.HOUR_OF_DAY));
+        ende.set(Calendar.MINUTE, jetzt.getActualMaximum(Calendar.MINUTE));
+        ende.set(Calendar.SECOND, jetzt.getActualMaximum(Calendar.SECOND));
+        ende.set(Calendar.MILLISECOND, jetzt.getActualMaximum(Calendar.MILLISECOND));
         if (!jetzt.after(ende)) {
             return 0;
         }
