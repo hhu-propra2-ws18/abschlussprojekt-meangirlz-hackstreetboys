@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
 
@@ -40,12 +39,12 @@ public class Ausleihe {
     /**
      * Konstruktor.
      *
-     * @param artikel Artikel welcher ausgeliehen wird.
-     * @param ausleihStartdatum Startdatum der Ausleihe.
+     * @param artikel               Artikel welcher ausgeliehen wird.
+     * @param ausleihStartdatum     Startdatum der Ausleihe.
      * @param ausleihRueckgabedatum Rueckgabedatum der Ausleihe.
-     * @param benutzer Ausleihender.
-     * @param ausleihStatus Status der Ausleihe.
-     * @param reservationsId Id der Reservierung.
+     * @param benutzer              Ausleihender.
+     * @param ausleihStatus         Status der Ausleihe.
+     * @param reservationsId        Id der Reservierung.
      */
     public Ausleihe(Artikel artikel, Calendar ausleihStartdatum, Calendar ausleihRueckgabedatum, Benutzer benutzer,
                     Status ausleihStatus, int reservationsId) {
@@ -70,12 +69,9 @@ public class Ausleihe {
             return 1;
         }
         if (heute.after(start)) {
-
             long milli = heute.getTimeInMillis() - start.getTimeInMillis();
-
             long diff = TimeUnit.DAYS.convert(milli, TimeUnit.MILLISECONDS) + 2;
             // Start und Ende werden nicht mitbeachtet, weswegen wir +2 rechnene muessen.
-
             ergebnis = (int) diff;
         }
         return ergebnis;
@@ -91,10 +87,9 @@ public class Ausleihe {
     public boolean gueltigesDatum(Calendar jetzt) {
         Calendar start = getAusleihStartdatum();
         Calendar ende = getAusleihRueckgabedatum();
-        if(jetzt.after(ende) || jetzt.after(start)){
+        if (jetzt.after(start) || jetzt.after(ende)) {
             return false;
         }
-
         return true;
     }
 
@@ -106,11 +101,11 @@ public class Ausleihe {
      */
     public int berechneKosten(Calendar jetzt) {
         int tage = getAnzahlTage(jetzt);
-        if(tage == 0){
+        if (tage == 0) {
             return 0;
         }
         int ueberzogen = getAnzahlUeberzogen(jetzt);
-        double kosten = this.getArtikel().getArtikelTarif()*(tage + ueberzogen*0.2);
+        double kosten = this.getArtikel().getArtikelTarif() * (tage + ueberzogen * 0.2);
         int endKosten = (int) Math.ceil(kosten);
         return (endKosten);
     }
@@ -122,7 +117,7 @@ public class Ausleihe {
      */
     public int getAnzahlUeberzogen(Calendar jetzt) {
         Calendar ende = getAusleihRueckgabedatum();
-        if(!jetzt.after(ende)){
+        if (!jetzt.after(ende)) {
             return 0;
         }
         long milli = jetzt.getTimeInMillis() - ende.getTimeInMillis();

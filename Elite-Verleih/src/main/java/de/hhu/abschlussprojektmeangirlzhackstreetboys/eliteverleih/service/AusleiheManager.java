@@ -11,8 +11,10 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Service
 public class AusleiheManager {
@@ -30,6 +32,7 @@ public class AusleiheManager {
 
     /**
      * Getter fuer alle Ausleihen der Datenbank.
+     *
      * @return Liste von Ausleihen.
      */
     public List<Ausleihe> getAllAusleihe() {
@@ -38,9 +41,10 @@ public class AusleiheManager {
 
     /**
      * Erstellt eine Ausleihe mit allen Abhaengigkeiten.
-     * @param benutzerId Id des Ausleihenden.
-     * @param artikelId Id des Artikels.
-     * @param ausleihStartdatum Startdatum der Ausleihe.
+     *
+     * @param benutzerId            Id des Ausleihenden.
+     * @param artikelId             Id des Artikels.
+     * @param ausleihStartdatum     Startdatum der Ausleihe.
      * @param ausleihRueckgabedatum Rueckgabedatum der Ausleihe.
      * @return Ausleihe.
      */
@@ -82,6 +86,7 @@ public class AusleiheManager {
 
     /**
      * Getter fuer die Ausleihen via ausleiheId.
+     *
      * @param ausleiheId Id der Ausleihe.
      * @return Ausleihe.
      */
@@ -99,7 +104,7 @@ public class AusleiheManager {
     public void bestaetigeAusleihe(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
         Calendar heute = new GregorianCalendar();
-        if(!ausleihe.gueltigesDatum(heute)){
+        if (!ausleihe.gueltigesDatum(heute)) {
             loescheAusleihe(ausleiheId);
             return;
         }
@@ -107,7 +112,7 @@ public class AusleiheManager {
         Artikel artikel = ausleihe.getArtikel();
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
-        if(r1 == null) {
+        if (r1 == null) {
             bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
         } else {
             bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
@@ -133,8 +138,9 @@ public class AusleiheManager {
     /**
      * Loescht die Ausleihe fuer den Benutzer.
      * Muss mit Ausleihe aus dem Repo augerufen werden
+     *
      * @param benutzerId Id des Ausleihenden.
-     * @param ausleihe Id der Ausleihe.
+     * @param ausleihe   Id der Ausleihe.
      */
     private void loescheAusleiheFuerBenutzer(Long benutzerId, Ausleihe ausleihe) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
@@ -146,8 +152,8 @@ public class AusleiheManager {
      * Loescht die Ausleihe fuer den Benutzer und den Artikel.
      *
      * @param benutzerId Id des Artikelbesitzers.
-     * @param artikel Artikel.
-     * @param ausleihe Ausleihe.
+     * @param artikel    Artikel.
+     * @param ausleihe   Ausleihe.
      */
     private void loescheAusleiheFuerArtikelundBesitzer(Long benutzerId, Artikel artikel, Ausleihe ausleihe) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
@@ -170,7 +176,7 @@ public class AusleiheManager {
     /**
      * Setzt den Status der Ausleihe wie uebergebn.
      *
-     * @param ausleiheId Id der Ausleihe.
+     * @param ausleiheId          Id der Ausleihe.
      * @param neuerAusleiheStatus Neuer Status fuer die Ausleihe.
      * @return Ausleihe.
      */
@@ -189,8 +195,8 @@ public class AusleiheManager {
         Artikel artikel = getAusleiheById(ausleiheId).getArtikel();
         List<Ausleihe> ausleihList = artikel.getAusgeliehen();
         List<Ausleihe> anfrageList = new ArrayList<>();
-        for(Ausleihe a: ausleihList) {
-            if (a.getAusleihStatus().equals(Status.ANGEFRAGT)){
+        for (Ausleihe a : ausleihList) {
+            if (a.getAusleihStatus().equals(Status.ANGEFRAGT)) {
                 anfrageList.add(a);
             }
         }
@@ -211,7 +217,7 @@ public class AusleiheManager {
     /**
      * Ueberprueft ob sich die beiden ausleihen ueberschneiden.
      *
-     * @param ausleiheId Id der ersten Ausleihe.
+     * @param ausleiheId     Id der ersten Ausleihe.
      * @param akzeptierteAId Id der anderen Ausleihe.
      * @return boolean ob die Ausleihen miteinander kollidieren.
      */
@@ -239,16 +245,14 @@ public class AusleiheManager {
     /**
      * Ueberprueft ob der der Artikel fuer die angegebene Zeit bereits ausgeliehen ist.
      *
-     * @param artikelId Id des Artikels.
+     * @param artikelId  Id des Artikels.
      * @param startDatum Startdatum der zu ueberpruefenden Anfrage.
-     * @param endDatum Enddatum der zu ueberpruefenden Anfrage.
+     * @param endDatum   Enddatum der zu ueberpruefenden Anfrage.
      * @return true, falls der Artikel an mindestens einem der Tage bereits verliehen ist. Sonst false.
      */
     public boolean isAusgeliehen(Long artikelId, Calendar startDatum, Calendar endDatum) {
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
-        System.out.println("AusleihListe: " + artikel.getAusgeliehen().size());
         for (Ausleihe ausleihe : artikel.getAusgeliehen()) {
-            System.out.println(ausleihe.getAusleihStatus());
             if (!ausleihe.getAusleihStatus().equals(Status.ANGEFRAGT)
                 && !ausleihe.getAusleihStatus().equals(Status.BEENDET)
                 && !ausleihe.getAusleihStatus().equals(Status.ABGELEHNT)) {
@@ -302,9 +306,9 @@ public class AusleiheManager {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
         Calendar heute = new GregorianCalendar();
         int kosten = ausleihe.berechneKosten(heute);
-        if(propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
+        if (propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
             ausleihe.getArtikel().getBenutzer().getBenutzerName(),
-            kosten)){
+            kosten)) {
             bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
         } else {
             bearbeiteAusleihe(ausleiheId, Status.KONFLIKT);

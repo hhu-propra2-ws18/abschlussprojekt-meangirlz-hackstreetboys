@@ -33,7 +33,8 @@ public class ProfilController {
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilseite.
-     * @param model Das zu uebergebende Model
+     *
+     * @param model   Das zu uebergebende Model
      * @param account Principal des Benutzers
      * @return "Profil"
      */
@@ -73,11 +74,12 @@ public class ProfilController {
 
     /**
      * Uebernimmt das Verarbeiten der Buttons auf dem Profil.
-     * @param model Das zu uebergebende Model
-     * @param name Der name des Buttons
-     * @param anfrage Das Ausleih Objekt
+     *
+     * @param model     Das zu uebergebende Model
+     * @param name      Der name des Buttons
+     * @param anfrage   Das Ausleih Objekt
      * @param ausleihId Die Id der Ausleihe
-     * @param account Der account des Benutzers
+     * @param account   Der account des Benutzers
      * @return "Profil"
      */
     @PostMapping("/Profil")
@@ -86,7 +88,6 @@ public class ProfilController {
         if (name.equals("Problem")) {
             return "redirect:/Support";
         }
-
         if (name.equals("Bestaetigen")) {
             ausleiheManager.bestaetigeAusleihe(ausleihId);
             return "redirect:/Profil";
@@ -111,11 +112,7 @@ public class ProfilController {
         } else if (name.equals("Geloest")) {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
             return "redirect:/Profil";
-        } else {
-            return "redirect:/Uebersicht";
         }
+        return "redirect:/Profil";
     }
-
-
 }
-

@@ -36,17 +36,14 @@ public class Benutzer {
     public Benutzer(String benutzerName, String benutzerEmail) {
         this.benutzerName = benutzerName;
         this.benutzerEmail = benutzerEmail;
-
         List<Ausleihe> ausl = new ArrayList<Ausleihe>();
         this.ausgeliehen = ausl;
-
     }
 
     public Benutzer(String benutzerName, String benutzerEmail, List<Ausleihe> ausgeliehen) {
         this.benutzerName = benutzerName;
         this.benutzerEmail = benutzerEmail;
         this.ausgeliehen = ausgeliehen;
-
     }
 
 }

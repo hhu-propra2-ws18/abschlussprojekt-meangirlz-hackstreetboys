@@ -34,7 +34,8 @@ public class ArtikelbearbeitenController {
 
     /**
      * Zeigt Artikel bearbeiten view an, laedt Attribute in HTML.
-     * @param model  Datencontainer fuer View.
+     *
+     * @param model   Datencontainer fuer View.
      * @param account aktueller Benutzer.
      * @return Mapping auf Artikel bearbeiten.
      */
@@ -50,10 +51,11 @@ public class ArtikelbearbeitenController {
 
     /**
      * Speichert die neuen Attribute des Artikels.
-     * @param model Datencontainer fuer die View.
-     * @param artikelId Eindeutige ID des Artikels.
+     *
+     * @param model      Datencontainer fuer die View.
+     * @param artikelId  Eindeutige ID des Artikels.
      * @param newArtikel Bearbeiteter Artikel.
-     * @param account Aktive Benutzer.
+     * @param account    Aktive Benutzer.
      * @return Uebersicht seite.
      */
     @PostMapping("/Bearbeiten/{artikelId}")
@@ -73,8 +75,9 @@ public class ArtikelbearbeitenController {
 
     /**
      * Prueft, ob Ausleihen bestehen und loescht falls nicht.
+     *
      * @param artikelId Eindeutige ID des Artikels.
-     * @param account Aktive Benutzer.
+     * @param account   Aktive Benutzer.
      * @return Uebersicht beim Erfolgreichen loeschen und Error falls nicht.
      */
     @RequestMapping("/Loeschen/{artikelId}")
@@ -84,6 +87,6 @@ public class ArtikelbearbeitenController {
             artikelManager.deleteArtikel(artikelId);
             return "redirect:/Uebersicht";
         }
-        return  "redirect:/Bearbeiten/" + artikelId + "?error";
+        return "redirect:/Bearbeiten/" + artikelId + "?error";
     }
 }

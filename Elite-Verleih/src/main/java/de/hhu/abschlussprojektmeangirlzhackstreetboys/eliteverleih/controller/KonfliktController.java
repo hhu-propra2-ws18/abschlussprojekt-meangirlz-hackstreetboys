@@ -34,7 +34,8 @@ public class KonfliktController {
 
     /**
      * Zeigt Konfliktseite an, laedt Attribute in HTML.
-     * @param model  Datencontainer fuer View.
+     *
+     * @param model   Datencontainer fuer View.
      * @param account aktueller Benutzer.
      * @return Mapping auf Konfliktloesung.
      */
@@ -48,8 +49,9 @@ public class KonfliktController {
 
     /**
      * Bearbeitet Kaution bei einem Konflikt, loescht dann Buchung.
-     * @param name ButtonName.
-     * @param anfrage zu verwaltende Anfrage.
+     *
+     * @param name      ButtonName.
+     * @param anfrage   zu verwaltende Anfrage.
      * @param ausleihId Id der Anfrage.
      * @return Weiterleitung auf Konfliktloesung
      */
@@ -69,10 +71,6 @@ public class KonfliktController {
         if (name.equals("Buchung Ausleihender")) {
             sync.getAccount(benutzer.getBenutzerName());
             sync.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
-            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
-        }
-
-        if (name.equals("Konflikt beenden")) {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
         }
 
