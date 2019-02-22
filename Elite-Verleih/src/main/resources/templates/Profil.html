@@ -95,7 +95,8 @@
                                 <h5 class="card-title" th:text="${abgelehnteAnfrage.getArtikel().getArtikelName()}">
                                     ArtikelName</h5>
                                 <p class="card-text"
-                                   th:text="'Abgelehnt von: ' + ${abgelehnteAnfrage.getArtikel().getBenutzer().getBenutzerName()}">Benutzer</p>
+                                   th:text="'Abgelehnt von: ' + ${abgelehnteAnfrage.getArtikel().getBenutzer().getBenutzerName()}">
+                                    Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${abgelehnteAnfrage.getAusleihStartdatum().getTime().getDate()} + '.'
                                 + ${abgelehnteAnfrage.getAusleihStartdatum().getTime().getMonth()} + '.'
@@ -226,7 +227,6 @@
 </div>
 
 
-
 <div id="accordionThree">
     <div class="card">
         <div class="card-header" id="headingThree">
@@ -301,7 +301,7 @@
                                 ArtikelName</h5>
                             <p class="card-text"
                                th:text="${artikel.getArtikelBeschreibung()}">
-                            <a th:href="|/Detailansicht/${artikel.getArtikelId()}|">Details</a>
+                                <a th:href="|/Detailansicht/${artikel.getArtikelId()}|">Details</a>
                         </div>
                     </div>
 
@@ -416,41 +416,42 @@
                 </div>
 
                 <h3>Erfolgreich</h3>
-                    <p>Deine erfolgreich zurueckgegebenen Artikel</p>
-                    <div class="row">
-                        <div class="card" th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
-                            <img alt="Kein Bild vorhanden!" class="card-img-top"
-                                 style="max-height: 180px;"
-                                 th:src="${erfolgreichZurueckgegeben.getArtikel().getArtikelBildUrl()}">
-                            <div class="card-body">
-                                <h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">
-                                    ArtikelName</h5>
-                                <p class="card-text"
-                                   th:text="'Besitzer: ' + ${erfolgreichZurueckgegeben.getArtikel().erfolgreichZurueckgegeben.getBenutzer().getBenutzerName()}">
-                                    Benutzer</p>
-                                <p class="card-text" th:text="'Von: '
+                <p>Deine erfolgreich zurueckgegebenen Artikel</p>
+                <div class="row">
+                    <div class="card" th:each="erfolgreichZurueckgegeben: ${erfolgreichZurueckgegebene}">
+                        <img alt="Kein Bild vorhanden!" class="card-img-top"
+                             style="max-height: 180px;"
+                             th:src="${erfolgreichZurueckgegeben.getArtikel().getArtikelBildUrl()}">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${erfolgreichZurueckgegeben.getArtikel().getArtikelName()}">
+                                ArtikelName</h5>
+                            <p class="card-text"
+                               th:text="'Besitzer: ' + ${erfolgreichZurueckgegeben.getArtikel().getBenutzer().getBenutzerName()}">
+                                Benutzer</p>
+                            <p class="card-text" th:text="'Von: '
                                 + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getDate()} + '.'
                                 + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getMonth()} + '.'
-                                + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
-                                <p class="card-text" th:text="'Bis: '
+                                + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getYear()+1900} ">
+                                Startdatum</p>
+                            <p class="card-text" th:text="'Bis: '
                                 + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getDate()} + '.'
                                 + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
                                 + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
-                                    Rückgabedatumdatum
-                                </p>
+                                Rückgabedatumdatum
+                            </p>
 
-                                <a th:href="|/Detailansicht/${erfolgreichZurueckgegeben.getArtikel().getArtikelId()}|">Details</a>
+                            <a th:href="|/Detailansicht/${erfolgreichZurueckgegeben.getArtikel().getArtikelId()}|">Details</a>
 
-                                <form method="post"
-                                      th:action="'/Profil?ausleihId=' + ${erfolgreichZurueckgegeben.getAusleihId()}"
-                                      th:object="${erfolgreichZurueckgegeben}">
+                            <form method="post"
+                                  th:action="'/Profil?ausleihId=' + ${erfolgreichZurueckgegeben.getAusleihId()}"
+                                  th:object="${erfolgreichZurueckgegeben}">
 
-                                    <input class="btn btn-outline-danger" name="submitButton" type="submit"
-                                           value="Entfernen"/>
-                                </form>
-                            </div>
+                                <input class="btn btn-outline-danger" name="submitButton" type="submit"
+                                       value="Entfernen"/>
+                            </form>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
@@ -545,14 +546,14 @@
     </div>
 </div>
 
-    <script crossorigin="anonymous"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script crossorigin="anonymous"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script crossorigin="anonymous"
-            integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>
