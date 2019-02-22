@@ -65,7 +65,7 @@ public class ArtikelbearbeitenController {
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
         model.addAttribute("benutzer", benutzer);
-        bearbeiteArtikel(newArtikel, artikel);
+        artikelManager.bearbeiteArtikel(artikelId, artikel);
         artikel.setBenutzer(benutzer);
         artikelRepo.save(artikel);
         return "redirect:/Uebersicht";
@@ -86,18 +86,4 @@ public class ArtikelbearbeitenController {
         }
         return  "redirect:/Bearbeiten/" + artikelId + "?error";
     }
-
-    private void bearbeiteArtikel(Artikel newArtikel,
-                                  Artikel oldArtikel) {
-        oldArtikel.setArtikelName(newArtikel.getArtikelName());
-        oldArtikel.setArtikelBeschreibung(newArtikel.getArtikelBeschreibung());
-        oldArtikel.setBenutzer(newArtikel.getBenutzer());
-        oldArtikel.setArtikelKaution(newArtikel.getArtikelKaution());
-        oldArtikel.setArtikelTarif(newArtikel.getArtikelTarif());
-        oldArtikel.setArtikelOrt(newArtikel.getArtikelOrt());
-
-        artikelRepo.save(oldArtikel);
-
-    }
-
 }

@@ -61,7 +61,7 @@ public class ArtikelManager {
      * @param artikelId Id des Artikels.
      * @param artikel Artikel.
      */
-    void bearbeiteArtikel(Long artikelId, Artikel artikel) {
+    public void bearbeiteArtikel(Long artikelId, Artikel artikel) {
         Artikel alterArtikel = getArtikelById(artikelId);
 
         alterArtikel.setArtikelBeschreibung(artikel.getArtikelBeschreibung());
