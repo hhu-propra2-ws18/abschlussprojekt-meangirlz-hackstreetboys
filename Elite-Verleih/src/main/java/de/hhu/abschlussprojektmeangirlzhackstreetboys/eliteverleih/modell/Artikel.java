@@ -28,6 +28,9 @@ public class Artikel {
 
     private String artikelOrt;
 
+    private int artikelOrtX;
+    private int artikelOrtY;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
 

@@ -94,6 +94,8 @@ public class DataInitializer implements ServletContextInitializer {
         a0.setArtikelKaution(3);
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Jens's-Werkstatt, a.k.a. HHU");
+        a0.setArtikelOrtX(100);
+        a0.setArtikelOrtY(100);
         a0.setArtikelTarif(1);
         a0.setArtikelBildUrl("https://c.pxhere.com/photos/c5/a6/hammer_car_automobile_nature_off_road-619096.jpg!d");
         artikelM.erstelleArtikel(jensId, a0);
