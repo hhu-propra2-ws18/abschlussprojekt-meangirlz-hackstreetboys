@@ -116,6 +116,11 @@
                                         <button class="btn btn-sm btn-outline-secondary" type="submit">
                                             Artikel ausleihen
                                         </button>
+                                        <div id="floating-panel">
+                                            <input id="address" type="textbox" value="Sydney, NSW">
+                                            <input id="submit2" type="button" value="Geocode">
+                                        </div>
+
                                     </form>
                                 </div>
                             </li>
@@ -128,10 +133,10 @@
 
                                         //initialize from thymeleaf
                                         /*<![CDATA[*/
-                                        var x = /*[[${artikel.artikelOrtX}]]*/;
-                                        var y = /*[[${artikel.artikelOrtY}]]*/;
-                                        if(x == null) x = 49.8;
-                                        if(y == null) y = 6.1;
+                                        var x = /*[[${artikel.artikelOrtX}]]*/0;
+                                        var y = /*[[${artikel.artikelOrtY}]]*/0;
+                                        if(x == null | x == 0) x = 49.8;
+                                        if(y == null | y == 0) y = 6.1;
                                         /*]]>*/
 
                                         //intialize the map
@@ -154,6 +159,25 @@
                                                 .openPopup();
                                         }
                                         mymap.on('click', onMapClick);
+
+                                        document.getElementById('submit2').addEventListener('click', function() {
+                                            geocodeAddress(geocoder, map);
+                                        });
+
+                                        var geocoder = new google.maps.Geocoder();
+
+                                        function geocodeAddress(geocoder) {
+                                            var address = document.getElementById('address').value;
+                                            geocoder.geocode({'address': address}, function(results, status) {
+                                                if (status === 'OK') {
+                                                    alert('adress was' + address);
+                                                } else {
+                                                    alert('Geocode was not successful for the following reason: ' + status);
+                                                }
+                                            });
+                                        }
+
+
 
                                     </script>
                                 </div>

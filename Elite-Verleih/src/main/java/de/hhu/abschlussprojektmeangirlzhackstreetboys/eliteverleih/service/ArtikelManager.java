@@ -31,6 +31,7 @@ public class ArtikelManager {
         artikel.setBenutzer(benutzer);
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
+
     }
 
     public void setzeArtikel(Long benutzerId, Artikel artikel) {
