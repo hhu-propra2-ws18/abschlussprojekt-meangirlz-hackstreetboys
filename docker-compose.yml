@@ -18,3 +18,10 @@ services:
                         - POSTGRES_USER=${DB_USER}
                 depends_on:
                         - database
+
+        propay:
+                image: propra/propay
+                ports:
+                        - "8888:8888"
+                volumes:
+                        - ./data:/code/data

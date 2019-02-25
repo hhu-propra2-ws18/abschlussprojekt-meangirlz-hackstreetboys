@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class PropayManager {
 
-    final String url = "http://localhost:8888/";
+    final String url = "http://propay:8888/";
     @Autowired
     AusleiheManager ausleiheM;
     RestTemplate rt = new RestTemplate();
