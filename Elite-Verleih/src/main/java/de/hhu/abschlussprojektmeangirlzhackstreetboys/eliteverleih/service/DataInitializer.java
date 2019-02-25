@@ -25,7 +25,7 @@ public class DataInitializer implements ServletContextInitializer {
     @Override
     public void onStartup(ServletContext servletContext)
         throws ServletException {
-        if(benutzerM.findBenutzerByName("support") == null){
+        if (benutzerM.findBenutzerByName("support") == null) {
             System.out.println("Populating the database");
             Benutzer support = new Benutzer();
             support.setBenutzerEmail("support@hhu.de");
