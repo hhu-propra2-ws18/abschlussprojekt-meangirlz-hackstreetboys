@@ -26,6 +26,16 @@ public class RegistrierenController {
         return "Registrierung";
     }
 
+    /**
+     * Ueberprueft ob die BindingResult ein Error wirft. Wenn kein Error geworfen wurde wird ein Benutzer angelegt.
+     * Falls es Probleme beim anlegen gibt, wie zum Beispiel der Benutzername ist schon vorhanden, wird das
+     * Errorflag gesetzt.
+     *
+     * @param benutzer Ein befuellter Benutzer der die eingaben gespeichert hat
+     * @param result   Die BindingResult
+     * @param request  Gibt Daten ueber den Security Zustand an
+     * @return  Ein Redirect auf die Uebersichtsseite falls es keinen Fehler gab
+     */
     @PostMapping("/registrieren")
     public String registereBenutzer(@ModelAttribute @Valid Benutzer benutzer,
                                     BindingResult result,
