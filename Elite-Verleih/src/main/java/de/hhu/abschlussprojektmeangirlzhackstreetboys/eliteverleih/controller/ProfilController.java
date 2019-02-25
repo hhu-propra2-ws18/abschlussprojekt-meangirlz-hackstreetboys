@@ -29,7 +29,7 @@ public class ProfilController {
     @Autowired
     ArtikelManager artikelManager;
 
-    PropayManager sync = new PropayManager();
+    PropayManager propayManager = new PropayManager();
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilseite.
@@ -43,30 +43,41 @@ public class ProfilController {
 
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         model.addAttribute("benutzer", benutzer);
-        List<Ausleihe> wartend = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.ANGEFRAGT);
+
+        List<Ausleihe> anfragen = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.ANGEFRAGT);
+        model.addAttribute("anfragen", anfragen);
+
         List<Ausleihe> zurueckerhaltene = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.ABGEGEBEN);
+        model.addAttribute("zurueckerhaltene", zurueckerhaltene);
+
         List<Ausleihe> konflikte = (benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
+        model.addAttribute("konflikte", konflikte);
+
         List<Ausleihe> bestaetigte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BESTAETIGT);
+        model.addAttribute("bestaetigte", bestaetigte);
+
         List<Ausleihe> zurueckgegebene = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGEGEBEN);
+        model.addAttribute("zurueckgegebene", zurueckgegebene);
+
         List<Ausleihe> verliehenes = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.BESTAETIGT);
         verliehenes.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.AKTIV));
         verliehenes.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
-        List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BEENDET);
-        List<Ausleihe> eigeneAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ANGEFRAGT);
-        int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
-        List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGELEHNT);
-        List<Ausleihe> ausgehendeKonflikte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.KONFLIKT);
-
-        model.addAttribute("wartendeAnfragen", eigeneAnfragen);
-        model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
         model.addAttribute("verliehenes", verliehenes);
-        model.addAttribute("zurueckerhaltene", zurueckerhaltene);
-        model.addAttribute("zurueckgegebene", zurueckgegebene);
-        model.addAttribute("bestaetigte", bestaetigte);
-        model.addAttribute("anfragen", wartend);
-        model.addAttribute("konflikte", konflikte);
+
+        List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BEENDET);
+        model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
+
+        List<Ausleihe> wartendeAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ANGEFRAGT);
+        model.addAttribute("wartendeAnfragen", wartendeAnfragen);
+
+        int geld = (int) propayManager.getAccount(benutzer.getBenutzerName()).getAmount();
         model.addAttribute("Betrag", geld);
+
+        List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGELEHNT);
         model.addAttribute("abgelehnteAnfragen", abgelehnteAnfragen);
+
+
+        List<Ausleihe> ausgehendeKonflikte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.KONFLIKT);
         model.addAttribute("ausgehendeKonflikte", ausgehendeKonflikte);
 
         return "Profil";
