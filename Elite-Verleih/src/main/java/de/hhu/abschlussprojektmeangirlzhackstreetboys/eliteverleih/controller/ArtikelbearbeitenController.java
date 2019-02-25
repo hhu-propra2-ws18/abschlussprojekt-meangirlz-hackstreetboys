@@ -18,19 +18,10 @@ import java.security.Principal;
 public class ArtikelbearbeitenController {
 
     @Autowired
-    ArtikelRepository artikelRepo;
-
-    @Autowired
     BenutzerManager benutzerManager;
 
     @Autowired
     ArtikelManager artikelManager;
-
-    @Autowired
-    BenutzerRepository benutzerRepo;
-
-    @Autowired
-    AusleiheRepository ausleiheRepo;
 
     /**
      * Zeigt Artikel bearbeiten view an, laedt Attribute in HTML.
@@ -44,7 +35,7 @@ public class ArtikelbearbeitenController {
                                              Model model,
                                              Principal account) {
 
-        model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
+        model.addAttribute("artikel", artikelManager.getArtikelById(artikelId));
         model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
         return "Artikelbearbeiten";
     }
@@ -63,13 +54,7 @@ public class ArtikelbearbeitenController {
                                     @PathVariable long artikelId,
                                     @ModelAttribute Artikel newArtikel,
                                     Principal account) {
-        Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
-        model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
-        model.addAttribute("benutzer", benutzer);
-        artikelManager.bearbeiteArtikel(artikelId, artikel);
-        artikel.setBenutzer(benutzer);
-        artikelRepo.save(artikel);
+        artikelManager.bearbeiteArtikel(artikelId, newArtikel);
         return "redirect:/Uebersicht";
     }
 

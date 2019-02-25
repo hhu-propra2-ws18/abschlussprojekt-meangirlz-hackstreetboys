@@ -72,8 +72,9 @@ public class ArtikelManager {
         alterArtikel.setArtikelName(artikel.getArtikelName());
         alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
         alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
+        alterArtikel.setArtikelBildUrl(artikel.getArtikelBildUrl());
 
-        artikelRepo.saveAll(Arrays.asList(alterArtikel));
+        artikelRepo.save(alterArtikel);
     }
 
     /**
