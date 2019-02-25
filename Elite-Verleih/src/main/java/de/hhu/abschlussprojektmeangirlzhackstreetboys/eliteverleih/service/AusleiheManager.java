@@ -22,20 +22,24 @@ public class AusleiheManager {
 
     PropayManager propayManager;
 
-    @Autowired
+    final
     BenutzerRepository benutzerRepo;
-    @Autowired
+    final
     ArtikelRepository artikelRepo;
-    @Autowired
+    final
     AusleiheRepository ausleiheRepo;
 
-    @Autowired
-    public AusleiheManager(){
-        propayManager = new PropayManager();
-    }
+//    @Autowired
+//    public AusleiheManager(AusleiheRepository ausleiheRepo){
+//        propayManager = new PropayManager();
+//    }
 
-    public AusleiheManager(PropayManager propayManager){
+    @Autowired
+    public AusleiheManager(AusleiheRepository ausleiheRepo, PropayManager propayManager, ArtikelRepository artikelRepo, BenutzerRepository benutzerRepo){
+        this.ausleiheRepo = ausleiheRepo;
         this.propayManager = propayManager;
+        this.artikelRepo = artikelRepo;
+        this.benutzerRepo = benutzerRepo;
     }
     /**
      * Getter fuer alle Ausleihen der Datenbank.

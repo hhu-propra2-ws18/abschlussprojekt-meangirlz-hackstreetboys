@@ -9,6 +9,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Auslei
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 //@ActiveProfiles("test")
-@Import( {AusleiheManager.class})
+//@Import( {AusleiheManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class AusleiheManagerTest {
@@ -38,8 +39,8 @@ public class AusleiheManagerTest {
 
     static PropayManager propayManager = mock(PropayManager.class);
 
-    @Autowired
-    AusleiheManager ausleiheM = new AusleiheManager(propayManager);
+//    @Autowired
+    AusleiheManager ausleiheM;// = new AusleiheManager(propayManager);
 
     @Autowired
     BenutzerRepository benutzerRepo;
@@ -57,8 +58,13 @@ public class AusleiheManagerTest {
     private Calendar eD0 = new GregorianCalendar(2019, 1, 10);
 
 
+    @Before
+    public void setup() {
+        ausleiheM = new AusleiheManager(ausleiheRepo, propayManager, artikelRepo, benutzerRepo);
+
+    }
     @BeforeClass
-    public static void setup(){
+    public static void setupBeforeClass(){
         ReservationDto mockReservation = new ReservationDto();
         mockReservation.setAmount(1.0);
         mockReservation.setId(20);

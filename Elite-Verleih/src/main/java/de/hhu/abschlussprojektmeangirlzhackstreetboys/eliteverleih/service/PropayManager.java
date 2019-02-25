@@ -6,9 +6,10 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.Reservati
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Component
+@Service
 public class PropayManager {
 
     final String url = "http://localhost:8888/";
