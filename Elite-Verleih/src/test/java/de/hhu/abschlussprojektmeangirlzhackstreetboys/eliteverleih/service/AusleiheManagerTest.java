@@ -3,28 +3,43 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.AusleiheRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.BenutzerRepository;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.ReservationDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
 import org.assertj.core.api.Assertions;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.*;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+//@ActiveProfiles("test")
 @Import( {AusleiheManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class AusleiheManagerTest {
 
+
+    static PropayManager propayManager = mock(PropayManager.class);
+
     @Autowired
-    AusleiheManager ausleiheM;
+    AusleiheManager ausleiheM = new AusleiheManager(propayManager);
 
     @Autowired
     BenutzerRepository benutzerRepo;
@@ -35,10 +50,22 @@ public class AusleiheManagerTest {
     @Autowired
     AusleiheRepository ausleiheRepo;
 
-    private Calendar sD0 = new GregorianCalendar(2019, 5, 8);
-    private Calendar eD0 = new GregorianCalendar(2019, 5, 10);
+    /*@Autowired
+    PropayManager propayManager;*/
 
-    private Long erstelleBeispiel() {
+    private Calendar sD0 = new GregorianCalendar(2019, 1, 8);
+    private Calendar eD0 = new GregorianCalendar(2019, 1, 10);
+
+
+    @BeforeClass
+    public static void setup(){
+        ReservationDto mockReservation = new ReservationDto();
+        mockReservation.setAmount(1.0);
+        mockReservation.setId(20);
+        when(propayManager.kautionReserviern(anyString(), anyString(), anyInt())).thenReturn(mockReservation);
+    }
+
+    private Long erstelleBeispiel(Calendar start, Calendar ende) {
         Benutzer bAusleiher = new Benutzer();
         bAusleiher.setBenutzerEmail("test@yahoo");
         bAusleiher.setBenutzerName("Ausleiher");
@@ -63,8 +90,8 @@ public class AusleiheManagerTest {
         Ausleihe ausleihe = new Ausleihe();
         ausleihe.setBenutzer(bAusleiher);
         ausleihe.setArtikel(artikel);
-        ausleihe.setAusleihRueckgabedatum(eD0);
-        ausleihe.setAusleihStartdatum(sD0);
+        ausleihe.setAusleihRueckgabedatum(ende);
+        ausleihe.setAusleihStartdatum(start);
         ausleihe.setAusleihStatus(Status.ANGEFRAGT);
         ausleihe = ausleiheRepo.save(ausleihe);
         bAusleiher.setAusgeliehen(new ArrayList<Ausleihe>());
@@ -159,7 +186,7 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void bearbeiteAusleihe_RichtigGeaendert() {
-        Long ausleiheId = erstelleBeispiel();
+        Long ausleiheId = erstelleBeispiel(sD0, eD0);
         Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
         Assertions.assertThat(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus()).isEqualTo(Status.AKTIV);
     }
@@ -167,7 +194,7 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void bearbeiteAusleihe_Mappings_AusleiheInAusleiher() {
-        Long ausleiheId = erstelleBeispiel();
+        Long ausleiheId = erstelleBeispiel(sD0, eD0);
         Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
 
         Benutzer newInstance = benutzerRepo.findBenutzerByBenutzerName("Ausleiher").get();
@@ -182,7 +209,7 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void bearbeiteAusleihe_Mappings_AusleiheInArtikel() {
-        Long ausleiheId = erstelleBeispiel();
+        Long ausleiheId = erstelleBeispiel(sD0, eD0);
         Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
         Artikel a = artikelRepo.findAll().get(0);
         if (a.getAusgeliehen() != null) {
@@ -196,7 +223,7 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void bearbeiteAusleihe_Mappings_AusleiheInBesitzer() {
-        Long ausleiheId = erstelleBeispiel();
+        Long ausleiheId = erstelleBeispiel(sD0, eD0);
         Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
         Benutzer besitzer = benutzerRepo.findBenutzerByBenutzerName("Besitzer").get();
         for (Artikel a : besitzer.getArtikel()) {
@@ -212,7 +239,7 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void loescheAusleihe_AusleiheGeloescht() {
-        Long ausleiheId = erstelleBeispiel();
+        Long ausleiheId = erstelleBeispiel(sD0, eD0);
 
         ausleiheM.loescheAusleihe(ausleiheId);
 
@@ -226,7 +253,7 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void loescheAusleihe_Mappings_AusleiheInAusleiher() {
-        Long ausleiheId = erstelleBeispiel();
+        Long ausleiheId = erstelleBeispiel(sD0, eD0);
 
         ausleiheM.loescheAusleihe(ausleiheId);
         Benutzer newInstance = benutzerRepo.findBenutzerByBenutzerName("Ausleiher").get();
@@ -241,7 +268,7 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void loescheAusleihe_Mappings_AusleiheInArtikel() {
-        Long ausleiheId = erstelleBeispiel();
+        Long ausleiheId = erstelleBeispiel(sD0, eD0);
 
         ausleiheM.loescheAusleihe(ausleiheId);
         Artikel a = artikelRepo.findAll().get(0);
@@ -256,7 +283,7 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void loescheAusleihe_Mappings_AusleiheInBesitzer() {
-        Long ausleiheId = erstelleBeispiel();
+        Long ausleiheId = erstelleBeispiel(sD0, eD0);
 
         ausleiheM.loescheAusleihe(ausleiheId);
         Benutzer newInstance = benutzerRepo.findBenutzerByBenutzerName("Besitzer").get();
@@ -270,5 +297,24 @@ public class AusleiheManagerTest {
         } else {
             Assertions.fail("besitzer.getArtikel == null");
         }
+    }
+
+    @Rollback
+    @Test
+    public void bestaetigeAusleihe() {
+        MockitoAnnotations.initMocks(this);
+
+        Calendar heute = new GregorianCalendar();
+        Calendar morgen = new GregorianCalendar();
+        morgen.add(Calendar.DATE, 1);
+        long ausleiheId = erstelleBeispiel(heute, morgen);
+
+
+        System.out.println("ASLDFKGHASDFLKGHADFGHKL: " + propayManager.kautionReserviern("TEest", "Test", 3));
+
+        System.out.println("ASDLBF: " + ausleiheM.propayManager);
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
+        ausleiheM.bestaetigeAusleihe(ausleiheId);
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.BESTAETIGT);
     }
 }

@@ -19,17 +19,24 @@ import java.util.List;
 @Service
 public class AusleiheManager {
 
-    PropayManager propayManager = new PropayManager();
+
+    PropayManager propayManager;
 
     @Autowired
     BenutzerRepository benutzerRepo;
-
     @Autowired
     ArtikelRepository artikelRepo;
-
     @Autowired
     AusleiheRepository ausleiheRepo;
 
+    @Autowired
+    public AusleiheManager(){
+        propayManager = new PropayManager();
+    }
+
+    public AusleiheManager(PropayManager propayManager){
+        this.propayManager = propayManager;
+    }
     /**
      * Getter fuer alle Ausleihen der Datenbank.
      *
@@ -104,8 +111,8 @@ public class AusleiheManager {
     public void bestaetigeAusleihe(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
         Calendar heute = new GregorianCalendar();
-        System.out.println(heute.getTime());
-        System.out.println(ausleihe.gueltigesDatum(heute));
+        System.err.println(heute.getTime());
+        System.err.println(ausleihe.gueltigesDatum(heute));
         if (!ausleihe.gueltigesDatum(heute)) {
             loescheAusleihe(ausleiheId);
             return;
@@ -115,8 +122,10 @@ public class AusleiheManager {
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
         if (r1 == null) {
+            System.out.println("Test");
             bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
         } else {
+            System.out.println("Test2");
             bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
             loescheKollidierendeAnfragen(ausleiheId);
             ausleihe.setReservationsId(r1.getId());
