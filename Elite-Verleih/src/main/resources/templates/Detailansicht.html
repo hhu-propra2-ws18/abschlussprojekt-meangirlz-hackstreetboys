@@ -44,8 +44,9 @@
 
                             <span th:text="${artikel.artikelName}"></span>
                         </h3>
-                        <div class="thumbnail">
-                            <img alt="Bild" class="img-fluid" th:src="${artikel.getArtikelBildUrl()}">
+                        <div align="center" class="thumbnail">
+                            <img alt="Bild" class="img-fluid" style="max-height: 200px;"
+                                 th:src="${artikel.getArtikelBildUrl()}">
 
                         </div>
                         <div class="card text-center" th:method="get" th:object="${artikel}">
@@ -64,7 +65,19 @@
                                 th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
                             <li class="list-group-item" th:name="artikelOrt"
                                 th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
-
+                            <div th:if="${!bestaetigteAusleihen.isEmpty()}" style="overflow-y: scroll; max-height:200px;">
+                                <div class="alert-secondary" th:each="ausleihe : ${bestaetigteAusleihen}">
+                                    <a>Ausgeliehen </a>
+                                    <a class="card-text" th:text="'von: '
+                                        + ${ausleihe.getAusleihStartdatum().getTime().getDate()} + '.'
+                                        + ${ausleihe.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                        + ${ausleihe.getAusleihStartdatum().getTime().getYear()+1900} "></a>
+                                    <a class="card-text" th:text="'bis: '
+                                        + ${ausleihe.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                        + ${ausleihe.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                        + ${ausleihe.getAusleihRueckgabedatum().getTime().getYear()+1900} "></a>
+                                </div>
+                            </div>
 
                             <td th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}">
                                 <li class="list-group-item">
@@ -74,55 +87,32 @@
                                         </button>
                                     </a>
                                 </li>
-
                             </td>
 
-                            <li class="list-group-item">
-                                <div class="container">
-                                    <form action="#" method="post"
-                                          th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}">
-
-
-                                        <div class="row justify-content-center">
-
-
-                                            <div class="input-daterange input-group" data-date-format="dd-mm-yyy"
-                                                 id="datepicker">
-                                                <input class="input-sm form-control" name="startDatumString"
-                                                       placeholder="From date"
-                                                       type="date"/>
-                                                <span class="input-group-text" id="">to</span>
-                                                <input class="input-sm form-control" name="endDatumString"
-                                                       placeholder="To date"
-                                                       type="date"/>
-                                            </div>
+                            <div class="container" th:if="${benutzer.getBenutzerId() != artikel.getBenutzer().getBenutzerId()}">
+                                <form action="#" method="post"
+                                      th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}">
+                                    <div class="row justify-content-center">
+                                        <div class="input-daterange input-group" data-date-format="dd-mm-yyy"
+                                             id="datepicker">
+                                            <input class="input-sm form-control" required name="startDatumString"
+                                                   placeholder="From date"
+                                                   type="date"/>
+                                            <span class="input-group-text" id="">to</span>
+                                            <input class="input-sm form-control" required name="endDatumString"
+                                                   placeholder="To date"
+                                                   type="date"/>
                                         </div>
-
-                                        <script type="text/javascript">
-                                            $(function () {
-                                                $("#datepicker").datepicker({
-                                                    autoclose: true,
-                                                    todayHighlight: true
-                                                }).datepicker('getDate', new Date());
-                                            });
-                                        </script>
-                                        <button class="btn btn-sm btn-outline-secondary" type="submit">
-                                            Artikel ausleihen
-                                        </button>
-                                    </form>
-
-
-                                </div>
-                                <div class="form-group">
-                                    <div class="alert alert-success"
-                                        th:if="${#lists.isEmpty(artikel.ausgeliehen)}">
-                                        Artikel verfügbar
                                     </div>
+                                    <button class="btn btn-sm btn-outline-secondary" type="submit">
+                                        Artikel ausleihen
+                                    </button>
+                                </form>
+                                <div th:if="${param.error}" class="alert alert-danger">
+                                    <p>Das Enddatum darf nicht vor dem Startdatum sein!</p>
                                 </div>
+                            </div>
                         </div>
-
-
-
                     </div>
                 </div>
 

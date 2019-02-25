@@ -19,7 +19,7 @@ public class BenutzerManager {
     @Autowired
     BenutzerRepository benutzerRepo;
 
-    PropayManager sync = new PropayManager();
+    PropayManager propayManager = new PropayManager();
 
     public List<Benutzer> getAllBenutzer() {
         return benutzerRepo.findAll();
@@ -44,7 +44,7 @@ public class BenutzerManager {
         if (nameSchonVorhanden(benutzer.getBenutzerName())) {
             return null;
         }
-        AccountDto account = sync.getAccount(benutzer.getBenutzerName());
+        AccountDto account = propayManager.getAccount(benutzer.getBenutzerName());
         return benutzerRepo.save(benutzer);
     }
 
@@ -95,7 +95,7 @@ public class BenutzerManager {
 
 
     public void geldAufladen(Benutzer newBenutzer, int aufladen) {
-        sync.guthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
+        propayManager.guthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
     }
 }
 
