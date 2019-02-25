@@ -91,17 +91,14 @@ public class DetailansichtController {
         Calendar calStartDatum = new GregorianCalendar();
         Calendar calEndDatum = new GregorianCalendar();
 
-        try {
-
-            String[] datum = startDatumString.split("-");
-            calStartDatum.set(Integer.parseInt(datum[0]),
-                Integer.parseInt(datum[1]) - 1,
-                Integer.parseInt(datum[2]));
-            Date endDatum = new SimpleDateFormat("yyyy-MM-dd").parse(endDatumString);
-            calEndDatum.setTime(endDatum);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        String[] startdatum = startDatumString.split("-");
+        calStartDatum.set(Integer.parseInt(startdatum[0]),
+            Integer.parseInt(startdatum[1]) - 1,
+            Integer.parseInt(startdatum[2]));
+        String[] enddatum = endDatumString.split("-");
+        calStartDatum.set(Integer.parseInt(enddatum[0]),
+            Integer.parseInt(enddatum[1]) - 1,
+            Integer.parseInt(enddatum[2]));
 
         if (calStartDatum.after(calEndDatum)) {
             return "redirect:/Detailansicht/" + artikelId + "?error=falseDate";
