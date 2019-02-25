@@ -45,7 +45,7 @@ public class ArtikelManager {
      * @param benutzerId Id des Besitzers.
      * @param artikel    Artikel.
      */
-    public void setzeArtikel(Long benutzerId, Artikel artikel) {
+    private void setzeArtikel(Long benutzerId, Artikel artikel) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         if (b.getArtikel() == null) {
             b.setArtikel(new ArrayList<Artikel>());
@@ -88,19 +88,25 @@ public class ArtikelManager {
 
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         List<Ausleihe> ausleihen = benutzer.getAusgeliehen();
-        if (artikel.getAusgeliehen().isEmpty()) {
+        if (!istAusgeliehen(artikelId)){
             benutzer.getArtikel().remove(artikel);
             benutzerRepo.save(benutzer);
             artikelRepo.delete(artikel);
-        } else {
-            for (Ausleihe a : ausleihen) {
-                if (a.getAusleihStatus() != Status.BESTAETIGT) {
-                    benutzer.getArtikel().remove(artikel);
-                    benutzerRepo.save(benutzer);
-                    artikelRepo.delete(artikel);
-                }
+        }
+    }
+
+    private boolean istAusgeliehen(Long artikelId) {
+        Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+        if(artikel.getAusgeliehen() == null || artikel.getAusgeliehen().isEmpty()){
+            return false;
+        }
+        for (Ausleihe a : artikel.getAusgeliehen()) {
+            Status status = a.getAusleihStatus();
+            if (status == Status.BESTAETIGT || status == Status.AKTIV || status == Status.KONFLIKT) {
+                return true;
             }
         }
+        return false;
     }
 
     public List<Artikel> getArtikelListSortByName(String suchBegriff) {
