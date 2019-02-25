@@ -45,9 +45,6 @@ public class GeoCoding implements Serializable {
         //InputStream is = invokeService(encode(address));
         System.err.println("1!");
         if (locationAddresse != null) {
-            try {
-                //String content = convertStreamToString(is);
-                System.err.println("2!");
                 try {
                     ResponseEntity<MapDto> result = rt.getForEntity(url, MapDto.class);
                     System.err.println("2.05!");
@@ -59,7 +56,6 @@ public class GeoCoding implements Serializable {
                     System.err.println("3!");
                     return null;
                 }
-            }
         }
         System.err.println("4!");
         return null;
