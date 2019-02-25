@@ -3,6 +3,7 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.ArtikelManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +18,10 @@ import java.security.Principal;
 public class ArtikelerstellenController {
 
     @Autowired
-    ArtikelRepository artikelRepository;
+    BenutzerManager benutzerManager;
 
     @Autowired
-    BenutzerManager benutzerManager;
+    ArtikelManager artikelManager;
 
     /**
      * GetMapping der Artikelerstellen Seite.
@@ -48,11 +49,7 @@ public class ArtikelerstellenController {
     @PostMapping("/Erstellen")
     public String artikelErstellen(@ModelAttribute Artikel artikel, Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        artikel.setBenutzer(benutzer);
-        benutzer.getArtikel().add(artikel);
-        artikelRepository.save(artikel);
-        model.addAttribute("artikel", artikelRepository.findAll());
-        model.addAttribute("benutzer", benutzer);
+        artikelManager.erstelleArtikel(benutzer.getBenutzerId(),artikel);
         return "redirect:/Uebersicht";
     }
 
