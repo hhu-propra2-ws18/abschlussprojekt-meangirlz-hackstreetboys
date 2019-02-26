@@ -14,11 +14,11 @@ public class GeoCoding implements Serializable {
     public GeoCoding() {
     }
 
-    public double getFirstX(String locationAddresse) throws IOException {
+    public double getFirstX(String locationAddresse) {
         return getXOfFirst(geocode(locationAddresse));
     }
 
-    public double getFirstY(String locationAddresse) throws IOException {
+    public double getFirstY(String locationAddresse) {
         return getYOfFirst(geocode(locationAddresse));
     }
 
@@ -57,7 +57,7 @@ public class GeoCoding implements Serializable {
      * @return MapDto
      * @throws IOException
      */
-    public MapDto geocode(final String locationAddresse) throws IOException {
+    public MapDto geocode(final String locationAddresse){
         String url = encode(locationAddresse);
         if (locationAddresse != null) {
                 try {
