@@ -115,6 +115,7 @@ public class AusleiheManager {
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
         if (r1 == null) {
+            System.err.println("ABGELENHT!");
             bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
         } else {
             bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);

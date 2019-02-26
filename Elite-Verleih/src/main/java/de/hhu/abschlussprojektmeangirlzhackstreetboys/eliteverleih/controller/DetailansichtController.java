@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Controller
 public class DetailansichtController {
@@ -87,17 +88,13 @@ public class DetailansichtController {
                                    @RequestParam(required = false) String endDatumString,
                                    @PathVariable Long artikelId, Principal account) {
 
-
-        Calendar calStartDatum = new GregorianCalendar();
-        Calendar calEndDatum = new GregorianCalendar();
-
-        String[] startdatum = startDatumString.split("-");
-        calStartDatum.set(Integer.parseInt(startdatum[0]),
-            Integer.parseInt(startdatum[1]) - 1,
-            Integer.parseInt(startdatum[2]));
         String[] enddatum = endDatumString.split("-");
-        calStartDatum.set(Integer.parseInt(enddatum[0]),
-            Integer.parseInt(enddatum[1]) - 1,
+        String[] startdatum = startDatumString.split("-");
+        Calendar calStartDatum = new GregorianCalendar(Integer.parseInt(startdatum[0]),
+            Integer.parseInt(startdatum[1]),
+            Integer.parseInt(startdatum[2]));
+        Calendar calEndDatum = new GregorianCalendar(Integer.parseInt(enddatum[0]),
+            Integer.parseInt(enddatum[1]),
             Integer.parseInt(enddatum[2]));
 
         if (calStartDatum.after(calEndDatum)) {

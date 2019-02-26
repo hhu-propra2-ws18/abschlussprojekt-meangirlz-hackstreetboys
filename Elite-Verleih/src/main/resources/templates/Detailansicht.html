@@ -79,7 +79,7 @@
                                 </div>
                             </div>
 
-                            <td th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}">
+                            <div th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}">
                                 <li class="list-group-item">
                                     <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}|">
                                         <button class="btn btn-sm btn-outline-secondary" type="button">
@@ -87,18 +87,19 @@
                                         </button>
                                     </a>
                                 </li>
-                            </td>
+                            </div>
 
-                            <div class="container" th:if="${benutzer.getBenutzerId() != artikel.getBenutzer().getBenutzerId()}">
+                            <li class="list-group-item" th:if="${benutzer.getBenutzerId() != artikel.getBenutzer().getBenutzerId()}">
                                 <form action="#" method="post"
                                       th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}">
                                     <div class="row justify-content-center">
                                         <div class="input-daterange input-group" data-date-format="dd-mm-yyy"
                                              id="datepicker">
+                                            <span class="input-group-text">Von</span>
                                             <input class="input-sm form-control" required name="startDatumString"
                                                    placeholder="From date"
                                                    type="date"/>
-                                            <span class="input-group-text" id="">to</span>
+                                            <span class="input-group-text">bis</span>
                                             <input class="input-sm form-control" required name="endDatumString"
                                                    placeholder="To date"
                                                    type="date"/>
@@ -111,7 +112,7 @@
                                 <div th:if="${param.error}" class="alert alert-danger">
                                     <p>Das Enddatum darf nicht vor dem Startdatum sein!</p>
                                 </div>
-                            </div>
+                            </li>
                         </div>
                     </div>
                 </div>

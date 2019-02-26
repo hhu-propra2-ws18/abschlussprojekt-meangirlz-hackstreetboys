@@ -255,33 +255,33 @@
                     <h3>Verliehenes</h3>
                     <p>Deine aktiv verliehenen Artikel</p>
                     <div class="row">
-                        <div class="card" th:each="verliehene: ${verliehenes}">
+                        <div class="card" th:each="verliehenes: ${verliehene}">
                             <img alt="Kein Bild vorhanden!" class="card-img-top"
                                  style="max-height: 180px;"
-                                 th:src="${verliehene.getArtikel().getArtikelBildUrl()}">
+                                 th:src="${verliehenes.getArtikel().getArtikelBildUrl()}">
                             <div class="card-body">
-                                <h5 class="card-title" th:text="${verliehene.getArtikel().getArtikelName()}">
+                                <h5 class="card-title" th:text="${verliehenes.getArtikel().getArtikelName()}">
                                     ArtikelName</h5>
                                 <p class="card-text"
-                                   th:text="'Ausgeliehen von: ' + ${verliehene.getBenutzer().getBenutzerName()}">
+                                   th:text="'Ausgeliehen von: ' + ${verliehenes.getBenutzer().getBenutzerName()}">
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
-                                + ${verliehene.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${verliehene.getAusleihStartdatum().getTime().getMonth()} + '.'
-                                + ${verliehene.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+                                + ${verliehenes.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${verliehenes.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${verliehenes.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                                 <p class="card-text" th:text="'Bis: '
-                                + ${verliehene.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${verliehene.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
-                                + ${verliehene.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                                + ${verliehenes.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${verliehenes.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${verliehenes.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                     Rückgabedatumdatum</p>
 
-                                <a th:href="|/Detailansicht/${verliehene.getArtikel().getArtikelId()}|">Details</a>
+                                <a th:href="|/Detailansicht/${verliehenes.getArtikel().getArtikelId()}|">Details</a>
 
                                 <form method="post"
-                                      th:action="'/Profil?ausleihId=' + ${verliehene.getAusleihId()}"
-                                      th:object="${verliehene}">
+                                      th:action="'/Profil?ausleihId=' + ${verliehenes.getAusleihId()}"
+                                      th:object="${verliehenes}">
 
-                                    <input class="btn btn-outline-danger" name="submitButton"
+                                    <input th:if="${verliehenes.getAusleihRueckgabedatum().before(aktuellesDatum)}" class="btn btn-outline-danger" name="submitButton"
                                            type="submit" value="Konflikt"/>
                                 </form>
                             </div>
