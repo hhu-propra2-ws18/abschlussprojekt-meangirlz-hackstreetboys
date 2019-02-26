@@ -139,13 +139,13 @@ public class DetailansichtController {
     @RequestMapping("/Kaufen/{artikelId}")
     public String artikelLoeschen(@PathVariable long artikelId,
                                   Principal account) {
-        /* TODO: ProPay etc. */
         Benutzer b = benutzerManager.findBenutzerByName(account.getName());
         Artikel a = artikelManager.getArtikelById(artikelId);
-        double guthaben = sync.getAccount(b.getBenutzerName()).getAmount();
-        if(guthaben>=a.getArtikelPreis()) {
-            sync.ueberweisen(account.getName(), artikelManager.getArtikelById(artikelId).getBenutzer().getBenutzerName(),
-            artikelManager.getArtikelById(artikelId).getArtikelPreis());
+        double guthaben = propayManager.getAccount(b.getBenutzerName()).getAmount();
+        if(propayManager.ueberweisen(account.getName(),
+            artikelManager.getArtikelById(artikelId).getBenutzer().getBenutzerName(),
+            artikelManager.getArtikelById(artikelId).getArtikelPreis())){//guthaben>=a.getArtikelPreis()) {
+
             artikelManager.loescheArtikel(artikelId);
             return "redirect:/Uebersicht";
         }

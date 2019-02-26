@@ -60,14 +60,14 @@
                             <li class="list-group-item" th:name="benutzerName"
                                 th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
                             <li th:if="${artikel?.getZuVerkaufen()}==false" class="list-group-item" th:name="artikelKaution"
-                                th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
+                                th:text="'Kaution: '+${artikel?.getArtikelKaution()+',00€'}"></li>
                             <li th:if="${artikel?.getZuVerkaufen()}==false" class="list-group-item" th:name="artikelTarif"
-                                th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
+                                th:text="'Tarif: '+${artikel?.getArtikelTarif()+',00€'}"></li>
                             <li th:if="${artikel?.getZuVerkaufen()}==true" class="list-group-item" th:name="artikelPreis"
-                                th:text="'Preis: ' +${artikel?.getArtikelPreis()}"></li>
+                                th:text="'Preis: ' +${artikel?.getArtikelPreis()}+',00€'"></li>
                             <li class="list-group-item" th:name="artikelOrt"
                                 th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
-                            <div th:if="${!bestaetigteAusleihen.isEmpty()}" style="overflow-y: scroll; max-height:200px;">
+                            <div th:if="${!bestaetigteAusleihen.isEmpty()} and ${artikel?.getZuVerkaufen()}==false" style="overflow-y: scroll; max-height:200px;">
                                 <div class="alert-secondary" th:each="ausleihe : ${bestaetigteAusleihen}">
                                     <a>Ausgeliehen </a>
                                     <a class="card-text" th:text="'von: '

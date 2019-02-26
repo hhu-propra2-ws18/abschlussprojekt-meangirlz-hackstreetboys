@@ -295,7 +295,7 @@
                 </div>
 
                 <h3>Angebotene</h3>
-                <p>Deine Artikel zum verleihen.</p>
+                <p>Deine Artikel zum verleihen/kaufen.</p>
                 <div class="row">
                     <div class="card" th:each="artikel: ${benutzer.getArtikel()}">
                         <img alt="Kein Bild vorhanden!" class="card-img-top"
@@ -307,11 +307,12 @@
                             <p class="card-text"
                                th:text="${artikel.getArtikelBeschreibung()}">
                                 <a th:href="|/Detailansicht/${artikel.getArtikelId()}|">Details</a>
-                            <form method="post"
-                                  th:action="|/Bearbeiten/${artikel?.getArtikelId()}|">
-                                <input class="btn btn-outline-success" name="submitButton"
-                                       type="submit" value="Bearbeiten"/>
-                            </form>
+                            </p>
+                            <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}|">
+                                <button class="btn btn-outline-success" type="button">
+                                    Bearbeiten
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
