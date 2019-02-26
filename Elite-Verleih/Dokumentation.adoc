@@ -2,7 +2,7 @@
 
 ### Arbeitsschritte
 
-Zuerst haben wir zusammen besprochen wie der Plan für den Anfang aussehen sollte. 
+Zuerst haben wir zusammen besprochen wie der Plan für den Anfang aussehen sollte.
 Wir haben folgendes festgelegt:
 
 Name
@@ -42,13 +42,13 @@ Model
   - tarif, (int)
   - ort, (String)
   - ausleihen, (List<Ausleihe>)
-  
+
 Repos
 ^^^^^
   - Benutzer
   - Ausleihe
   - Artikel
-  
+
 Views/Controller
 ^^^^^^^^^^^^^^^^^
 * Error Handhabung
@@ -59,7 +59,7 @@ Views/Controller
 * Produktdetailansicht & Ausleihbutton
 * Artikelerstellung
 
-Als naechstes haben wir den Grundstein in den Master branch gepusht. Damit ist die Erstellung eines Spring boot Projekts gemeint. Von hier an haben wir entschieden, fuer die Entwicklung hauptsaechlich in branches zu arbeiten und spaetestens beim merge der branches in den master branch zu reviewen. 
+Als naechstes haben wir den Grundstein in den Master branch gepusht. Damit ist die Erstellung eines Spring boot Projekts gemeint. Von hier an haben wir entschieden, fuer die Entwicklung hauptsaechlich in branches zu arbeiten und spaetestens beim merge der branches in den master branch zu reviewen.
 
 Elite-Verlieh ist eine Plattform für das private Ausleihen von Gegenständen.
 
@@ -219,8 +219,9 @@ angezeigt.
 - Der Ausleiher kann den Artikel zurückgeben, wenn der Ausleihezeitraum zuende ist und
 auf dies auf dem Button *Zurückgeben* bestätigen. In diesem Schritt werden die Kosten
 des Ausleihzeitraums berechnet und dem Verleiher überwiesen. Ist nicht genügend Geld
-auf dem ProPay-Konto des Ausleihers vorhanden, wird dieser Fall direkt an die
-Konfliktzentrale geschickt.
+auf dem ProPay-Konto des Ausleihers vorhanden, wird eine Fehlermeldung angezeigt, dass
+nicht genügend Geld auf dem Konto vorhanden ist. Der Ausleiher wird dazu aufgefordert,
+sein Geld auf dem Konto aufzuladen.
 
 Angefragte Artikel werden in der Spalte *Wartend* angezeigt. Der Benutzer hat die Option,
 die Anfrage vorzeitig zurückziehen. Damit wird die Ausleihe gelöscht.
@@ -259,4 +260,3 @@ Die Ausleihe wird daraufhin gelöscht und somit aus der Datenbank entfernt.
 #### Profil bearbeiten
 
 Übersicht -> Benutzername, mein Profil -> Benutzername, Profil bearbeiten
-
