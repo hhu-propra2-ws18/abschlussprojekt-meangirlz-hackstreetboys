@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <!-- Bootstrap CSS -->
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" rel="stylesheet">
+
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" th:href="'/Uebersicht'">
+        <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
+             width="180">
+    </a>
+
+    <div class="nav-item dropdown ml-auto">
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+           id="navbarDropdownMenuLink">
+            <b class="fas fa-user" th:text="${benutzer.getBenutzerName()}"></b>
+        </a>
+        <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right dropdown-info">
+            <a class="dropdown-item" th:href="'/Profil'">Mein Profil</a>
+
+            <a class="dropdown-item" href="/logout">Ausloggen</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+            <div class="card mb-4 shadow-sm">
+                <div class="card text-center">
+                    <h1 class="card-header">
+                        Artikel anbieten
+                    </h1>
+                    <div class="card-body">
+                        <form class="form-horizontal" method="post"
+                              th:action="'VerkaufErstellen'" th:object="${artikel}">
+                            <div class="form-group">
+                                <label class="control-label col-xs-2"><h5>Name: </h5></label>
+                                <div class="col-xs-10">
+                                    <input class="form-control" maxlength="50" required th:field="*{artikelName}" type="text"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2"><h5>Beschreibung: </h5></label>
+                                <div class="col-xs-10">
+                                        <textarea required class="form-control" maxlength="500" th:field="*{artikelBeschreibung}"
+                                                  type="text"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2"><h5>Preis </h5></label>
+                                <div class="col-xs-10">
+                                    <input class="form-control" th:field="*{artikelPreis}" min="1" max="500000" type="number"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4"><h5>Abholort: </h5></label>
+                                <div class="col-xs-10">
+                                    <input required class="form-control"  maxlength="255" th:field="*{artikelOrt}" type="text"/>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="control-label"><h5>URL zu Artikelfoto: </h5></label>
+                                <div class="col-xs-10">
+                                    <input required class="form-control" maxlength="255" th:field="*{artikelBildUrl}" type="url"/>
+                                </div>
+                            </div>
+                            <p>
+                                <button class="btn btn-primary my-2" type="submit">Speichern</button>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+        </div>
+    </div>
+</div>
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

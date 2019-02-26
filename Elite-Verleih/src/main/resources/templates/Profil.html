@@ -173,8 +173,10 @@
                                       th:action="'/Profil?ausleihId=' + ${bestaetigt.getAusleihId()}"
                                       th:object="${bestaetigt}">
 
-                                    <input class="btn btn-outline-success" name="submitButton"
+                                    <input class="btn btn-outline-success m-1" name="submitButton"
                                            type="submit" value="Zurueckgeben"/>
+                                    <div th:if="${param.error}" class="alert alert-danger">Du hast zu wenig Guthaben!<br/> Bitte lade
+                                    dein Guthaben auf, <br/>um den Artikel zurückzugeben.</div>
                                 </form>
                             </div>
                         </div>
@@ -303,14 +305,6 @@
                                th:text="${artikel.getArtikelBeschreibung()}">
                                 <a th:href="|/Detailansicht/${artikel.getArtikelId()}|">Details</a>
                         </div>
-                    </div>
-
-                    <div>
-                        <a th:href="|/Erstellen|">
-                            <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom"
-                                    type="button"> +
-                            </button>
-                        </a>
                     </div>
                 </div>
 

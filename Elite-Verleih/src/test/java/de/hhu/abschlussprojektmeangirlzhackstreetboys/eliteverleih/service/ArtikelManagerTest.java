@@ -45,7 +45,7 @@ public class ArtikelManagerTest {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
-        artikelM.erstelleArtikel(bId, a0);
+        artikelM.erstelleVerleihen(bId, a0);
         Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelName().equals("Hammer"));
     }
 
@@ -64,7 +64,7 @@ public class ArtikelManagerTest {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
-        artikelM.erstelleArtikel(bId, a0);
+        artikelM.erstelleVerleihen(bId, a0);
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("beschreibung");
         a1.setArtikelKaution(3);
@@ -90,7 +90,7 @@ public class ArtikelManagerTest {
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
-        artikelM.erstelleArtikel(bId, a0);
+        artikelM.erstelleVerleihen(bId, a0);
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("test");
         a1.setArtikelKaution(3);
@@ -117,7 +117,7 @@ public class ArtikelManagerTest {
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
         a0.setAusgeliehen(new ArrayList<Ausleihe>());
-        artikelM.erstelleArtikel(bId, a0);
+        artikelM.erstelleVerleihen(bId, a0);
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("test");
         a1.setArtikelKaution(3);
@@ -125,7 +125,7 @@ public class ArtikelManagerTest {
         a1.setArtikelOrt("Werkstatt");
         a1.setArtikelTarif(1);
         a1.setAusgeliehen(new ArrayList<Ausleihe>());
-        artikelM.erstelleArtikel(bId, a1);
+        artikelM.erstelleVerleihen(bId, a1);
         assertEquals(2, artikelM.getAllArtikel().size());
         artikelM.loescheArtikel(artikelM.getAllArtikel().get(0).getArtikelId());
         assertEquals(1, artikelM.getAllArtikel().size());
@@ -152,7 +152,7 @@ public class ArtikelManagerTest {
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
         a0.setAusgeliehen(new ArrayList<Ausleihe>());
-        artikelM.erstelleArtikel(bId, a0);
+        artikelM.erstelleVerleihen(bId, a0);
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("test");
         a1.setArtikelKaution(3);
@@ -167,7 +167,7 @@ public class ArtikelManagerTest {
         List<Ausleihe> ausleiheList = new ArrayList<Ausleihe>();
         ausleiheList.add(ausleihe);
         a1.setAusgeliehen(ausleiheList);
-        artikelM.erstelleArtikel(bId, a1);
+        artikelM.erstelleVerleihen(bId, a1);
         assertEquals(2, artikelM.getAllArtikel().size());
         artikelM.loescheArtikel(artikelM.getAllArtikel().get(0).getArtikelId());
         assertEquals(1, artikelM.getAllArtikel().size());
