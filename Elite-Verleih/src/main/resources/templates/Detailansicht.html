@@ -112,17 +112,16 @@
                                     </form>
                                 </div>
                             </li>
-                            <li class="list-group-item">
+                            <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">
                                 <div class="form-group">
-                                    <div class="alert alert-success"
-                                        th:if="${#lists.isEmpty(artikel.ausgeliehen)}">
+                                    <div class="alert alert-success">
                                         Artikel verfügbar
                                     </div>
                                 </div>
                             </li>
                             <li class="list-group-item">
                                 <!--Map map (leaflet?)-->
-                                <div>
+                                <div th:if="${artikel.artikelOrtX!=0&&artikel.artikelOrtY!=0}">
                                     <div id="map"></div>
                                     <script th:inline="javascript">
                                         //initialisiere Variablen von Thymeleaf
