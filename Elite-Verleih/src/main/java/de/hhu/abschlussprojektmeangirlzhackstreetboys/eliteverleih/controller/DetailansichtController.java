@@ -71,7 +71,7 @@ public class DetailansichtController {
 
         Benutzer b = benutzerManager.findBenutzerByName(account.getName());
         Artikel artikel = artikelManager.getArtikelById(artikelId);
-        if (ausleiheManager.isAusgeliehen(artikelId, calStartDatum, calEndDatum)) {
+        if (ausleiheManager.istAusgeliehen(artikelId, calStartDatum, calEndDatum)) {
             return "redirect:/Ausgeliehen";
         }
 

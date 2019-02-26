@@ -39,8 +39,7 @@ public class AusleiheManagerTest {
 
     static PropayManager propayManager = mock(PropayManager.class);
 
-//    @Autowired
-    AusleiheManager ausleiheM;// = new AusleiheManager(propayManager);
+    AusleiheManager ausleiheM;
 
     @Autowired
     BenutzerRepository benutzerRepo;
@@ -67,18 +66,18 @@ public class AusleiheManagerTest {
     public static void setupBeforeClass(){
         ReservationDto mockReservation = new ReservationDto();
         mockReservation.setAmount(1.0);
-        mockReservation.setId(20);
+        mockReservation.setId(100);
         when(propayManager.kautionReserviern(anyString(), anyString(), anyInt())).thenReturn(mockReservation);
     }
 
     private Long erstelleBeispiel(Calendar start, Calendar ende) {
         Benutzer bAusleiher = new Benutzer();
-        bAusleiher.setBenutzerEmail("test@yahoo");
+        bAusleiher.setBenutzerEmail("ausleiher@yahoo");
         bAusleiher.setBenutzerName("Ausleiher");
         bAusleiher.setAusgeliehen(new ArrayList<Ausleihe>());
         bAusleiher = benutzerRepo.save(bAusleiher);
         Benutzer bBesitzer = new Benutzer();
-        bBesitzer.setBenutzerEmail("test@yahoo");
+        bBesitzer.setBenutzerEmail("besitzer@yahoo");
         bBesitzer.setBenutzerName("Besitzer");
         bBesitzer.setArtikel(new ArrayList<Artikel>());
         bBesitzer = benutzerRepo.save(bBesitzer);
@@ -91,11 +90,11 @@ public class AusleiheManagerTest {
         artikel.setBenutzer(bBesitzer);
         artikel = artikelRepo.save(artikel);
         bBesitzer.getArtikel().add(artikel);
-        bBesitzer = benutzerRepo.save(bBesitzer);
+        benutzerRepo.save(bBesitzer);
 
         Ausleihe ausleihe = new Ausleihe();
         ausleihe.setBenutzer(bAusleiher);
-        ausleihe.setArtikel(artikel);
+        ausleihe.setArtikel(artikelRepo.findArtikelByArtikelId(artikel.getArtikelId()));
         ausleihe.setAusleihRueckgabedatum(ende);
         ausleihe.setAusleihStartdatum(start);
         ausleihe.setAusleihStatus(Status.ANGEFRAGT);
@@ -307,20 +306,188 @@ public class AusleiheManagerTest {
 
     @Rollback
     @Test
-    public void bestaetigeAusleihe() {
-        MockitoAnnotations.initMocks(this);
+    public void bestaetigeAusleihe_Akzeptieren() {
 
         Calendar heute = new GregorianCalendar();
         Calendar morgen = new GregorianCalendar();
         morgen.add(Calendar.DATE, 1);
         long ausleiheId = erstelleBeispiel(heute, morgen);
 
-
-        System.out.println("ASLDFKGHASDFLKGHADFGHKL: " + propayManager.kautionReserviern("TEest", "Test", 3));
-
-        System.out.println("ASDLBF: " + ausleiheM.propayManager);
         assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
         ausleiheM.bestaetigeAusleihe(ausleiheId);
         assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.BESTAETIGT);
+    }
+
+    @Rollback
+    @Test
+    public void bestaetigeAusleihe_loescheKollidierende() {
+        Calendar heute = new GregorianCalendar();
+        Calendar morgen = new GregorianCalendar();
+        morgen.add(Calendar.DATE, 1);
+        long ausleiheId = erstelleBeispiel(heute, morgen);
+        Artikel artikel = ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getArtikel();
+
+        Benutzer bAusleiher2 = new Benutzer();
+        bAusleiher2.setBenutzerEmail("test@yahoo");
+        bAusleiher2.setBenutzerName("Ausleiher2");
+        bAusleiher2.setAusgeliehen(new ArrayList<Ausleihe>());
+        bAusleiher2 = benutzerRepo.save(bAusleiher2);
+
+        Ausleihe ausleihe2 = new Ausleihe();
+        ausleihe2.setBenutzer(bAusleiher2);
+        ausleihe2.setArtikel(artikel);
+        ausleihe2.setAusleihRueckgabedatum(morgen);
+        ausleihe2.setAusleihStartdatum(heute);
+        ausleihe2.setAusleihStatus(Status.ANGEFRAGT);
+        ausleihe2 = ausleiheRepo.save(ausleihe2);
+        bAusleiher2.setAusgeliehen(new ArrayList<Ausleihe>());
+        bAusleiher2.getAusgeliehen().add(ausleihe2);
+        benutzerRepo.save(bAusleiher2);
+        artikel.getAusgeliehen().add(ausleihe2);
+        artikelRepo.save(artikel);
+
+        assertEquals(2, artikelRepo.findArtikelByArtikelId(artikel.getArtikelId()).getAusgeliehen().size());
+        ausleiheM.bestaetigeAusleihe(ausleiheId);
+        assertEquals(artikelRepo.findArtikelByArtikelId(artikel.getArtikelId()).getAusgeliehen().size(), 1);
+    }
+
+    @Rollback
+    @Test
+    public void bestaetigeAusleihe_UngueltigesDatum() {
+
+        Calendar altesDatum = new GregorianCalendar(2018, 1 , 1);
+        Calendar morgen = new GregorianCalendar();
+        morgen.add(Calendar.DATE, 1);
+        long ausleiheId = erstelleBeispiel(altesDatum, morgen);
+
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
+        ausleiheM.bestaetigeAusleihe(ausleiheId);
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId), null);
+    }
+
+    @Rollback
+    @Test
+    public void bestaetigeAusleihe_KeinGeld() {
+        PropayManager nullMockManager = mock(PropayManager.class);
+        when(nullMockManager.kautionReserviern(anyString(), anyString(), anyInt())).thenReturn(null);
+        AusleiheManager ausleiheManager = new AusleiheManager(ausleiheRepo, nullMockManager, artikelRepo, benutzerRepo);
+
+        Calendar heute = new GregorianCalendar();
+        Calendar morgen = new GregorianCalendar();
+        morgen.add(Calendar.DATE, 1);
+        long ausleiheId = erstelleBeispiel(heute, morgen);
+
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
+        ausleiheManager.bestaetigeAusleihe(ausleiheId);
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(),Status.ABGELEHNT);
+    }
+
+    @Rollback
+    @Test
+    public void istAusgeliehenTest() {
+        Calendar gestern = new GregorianCalendar();
+        gestern.add(Calendar.DATE, -1);
+        Calendar heute = new GregorianCalendar();
+        Calendar morgen = new GregorianCalendar();
+        morgen.add(Calendar.DATE, 1);
+        Calendar ueberuebermorgen = new GregorianCalendar();
+        ueberuebermorgen.add(Calendar.DATE, 3);
+        Calendar nachEndDatum = new GregorianCalendar();
+        nachEndDatum.add(Calendar.DATE, 4);
+        Calendar nachEndDatumPlus = new GregorianCalendar();
+        nachEndDatumPlus.add(Calendar.DATE, 5);
+        long ausleiheId = erstelleBeispiel(heute, ueberuebermorgen);
+        ausleiheM.bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
+        long artikelId = ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getArtikel().getArtikelId();
+
+        assertEquals(true, ausleiheM.istAusgeliehen(artikelId, new GregorianCalendar(), morgen));
+        assertEquals(true, ausleiheM.istAusgeliehen(artikelId, gestern, morgen));
+        assertEquals(true, ausleiheM.istAusgeliehen(artikelId, gestern, nachEndDatum));
+        assertEquals(true, ausleiheM.istAusgeliehen(artikelId, heute, ueberuebermorgen));
+        assertEquals(true, ausleiheM.istAusgeliehen(artikelId, morgen, nachEndDatum));
+        assertEquals(false, ausleiheM.istAusgeliehen(artikelId, nachEndDatum, nachEndDatumPlus));
+    }
+
+    @Rollback
+    @Test
+    public void getKonflikteTest() {
+        Calendar heute = new GregorianCalendar();
+        Calendar morgen = new GregorianCalendar();
+        morgen.add(Calendar.DATE, 1);
+        long ausleiheId = erstelleBeispiel(heute, morgen);
+        Artikel artikel = ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getArtikel();
+
+        Benutzer bAusleiher2 = new Benutzer();
+        bAusleiher2.setBenutzerEmail("test@yahoo");
+        bAusleiher2.setBenutzerName("Ausleiher2");
+        bAusleiher2.setAusgeliehen(new ArrayList<Ausleihe>());
+        bAusleiher2 = benutzerRepo.save(bAusleiher2);
+
+        Ausleihe ausleihe2 = new Ausleihe();
+        ausleihe2.setBenutzer(bAusleiher2);
+        ausleihe2.setArtikel(artikel);
+        ausleihe2.setAusleihRueckgabedatum(morgen);
+        ausleihe2.setAusleihStartdatum(heute);
+        ausleihe2.setAusleihStatus(Status.KONFLIKT);
+        ausleihe2 = ausleiheRepo.save(ausleihe2);
+        bAusleiher2.setAusgeliehen(new ArrayList<Ausleihe>());
+        bAusleiher2.getAusgeliehen().add(ausleihe2);
+        benutzerRepo.save(bAusleiher2);
+        artikel.getAusgeliehen().add(ausleihe2);
+        artikelRepo.save(artikel);
+
+        assertEquals(2, ausleiheRepo.findAll().size());
+        List<Ausleihe> ergebnis = ausleiheM.getKonflike(ausleiheRepo.findAll());
+        assertEquals(1, ergebnis.size());
+        assertEquals(Status.KONFLIKT, ergebnis.get(0).getAusleihStatus());
+    }
+
+    @Rollback
+    @Test
+    public void Ausleihe_zurueckgebenOK() {
+
+        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(true);
+        Calendar gestern = new GregorianCalendar();
+        gestern.add(Calendar.DATE, -1);
+        Calendar morgen = new GregorianCalendar();
+        morgen.add(Calendar.DATE, 1);
+        long ausleiheId = erstelleBeispiel(gestern, morgen);
+
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
+        ausleiheM.zurueckGeben(ausleiheId);
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ABGEGEBEN);
+    }
+
+    @Rollback
+    @Test
+    public void Ausleihe_zurueckgebenFehler() {
+
+        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(false);
+        Calendar gestern = new GregorianCalendar();
+        gestern.add(Calendar.DATE, -1);
+        Calendar morgen = new GregorianCalendar();
+        morgen.add(Calendar.DATE, 1);
+        long ausleiheId = erstelleBeispiel(gestern, morgen);
+
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
+        ausleiheM.zurueckGeben(ausleiheId);
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.KONFLIKT);
+    }
+
+    @Rollback
+    @Test
+    public void Ausleihe_rueckgabeAkzeptieren() {
+
+        when(propayManager.kautionFreigeben(anyString(), anyInt())).thenReturn(true);
+        Calendar gestern = new GregorianCalendar();
+        gestern.add(Calendar.DATE, -1);
+        Calendar morgen = new GregorianCalendar();
+        morgen.add(Calendar.DATE, 1);
+        long ausleiheId = erstelleBeispiel(gestern, morgen);
+        ausleiheM.bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
+
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ABGEGEBEN);
+        ausleiheM.rueckgabeAkzeptieren(ausleiheId);
+        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.BEENDET);
     }
 }
