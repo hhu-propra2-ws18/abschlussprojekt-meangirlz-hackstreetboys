@@ -12,10 +12,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.Propa
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -132,5 +129,29 @@ public class DetailansichtController {
         return "Ausgeliehen-Error";
     }
 
-
+    /**
+     * Prueft, ob Ausleihen bestehen und loescht falls nicht.
+     *
+     * @param artikelId Eindeutige ID des Artikels.
+     * @param account   Aktive Benutzer.
+     * @return Uebersicht beim Erfolgreichen loeschen und Error falls nicht.
+     */
+    @RequestMapping("/Kaufen/{artikelId}")
+    public String artikelLoeschen(@PathVariable long artikelId,
+                                  Principal account) {
+        /* TODO: ProPay etc. */
+        Benutzer b = benutzerManager.findBenutzerByName(account.getName());
+        Artikel a = artikelManager.getArtikelById(artikelId);
+        double guthaben = sync.getAccount(b.getBenutzerName()).getAmount();
+        if(guthaben>=a.getArtikelPreis()) {
+            sync.ueberweisen(account.getName(), artikelManager.getArtikelById(artikelId).getBenutzer().getBenutzerName(),
+            artikelManager.getArtikelById(artikelId).getArtikelPreis());
+            artikelManager.loescheArtikel(artikelId);
+            return "redirect:/Uebersicht";
+        }
+        return "redirect:/FehlendesGuthaben";
+    }
 }
+
+
+

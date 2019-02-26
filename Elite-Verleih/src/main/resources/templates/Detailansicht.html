@@ -59,10 +59,12 @@
                                 th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
                             <li class="list-group-item" th:name="benutzerName"
                                 th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
-                            <li class="list-group-item" th:name="artikelKaution"
+                            <li th:if="${artikel?.getZuVerkaufen()}==false" class="list-group-item" th:name="artikelKaution"
                                 th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
-                            <li class="list-group-item" th:name="artikelTarif"
+                            <li th:if="${artikel?.getZuVerkaufen()}==false" class="list-group-item" th:name="artikelTarif"
                                 th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
+                            <li th:if="${artikel?.getZuVerkaufen()}==true" class="list-group-item" th:name="artikelPreis"
+                                th:text="'Preis: ' +${artikel?.getArtikelPreis()}"></li>
                             <li class="list-group-item" th:name="artikelOrt"
                                 th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
                             <div th:if="${!bestaetigteAusleihen.isEmpty()}" style="overflow-y: scroll; max-height:200px;">
@@ -89,7 +91,9 @@
                                 </li>
                             </div>
 
-                            <li class="list-group-item" th:if="${benutzer.getBenutzerId() != artikel.getBenutzer().getBenutzerId()}">
+
+                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==false">
+
                                 <form action="#" method="post"
                                       th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}">
                                     <div class="row justify-content-center">
@@ -113,6 +117,18 @@
                                     <p>Das Enddatum darf nicht vor dem Startdatum sein!</p>
                                 </div>
                             </li>
+                            <div th:if="${artikel?.getZuVerkaufen()}==true">
+                                <li class="list-group-item" th:if="${artikel?.getBenutzer().getBenutzerId() != benutzer?.getBenutzerId()}">
+                                    <a th:href="|/Kaufen/${artikel?.getArtikelId()}|">
+                                        <button class="btn btn-sm btn-outline-secondary" type="button">
+                                            Artikel kaufen
+                                        </button>
+                                    </a>
+                                </li>
+                            </div>
+
+
+
                         </div>
                     </div>
                 </div>
