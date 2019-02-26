@@ -92,7 +92,8 @@
                             </div>
 
 
-                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==false">
+                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==false and
+                            ${artikel?.getBenutzer().getBenutzerId() != benutzer?.getBenutzerId()}">
 
                                 <form action="#" method="post"
                                       th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}">
