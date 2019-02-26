@@ -103,15 +103,10 @@ public class AusleiheManager {
      */
     public void bestaetigeAusleihe(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        Calendar heute = new GregorianCalendar();
-        System.out.println(heute.getTime());
-        System.out.println(ausleihe.gueltigesDatum(heute));
-        /* Muss auf der Oberflaeche blockeirt werden !
-        if (!ausleihe.gueltigesDatum(heute)) {
-            loescheAusleihe(ausleiheId);
+        if (!ausleihe.gueltigesDatum(getHeuteigesDatum())) {
+            bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
             return;
         }
-*/
         Artikel artikel = ausleihe.getArtikel();
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
@@ -308,11 +303,11 @@ public class AusleiheManager {
      */
     public boolean zurueckGeben(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        Calendar heute = new GregorianCalendar();
-        int kosten = ausleihe.berechneKosten(heute);
+
+        int kosten = ausleihe.berechneKosten(getHeuteigesDatum());
         if (propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
             ausleihe.getArtikel().getBenutzer().getBenutzerName(),
-            kosten)){
+            kosten)) {
             bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
             return true;
         } else {
@@ -320,9 +315,19 @@ public class AusleiheManager {
         }
     }
 
+    /**
+     * Gibt die Kaution frei und setzt die Ausleihe auf beendet.
+     *
+     * @param ausleihId Die ID der Ausleihe
+     */
     public void rueckgabeAkzeptieren(Long ausleihId) {
         bearbeiteAusleihe(ausleihId, Status.BEENDET);
         Ausleihe ausleihe = getAusleiheById(ausleihId);
         propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+    }
+
+    private Calendar getHeuteigesDatum(){
+        Calendar heute = new GregorianCalendar();
+        return heute;
     }
 }

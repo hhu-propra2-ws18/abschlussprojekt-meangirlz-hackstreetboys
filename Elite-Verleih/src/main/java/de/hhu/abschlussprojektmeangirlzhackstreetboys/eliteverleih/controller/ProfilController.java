@@ -70,9 +70,6 @@ public class ProfilController {
         model.addAttribute("ausgehendeKonflikte", ausgehendeKonflikte);
 
         Calendar aktuellesDatum = new GregorianCalendar();
-        aktuellesDatum.set(aktuellesDatum.get(Calendar.YEAR),
-            aktuellesDatum.get(Calendar.MONTH) + 1,
-            aktuellesDatum.get(Calendar.DATE));
 
         model.addAttribute("aktuellesDatum", aktuellesDatum);
 

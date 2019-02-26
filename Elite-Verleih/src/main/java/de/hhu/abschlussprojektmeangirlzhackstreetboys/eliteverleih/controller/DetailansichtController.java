@@ -91,10 +91,10 @@ public class DetailansichtController {
         String[] enddatum = endDatumString.split("-");
         String[] startdatum = startDatumString.split("-");
         Calendar calStartDatum = new GregorianCalendar(Integer.parseInt(startdatum[0]),
-            Integer.parseInt(startdatum[1]),
+            Integer.parseInt(startdatum[1])-1,
             Integer.parseInt(startdatum[2]));
         Calendar calEndDatum = new GregorianCalendar(Integer.parseInt(enddatum[0]),
-            Integer.parseInt(enddatum[1]),
+            Integer.parseInt(enddatum[1])-1,
             Integer.parseInt(enddatum[2]));
 
         if (calStartDatum.after(calEndDatum)) {

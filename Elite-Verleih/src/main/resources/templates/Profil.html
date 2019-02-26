@@ -61,11 +61,11 @@
                                    th:text="'Angefragt von: ' + ${anfrage.getBenutzer().getBenutzerName()}">Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${anfrage.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${anfrage.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${anfrage.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${anfrage.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                                 <p class="card-text" th:text="'Bis: '
                                 + ${anfrage.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${anfrage.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${anfrage.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${anfrage.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                     Rückgabedatumdatum</p>
 
@@ -99,11 +99,11 @@
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${abgelehnteAnfrage.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${abgelehnteAnfrage.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${abgelehnteAnfrage.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${abgelehnteAnfrage.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                                 <p class="card-text" th:text="'Bis: '
                                 + ${abgelehnteAnfrage.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${abgelehnteAnfrage.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${abgelehnteAnfrage.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${abgelehnteAnfrage.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                     Rückgabedatumdatum</p>
 
@@ -159,11 +159,11 @@
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${bestaetigt.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${bestaetigt.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${bestaetigt.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${bestaetigt.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                                 <p class="card-text" th:text="'Bis: '
                                 + ${bestaetigt.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${bestaetigt.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${bestaetigt.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${bestaetigt.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                     Rückgabedatumdatum</p>
 
@@ -175,8 +175,10 @@
 
                                     <input class="btn btn-outline-success m-1" name="submitButton"
                                            type="submit" value="Zurueckgeben"/>
-                                    <div th:if="${param.error}" class="alert alert-danger">Du hast zu wenig Guthaben!<br/> Bitte lade
-                                    dein Guthaben auf, <br/>um den Artikel zurückzugeben.</div>
+                                    <div th:if="${param.error}" class="alert alert-danger">Du hast zu wenig
+                                        Guthaben!<br/> Bitte lade
+                                        dein Guthaben auf, <br/>um den Artikel zurückzugeben.
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -202,11 +204,11 @@
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${wartendeAnfrage.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${wartendeAnfrage.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${wartendeAnfrage.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${wartendeAnfrage.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                                 <p class="card-text" th:text="'Bis: '
                                 + ${wartendeAnfrage.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${wartendeAnfrage.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${wartendeAnfrage.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${wartendeAnfrage.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                     Rückgabedatumdatum</p>
 
@@ -269,11 +271,11 @@
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${verliehenes.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${verliehenes.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${verliehenes.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${verliehenes.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                                 <p class="card-text" th:text="'Bis: '
                                 + ${verliehenes.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${verliehenes.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${verliehenes.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${verliehenes.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                     Rückgabedatumdatum</p>
 
@@ -283,7 +285,8 @@
                                       th:action="'/Profil?ausleihId=' + ${verliehenes.getAusleihId()}"
                                       th:object="${verliehenes}">
 
-                                    <input th:if="${verliehenes.getAusleihRueckgabedatum().before(aktuellesDatum)}" class="btn btn-outline-danger" name="submitButton"
+                                    <input th:if="${verliehenes.getAusleihRueckgabedatum().before(aktuellesDatum)}"
+                                           class="btn btn-outline-danger" name="submitButton"
                                            type="submit" value="Konflikt"/>
                                 </form>
                             </div>
@@ -304,6 +307,11 @@
                             <p class="card-text"
                                th:text="${artikel.getArtikelBeschreibung()}">
                                 <a th:href="|/Detailansicht/${artikel.getArtikelId()}|">Details</a>
+                            <form method="post"
+                                  th:action="|/Bearbeiten/${artikel?.getArtikelId()}|">
+                                <input class="btn btn-outline-success" name="submitButton"
+                                       type="submit" value="Bearbeiten"/>
+                            </form>
                         </div>
                     </div>
 
@@ -333,11 +341,11 @@
                                 Benutzer</p>
                             <p class="card-text" th:text="'Von: '
                                 + ${zurueckerhalten.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${zurueckerhalten.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${zurueckerhalten.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${zurueckerhalten.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                             <p class="card-text" th:text="'Bis: '
                                 + ${zurueckerhalten.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${zurueckerhalten.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${zurueckerhalten.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${zurueckerhalten.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                 Rückgabedatumdatum</p>
 
@@ -395,11 +403,11 @@
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${zurueckgegeben.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${zurueckgegeben.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${zurueckgegeben.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${zurueckgegeben.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                                 <p class="card-text" th:text="'Bis: '
                                 + ${zurueckgegeben.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${zurueckgegeben.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${zurueckgegeben.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${zurueckgegeben.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                     Rückgabedatumdatum</p>
 
@@ -432,12 +440,12 @@
                                 Benutzer</p>
                             <p class="card-text" th:text="'Von: '
                                 + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${erfolgreichZurueckgegeben.getAusleihStartdatum().getTime().getYear()+1900} ">
                                 Startdatum</p>
                             <p class="card-text" th:text="'Bis: '
                                 + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${erfolgreichZurueckgegeben.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                 Rückgabedatumdatum
                             </p>
@@ -490,11 +498,11 @@
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${konflikt.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${konflikt.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${konflikt.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${konflikt.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                                 <p class="card-text" th:text="'Bis: '
                                 + ${konflikt.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${konflikt.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${konflikt.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${konflikt.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                     Rückgabedatumdatum
                                 </p>
@@ -528,11 +536,11 @@
                                     Benutzer</p>
                                 <p class="card-text" th:text="'Von: '
                                 + ${ausgehendeKonflikt.getAusleihStartdatum().getTime().getDate()} + '.'
-                                + ${ausgehendeKonflikt.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                + ${ausgehendeKonflikt.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                 + ${ausgehendeKonflikt.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
                                 <p class="card-text" th:text="'Bis: '
                                 + ${ausgehendeKonflikt.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                + ${ausgehendeKonflikt.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                + ${ausgehendeKonflikt.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                 + ${ausgehendeKonflikt.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
                                     Rückgabedatumdatum
                                 </p>

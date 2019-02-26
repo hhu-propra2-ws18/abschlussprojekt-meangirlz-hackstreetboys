@@ -70,11 +70,11 @@
                                     <a>Ausgeliehen </a>
                                     <a class="card-text" th:text="'von: '
                                         + ${ausleihe.getAusleihStartdatum().getTime().getDate()} + '.'
-                                        + ${ausleihe.getAusleihStartdatum().getTime().getMonth()} + '.'
+                                        + ${ausleihe.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
                                         + ${ausleihe.getAusleihStartdatum().getTime().getYear()+1900} "></a>
                                     <a class="card-text" th:text="'bis: '
                                         + ${ausleihe.getAusleihRueckgabedatum().getTime().getDate()} + '.'
-                                        + ${ausleihe.getAusleihRueckgabedatum().getTime().getMonth()} + '.'
+                                        + ${ausleihe.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
                                         + ${ausleihe.getAusleihRueckgabedatum().getTime().getYear()+1900} "></a>
                                 </div>
                             </div>
