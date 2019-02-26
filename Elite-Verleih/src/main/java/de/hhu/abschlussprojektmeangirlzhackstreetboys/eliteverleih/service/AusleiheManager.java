@@ -304,16 +304,17 @@ public class AusleiheManager {
      *
      * @param ausleiheId Id der Ausleihe welche zurueckgegeben wird.
      */
-    public void zurueckGeben(Long ausleiheId) {
+    public boolean zurueckGeben(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
         Calendar heute = new GregorianCalendar();
         int kosten = ausleihe.berechneKosten(heute);
         if (propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
             ausleihe.getArtikel().getBenutzer().getBenutzerName(),
-            kosten)) {
+            kosten)){
             bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
+            return true;
         } else {
-            bearbeiteAusleihe(ausleiheId, Status.KONFLIKT);
+            return false;
         }
     }
 
