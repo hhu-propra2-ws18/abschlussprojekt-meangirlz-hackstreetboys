@@ -106,11 +106,12 @@ public class AusleiheManager {
         Calendar heute = new GregorianCalendar();
         System.out.println(heute.getTime());
         System.out.println(ausleihe.gueltigesDatum(heute));
+        /* Muss auf der Oberflaeche blockeirt werden !
         if (!ausleihe.gueltigesDatum(heute)) {
             loescheAusleihe(ausleiheId);
             return;
         }
-
+*/
         Artikel artikel = ausleihe.getArtikel();
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());

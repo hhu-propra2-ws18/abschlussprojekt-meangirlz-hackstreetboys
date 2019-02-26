@@ -70,12 +70,9 @@ public class ProfilController {
         model.addAttribute("ausgehendeKonflikte", ausgehendeKonflikte);
 
         Calendar aktuellesDatum = new GregorianCalendar();
-        aktuellesDatum.setTime(new Date());
-        aktuellesDatum.set(2019,Calendar.FEBRUARY,25);
-        System.err.println("TEST");
-        System.err.println(aktuellesDatum.get(Calendar.DATE));
-        System.err.println(aktuellesDatum.get(Calendar.MONTH) + 1);
-        System.err.println(aktuellesDatum.get(Calendar.YEAR));
+        aktuellesDatum.set(aktuellesDatum.get(Calendar.YEAR),
+            aktuellesDatum.get(Calendar.MONTH) + 1,
+            aktuellesDatum.get(Calendar.DATE));
 
         model.addAttribute("aktuellesDatum", aktuellesDatum);
 
