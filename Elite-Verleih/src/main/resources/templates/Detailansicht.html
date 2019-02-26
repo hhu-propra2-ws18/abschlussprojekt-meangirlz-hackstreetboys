@@ -9,11 +9,10 @@
     <title>Detailansicht</title>
 
     <!-- Leaflet Map -->
-    <style>#map{width: 650px;height: 350px;}</style>
+    <style>#map{height: 400px;}</style>
     <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="">
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
-
 
 
 
@@ -119,9 +118,9 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="list-group-item" th:if="${artikel.artikelOrtX!=0&&artikel.artikelOrtY!=0}">
+                            <li class="list-group-item" th:if="${artikel?.hatOrt()}">
                                 <!--Map map (leaflet?)-->
-                                <div>
+                                <div class="form-group">
                                     <div id="map"></div>
                                     <script th:inline="javascript">
                                         //initialisiere Variablen von Thymeleaf

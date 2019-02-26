@@ -54,7 +54,7 @@
                             <div class="form-group">
                                 <label class="control-label col-xs-2"><h5>Beschreibung: </h5></label>
                                 <div class="col-xs-10">
-                                        <textarea required class="form-control" maxlength="500" th:field="*{artikelBeschreibung}"
+                                        <textarea class="form-control" maxlength="500" th:field="*{artikelBeschreibung}"
                                                   type="text"></textarea>
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 <label class="control-label col-xs-2"><h5>Tarif (pro Tag): </h5></label>
                                 <div class="col-xs-10">
-                                    <input  class="form-control" th:field="*{artikelTarif}" min="1" max="10000" type="number"/>
+                                    <input class="form-control" th:field="*{artikelTarif}" min="1" max="10000" type="number"/>
                                 </div>
                             </div>
                             <div class="form-group">

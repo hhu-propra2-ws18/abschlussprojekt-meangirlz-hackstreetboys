@@ -86,4 +86,8 @@ public class Artikel {
         this.ausgeliehen = ausleiheList;
         this.artikelBildUrl = artikelBildUrl;
     }
+
+    public boolean hatOrt(){
+        return (getArtikelOrtX()!=0 && getArtikelOrtY()!=0);
+    }
 }
