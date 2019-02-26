@@ -38,14 +38,8 @@ public class ArtikelManager {
     public void erstelleArtikel(Long benutzerId, Artikel artikel) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
-        try {
-            artikel.setArtikelOrtX(geoCoder.getFirstX(artikel.getArtikelOrt()));
-            artikel.setArtikelOrtY(geoCoder.getFirstY(artikel.getArtikelOrt()));
-        } catch (IOException e) {
-            e.printStackTrace();
-            artikel.setArtikelOrtX(0);
-            artikel.setArtikelOrtY(0);
-        }
+        artikel.setArtikelOrtX(geoCoder.getFirstX(artikel.getArtikelOrt()));
+        artikel.setArtikelOrtY(geoCoder.getFirstY(artikel.getArtikelOrt()));
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -82,6 +76,8 @@ public class ArtikelManager {
         alterArtikel.setArtikelKaution(artikel.getArtikelKaution());
         alterArtikel.setArtikelName(artikel.getArtikelName());
         alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
+        alterArtikel.setArtikelOrtX(geoCoder.getFirstX(artikel.getArtikelOrt()));
+        alterArtikel.setArtikelOrtY(geoCoder.getFirstY(artikel.getArtikelOrt()));
         alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
         alterArtikel.setArtikelBildUrl(artikel.getArtikelBildUrl());
 
