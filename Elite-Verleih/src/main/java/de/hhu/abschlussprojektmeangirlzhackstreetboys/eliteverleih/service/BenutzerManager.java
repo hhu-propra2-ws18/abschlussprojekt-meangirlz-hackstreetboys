@@ -16,10 +16,15 @@ import java.util.List;
 @Service
 public class BenutzerManager {
 
-    @Autowired
-    BenutzerRepository benutzerRepo;
 
-    PropayManager sync = new PropayManager();
+    final BenutzerRepository benutzerRepo;
+    PropayManager propayManager;
+
+    @Autowired
+    public BenutzerManager(BenutzerRepository benutzerRepo, PropayManager propayManager){
+        this.benutzerRepo = benutzerRepo;
+        this.propayManager = propayManager;
+    }
 
     public List<Benutzer> getAllBenutzer() {
         return benutzerRepo.findAll();
@@ -44,7 +49,7 @@ public class BenutzerManager {
         if (nameSchonVorhanden(benutzer.getBenutzerName())) {
             return null;
         }
-        AccountDto account = sync.getAccount(benutzer.getBenutzerName());
+        AccountDto account = propayManager.getAccount(benutzer.getBenutzerName());
         return benutzerRepo.save(benutzer);
     }
 
@@ -62,13 +67,7 @@ public class BenutzerManager {
 
         alterBenutzer.setBenutzerEmail(benutzer.getBenutzerEmail());
 
-        benutzerRepo.saveAll(Arrays.asList(alterBenutzer));
-    }
-
-    public Benutzer editBenutzer(Benutzer benutzer, String email) {
-        benutzer.setBenutzerEmail(email);
-        benutzerRepo.save(benutzer);
-        return benutzer;
+        benutzerRepo.save(alterBenutzer);
     }
 
     public List<Ausleihe> sucheEingehendeAnfragen(Benutzer benutzer, Status status) {
@@ -95,7 +94,7 @@ public class BenutzerManager {
 
 
     public void geldAufladen(Benutzer newBenutzer, int aufladen) {
-        sync.guthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
+        propayManager.guthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
     }
 }
 

@@ -51,9 +51,9 @@ public class ProfilBearbeitenController {
                                             int aufladen,
                                             Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        Benutzer newBenutzer = benutzerManager.editBenutzer(benutzer, ben.getBenutzerEmail());
-        benutzerManager.geldAufladen(newBenutzer, aufladen);
-        model.addAttribute("benutzer", newBenutzer);
+        benutzerManager.bearbeiteBenutzer(benutzer.getBenutzerId(), ben);
+        benutzerManager.geldAufladen(benutzer, aufladen);
+        model.addAttribute("benutzer", benutzer);
         return "redirect:/Profil";
     }
 }

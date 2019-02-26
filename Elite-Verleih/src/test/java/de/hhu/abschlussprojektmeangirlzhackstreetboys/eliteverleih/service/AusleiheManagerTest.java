@@ -30,8 +30,6 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-//@ActiveProfiles("test")
-//@Import( {AusleiheManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class AusleiheManagerTest {

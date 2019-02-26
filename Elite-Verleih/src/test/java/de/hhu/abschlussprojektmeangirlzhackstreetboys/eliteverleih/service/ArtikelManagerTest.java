@@ -47,7 +47,7 @@ public class ArtikelManagerTest {
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
         artikelM.erstelleArtikel(bId, a0);
-        Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelName().equals("Hammer"));
+        Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelName()).isEqualTo("Hammer");
     }
 
     @Rollback
@@ -99,7 +99,7 @@ public class ArtikelManagerTest {
         a1.setArtikelOrt("Werkstatt");
         a1.setArtikelTarif(1);
         artikelM.bearbeiteArtikel(artikelM.getAllArtikel().get(0).getArtikelId(), a1);
-        Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelBeschreibung().equals("test"));
+        Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelBeschreibung()).isEqualTo("test");
     }
 
     @Rollback

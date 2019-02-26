@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-//@Component
+@Component
 public class DataInitializer implements ServletContextInitializer {
 
     @Autowired
