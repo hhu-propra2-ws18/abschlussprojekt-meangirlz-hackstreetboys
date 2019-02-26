@@ -9,6 +9,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,8 @@ public class ArtikelManager {
     @Autowired
     ArtikelRepository artikelRepo;
 
+    GeoCoding geoCoder = new GeoCoding();
+
     public List<Artikel> getAllArtikel() {
         return artikelRepo.findAll();
     }
@@ -29,9 +32,16 @@ public class ArtikelManager {
     public void erstelleArtikel(Long benutzerId, Artikel artikel) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
+        try {
+            artikel.setArtikelOrtX(geoCoder.getFirstX(artikel.getArtikelOrt()));
+            artikel.setArtikelOrtY(geoCoder.getFirstY(artikel.getArtikelOrt()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            artikel.setArtikelOrtX(0);
+            artikel.setArtikelOrtY(0);
+        }
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
-
     }
 
     public void setzeArtikel(Long benutzerId, Artikel artikel) {

@@ -14,12 +14,30 @@ public class GeoCoding implements Serializable {
     public GeoCoding() {
     }
 
+    public double getFirstX(String locationAddresse) throws IOException {
+        return getXOfFirst(geocode(locationAddresse));
+    }
+
+    public double getFirstY(String locationAddresse) throws IOException {
+        return getYOfFirst(geocode(locationAddresse));
+    }
+
     public double getXOfFirst(MapDto results) {
-        return results.features.get(0).getX();
+        if (results != null){
+            if (results.features != null)
+                if(results.features.size()>0)
+                    return results.features.get(0).getX();
+        }
+        return 0;
     }
 
     public double getYOfFirst(MapDto results) {
-        return results.features.get(0).getY();
+        if (results != null){
+            if (results.features != null)
+                if(results.features.size()>0)
+                    return results.features.get(0).getY();
+        }
+        return 0;
     }
 
 
@@ -40,24 +58,17 @@ public class GeoCoding implements Serializable {
      * @throws IOException
      */
     public MapDto geocode(final String locationAddresse) throws IOException {
-        System.err.println("0!");
         String url = encode(locationAddresse);
-        //InputStream is = invokeService(encode(address));
-        System.err.println("1!");
         if (locationAddresse != null) {
                 try {
                     ResponseEntity<MapDto> result = rt.getForEntity(url, MapDto.class);
-                    System.err.println("2.05!");
                     MapDto res = result.getBody();
-                    System.err.println("2.1!  " + result.getStatusCode());
                     return res;
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
-                    System.err.println("3!");
                     return null;
                 }
         }
-        System.err.println("4!");
         return null;
     }
 

@@ -28,8 +28,8 @@ public class Artikel {
 
     private String artikelOrt;
 
-    private int artikelOrtX;
-    private int artikelOrtY;
+    private double artikelOrtX;
+    private double artikelOrtY;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
