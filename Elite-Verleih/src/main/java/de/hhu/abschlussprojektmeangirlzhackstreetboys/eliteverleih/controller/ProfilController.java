@@ -102,7 +102,10 @@ public class ProfilController {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.ABGELEHNT);
             return "redirect:/Profil";
         } else if (name.equals("Zurueckgeben")) {
-            ausleiheManager.zurueckGeben(ausleihId);
+            //ausleiheManager.zurueckGeben(ausleihId);
+            if(!ausleiheManager.zurueckGeben(ausleihId)){
+                return  "redirect:/Profil/" + "?error";
+            }
             return "redirect:/Profil";
         } else if (name.equals("Akzeptieren")) {
             ausleiheManager.rueckgabeAkzeptieren(ausleihId);
