@@ -220,3 +220,27 @@ welcher dann entscheidet, wer die Kaution des Artikels erhält.
 
 - Konflikte werden dem Support auf der Konfliktlöseseite angezeigt, hier kann er die Kaution dem Ausleihenden / Verleihenden buchen und damit den Konflikt beenden.
  Außerdem werden zu jedem Konflikt auch die Daten der involvierten Benutzer angezeigt.
+
+
+# Softwarearchitektur
+
+
+image::AbschlussprojektArchitektur.jpg[]
+
+Die ersten Schritte in unserem Team waren es, die Sturktur unseres Projektes
+festzulegen:
+
+
+Die *Views* ermöglichen die graphische Repräsentation der Daten. Die einzelnen Views
+wurden bereits in vorherigen Kapiteln ausgiebig erläutert.
+
+Die *Controller* ermöglichen die Umsetzung von Benutzeranforderungen. Je nach View sind diese
+mit den entsprechenden Controllern verbunden, wie die oben dargestellt Graphik darstellt.
+Um die Logik von den Controllern zu seperieren und eine gut strukturierte Architektur zu
+ermöglichen, gibt es mehrere *Services*. In diesen Services befinden sich Logik, um
+verschiedene Funktionen in der Webanwendung zu ermöglichen. Jeder Controller greift auf einen,
+oder mehrere Services zu, wie in der Graphik mittels verschiedenen Farben deutlich gemacht wird.
+
+Für die Verwendung einer *Datenbank*, werden zudem verschiedene Repositorys sowie Models
+benötigt, damit diese mit den entsprechenden Daten gefüllt werden kann. In unserem Team haben
+wir uns einheitlich für eine PostgreSQL-Datenbank entschieden.
