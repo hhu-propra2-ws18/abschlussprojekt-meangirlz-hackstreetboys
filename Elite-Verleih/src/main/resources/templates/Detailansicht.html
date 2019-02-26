@@ -84,13 +84,6 @@
                                         </button>
                                     </a>
                                 </li>
-                                <li class="list-group-item">
-                                    <a th:href="|/Loeschen/${artikel?.getArtikelId()}|">
-                                        <button class="btn btn-sm btn-outline-secondary" type="button">
-                                            Loeschen<!-- führt zur benutzer seite-->
-                                        </button>
-                                    </a>
-                                </li>
                             </td>
 
                             <li class="list-group-item">
@@ -112,19 +105,21 @@
                                                        placeholder="To date"
                                                        type="date"/>
                                             </div>
-                                        </div>
+                                        </div><br>
                                         <button class="btn btn-sm btn-outline-secondary" type="submit">
                                             Artikel ausleihen
                                         </button>
-                                        <div id="floating-panel">
-                                            <input id="address" type="textbox" value="Sydney, NSW">
-                                            <input id="submit2" type="button" value="Geocode">
-                                        </div>
-
                                     </form>
                                 </div>
                             </li>
-                            <li class="list-group-item" th:if="${#lists.isEmpty(artikel.ausgeliehen)}">Artikel verfügbar</li>
+                            <li class="list-group-item">
+                                <div class="form-group">
+                                    <div class="alert alert-success"
+                                        th:if="${#lists.isEmpty(artikel.ausgeliehen)}">
+                                        Artikel verfügbar
+                                    </div>
+                                </div>
+                            </li>
                             <li class="list-group-item">
                                 <!--Map map (leaflet?)-->
                                 <div>

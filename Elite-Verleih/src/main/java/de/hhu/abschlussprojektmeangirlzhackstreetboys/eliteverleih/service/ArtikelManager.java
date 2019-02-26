@@ -29,6 +29,12 @@ public class ArtikelManager {
         return artikelRepo.findAll();
     }
 
+    /**
+     * Erstellt einen Artikel.
+     *
+     * @param benutzerId Id des Artikels.
+     * @param artikel    Artikel.
+     */
     public void erstelleArtikel(Long benutzerId, Artikel artikel) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
@@ -44,6 +50,12 @@ public class ArtikelManager {
         setzeArtikel(benutzerId, artikel);
     }
 
+    /**
+     * Speichert den Artikel bei dem Besitzer ab.
+     *
+     * @param benutzerId Id des Besitzers.
+     * @param artikel    Artikel.
+     */
     public void setzeArtikel(Long benutzerId, Artikel artikel) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         if (b.getArtikel() == null) {
@@ -57,7 +69,13 @@ public class ArtikelManager {
         return artikelRepo.findArtikelByArtikelId(artikelId);
     }
 
-    void bearbeiteArtikel(Long artikelId, Artikel artikel) {
+    /**
+     * Speichert den bearbeiteten Artikel richtig ab.
+     *
+     * @param artikelId Id des Artikels.
+     * @param artikel   Artikel.
+     */
+    public void bearbeiteArtikel(Long artikelId, Artikel artikel) {
         Artikel alterArtikel = getArtikelById(artikelId);
 
         alterArtikel.setArtikelBeschreibung(artikel.getArtikelBeschreibung());
@@ -65,11 +83,17 @@ public class ArtikelManager {
         alterArtikel.setArtikelName(artikel.getArtikelName());
         alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
         alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
+        alterArtikel.setArtikelBildUrl(artikel.getArtikelBildUrl());
 
-        artikelRepo.saveAll(Arrays.asList(alterArtikel));
+        artikelRepo.save(alterArtikel);
     }
 
-    public void deleteArtikel(Long artikelId) {
+    /**
+     * Loescht den Artikel mit der angegebenen ArtikelId.
+     *
+     * @param artikelId Die ID des Artikels.
+     */
+    public void loescheArtikel(Long artikelId) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(artikelRepo.findArtikelByArtikelId(artikelId)
             .getBenutzer()
             .getBenutzerId());

@@ -3,6 +3,7 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.ArtikelManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +18,18 @@ import java.security.Principal;
 public class ArtikelerstellenController {
 
     @Autowired
-    ArtikelRepository artikelRepository;
-
-    @Autowired
     BenutzerManager benutzerManager;
 
+    @Autowired
+    ArtikelManager artikelManager;
+
+    /**
+     * GetMapping der Artikelerstellen Seite.
+     *
+     * @param model   Das Model.
+     * @param account Der Account des Benutzers.
+     * @return "Artikelerstellung".
+     */
     @GetMapping("/Erstellen")
     public String artikelErstellungAnzeigen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
@@ -30,14 +38,18 @@ public class ArtikelerstellenController {
         return "Artikelerstellung";
     }
 
+    /**
+     * PostMapping der Artikelerstellen Seite.
+     *
+     * @param artikel Der Artikel.
+     * @param model   Das Model.
+     * @param account Der Account des Benutzers.
+     * @return "Uebersicht".
+     */
     @PostMapping("/Erstellen")
     public String artikelErstellen(@ModelAttribute Artikel artikel, Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        artikel.setBenutzer(benutzer);
-        benutzer.getArtikel().add(artikel);
-        artikelRepository.save(artikel);
-        model.addAttribute("artikel", artikelRepository.findAll());
-        model.addAttribute("benutzer", benutzer);
+        artikelManager.erstelleArtikel(benutzer.getBenutzerId(),artikel);
         return "redirect:/Uebersicht";
     }
 

@@ -56,17 +56,14 @@ public class DetailansichtController {
                                    @RequestParam(required = false) String endDatumString,
                                    @PathVariable Long artikelId, Principal account) {
 
-        Date startDatum = new Date();
-        Date endDatum = new Date();
 
         Calendar calStartDatum = new GregorianCalendar();
         Calendar calEndDatum = new GregorianCalendar();
 
         try {
-            startDatum = new SimpleDateFormat("yyyy-MM-dd").parse(startDatumString);
+            Date startDatum = new SimpleDateFormat("yyyy-MM-dd").parse(startDatumString);
             calStartDatum.setTime(startDatum);
-            System.out.println("StartString: " + startDatumString + " StartDatum: " + startDatum.toString());
-            endDatum = new SimpleDateFormat("yyyy-MM-dd").parse(endDatumString);
+            Date endDatum = new SimpleDateFormat("yyyy-MM-dd").parse(endDatumString);
             calEndDatum.setTime(endDatum);
         } catch (ParseException e) {
             e.printStackTrace();

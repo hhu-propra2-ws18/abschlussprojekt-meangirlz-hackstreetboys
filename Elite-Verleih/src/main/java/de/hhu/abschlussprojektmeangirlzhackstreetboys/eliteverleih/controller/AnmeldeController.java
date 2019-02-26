@@ -24,6 +24,16 @@ public class AnmeldeController {
         return "Anmeldung";
     }
 
+    /**
+     * Sorgt dafuer das ein User eingeloggt wird. Falls es den User gibt oder das Passwort falsch ist wird er
+     * auf die "/login?error" weitergeleitet. Zusätlich wird der Support Account abgefangen und auf
+     * die entsprechende Konfliktseite weiter geleitet
+     *
+     * @param request  fragt die Daten der HttpServletRequest ab
+     * @param username Eingabefeld fuer den Username wird abgefragt
+     * @param password Eingabefeld fuer den password wird abgefragt
+     * @return leitet auf die Uebersicht weiter
+     */
     @PostMapping("/login")
     public String login(HttpServletRequest request,
                         @RequestParam(required = false) String username,
@@ -36,6 +46,9 @@ public class AnmeldeController {
         } catch (ServletException e) {
             System.err.println(e.getMessage());
             return "redirect:/login?error";
+        }
+        if (request.isUserInRole("ROLE_SUPPORT")) {
+            return "redirect:/Konfliktloesung";
         }
         return "redirect:/Uebersicht";
     }

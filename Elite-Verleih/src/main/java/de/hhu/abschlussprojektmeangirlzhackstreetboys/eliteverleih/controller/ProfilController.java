@@ -33,27 +33,29 @@ public class ProfilController {
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilseite.
-     * @param model
-     * @param account
-     * @return
+     *
+     * @param model   Das zu uebergebende Model
+     * @param account Principal des Benutzers
+     * @return "Profil"
      */
     @GetMapping("/Profil")
     public String profilAnzeigen(Model model, Principal account) {
 
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         model.addAttribute("benutzer", benutzer);
-        List<Ausleihe> wartend = benutzerManager.sucheAnfragen(benutzer, Status.ANGEFRAGT);
-        List<Ausleihe> zurueckerhaltene = benutzerManager.sucheAnfragen(benutzer, Status.ABGEGEBEN);
-        List<Ausleihe> konflikte = (benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
-        List<Ausleihe> bestaetigte = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BESTAETIGT);
-        List<Ausleihe> zurueckgegebene = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ABGEGEBEN);
-        List<Ausleihe> verliehenes = benutzerManager.sucheAnfragen(benutzer, Status.BESTAETIGT);
-        verliehenes.addAll(benutzerManager.sucheAnfragen(benutzer, Status.AKTIV));
-        verliehenes.addAll(benutzerManager.sucheAnfragen(benutzer, Status.KONFLIKT));
-        List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheEigeneAnfragen(benutzer, Status.BEENDET);
-        List<Ausleihe> eigeneAnfragen = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ANGEFRAGT);
+        List<Ausleihe> wartend = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.ANGEFRAGT);
+        List<Ausleihe> zurueckerhaltene = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.ABGEGEBEN);
+        List<Ausleihe> konflikte = (benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
+        List<Ausleihe> bestaetigte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BESTAETIGT);
+        List<Ausleihe> zurueckgegebene = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGEGEBEN);
+        List<Ausleihe> verliehenes = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.BESTAETIGT);
+        verliehenes.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.AKTIV));
+        verliehenes.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
+        List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BEENDET);
+        List<Ausleihe> eigeneAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ANGEFRAGT);
         int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
-        List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheEigeneAnfragen(benutzer, Status.ABGELEHNT);
+        List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGELEHNT);
+        List<Ausleihe> ausgehendeKonflikte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.KONFLIKT);
 
         model.addAttribute("wartendeAnfragen", eigeneAnfragen);
         model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
@@ -64,18 +66,21 @@ public class ProfilController {
         model.addAttribute("anfragen", wartend);
         model.addAttribute("konflikte", konflikte);
         model.addAttribute("Betrag", geld);
+        model.addAttribute("abgelehnteAnfragen", abgelehnteAnfragen);
+        model.addAttribute("ausgehendeKonflikte", ausgehendeKonflikte);
 
         return "Profil";
     }
 
     /**
      * Uebernimmt das Verarbeiten der Buttons auf dem Profil.
-     * @param model
-     * @param name
-     * @param anfrage
-     * @param ausleihId
-     * @param account
-     * @return
+     *
+     * @param model     Das zu uebergebende Model
+     * @param name      Der name des Buttons
+     * @param anfrage   Das Ausleih Objekt
+     * @param ausleihId Die Id der Ausleihe
+     * @param account   Der account des Benutzers
+     * @return "Profil"
      */
     @PostMapping("/Profil")
     public String profilAnzeigen(Model model, @RequestParam(value = "submitButton") String name,
@@ -83,7 +88,6 @@ public class ProfilController {
         if (name.equals("Problem")) {
             return "redirect:/Support";
         }
-
         if (name.equals("Bestaetigen")) {
             ausleiheManager.bestaetigeAusleihe(ausleihId);
             return "redirect:/Profil";
@@ -91,10 +95,13 @@ public class ProfilController {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.ABGELEHNT);
             return "redirect:/Profil";
         } else if (name.equals("Zurueckgeben")) {
-            sync.zurueckGeben(ausleihId);
+            //ausleiheManager.zurueckGeben(ausleihId);
+            if(!ausleiheManager.zurueckGeben(ausleihId)){
+                return  "redirect:/Profil/" + "?error";
+            }
             return "redirect:/Profil";
         } else if (name.equals("Akzeptieren")) {
-            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
+            ausleiheManager.rueckgabeAkzeptieren(ausleihId);
             return "redirect:/Profil";
         } else if (name.equals("Entfernen")) {
             ausleiheManager.loescheAusleihe(ausleihId);
@@ -108,11 +115,7 @@ public class ProfilController {
         } else if (name.equals("Geloest")) {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
             return "redirect:/Profil";
-        } else {
-            return "redirect:/Uebersicht";
         }
+        return "redirect:/Profil";
     }
-
-
 }
-

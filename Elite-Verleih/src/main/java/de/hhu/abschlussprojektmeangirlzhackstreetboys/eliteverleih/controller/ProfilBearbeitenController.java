@@ -14,21 +14,23 @@ import java.security.Principal;
 
 @Controller
 public class ProfilBearbeitenController {
+
     @Autowired
     BenutzerManager benutzerManager;
 
-    PropayManager sync = new PropayManager();
+    PropayManager propayManager = new PropayManager();
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilbearbeiten Seite.
-     * @param model
-     * @param account
-     * @return
+     *
+     * @param model   Das model.
+     * @param account Der Account des aktuellen Benutzers.
+     * @return "ProfilBearbeiten".
      */
     @GetMapping("/ProfilBearbeiten")
     public String profilBearbeitenAnzeigen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
+        int geld = (int) propayManager.getAccount(benutzer.getBenutzerName()).getAmount();
 
         model.addAttribute("Betrag", geld);
         model.addAttribute("benutzer", benutzer);
@@ -37,11 +39,12 @@ public class ProfilBearbeitenController {
 
     /**
      * Uebernimmt das Verarbeiten der Benutzereingaben auf dem Profil.
-     * @param model
-     * @param ben
-     * @param aufladen
-     * @param account
-     * @return
+     *
+     * @param model    Das model.
+     * @param ben      Der aktuelle Benutzer.
+     * @param aufladen Die Summe zum aufladen.
+     * @param account  Der Account des Benutzers.
+     * @return "Profil".
      */
     @PostMapping("/ProfilBearbeiten")
     public String profilBearbeitenSpeichern(Model model,

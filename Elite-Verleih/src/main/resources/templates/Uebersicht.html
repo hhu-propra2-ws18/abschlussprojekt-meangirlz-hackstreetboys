@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -29,15 +29,11 @@
         <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
              width="180">
     </a>
-    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-            class="navbar-toggler"
-            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline" method="post">
             <div class="md-form my-0">
-                <input aria-label="Search" class="form-control mr-sm-2" name="suchBegriff" placeholder="Was suchen Sie?"
+                <input aria-label="Search" class="form-control mr-sm-2" name="suchBegriff" th:value="${suchBegriff}"
+                       placeholder="Was suchen Sie?"
                        type="text">
                 <button class="btn btn-outline-success my-2 my-sm-0" name="sucheButton" type="submit">Suche</button>
             </div>
@@ -70,6 +66,14 @@
             </div>
         </a>
     </div>
+</div>
+
+<div th:if="${artikels.isEmpty()}">
+    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
+    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
+    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
+    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
+    <p class="lead text-muted" align="center">Keine Artikel vorhanden.</p>
 </div>
 
 <div>
