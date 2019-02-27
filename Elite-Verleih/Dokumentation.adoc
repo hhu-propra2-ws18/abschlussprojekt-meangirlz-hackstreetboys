@@ -186,6 +186,9 @@ Anfrage abgelehnt.
 und erscheint beim verleihenden Nutzer unter Eigene Artikel -> Verliehenes, wenn der
 Zeitraum aktiv ist.
 
+- Liegt eine Anfrage in der Vergangenheit, wird diese automatisch gelöscht, unabhängig davon ob man _bestaetigen_ oder
+_ablehnen_ auswählt. Der Ausleihende bekommt auch hier die Benachrichtigung, dass seine Ausleihe abgelehnt wurde.
+
 ##### Ausgeliehenes
 
 Wird ein angefragter Artikel vom Besitzer bestätigt und der Ausleihezeitraum ist
@@ -198,9 +201,11 @@ des Ausleihzeitraums berechnet und dem Verleiher überwiesen. Ist nicht genügen
 auf dem ProPay-Konto des Ausleihers vorhanden, wird eine Fehlermeldung angezeigt, dass
 nicht genügend Geld auf dem Konto vorhanden ist. Der Ausleiher wird dazu aufgefordert,
 sein Geld auf dem Konto aufzuladen.
+Der Ausleiher hat außerdem die Möglichkeit, den Artikel bereits vorzeitig abzugeben.
 
 Angefragte Artikel werden in der Spalte *Wartend* angezeigt. Der Benutzer hat die Option,
-die Anfrage vorzeitig zurückziehen. Damit wird die Ausleihe gelöscht.
+die Anfrage vorzeitig zurückziehen. Damit wird die Ausleihe gelöscht. Wird der angefragte Artikel in demselben Zeitraum
+von einer anderen Person ausgeliehen, wird die Anfrage der aktuellen Person in _abgelehnt_ geschoben.
 
 ##### Eigene Artikel
 
@@ -212,8 +217,12 @@ so kann der Benutzer dieses Problem an die Konfliktlösestelle schicken. Der Sta
 Ausleihe wird somit auf _konflikt_ gesetzt.
 
 In der Spalte *Angebotene* werden alle angebotenen Artikel angezeigt.
+- Wenn der Artikel weder ausgeliehen noch verkauft ist, besteht hier ebenfalls die Möglichkeit, den Artikel zu bearbeiten
+oder zu löschen.
 
 Wird ein verliehener Artikel zurückgegeben, so erscheint dieser in der Spalte *Zurückerhaltenes*.
+Falls ein verliehender Artikel zurückgegeben wird bevor der Ausleihzeitraum beginnt, werden keinerlei Kosten dem Ausleihenden
+berechnet.
 
 - Falls der Artikel nicht den gewünschten Zustand hat, so kann der Benutzer ein Problem
 an den Support schicken. Dort wird entschieden, wer die Kaution erhält.
@@ -226,9 +235,11 @@ beendet werden. Die Kaution des Ausleihers wird wieder freigegeben.
 Artikel, die der Benutzer selbst ausgeliehen hat und bereits an den Verleiher
 zurückgegeben hat, werden in *Ausstehende* aufgelistet. Der Benutzer wartet auf die Bestätigung des
 Verleihers, dass der Artikel in Ordnung ist.
+Reagiert der Verleihende nicht auf die ausstehende Rückgabe, kann auch der Ausleihende in seinem Profil die Ausleihe dem Support melden.
 
 Wurde vom Verleiher bestätigt, dass der Artikel in Ordnung ist, so werden in der Spalte *Erfolgreich* die
-erfolgreich zurückgegebenen Artikel angezeigt.
+erfolgreich zurückgegebenen Artikel angezeigt. Die Kaution wird an den Ausleihenden überwiesen.
+
 Der Nutzer kann nun auf den Button "Entfernen" klicken und somit den Vorgang endültig beenden.
 Die Ausleihe wird daraufhin gelöscht und somit aus der Datenbank entfernt.
 
