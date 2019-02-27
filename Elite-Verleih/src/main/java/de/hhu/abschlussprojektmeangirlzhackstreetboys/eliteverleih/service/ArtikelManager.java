@@ -16,11 +16,14 @@ import java.util.List;
 @Service
 public class ArtikelManager {
 
-    @Autowired
-    BenutzerRepository benutzerRepo;
+    final BenutzerRepository benutzerRepo;
+    final ArtikelRepository artikelRepo;
 
     @Autowired
-    ArtikelRepository artikelRepo;
+    public ArtikelManager(BenutzerRepository benutzerRepo, ArtikelRepository artikelRepo){
+        this.benutzerRepo = benutzerRepo;
+        this.artikelRepo = artikelRepo;
+    }
 
     public List<Artikel> getAllArtikel() {
         return artikelRepo.findAll();
