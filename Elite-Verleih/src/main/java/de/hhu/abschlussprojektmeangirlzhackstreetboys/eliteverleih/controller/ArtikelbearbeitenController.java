@@ -33,8 +33,11 @@ public class ArtikelbearbeitenController {
     public String artikelBearbeitungAnzeigen(@PathVariable long artikelId,
                                              Model model,
                                              Principal account) {
-
-        model.addAttribute("artikel", artikelManager.getArtikelById(artikelId));
+        Artikel artikel = artikelManager.getArtikelById(artikelId);
+        if (artikel == null) {
+            return "redirect:/Uebersicht";
+        }
+        model.addAttribute("artikel", artikel);
         model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
         return "Artikelbearbeiten";
     }
