@@ -4,7 +4,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
-    <title>Profil</title>
+    <title>Elite-Verleih</title>
 </head>
 <body>
 
@@ -14,7 +14,7 @@
              width="180">
     </a>
     <div class="ml-auto">
-        <a class="" th:text="'Guthaben: ' + ${Betrag} + ',00 €'"></a>
+        <a class="" th:text="'Guthaben: ' + ${Betrag} + '€'"></a>
     </div>
     <div class="nav-item dropdown">
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
@@ -175,7 +175,7 @@
 
                                     <input class="btn btn-outline-success m-1" name="submitButton"
                                            type="submit" value="Zurueckgeben"/>
-                                    <div th:if="${param.error}" class="alert alert-danger">Du hast zu wenig
+                                    <div class="alert alert-danger" th:if="${param.error}">Du hast zu wenig
                                         Guthaben!<br/> Bitte lade
                                         dein Guthaben auf, <br/>um den Artikel zurückzugeben.
                                     </div>
@@ -285,8 +285,8 @@
                                       th:action="'/Profil?ausleihId=' + ${verliehenes.getAusleihId()}"
                                       th:object="${verliehenes}">
 
-                                    <input th:if="${verliehenes.getAusleihRueckgabedatum().before(aktuellesDatum)}"
-                                           class="btn btn-outline-danger" name="submitButton"
+                                    <input class="btn btn-outline-danger"
+                                           name="submitButton" th:if="${verliehenes.getAusleihRueckgabedatum().before(aktuellesDatum)}"
                                            type="submit" value="Konflikt"/>
                                 </form>
                             </div>

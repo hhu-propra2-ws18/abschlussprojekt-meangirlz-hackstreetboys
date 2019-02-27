@@ -10,16 +10,16 @@ import static org.junit.Assert.assertFalse;
 
 public class AusleiheTest {
 
-    Calendar nachEndeDatum = new GregorianCalendar(2019,1,28);
-    Calendar vorEndeDatum = new GregorianCalendar(2019,1,19);
+    Calendar nachEndeDatum = new GregorianCalendar(2019, 1, 28);
+    Calendar vorEndeDatum = new GregorianCalendar(2019, 1, 19);
     Calendar vorStartDatum = new GregorianCalendar(2019, 1, 10);
 
 
     @Test
-    public void AnzahlUeberzogenTest(){
+    public void AnzahlUeberzogenTest() {
         Ausleihe ausleihe = erstelleTestAusleihe();
         int zuspaet = ausleihe.getAnzahlUeberzogen(nachEndeDatum);
-        int vorEnde= ausleihe.getAnzahlUeberzogen(vorEndeDatum);
+        int vorEnde = ausleihe.getAnzahlUeberzogen(vorEndeDatum);
         int vorStart = ausleihe.getAnzahlUeberzogen(vorStartDatum);
         assertEquals(8, zuspaet);
         assertEquals(0, vorEnde);
@@ -27,10 +27,10 @@ public class AusleiheTest {
     }
 
     @Test
-    public void berechneKostenTest(){
+    public void berechneKostenTest() {
         Ausleihe ausleihe = erstelleTestAusleihe();
         int zuspaet = ausleihe.berechneKosten(nachEndeDatum);
-        int vorEnde= ausleihe.berechneKosten(vorEndeDatum);
+        int vorEnde = ausleihe.berechneKosten(vorEndeDatum);
         int vorStart = ausleihe.berechneKosten(vorStartDatum);
         assertEquals(13, zuspaet);
         assertEquals(2, vorEnde);
@@ -38,7 +38,7 @@ public class AusleiheTest {
     }
 
     @Test
-    public void ausleiheGueltigesDatumTest(){
+    public void ausleiheGueltigesDatumTest() {
         Ausleihe ausleihe = erstelleTestAusleihe();
         boolean nachStart = ausleihe.gueltigesDatum(vorEndeDatum);
         boolean nachEnde = ausleihe.gueltigesDatum(nachEndeDatum);
@@ -48,7 +48,7 @@ public class AusleiheTest {
         assertFalse(!vorStart);
     }
 
-    private Ausleihe erstelleTestAusleihe(){
+    private Ausleihe erstelleTestAusleihe() {
         Calendar start = new GregorianCalendar();
         start.set(2019, 1, 18);
         Calendar ende = new GregorianCalendar();

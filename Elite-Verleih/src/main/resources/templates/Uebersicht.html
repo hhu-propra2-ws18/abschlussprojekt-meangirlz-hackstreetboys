@@ -32,8 +32,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline" method="post">
             <div class="md-form my-0">
-                <input aria-label="Search" class="form-control mr-sm-2" name="suchBegriff" th:value="${suchBegriff}"
-                       placeholder="Was suchen Sie?"
+                <input aria-label="Search" class="form-control mr-sm-2" name="suchBegriff" placeholder="Was suchen Sie?"
+                       th:value="${suchBegriff}"
                        type="text">
                 <button class="btn btn-outline-success my-2 my-sm-0" name="sucheButton" type="submit">Suche</button>
             </div>
@@ -65,7 +65,7 @@
     <div class="card-columns lg">
         <a th:each="artikel : ${artikels}" th:href="|/Detailansicht/${artikel.getArtikelId()}|">
             <div class="card">
-                <img alt="Kein Bild vorhanden!" class="card-img-top" th:src="${artikel.getArtikelBildUrl()}">
+                <img alt="Kein Bild vorhanden!" style="max-height: 500px" class="card-img-top" th:src="${artikel.getArtikelBildUrl()}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${artikel.getArtikelName()}">Artikelname</h5>
                     <p class="card-text text-truncate" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>
@@ -84,11 +84,11 @@
 </div>
 
 <div th:if="${artikels.isEmpty()}">
-    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
-    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
-    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
-    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
-    <p class="lead text-muted" align="center">Keine Artikel vorhanden.</p>
+    <p align="center" class="lead text-white">Keine Artikel vorhanden.</p>
+    <p align="center" class="lead text-white">Keine Artikel vorhanden.</p>
+    <p align="center" class="lead text-white">Keine Artikel vorhanden.</p>
+    <p align="center" class="lead text-white">Keine Artikel vorhanden.</p>
+    <p align="center" class="lead text-muted">Keine Artikel vorhanden.</p>
 </div>
 
 

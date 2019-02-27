@@ -25,7 +25,7 @@ public class ArtikelerstellenController {
     /**
      * GetMapping der Artikelerstellen Seite.
      *
-     * @param model   Das Model.
+     * @param model   Datencontainer fuer die View.
      * @param account Der Account des Benutzers.
      * @return "Artikelerstellung".
      */
@@ -51,27 +51,32 @@ public class ArtikelerstellenController {
         return "redirect:/Uebersicht";
     }
 
-    /******************************************************************************************************/
-
+    /**
+     * GetMapping der VerkaufErstellen Seite.
+     *
+     * @param model   Datencontainer fuer die View.
+     * @param account Aktueller Account.
+     * @return VerkaufErstellen
+     */
     @GetMapping("/VerkaufErstellen")
-    public String verkaufErstellen(Model model, Principal account) {
+    public String verkaufErstellungAnzeigen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         model.addAttribute("artikel", new Artikel());
         model.addAttribute("benutzer", benutzer);
         return "VerkaufErstellen";
     }
 
+    /**
+     * Erstellt einen Artikel zum verkaufen.
+     *
+     * @param artikel neu erstellter Artikel
+     * @param account Aktueller Account
+     * @return redirect zu Uebersicht
+     */
     @PostMapping("/VerkaufErstellen")
-    public String VerkaufErstellen(@ModelAttribute Artikel artikel, Principal account) {
+    public String verkaufErstellen(@ModelAttribute Artikel artikel, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         artikelManager.erstelleVerkauf(benutzer.getBenutzerId(), artikel);
         return "redirect:/Uebersicht";
     }
-
-
-
-    /* TODO: Bearbeiten (View + Controller-Ergänzungen), Detailansicht (View), Übersicht (View),
-            -> für Ausleihen niemals änderbar: preis und zuVerkaufen (0)
-            -> für Verkauf niemals änderbar: kaution, tarif, zuVerkaufen (1)
-     */
 }

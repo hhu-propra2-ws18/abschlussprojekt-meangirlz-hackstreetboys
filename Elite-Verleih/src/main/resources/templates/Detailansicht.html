@@ -6,7 +6,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
-    <title>Detailansicht</title>
+    <title>Elite-Verleih</title>
 
     <!-- Leaflet Map -->
     <style>#map{height: 400px;}</style>
@@ -67,15 +67,19 @@
                                 th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
                             <li class="list-group-item" th:name="benutzerName"
                                 th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
-                            <li th:if="${artikel?.getZuVerkaufen()}==false" class="list-group-item" th:name="artikelKaution"
+                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==false"
+                                th:name="artikelKaution"
                                 th:text="'Kaution: '+${artikel?.getArtikelKaution()+',00€'}"></li>
-                            <li th:if="${artikel?.getZuVerkaufen()}==false" class="list-group-item" th:name="artikelTarif"
+                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==false"
+                                th:name="artikelTarif"
                                 th:text="'Tarif: '+${artikel?.getArtikelTarif()+',00€'}"></li>
-                            <li th:if="${artikel?.getZuVerkaufen()}==true" class="list-group-item" th:name="artikelPreis"
+                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==true"
+                                th:name="artikelPreis"
                                 th:text="'Preis: ' +${artikel?.getArtikelPreis()}+',00€'"></li>
                             <li class="list-group-item" th:name="artikelOrt"
                                 th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
-                            <div th:if="${!bestaetigteAusleihen.isEmpty()} and ${artikel?.getZuVerkaufen()}==false" style="overflow-y: scroll; max-height:200px;">
+                            <div style="overflow-y: scroll; max-height:200px;"
+                                 th:if="${!bestaetigteAusleihen.isEmpty()} and ${artikel?.getZuVerkaufen()}==false">
                                 <div class="alert-secondary" th:each="ausleihe : ${bestaetigteAusleihen}">
                                     <a>Ausgeliehen </a>
                                     <a class="card-text" th:text="'von: '
@@ -106,12 +110,12 @@
                                         <div class="input-daterange input-group" data-date-format="dd-mm-yyy"
                                              id="datepicker">
                                             <span class="input-group-text">Von</span>
-                                            <input class="input-sm form-control" required name="startDatumString"
-                                                   placeholder="From date"
+                                            <input class="input-sm form-control" name="startDatumString" placeholder="From date"
+                                                   required
                                                    type="date"/>
                                             <span class="input-group-text">bis</span>
-                                            <input class="input-sm form-control" required name="endDatumString"
-                                                   placeholder="To date"
+                                            <input class="input-sm form-control" name="endDatumString" placeholder="To date"
+                                                   required
                                                    type="date"/>
                                         </div>
                                     </div><br>
@@ -119,10 +123,18 @@
                                         Artikel ausleihen
                                     </button>
                                 </form>
-                                <div th:if="${param.error}" class="alert alert-danger">
+                                <div class="alert alert-danger" th:if="${param.error}">
                                     <p>Das Enddatum darf nicht vor dem Startdatum sein!</p>
                                 </div>
                             </li>
+                            <div th:if="${artikel?.getZuVerkaufen()} and
+                                ${artikel?.getBenutzer().getBenutzerId()!=benutzer?.getBenutzerId()}">
+                                <a th:href="|/Kaufen/${artikel?.getArtikelId()}|">
+                                    <button class="btn btn-sm btn-outline-secondary" type="button">
+                                        Artikel kaufen
+                                    </button>
+                                </a>
+                            </div>
                             <li class="list-group-item" th:if="${artikel?.hatOrt()}">
                                 <!--Map map (leaflet?)-->
                                 <div class="form-group">
@@ -161,14 +173,8 @@
                                     </script>
                                 </div>
                             </li>
-                            <li th:if="${artikel?.getZuVerkaufen()} and
-                                ${artikel?.getBenutzer().getBenutzerId()!=benutzer?.getBenutzerId()}">
-                                <a th:href="|/Kaufen/${artikel?.getArtikelId()}|">
-                                    <button class="btn btn-sm btn-outline-secondary" type="button">
-                                        Artikel kaufen
-                                    </button>
-                                </a>
-                            </li>
+
+
                         </div>
                     </div>
                 </div>
