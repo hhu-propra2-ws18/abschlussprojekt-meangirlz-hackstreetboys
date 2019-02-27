@@ -1,5 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
@@ -21,17 +22,25 @@ import java.util.*;
 
 @Controller
 public class ProfilController {
-    @Autowired
+
     BenutzerManager benutzerManager;
 
-    @Autowired
     AusleiheManager ausleiheManager;
 
-    @Autowired
     ArtikelManager artikelManager;
 
-    @Autowired
     PropayManager propayManager;
+
+    @Autowired
+    public ProfilController(ArtikelManager artikelManager,
+                            AusleiheManager ausleiheManager,
+                            BenutzerManager benutzerManager,
+                            PropayManager propayManager){
+        this.artikelManager = artikelManager;
+        this.ausleiheManager = ausleiheManager;
+        this.benutzerManager = benutzerManager;
+        this.propayManager = propayManager;
+    }
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilseite.
@@ -75,7 +84,7 @@ public class ProfilController {
 
         AccountDto acc = propayManager.getAccount(benutzer.getBenutzerName());
         if (acc == null) {
-            model.addAttribute("Betrag", "Propay nicht erreichbar xxxx");
+            model.addAttribute("Betrag", "Propay nicht erreichbar xx,xx");
         } else {
             double betrag = acc.getAmount();
             model.addAttribute("Betrag", betrag);

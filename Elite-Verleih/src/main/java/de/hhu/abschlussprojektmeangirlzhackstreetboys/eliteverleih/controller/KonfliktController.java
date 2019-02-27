@@ -21,16 +21,24 @@ import java.util.List;
 @Controller
 public class KonfliktController {
 
-    PropayManager propayManager = new PropayManager();
-
-    @Autowired
     BenutzerManager benutzerManager;
 
-    @Autowired
     AusleiheManager ausleiheManager;
 
-    @Autowired
     ArtikelManager artikelManager;
+
+    PropayManager propayManager;
+
+    @Autowired
+    public KonfliktController(ArtikelManager artikelManager,
+                                   AusleiheManager ausleiheManager,
+                                   BenutzerManager benutzerManager,
+                                   PropayManager propayManager){
+        this.artikelManager = artikelManager;
+        this.ausleiheManager = ausleiheManager;
+        this.benutzerManager = benutzerManager;
+        this.propayManager = propayManager;
+    }
 
     /**
      * Zeigt Konfliktseite an, laedt Attribute in HTML.

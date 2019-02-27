@@ -24,16 +24,24 @@ import java.util.List;
 @Controller
 public class DetailansichtController {
 
-    PropayManager propayManager = new PropayManager();
+    BenutzerManager benutzerManager;
 
-    @Autowired
     AusleiheManager ausleiheManager;
 
-    @Autowired
     ArtikelManager artikelManager;
 
+    PropayManager propayManager;
+
     @Autowired
-    BenutzerManager benutzerManager;
+    public DetailansichtController(ArtikelManager artikelManager,
+                            AusleiheManager ausleiheManager,
+                            BenutzerManager benutzerManager,
+                            PropayManager propayManager){
+        this.artikelManager = artikelManager;
+        this.ausleiheManager = ausleiheManager;
+        this.benutzerManager = benutzerManager;
+        this.propayManager = propayManager;
+    }
 
     /**
      * Zeigt die Detailansicht.
