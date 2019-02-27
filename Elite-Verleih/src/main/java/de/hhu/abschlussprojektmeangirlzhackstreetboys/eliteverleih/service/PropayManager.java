@@ -1,9 +1,12 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.ReservationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Backoff;
@@ -23,10 +26,12 @@ public class PropayManager {
     private final int maxVersuche = 3;
     private final int verzoegerung = 1000;
 
-    @Autowired
-    AusleiheManager ausleiheM;
+    RestTemplate rt;
 
-    RestTemplate rt = new RestTemplate();
+    @Autowired
+    public PropayManager(RestTemplate rt){
+        this.rt = rt;
+    }
 
     /**
      * Gibt die Informationen zu einem Account zurück.
