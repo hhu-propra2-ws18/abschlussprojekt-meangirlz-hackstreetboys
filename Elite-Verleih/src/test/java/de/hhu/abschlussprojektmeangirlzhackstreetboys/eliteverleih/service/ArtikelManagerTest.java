@@ -287,4 +287,10 @@ public class ArtikelManagerTest {
         assertEquals("Hammer", artikelM.getAllArtikel().get(0).getArtikelName());
         assertEquals(true, artikelM.getArtikelById(a0.getArtikelId()).getZuVerkaufen());
     }
+
+    @Test
+    public void umlauteErsetzen_Test(){
+        Assertions.assertThat(artikelM.ersetzeUmlaute("hällo, ik benß dür Ströber Michäl"))
+            .isEqualTo("haello, ik benss duer Stroeber Michael");
+    }
 }

@@ -17,14 +17,13 @@ public class ArtikelManager {
 
     final BenutzerRepository benutzerRepo;
     final ArtikelRepository artikelRepo;
+    GeoCoding geoCoder = new GeoCoding();
 
     @Autowired
     public ArtikelManager(BenutzerRepository benutzerRepo, ArtikelRepository artikelRepo) {
         this.benutzerRepo = benutzerRepo;
         this.artikelRepo = artikelRepo;
     }
-
-    GeoCoding geoCoder = new GeoCoding();
 
     public List<Artikel> getAllArtikel() {
         return artikelRepo.findAll();
@@ -41,8 +40,7 @@ public class ArtikelManager {
         artikel.setBenutzer(benutzer);
         artikel.setArtikelPreis(0);
         artikel.setZuVerkaufen(false);
-        artikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikel.getArtikelOrt()));
-        artikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikel.getArtikelOrt()));
+        setArtikelOrtAttribute(artikel, artikel.getArtikelOrt());
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -59,8 +57,7 @@ public class ArtikelManager {
         artikel.setArtikelKaution(0);
         artikel.setArtikelTarif(0);
         artikel.setZuVerkaufen(true);
-        artikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikel.getArtikelOrt()));
-        artikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikel.getArtikelOrt()));
+        setArtikelOrtAttribute(artikel, artikel.getArtikelOrt());
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -96,14 +93,42 @@ public class ArtikelManager {
         alterArtikel.setArtikelBeschreibung(artikel.getArtikelBeschreibung());
         alterArtikel.setArtikelKaution(artikel.getArtikelKaution());
         alterArtikel.setArtikelName(artikel.getArtikelName());
-        alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
-        alterArtikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikel.getArtikelOrt()));
-        alterArtikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikel.getArtikelOrt()));
+        setArtikelOrtAttribute(alterArtikel, artikel.getArtikelOrt());
         alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
         alterArtikel.setArtikelBildUrl(artikel.getArtikelBildUrl());
         alterArtikel.setArtikelPreis(artikel.getArtikelPreis());
 
         artikelRepo.save(alterArtikel);
+    }
+
+    /**
+     * Setzt den artikelOrt sowie die Koordinaten artikelOrtX und artikelOrtY.
+     *
+     * @param zuSetzenderArtikel Artikel dessen Attribute gesetzt werden
+     * @param artikelOrt artikelOrt String mit Adresse
+     */
+    public void setArtikelOrtAttribute(Artikel zuSetzenderArtikel, String artikelOrt) {
+        String artikelOrtOhneUmlaute = ersetzeUmlaute(artikelOrt);
+        zuSetzenderArtikel.setArtikelOrt(artikelOrt);
+        System.out.println(artikelOrtOhneUmlaute);
+        zuSetzenderArtikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikelOrtOhneUmlaute));
+        zuSetzenderArtikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikelOrtOhneUmlaute));
+    }
+
+    /**
+     * wandelt deutsche Umlaute in englische gleichgestellte bustaben um.
+     *
+     * @param verdeutschterString String mit Umlauten
+     * @return verenglischterString ohne Umlaute
+     */
+    public String ersetzeUmlaute(String verdeutschterString) {
+        String[][] UmlauteUndErsetzungen = {{"Ä", "Ae"}, {"Ü", "Ue"}, {"Ö", "Oe"}, {"ä", "ae"}, {"ü", "ue"},
+            {"ö", "oe"}, {"ß", "ss"}};
+        String verEnglischt = verdeutschterString;
+        for (int i = 0; i < UmlauteUndErsetzungen.length; i = i + 2) {
+            verEnglischt = verEnglischt.replaceAll(UmlauteUndErsetzungen[i][0], UmlauteUndErsetzungen[i][1]);
+        }
+        return verEnglischt;
     }
 
     /**
