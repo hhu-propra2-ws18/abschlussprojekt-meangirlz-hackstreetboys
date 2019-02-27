@@ -72,6 +72,24 @@ public class BenutzerManagerTest {
 
     @Rollback
     @Test
+    public void erstelleBenutzer_NameVorhanden() {
+        Benutzer b0 = new Benutzer();
+        b0.setBenutzerEmail("test@yahoo");
+        b0.setBenutzerName("test");
+        b0.setArtikel(new ArrayList<Artikel>());
+        benutzerM.erstelleBenutzer(b0);
+
+        Benutzer b1 = new Benutzer();
+        b1.setBenutzerEmail("test@yahoo");
+        b1.setBenutzerName("test");
+        b1.setArtikel(new ArrayList<Artikel>());
+        Benutzer test = benutzerM.erstelleBenutzer(b1);
+        long ergebnis = test.getBenutzerId();
+        assertEquals(-1, ergebnis);
+    }
+
+    @Rollback
+    @Test
     public void bearbeiteBenutzer_EqualName() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");

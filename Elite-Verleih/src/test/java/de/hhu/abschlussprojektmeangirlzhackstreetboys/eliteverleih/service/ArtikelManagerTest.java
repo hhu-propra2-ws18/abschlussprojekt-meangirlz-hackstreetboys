@@ -32,7 +32,7 @@ public class ArtikelManagerTest {
 
     @Rollback
     @Test
-    public void erstelleArtikel_EqualName() {
+    public void erstelleVerleihen_EqualName() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -47,6 +47,7 @@ public class ArtikelManagerTest {
         a0.setArtikelTarif(1);
         artikelM.erstelleVerleihen(bId, a0);
         Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelName()).isEqualTo("Hammer");
+        assertEquals(false, artikelM.getArtikelById(a0.getArtikelId()).getZuVerkaufen());
     }
 
     @Rollback
@@ -265,5 +266,25 @@ public class ArtikelManagerTest {
         assertEquals(3, artikelM.getAllArtikel().size());
         assertEquals(2, artikelM.getArtikelListSortByName("Hammer").size());
         assertEquals(a1, artikelM.getArtikelListSortByName("Hammer").get(0));
+    }
+
+    @Rollback
+    @Test
+    public void erstelleVerkauf() {
+        Benutzer b0 = new Benutzer();
+        b0.setBenutzerEmail("test@yahoo");
+        b0.setBenutzerName("test");
+        b0.setArtikel(new ArrayList<Artikel>());
+        benutzerRepo.save(b0);
+        Long bId = benutzerRepo.findBenutzerByBenutzerName("test").get().getBenutzerId();
+        Artikel a0 = new Artikel();
+        a0.setArtikelBeschreibung("beschreibung");
+        a0.setArtikelKaution(3);
+        a0.setArtikelName("Hammer");
+        a0.setArtikelOrt("Werkstatt");
+        a0.setArtikelTarif(1);
+        artikelM.erstelleVerkauf(bId, a0);
+        assertEquals("Hammer", artikelM.getAllArtikel().get(0).getArtikelName());
+        assertEquals(true, artikelM.getArtikelById(a0.getArtikelId()).getZuVerkaufen());
     }
 }
