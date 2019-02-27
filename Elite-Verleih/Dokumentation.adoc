@@ -303,23 +303,23 @@ Daher sind Tests zu den verschiedenen Managern absolut notwendig. Unser Team hat
 sichergestellt, dass verschiedene Szenarien auf Richtigkeit geprüft worden sind.
 
 
-##### Spring Security
+### Spring Security
 
- Für die Authentisierung, Authentifizierung und Autorisierung auf den Seiten wurde
- Spring Security eingeführt. Die SecurityConfig legt bestimmte Rollen fest,
- in unserem Fall ADMIN - der auf alle Seiten zugreifen darf, SUPPORT - der nur auf 
- die Konfliktlöseseite gelangt nach dem Login und USER, hiervon können beliebig 
- viele Accounts erstellt werden, sie dürfen dann auf alle Seiten außer der 
- Konfliktlöseseite zugreifen. Besitzt jemand keine Rolle, ist also nicht 
- eingeloggt, so darf nur die Login- und die Registrierungs-Seite aufgerufen werden. 
- Bei der Registrierung wird ein neuer Benutzer erstellt und in der Datenbank
- gespeichert, die Rolle USER wird automatisch gesetzt. In dieser Rolle darf auf 
- alle Seiten außer der Konfliktlöseseite zugegriffen werden, der Benutzer kann 
- sich ab dann über das Login-Formular authentifizieren. 
- Des Weiteren wird MyUserDetails als Hilfsklasse verwendet, um die Authentifizierung
- über das BenutzerRepository zu machen, was bedeutet, dass jeder Benutzer auch einen 
- Account bei der Anwendung besitzt. Dies wird in SecurityConfig-Methode config 
- konfiguriert. 
+Für die Authentisierung, Authentifizierung und Autorisierung auf den Seiten wurde
+Spring Security eingeführt. Die SecurityConfig legt bestimmte Rollen fest,
+in unserem Fall ADMIN - der auf alle Seiten zugreifen darf, SUPPORT - der nur auf 
+die Konfliktlöseseite gelangt nach dem Login und USER, hiervon können beliebig 
+viele Accounts erstellt werden, sie dürfen dann auf alle Seiten außer der 
+Konfliktlöseseite zugreifen. Besitzt jemand keine Rolle, ist also nicht 
+eingeloggt, so darf nur die Login- und die Registrierungs-Seite aufgerufen werden. 
+Bei der Registrierung wird ein neuer Benutzer erstellt und in der Datenbank
+gespeichert, die Rolle USER wird automatisch gesetzt. In dieser Rolle darf auf 
+alle Seiten außer der Konfliktlöseseite zugegriffen werden, der Benutzer kann 
+sich ab dann über das Login-Formular authentifizieren. 
+Des Weiteren wird MyUserDetails als Hilfsklasse verwendet, um die Authentifizierung
+über das BenutzerRepository zu machen, was bedeutet, dass jeder Benutzer auch einen 
+Account bei der Anwendung besitzt. Dies wird in SecurityConfig-Methode config 
+konfiguriert. 
 
 
 # Hinzufügen der Verkaufen-Funktion
