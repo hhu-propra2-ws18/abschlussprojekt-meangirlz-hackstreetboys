@@ -23,7 +23,7 @@ public class ProfilBearbeitenController {
 
     @Autowired
     public ProfilBearbeitenController(BenutzerManager benutzerManager,
-                            PropayManager propayManager){
+                                      PropayManager propayManager) {
         this.benutzerManager = benutzerManager;
         this.propayManager = propayManager;
     }
@@ -42,8 +42,7 @@ public class ProfilBearbeitenController {
         AccountDto acc = propayManager.getAccount(benutzer.getBenutzerName());
         if (acc == null) {
             model.addAttribute("Betrag", "Propay nicht erreichbar xx,xx");
-        }
-        else{
+        } else {
             double betrag = acc.getAmount();
             model.addAttribute("Betrag", betrag);
         }
@@ -67,7 +66,7 @@ public class ProfilBearbeitenController {
                                             int aufladen,
                                             Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        if (!benutzerManager.geldAufladen(benutzer, aufladen)){
+        if (!benutzerManager.geldAufladen(benutzer, aufladen)) {
             return "ErrorPropay";
         }
 

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -20,7 +19,7 @@ public class ArtikelManager {
     final ArtikelRepository artikelRepo;
 
     @Autowired
-    public ArtikelManager(BenutzerRepository benutzerRepo, ArtikelRepository artikelRepo){
+    public ArtikelManager(BenutzerRepository benutzerRepo, ArtikelRepository artikelRepo) {
         this.benutzerRepo = benutzerRepo;
         this.artikelRepo = artikelRepo;
     }
@@ -48,7 +47,7 @@ public class ArtikelManager {
      * Erstellt einen Artikel, der verkauft werden kann.
      *
      * @param benutzerId Id des Artikels.
-     * @param artikel Artikel.
+     * @param artikel    Artikel.
      */
     public void erstelleVerkauf(Long benutzerId, Artikel artikel) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
@@ -111,7 +110,7 @@ public class ArtikelManager {
 
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         List<Ausleihe> ausleihen = benutzer.getAusgeliehen();
-        if (!istAusgeliehen(artikelId)){
+        if (!istAusgeliehen(artikelId)) {
             benutzer.getArtikel().remove(artikel);
             benutzerRepo.save(benutzer);
             artikelRepo.delete(artikel);
@@ -120,7 +119,7 @@ public class ArtikelManager {
 
     private boolean istAusgeliehen(Long artikelId) {
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
-        if(artikel.getAusgeliehen() == null || artikel.getAusgeliehen().isEmpty()){
+        if (artikel.getAusgeliehen() == null || artikel.getAusgeliehen().isEmpty()) {
             return false;
         }
         for (Ausleihe a : artikel.getAusgeliehen()) {

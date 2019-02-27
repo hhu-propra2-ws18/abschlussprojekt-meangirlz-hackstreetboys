@@ -3,25 +3,17 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.ReservationDto;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.ConnectException;
 
 @Service
 @ComponentScan(basePackages = "de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service")
@@ -44,7 +36,7 @@ public class PropayManager {
      * @return
      */
     @Retryable(maxAttempts = maxVersuche, value = RuntimeException.class, backoff = @Backoff(delay = verzoegerung))
-    public AccountDto getAccount(String benutzername){
+    public AccountDto getAccount(String benutzername) {
         try {
             ResponseEntity<AccountDto> result = rt.getForEntity(url + "account/" + benutzername, AccountDto.class);
             AccountDto acc = result.getBody();
@@ -71,12 +63,12 @@ public class PropayManager {
     @Retryable(maxAttempts = maxVersuche, value = RestClientException.class, backoff = @Backoff(delay = verzoegerung))
     public int guthabenAufladen(String benutzername, int anzahl) {
 
-            ResponseEntity<AccountDto> result = rt.postForEntity(url
-                + "account/"
-                + benutzername
-                + "?amount="
-                + anzahl, null, AccountDto.class);
-            result.getBody();
+        ResponseEntity<AccountDto> result = rt.postForEntity(url
+            + "account/"
+            + benutzername
+            + "?amount="
+            + anzahl, null, AccountDto.class);
+        result.getBody();
 
         return 200;
     }
@@ -125,8 +117,8 @@ public class PropayManager {
             return res;
         } catch (RestClientException e) {
             int i = 500;
-            if(e instanceof HttpClientErrorException) {
-                HttpClientErrorException clientEx = ((HttpClientErrorException)e);
+            if (e instanceof HttpClientErrorException) {
+                HttpClientErrorException clientEx = ((HttpClientErrorException) e);
                 i = clientEx.getRawStatusCode();
             }
             if (i < 500) {
@@ -177,8 +169,8 @@ public class PropayManager {
     @Recover
     public int recoverStatusCode(RestClientException e) {
         System.out.println("Recovering - returning safe value");
-        if(e instanceof HttpClientErrorException) {
-            HttpClientErrorException clientEx = ((HttpClientErrorException)e);
+        if (e instanceof HttpClientErrorException) {
+            HttpClientErrorException clientEx = ((HttpClientErrorException) e);
             return clientEx.getStatusCode().value();
         }
         return 500;

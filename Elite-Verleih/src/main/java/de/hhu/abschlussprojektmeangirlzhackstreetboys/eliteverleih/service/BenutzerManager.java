@@ -7,11 +7,9 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Auslei
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -22,7 +20,7 @@ public class BenutzerManager {
     PropayManager propayManager;
 
     @Autowired
-    public BenutzerManager(BenutzerRepository benutzerRepo, PropayManager propayManager){
+    public BenutzerManager(BenutzerRepository benutzerRepo, PropayManager propayManager) {
         this.benutzerRepo = benutzerRepo;
         this.propayManager = propayManager;
     }
@@ -48,6 +46,7 @@ public class BenutzerManager {
 
     /**
      * Erstellt einen Benutzer und gibt ihn zurueck
+     *
      * @param benutzer
      * @return Benutzer mit Id -1 wenn es schon einen in der Datenbank gibt.
      * , null wenn Propay nicht laeuft.
@@ -59,7 +58,7 @@ public class BenutzerManager {
             return benutzerFehler;
         }
         AccountDto account = propayManager.getAccount(benutzer.getBenutzerName());
-        if (account == null){
+        if (account == null) {
             return null;
         }
         return benutzerRepo.save(benutzer);
@@ -107,10 +106,7 @@ public class BenutzerManager {
 
     public boolean geldAufladen(Benutzer newBenutzer, int aufladen) {
         int code = propayManager.guthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
-        if (code != 200){
-            return false;
-        }
-        return true;
+        return code == 200;
     }
 }
 

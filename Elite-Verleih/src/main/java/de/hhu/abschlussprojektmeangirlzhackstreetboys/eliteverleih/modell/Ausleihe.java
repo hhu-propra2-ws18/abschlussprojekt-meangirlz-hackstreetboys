@@ -90,10 +90,7 @@ public class Ausleihe {
         jetzt.set(Calendar.MILLISECOND, jetzt.getActualMinimum(Calendar.MILLISECOND));
         Calendar start = getAusleihStartdatum();
         Calendar ende = getAusleihRueckgabedatum();
-        if (jetzt.after(start) || jetzt.after(ende)) {
-            return false;
-        }
-        return true;
+        return !jetzt.after(start) && !jetzt.after(ende);
     }
 
     /**

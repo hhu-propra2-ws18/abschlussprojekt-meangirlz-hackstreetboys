@@ -2,7 +2,6 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.ReservationDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
@@ -14,7 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -22,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -39,20 +36,21 @@ public class BenutzerManagerTest {
     @Autowired
     BenutzerRepository benutzerRepo;
 
+    @BeforeClass
+    public static void setupBeforeClass() {
+        AccountDto mockDto = new AccountDto();
+        when(propayManager.getAccount(anyString())).thenReturn(mockDto);
+    }
+
     @Before
     public void setup() {
         benutzerM = new BenutzerManager(benutzerRepo, propayManager);
 
     }
-    @BeforeClass
-    public static void setupBeforeClass(){
-        AccountDto mockDto = new AccountDto();
-        when(propayManager.getAccount(anyString())).thenReturn(mockDto);
-    }
 
     @Rollback
     @Test
-    public void erstelleBenutzer_EqualName(){
+    public void erstelleBenutzer_EqualName() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -63,7 +61,7 @@ public class BenutzerManagerTest {
 
     @Rollback
     @Test
-    public void erstelleBenutzer_EqualEmail(){
+    public void erstelleBenutzer_EqualEmail() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -74,7 +72,7 @@ public class BenutzerManagerTest {
 
     @Rollback
     @Test
-    public void bearbeiteBenutzer_EqualName(){
+    public void bearbeiteBenutzer_EqualName() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -85,13 +83,13 @@ public class BenutzerManagerTest {
         b1.setBenutzerName("test");
         b1.setArtikel(new ArrayList<Artikel>());
         Long bId = benutzerM.findBenutzerByName("test").getBenutzerId();
-        benutzerM.bearbeiteBenutzer(bId,b1);
+        benutzerM.bearbeiteBenutzer(bId, b1);
         Assertions.assertThat(benutzerRepo.findAll().get(0).getBenutzerEmail()).isEqualTo("geaendert!");
     }
 
     @Rollback
     @Test
-    public void nameAlreadyExists_AlreadyExists(){
+    public void nameAlreadyExists_AlreadyExists() {
         Benutzer b0 = new Benutzer();
         b0.setBenutzerEmail("test@yahoo");
         b0.setBenutzerName("test");
@@ -102,7 +100,7 @@ public class BenutzerManagerTest {
 
     @Rollback
     @Test
-    public void nameAlreadyExists_IsNew(){
+    public void nameAlreadyExists_IsNew() {
         Assertions.assertThat(benutzerM.nameSchonVorhanden("test")).isEqualTo(false);
     }
 

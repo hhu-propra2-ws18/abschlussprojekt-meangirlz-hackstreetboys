@@ -1,6 +1,5 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
@@ -18,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Controller
 public class ProfilController {
@@ -35,7 +36,7 @@ public class ProfilController {
     public ProfilController(ArtikelManager artikelManager,
                             AusleiheManager ausleiheManager,
                             BenutzerManager benutzerManager,
-                            PropayManager propayManager){
+                            PropayManager propayManager) {
         this.artikelManager = artikelManager;
         this.ausleiheManager = ausleiheManager;
         this.benutzerManager = benutzerManager;

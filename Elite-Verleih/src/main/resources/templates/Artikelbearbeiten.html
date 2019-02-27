@@ -41,31 +41,36 @@
                     <form action="#" method="post" th:object="${artikel}">
                         <div class="form-group">
                             <label>Name </label>
-                            <input required maxlength="50" class="form-control" th:field="*{artikelName}" type="text"/>
+                            <input class="form-control" maxlength="50" required th:field="*{artikelName}" type="text"/>
                         </div>
                         <div class="form-group">
                             <label>Beschreibung </label>
-                            <textarea required maxlength="500" class="form-control" th:field="*{artikelBeschreibung}" type="text"></textarea>
+                            <textarea class="form-control" maxlength="500" required th:field="*{artikelBeschreibung}"
+                                      type="text"></textarea>
                         </div>
                         <div class="form-group" th:if="${artikel?.getZuVerkaufen()}==false">
                             <label>Kaution </label>
-                            <input required class="form-control" min="1" max="500000" th:field="*{artikelKaution}" type="number"/>
+                            <input class="form-control" max="500000" min="1" required th:field="*{artikelKaution}"
+                                   type="number"/>
                         </div>
                         <div class="form-group" th:if="${artikel?.getZuVerkaufen()}==false">
                             <label>Tarif (pro Tag)</label>
-                            <input required class="form-control" min="1" max="10000"  th:field="*{artikelTarif}" type="number"/>
+                            <input class="form-control" max="10000" min="1" required th:field="*{artikelTarif}"
+                                   type="number"/>
                         </div>
                         <div class="form-group" th:if="${artikel?.getZuVerkaufen()}==true">
                             <label>Preis</label>
-                            <input required class="form-control" min="1" max="10000"  th:field="*{artikelPreis}" type="number"/>
+                            <input class="form-control" max="10000" min="1" required th:field="*{artikelPreis}"
+                                   type="number"/>
                         </div>
                         <div class="form-group">
                             <label>Abholort </label>
-                            <input required maxlength="255" class="form-control" th:field="*{artikelOrt}" type="text"/>
+                            <input class="form-control" maxlength="255" required th:field="*{artikelOrt}" type="text"/>
                         </div>
                         <div class="form-group">
                             <label>Bild URL </label>
-                            <input required maxlength="255" class="form-control" th:field="*{artikelBildUrl}" type="text"/>
+                            <input class="form-control" maxlength="255" required th:field="*{artikelBildUrl}"
+                                   type="text"/>
                         </div>
                         <li class="list-group-item">
                             <a th:href="|/Loeschen/${artikel?.getArtikelId()}|">
@@ -78,8 +83,10 @@
                             <button class="btn btn-primary my-2" type="submit">Speichern</button>
                             <button class="btn btn-primary my-2" type="reset">Zurücksetzen</button>
                         </p>
-                        <div th:if="${param.error}" class="alert alert-danger">Artikel wurde angefragt und kann nicht geloescht
-                            werden!</div>
+                        <div class="alert alert-danger" th:if="${param.error}">Artikel wurde angefragt und kann nicht
+                            geloescht
+                            werden!
+                        </div>
                     </form>
 
                 </div>

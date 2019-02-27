@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 @Import( {ArtikelManager.class})
 @RunWith(SpringRunner.class)
@@ -48,7 +47,7 @@ public class ArtikelManagerTest {
         a0.setArtikelTarif(1);
         artikelM.erstelleVerleihen(bId, a0);
         Assertions.assertThat(artikelM.getAllArtikel().get(0).getArtikelName()).isEqualTo("Hammer");
-        }
+    }
 
     @Rollback
     @Test

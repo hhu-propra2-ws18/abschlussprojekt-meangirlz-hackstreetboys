@@ -10,8 +10,7 @@ import org.springframework.web.client.RestTemplate;
 public class TimeoutConfig {
 
     @Bean
-    public RestTemplate customRestTemplate()
-    {
+    public RestTemplate customRestTemplate() {
         HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
         httpRequestFactory.setConnectionRequestTimeout(0);
         httpRequestFactory.setConnectTimeout(500);

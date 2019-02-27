@@ -20,11 +20,10 @@ import java.util.List;
 public class AusleiheManager {
 
 
-    PropayManager propayManager;
-
     final BenutzerRepository benutzerRepo;
     final ArtikelRepository artikelRepo;
     final AusleiheRepository ausleiheRepo;
+    PropayManager propayManager;
 
     @Autowired
     public AusleiheManager(AusleiheRepository ausleiheRepo, PropayManager propayManager, ArtikelRepository artikelRepo, BenutzerRepository benutzerRepo) {

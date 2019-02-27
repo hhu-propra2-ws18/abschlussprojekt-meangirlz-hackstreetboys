@@ -31,9 +31,9 @@ public class KonfliktController {
 
     @Autowired
     public KonfliktController(ArtikelManager artikelManager,
-                                   AusleiheManager ausleiheManager,
-                                   BenutzerManager benutzerManager,
-                                   PropayManager propayManager){
+                              AusleiheManager ausleiheManager,
+                              BenutzerManager benutzerManager,
+                              PropayManager propayManager) {
         this.artikelManager = artikelManager;
         this.ausleiheManager = ausleiheManager;
         this.benutzerManager = benutzerManager;

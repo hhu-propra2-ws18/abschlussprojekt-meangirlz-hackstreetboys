@@ -34,9 +34,9 @@ public class DetailansichtController {
 
     @Autowired
     public DetailansichtController(ArtikelManager artikelManager,
-                            AusleiheManager ausleiheManager,
-                            BenutzerManager benutzerManager,
-                            PropayManager propayManager){
+                                   AusleiheManager ausleiheManager,
+                                   BenutzerManager benutzerManager,
+                                   PropayManager propayManager) {
         this.artikelManager = artikelManager;
         this.ausleiheManager = ausleiheManager;
         this.benutzerManager = benutzerManager;
