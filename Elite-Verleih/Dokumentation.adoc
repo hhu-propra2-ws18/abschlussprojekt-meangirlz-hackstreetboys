@@ -15,7 +15,11 @@ Einstellungen
 ### Startseite und Anmeldung
 
 Auf der Startseite haben Benutzer und der Support die Möglichkeit, sich mittels dem Benutzernamen
-und einem Passwort sicher einzuloggen. Hat man bisher noch keinen Account angelegt,
+und einem Passwort sicher einzuloggen. Dazu wird ein Benutzername und ein Passwort benötigt.
+Sind einer der Daten nicht korrekt eingegeben worden und stimmen nicht mit den Daten überein,
+die in der Datenbank gespeichert worden sind, kommt eine Fehlermeldung.
+
+Hat man bisher noch keinen Account angelegt,
 so klickt man auf den Registrier-Button, wodurch man auf einer seperaten Seite einen neuen Benutzer anlegen kann.
 Der Login mit dem Username "support" führt direkt zur Konfliktlöseseite.
 
@@ -26,7 +30,7 @@ noch nicht vergeben sein darf. Zudem wird eine Emailadresse benötigt und ein be
 
 Falls der User einen bereits vergebenen Benutzernamen eingibt, kommt eine Fehlermeldung,
 dass dieser Name bereits vergeben ist und der Account wird nicht angelegt. Analog dazu
-muss die Emailadresse gültig sein.
+muss die Emailadresse gültig und ein beliebiges Passwort eingegeben sein.
 
 ##### Erfolgreiches Einloggen als Benutzer
 
@@ -42,13 +46,13 @@ ausloggen. Die Navbar hat je nach Seite noch weitere Funktionen, die später erl
 
 In der Navbar der Übersichtsseite kann der Benutzer außerdem nach Artikeln suchen,
 indem er einen Teil, oder den vollständigen Namen eines Artikels eingibt.
+Außerdem befinden sich auf der rechten Seite Button, mit der man Artikel zum verkaufen
+oder zum verleihen anlegen kann.
 
-In der Übersicht werden alle Artikel aufgelistet, die von verschiendenen Bentzern angelegt wurden. Bilder, Name des Artikels
+In der Übersicht werden alle Artikel aufgelistet, die von verschiendenen Benutzern angelegt wurden. Bilder, Name des Artikels
 und Kosten pro Tag verschaffen dem Nutzer einen leichten Überblick.
 Der Benutzer kann auf einen Artikel klicken, wodurch er auf die Detaillseite des
 Artikels gelangt.
-Unten rechts wird ein grüner Button angezeigt, mit dem der Benutzer jederzeit einen
-neuen Artikel anlegen kann.
 
 ### Artikel erstellen
 Als Benutzer hat man die Möglichkeit einen eigenen Artikel einzustellen. Hierzu
@@ -63,9 +67,11 @@ werden folgende Attribute benoetigt:
 
 Zum Einstellen des Artikels werden alle Angaben benötigt. Man kann dann entweder
 mit dem Button "Submit" den Artikel über das ArtikelRepository an die Datenbank senden,
-sodass er ab dann in der Übersicht sichtbar ist.
+sodass er ab dann in der Übersicht sichtbar ist. Gibt der Benutzer einen negativen Wert für eine Ausleihe oder eine Kaution an,
+so wird eine Fehlermeldung ausgegeben, dass der Wert mindestens 1 betragen muss.
 Zum anderen hat man die Option das Formular zu resetten, also alle Eingaben wieder
 zu löschen.
+
 
 ### Artikel bearbeiten
 Diese Seite kann nur von dem jeweiligen Besitzer des Artikels erreicht werden.
@@ -74,11 +80,14 @@ Die Funktion einen Artikel zu bearbeiten funktioniert analog zu dem Anlegen eine
 neuen Artikels. Es werden hier die Werte, die der Artikel aktuell besitzt in den
 Eingabefeldern angezeigt, so können sie leichter wieder übernommen oder abgeändert
 werden. Es werden die Attribute nach absenden des Formulars neu gesetzt und dann
-über das ArtikelRepository neu in der Datenbank abgespeichert. Zusätzlich kann hier
-noch der Artikel entfernt werden, falls keine Ausleihen für ihn bestehen. Kann
+über das ArtikelRepository neu in der Datenbank abgespeichert.
+
+Zusätzlich kann hier
+noch der Artikel entfernt oder bearbeitet werden, falls keine Ausleihen für ihn bestehen. Kann
 der Artikel erfolgreich gelöscht werden, so wird auf die aktualisierte
 Übersichtsseite weitergeleitet, ist das Löschen nicht möglich, so wird ein Fehler
 auf der Bearbeiten-Seite angezeigt.
+
 
 ### Detailansicht
 In der Detailansicht kann man sich alle Angaben zu einem Artikel anschauen. Des
@@ -97,9 +106,20 @@ werden wieder die folgenden Attribute angezeigt:
 Außerdem kann hier über zwei Datumsfelder eine Ausleihe erstellt werden. Klickt
 man auf die Felder für die Datumseingabe öffnet sich (in fast allen Browsern)
 ein Kalender in dem die Daten durch klicken ausgewählt werden können und somit
-auch automatisch formatiert werden. Darunter befindet sich der Button "Artikel
+auch automatisch formatiert werden. Liegt das eingegebene Datum in der Vergangenheit, geht die Anfrage an den Verleihern, der diese
+auch bestätigen kann. Bei Bestätigung der Anfrage wird diese aber automatisch abgelehnt.
+Das zweite angegebene Datum "bis", muss einen späteren Zeitpunkt als
+das erste angegebene Datum haben. Es kommt ansonsten dazu eine Fehlermeldung.
+
+
+Darunter befindet sich der Button "Artikel
 ausleihen", der mittel der eingegebenen Daten eine Ausleihe mit dem Besitzer und
-dem aktuellen Benutzer erstellt. Ist während der angefragten Daten schon eine
+dem aktuellen Benutzer erstellt. Falls der Artikel dem aktiven Benutzer gehört,
+existiert dieser Button nicht und der Artikel kann nur bearbeitet werden.
+Wurde eine Ausleihe erfolgreich bestellt, kann der Benutzer in der Artkelbeschreibung sehen,
+wann verschiedene Ausleihen bestehen. Das Datum ist dann geblockt.
+
+Ist während der angefragten Daten schon eine
 Ausleihe erstellt worden, so wird man auf eine Seite weitergeleitet, wo der
 Benutzer darüber in Kenntnis gesetzt wird, dass der Artikel zu diesen Daten
 leider nicht mehr verfügbar ist.
@@ -115,13 +135,14 @@ Benutzer einfach zurück auf die Übersichtsseite geleitet.
 Ist man Besitzer dieses Artikels hat man außerdem noch über einen Button
 die Möglichkeit den Artikel zu bearbeiten.
 
-### Error: Artikel nicht verfügbar
+
+* *Error: Artikel nicht verfügbar*
 Der Benutzer wird darüber informiert, dass zu seinen angefragten Daten der
 Artikel leider nicht mehr verfügbar ist. Außerdem gibt es einen Button "Zurück
 zur Übersicht" womit der Benutzer wieder auf die Übersichtsseite navigieren kann.
 
 
-### Error: Fehlendes Guthaben
+* *Error: Fehlendes Guthaben*
 Sollte der Benutzer für eine Aktion nicht ausreichend Guthaben besitzen, so wird
 er auf diese Seite weitergeleitet. Hier wird er über den Umstand in Kenntnis
 gesetzt außerdem wird die Möglichkeit geboten über einen Button "Konto aufladen"
@@ -236,7 +257,7 @@ wurden bereits in vorherigen Kapiteln ausgiebig erläutert.
 
 Die *Controller* ermöglichen die Umsetzung von Benutzeranforderungen. Je nach View sind diese
 mit den entsprechenden Controllern verbunden, wie die oben dargestellt Graphik darstellt.
-Um die Logik von den Controllern zu seperieren und eine gut strukturierte Architektur zu
+Um die Logik von den Controllern zu separieren und eine gut strukturierte Architektur zu
 ermöglichen, gibt es mehrere *Services*. In diesen Services befinden sich Logik, um
 verschiedene Funktionen in der Webanwendung zu ermöglichen. Jeder Controller greift auf einen,
 oder mehrere Services zu, wie in der Graphik mittels verschiedenen Farben deutlich gemacht wird.
@@ -244,6 +265,26 @@ oder mehrere Services zu, wie in der Graphik mittels verschiedenen Farben deutli
 Für die Verwendung einer *Datenbank*, werden zudem verschiedene Repositorys sowie Models
 benötigt, damit diese mit den entsprechenden Daten gefüllt werden kann. In unserem Team haben
 wir uns einheitlich für eine PostgreSQL-Datenbank entschieden.
+
+Die Verbindung mit *ProPay* und Elite-Verleih wird ebenfalls durch eine eigene
+Serviceklasse sichergestellt. Durch den ProPayManager werden dem Programmierer mehrere Methoden
+zur Verfügung gestellt, womit jedem Benutzer ein Konto zur Verfügung gestellt wird und dazu die
+entsprechenden Services.
+
+
+Diese Architektur hat uns vor allem ermöglicht, in großen Teilen unabhängig voneinander
+entwickeln zu können. Somit fiel es uns leicht, Aufgaben zu verteilen und später
+weitere Details und Funktionen zusammenzuführen.
+
+
+
+
+### Tests
+
+Neben dem Testen der Anwendung selbst im Browser, gibt es einige Fälle, die wir so nicht testen können,
+beispielsweise mit Szenarien in der Zukunft.
+
+Daher sind Tests zu den verschiedenen Managern absolut notwendig.
 
 
 # Hinzufügen der Verkaufen-Funktion
@@ -257,19 +298,19 @@ Im Modell des Artikels soll es folgende anpassungen geben:
 
 Die Controller und Views müssen wie folt angepasst werden:
 
-* neue View für *VerkaufErstellen*, jedoch im Controller von ArtikelErstellen 
+* neue View für *VerkaufErstellen*, jedoch im Controller von ArtikelErstellen
 handhaben mit Get- und PostMapping zu "/VerkaufErstellen"
 * *ArtikelBearbeiten* soll so abgeändert werden, dass wenn der Artikel zum Verkauf
 steht statt Kaution und Tarif nur der Preis geändert werden kann
-* In der *Detailansicht* soll auch statt Kaution und Tarif nur der Verkaufspreis 
-angezeigt werden, es soll die Möglichkeit geben den Artikel zu kaufen (genauer: 
-Überweisen des Verkaufspreises vom aktuellen Benutzer zu dem Besitzer und dann 
-löschen des Artikels aus der Datenbank), außerdem soll es nicht mehr die 
+* In der *Detailansicht* soll auch statt Kaution und Tarif nur der Verkaufspreis
+angezeigt werden, es soll die Möglichkeit geben den Artikel zu kaufen (genauer:
+Überweisen des Verkaufspreises vom aktuellen Benutzer zu dem Besitzer und dann
+löschen des Artikels aus der Datenbank), außerdem soll es nicht mehr die
 Möglichkeit geben den Artikel auszuleihen
 * In der *Übersicht* soll angezeigt werden ob ein Artikel verkauft oder verliehen
-wird, des Weiteren soll statt dem Tarif der Verkaufspreis angezeigt werden, zu 
+wird, des Weiteren soll statt dem Tarif der Verkaufspreis angezeigt werden, zu
 Guter letzt soll es zwei Buttonsgeben um einen Verleih und einen Verkauf zu
-erstellen 
+erstellen
 
 Es soll nicht die Möglichkeit geben einen Artikel der zum Verleih angeboten wird
 später zum Verkauf anzubieten, umgekehrt gleichermaßen. Ein Artikel zum Verleih
@@ -279,31 +320,31 @@ des Artikels zum Verkauf verkauft werden.
 ## 2. Umsetzung
 
 Zuerst wurde die VerkaufErstellen View erstellt, der Controller von ArtikelErstellen
-wurde angepasst, zudem musste dem artikelManager eine zweite Methode erstelleVerkauf 
+wurde angepasst, zudem musste dem artikelManager eine zweite Methode erstelleVerkauf
 hinzugefügt werden, die den zuVerkaufen-boolean auf true setzt. Dieser Wert soll
-*niemals* geändert werden. Außerdem werden hier Kaution und Tarif auf Null 
+*niemals* geändert werden. Außerdem werden hier Kaution und Tarif auf Null
 gesetzt, was ebenfalls für den User nicht manipulierbar sein sollte. Zuletzt wird
 dem artikelPreis der vom Benutzer eingegebene Preis zugewiesen.
 Die Methode erstelleArtikel wurde umbenannt zu erstelleVerleih. auch hier wird
-der boolean gesetzt, in diesem Fall auf false, und soll *unter keinen Umständen* 
-geändert werden können. Hier wird der Preis auf Null gesetzt, auch diese Wert 
+der boolean gesetzt, in diesem Fall auf false, und soll *unter keinen Umständen*
+geändert werden können. Hier wird der Preis auf Null gesetzt, auch diese Wert
 soll für den Benutzer final sein.
-Die Änderungen für ArtikelBearbeiten waren minimal, da nur abgefragt werden 
-musste ob der Artikel zum Verkauf steht oder verliehen werden soll, um dann 
-Preis oder Kaution und Tarif anzuzeigen. Artikel löschen funktioniert für diese 
-zu verkaufenden Artikel immer, da sie keine Ausleihen haben, analog zu den zu 
+Die Änderungen für ArtikelBearbeiten waren minimal, da nur abgefragt werden
+musste ob der Artikel zum Verkauf steht oder verliehen werden soll, um dann
+Preis oder Kaution und Tarif anzuzeigen. Artikel löschen funktioniert für diese
+zu verkaufenden Artikel immer, da sie keine Ausleihen haben, analog zu den zu
 Verleihenden.
-In der Detailansicht wurde der Kalender entfernt, falls der Artikel zum Verkauf 
-steht, und ein "Artikel kaufen" button hinzugefügt. Hierzu wurde im Controller 
-eine Methode mit Mapping auf "/Kaufen/{artikelId}" erstellt, welche versucht den 
-Artikelpreis vom aktuellen Benutzer zu dem Artikelbesitzer zu überweisen. Gelingt 
+In der Detailansicht wurde der Kalender entfernt, falls der Artikel zum Verkauf
+steht, und ein "Artikel kaufen" button hinzugefügt. Hierzu wurde im Controller
+eine Methode mit Mapping auf "/Kaufen/{artikelId}" erstellt, welche versucht den
+Artikelpreis vom aktuellen Benutzer zu dem Artikelbesitzer zu überweisen. Gelingt
 dies, so wird der Artikel gelöscht und der Benutzer zur Übersicht weitergeleitet.
 Ansonsten erhält er eine Fehlermeldung. Es wird hier geprüftt, dass der Benutzer
-nicht seine eigenen Artikel kaufen kann. 
-Zuletzt wurde in der Detailansicht ein Feld hinzugefügt, welches angibt ob ein 
+nicht seine eigenen Artikel kaufen kann.
+Zuletzt wurde in der Detailansicht ein Feld hinzugefügt, welches angibt ob ein
 Artikel verkauft oder verliehen werden soll. Auch hier wurde für die zu verkaufenden
 Artikel der Preis statt dem Tarif angezeigt, dies ist durch eine simple Abfrage
 des zuVerkaufen-boolean möglich.
 Außerdem wurde ein weiterer Button hinzugefügt, der auf die VerkaufErstellen Seite
-leitet. Diese Buttons zum Erstellen eines zu verleihenden oder zu verkaufenden 
-Artikels wurden der Übersichtlichkeits halber in die Navbar eingebettet. 
+leitet. Diese Buttons zum Erstellen eines zu verleihenden oder zu verkaufenden
+Artikels wurden der Übersichtlichkeits halber in die Navbar eingebettet.
