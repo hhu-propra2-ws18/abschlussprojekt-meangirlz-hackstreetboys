@@ -36,6 +36,10 @@ public class Artikel {
 
     private String artikelBildUrl;
 
+    private boolean zuVerkaufen;
+
+    private int artikelPreis;
+
     public Artikel() {
     }
 
@@ -85,6 +89,10 @@ public class Artikel {
         this.artikelOrt = artikelOrt;
         this.ausgeliehen = ausleiheList;
         this.artikelBildUrl = artikelBildUrl;
+    }
+
+    public boolean getZuVerkaufen() {
+        return zuVerkaufen;
     }
 
     public boolean hatOrt(){

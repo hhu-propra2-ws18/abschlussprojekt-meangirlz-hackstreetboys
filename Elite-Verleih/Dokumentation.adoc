@@ -1,75 +1,25 @@
 ## Dokumentation
 
-### Arbeitsschritte
-
-Zuerst haben wir zusammen besprochen wie der Plan für den Anfang aussehen sollte. 
-Wir haben folgendes festgelegt:
-
 Name
 ^^^^^
 * Elite-Verleih
 
 Einstellungen
 ^^^^^^^^^^^^
-* IDE:
-  - IntelliJ
-* Tab/4sp:
-  - Tab
-* CommitSprache:
-  - Deutsch
-* DB:
-  - PostgreSQL
-  student
-Model
-^^^^^
-* Benutzer:
-  - Username, (String)
-  - mailAdresse, (String)
-  - id, (Long)
-  - ausgeliehenes, (List<Ausleihe>)
-* Ausleihe:
-  - artikel, (Artikel)
-  - startDatum, (Date)student
-  - benutzer, (Benutzer)
-  - id, (Long)
-  - rueckgabeDatum, (Date)
-* Artikel:
-  - id, (Long)
-  - name, (String)
-  - beschreibung, (String)
-  - besitzer, (Benutzer)
-  - kaution, (int)
-  - tarif, (int)
-  - ort, (String)
-  - ausleihen, (List<Ausleihe>)
-  
-Repos
-^^^^^
-  - Benutzer
-  - Ausleihe
-  - Artikel
-  
-Views/Controller
-^^^^^^^^^^^^^^^^^
-* Error Handhabung
-* Anmelden
-* Registrieren
-* Uebersicht
-* Profilseite & Benachrichtigungen & geliehene Artikel
-* Produktdetailansicht & Ausleihbutton
-* Artikelerstellung
+* IDE: IntelliJ
+* Tab/4sp: Tab
+* CommitSprache: Deutsch
+* DB: PostgreSQL
 
-Als naechstes haben wir den Grundstein in den Master branch gepusht. Damit ist die Erstellung eines Spring boot Projekts gemeint. Von hier an haben wir entschieden, fuer die Entwicklung hauptsaechlich in branches zu arbeiten und spaetestens beim merge der branches in den master branch zu reviewen. 
-
-Elite-Verlieh ist eine Plattform für das private Ausleihen von Gegenständen.
 
 ### Startseite und Anmeldung
 
 Auf der Startseite haben Benutzer und der Support die Möglichkeit, sich mittels dem Benutzernamen
 und einem Passwort sicher einzuloggen. Hat man bisher noch keinen Account angelegt,
 so klickt man auf den Registrier-Button, wodurch man auf einer seperaten Seite einen neuen Benutzer anlegen kann.
+Der Login mit dem Username "support" führt direkt zur Konfliktlöseseite.
 
-### Registrieren
+##### Registrieren
 
 Um einen neuen Benutzer anzulegen, muss der User einen Benutzernamen eingeben, der
 noch nicht vergeben sein darf. Zudem wird eine Emailadresse benötigt und ein beliebiges Passwort.
@@ -78,17 +28,17 @@ Falls der User einen bereits vergebenen Benutzernamen eingibt, kommt eine Fehler
 dass dieser Name bereits vergeben ist und der Account wird nicht angelegt. Analog dazu
 muss die Emailadresse gültig sein.
 
-### Erfolgreiches Einloggen als Benutzer
+##### Erfolgreiches Einloggen als Benutzer
 
-#### Navbar
+##### Navbar
 Nach einem erfolgreichem Login wird der Benutzer sicher auf die Übersichtsseite
 weitergeleitet.
 Von hier aus besitzt jede Seite eine Navbar, in der der Benutzer sich oben links
-mit dem Logo von Elite-Verleieh auf die Übersichtsseite gelangen kann. Auf der rechten
-Seite kann der Benutzer mittels einem Dropdown-Button auf die Profilseite kommen uns sich
+mit dem Logo von Elite-Verleih auf die Übersichtsseite gelangen kann. Auf der rechten
+Seite kann der Benutzer mittels einem Dropdown-Button auf die Profilseite kommen und sich
 ausloggen. Die Navbar hat je nach Seite noch weitere Funktionen, die später erläutert werden.
 
-#### Übersicht
+### Übersicht
 
 In der Navbar der Übersichtsseite kann der Benutzer außerdem nach Artikeln suchen,
 indem er einen Teil, oder den vollständigen Namen eines Artikels eingibt.
@@ -100,7 +50,7 @@ Artikels gelangt.
 Unten rechts wird ein grüner Button angezeigt, mit dem der Benutzer jederzeit einen
 neuen Artikel anlegen kann.
 
-#### Artikel erstellen
+### Artikel erstellen
 Als Benutzer hat man die Möglichkeit einen eigenen Artikel einzustellen. Hierzu
 werden folgende Attribute benoetigt:
 
@@ -118,7 +68,7 @@ Zum anderen hat man die Option das Formular zu resetten, also alle Eingaben wied
 zu löschen.
 
 ### Artikel bearbeiten
-Diese Seite kann nur von dem jeweiligen Besitzer des Artikels erreich werden.
+Diese Seite kann nur von dem jeweiligen Besitzer des Artikels erreicht werden.
 Hierdurch sollen unbefugte Änderungen abgefangen werden.
 Die Funktion einen Artikel zu bearbeiten funktioniert analog zu dem Anlegen eines
 neuen Artikels. Es werden hier die Werte, die der Artikel aktuell besitzt in den
@@ -142,6 +92,7 @@ werden wieder die folgenden Attribute angezeigt:
 * der Tarif pro Tag
 * der Ort, an dem der Artikel abgeholt werden soll
 * falls keine Ausleihen bestehen, wird angezeigt, dass der Artikel verfügbar ist
+* eine Liste mit den Daten, an denen der Artikel bereits ausgeliehen ist
 
 Außerdem kann hier über zwei Datumsfelder eine Ausleihe erstellt werden. Klickt
 man auf die Felder für die Datumseingabe öffnet sich (in fast allen Browsern)
@@ -150,14 +101,14 @@ auch automatisch formatiert werden. Darunter befindet sich der Button "Artikel
 ausleihen", der mittel der eingegebenen Daten eine Ausleihe mit dem Besitzer und
 dem aktuellen Benutzer erstellt. Ist während der angefragten Daten schon eine
 Ausleihe erstellt worden, so wird man auf eine Seite weitergeleitet, wo der
-Benutzer darüber in Kenntniss gesetzt wird, dass der Artikel zu diesen Daten
+Benutzer darüber in Kenntnis gesetzt wird, dass der Artikel zu diesen Daten
 leider nicht mehr verfügbar ist.
 
 Außerdem wird bei dem Erstellen einer Ausleihe überprüft, ob der Benutzer noch
-genug Guthaben hat um die Kaution zu decken. Falls dem nicht so ist, so wird der
+genug Guthaben hat um die Kaution zu decken. Ist dies nicht der Fall, so wird der
 Benutzer auf eine Fehlerseite weitergeleitet.
-Besitzt der Besitzer genug Guthaben, so wird ihm mit dem Erstellen der Ausleihe
-die Kaution abgezogen.
+Besitzt der Besitzer genug Guthaben,wird die Ausleihe-Anfrage weitergeleitet.
+Wird diese angenommen, wird die Kaution des Artikels reserviert.
 
 In dem Fall, dass erfolgreich eine Ausleihe erstellt werden konnte, wird der
 Benutzer einfach zurück auf die Übersichtsseite geleitet.
@@ -178,14 +129,18 @@ die Profil-bearbeiten-Seite aufzurufen, wo der Benutzer sein Guthaben aufladen
 kann.
 Zudem wird hier die E-Mail zum Kontaktieren des Supports angezeigt.
 
-#### Profil
+### Profil
 
 Übersicht -> Benutzername, Mein Profil
 
 In der Navbar hat der Benutzer eine zusätzliche Anzeige, wie viel Guthaben sich auf seinem
 ProPay-Konto befindet.
-Zudem gelangt der Nutzer nun auch durch das Dropdown-Menü auf der rechten Seite die
-Profil-Bearbeiten Seite.
+Zudem gelangt der Nutzer nun auch durch das Dropdown-Menü auf der rechten Seite zur
+Profil-Bearbeiten Seite und hat die Möglichkeit sich auszuloggen.
+
+##### Profil bearbeiten
+Übersicht -> Benutzername, mein Profil -> Benutzername, Profil bearbeiten
+- Der Benutzer kann hier seine Email Adresse ändern und bei Bedarf sein Guthaben aufladen.
 
 Der Benutzer findet auf der Profilseite alle für ihn laufenden Prozesse von Artikeln.
 Dabei lassen sich die Prozesse in folgende Abschnitte unterteilen: Anfragen, Ausgeliehenes,
@@ -219,8 +174,9 @@ angezeigt.
 - Der Ausleiher kann den Artikel zurückgeben, wenn der Ausleihezeitraum zuende ist und
 auf dies auf dem Button *Zurückgeben* bestätigen. In diesem Schritt werden die Kosten
 des Ausleihzeitraums berechnet und dem Verleiher überwiesen. Ist nicht genügend Geld
-auf dem ProPay-Konto des Ausleihers vorhanden, wird dieser Fall direkt an die
-Konfliktzentrale geschickt.
+auf dem ProPay-Konto des Ausleihers vorhanden, wird eine Fehlermeldung angezeigt, dass
+nicht genügend Geld auf dem Konto vorhanden ist. Der Ausleiher wird dazu aufgefordert,
+sein Geld auf dem Konto aufzuladen.
 
 Angefragte Artikel werden in der Spalte *Wartend* angezeigt. Der Benutzer hat die Option,
 die Anfrage vorzeitig zurückziehen. Damit wird die Ausleihe gelöscht.
@@ -256,7 +212,35 @@ Der Nutzer kann nun auf den Button "Entfernen" klicken und somit den Vorgang end
 Die Ausleihe wird daraufhin gelöscht und somit aus der Datenbank entfernt.
 
 
-#### Profil bearbeiten
+##### Konflikte
 
-Übersicht -> Benutzername, mein Profil -> Benutzername, Profil bearbeiten
+Hier werden noch nicht gelöste Konflikte aufgelistet. Konflikte können nicht vom Benutzer selbst
+aufgelöst werden, er kann lediglich seine Wünsche / Probleme via Email mit dem Support klären,
+welcher dann entscheidet, wer die Kaution des Artikels erhält.
 
+- Konflikte werden dem Support auf der Konfliktlöseseite angezeigt, hier kann er die Kaution dem Ausleihenden / Verleihenden buchen und damit den Konflikt beenden.
+ Außerdem werden zu jedem Konflikt auch die Daten der involvierten Benutzer angezeigt.
+
+
+# Softwarearchitektur
+
+
+image::AbschlussprojektArchitektur.jpg[]
+
+Die ersten Schritte in unserem Team waren es, die Sturktur unseres Projektes
+festzulegen:
+
+
+Die *Views* ermöglichen die graphische Repräsentation der Daten. Die einzelnen Views
+wurden bereits in vorherigen Kapiteln ausgiebig erläutert.
+
+Die *Controller* ermöglichen die Umsetzung von Benutzeranforderungen. Je nach View sind diese
+mit den entsprechenden Controllern verbunden, wie die oben dargestellt Graphik darstellt.
+Um die Logik von den Controllern zu seperieren und eine gut strukturierte Architektur zu
+ermöglichen, gibt es mehrere *Services*. In diesen Services befinden sich Logik, um
+verschiedene Funktionen in der Webanwendung zu ermöglichen. Jeder Controller greift auf einen,
+oder mehrere Services zu, wie in der Graphik mittels verschiedenen Farben deutlich gemacht wird.
+
+Für die Verwendung einer *Datenbank*, werden zudem verschiedene Repositorys sowie Models
+benötigt, damit diese mit den entsprechenden Daten gefüllt werden kann. In unserem Team haben
+wir uns einheitlich für eine PostgreSQL-Datenbank entschieden.

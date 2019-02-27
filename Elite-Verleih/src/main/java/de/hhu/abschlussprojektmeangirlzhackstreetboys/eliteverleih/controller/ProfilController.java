@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ProfilController {
@@ -29,7 +29,7 @@ public class ProfilController {
     @Autowired
     ArtikelManager artikelManager;
 
-    PropayManager sync = new PropayManager();
+    PropayManager propayManager = new PropayManager();
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilseite.
@@ -48,18 +48,18 @@ public class ProfilController {
         List<Ausleihe> konflikte = (benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
         List<Ausleihe> bestaetigte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BESTAETIGT);
         List<Ausleihe> zurueckgegebene = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGEGEBEN);
-        List<Ausleihe> verliehenes = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.BESTAETIGT);
-        verliehenes.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.AKTIV));
-        verliehenes.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
+        List<Ausleihe> verliehene = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.BESTAETIGT);
+        verliehene.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.AKTIV));
+        verliehene.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
         List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BEENDET);
         List<Ausleihe> eigeneAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ANGEFRAGT);
-        int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
+        int geld = (int) propayManager.getAccount(benutzer.getBenutzerName()).getAmount();
         List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGELEHNT);
         List<Ausleihe> ausgehendeKonflikte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.KONFLIKT);
 
         model.addAttribute("wartendeAnfragen", eigeneAnfragen);
         model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
-        model.addAttribute("verliehenes", verliehenes);
+        model.addAttribute("verliehene", verliehene);
         model.addAttribute("zurueckerhaltene", zurueckerhaltene);
         model.addAttribute("zurueckgegebene", zurueckgegebene);
         model.addAttribute("bestaetigte", bestaetigte);
@@ -68,6 +68,10 @@ public class ProfilController {
         model.addAttribute("Betrag", geld);
         model.addAttribute("abgelehnteAnfragen", abgelehnteAnfragen);
         model.addAttribute("ausgehendeKonflikte", ausgehendeKonflikte);
+
+        Calendar aktuellesDatum = new GregorianCalendar();
+
+        model.addAttribute("aktuellesDatum", aktuellesDatum);
 
         return "Profil";
     }
@@ -113,7 +117,7 @@ public class ProfilController {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.KONFLIKT);
             return "redirect:/Profil";
         } else if (name.equals("Geloest")) {
-            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
+            ausleiheManager.rueckgabeAkzeptieren(ausleihId);
             return "redirect:/Profil";
         }
         return "redirect:/Profil";

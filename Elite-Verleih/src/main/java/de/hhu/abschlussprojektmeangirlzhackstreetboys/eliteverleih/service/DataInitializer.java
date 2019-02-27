@@ -97,7 +97,7 @@ public class DataInitializer implements ServletContextInitializer {
         a0.setArtikelOrtY(10);
         a0.setArtikelTarif(1);
         a0.setArtikelBildUrl("https://c.pxhere.com/photos/c5/a6/hammer_car_automobile_nature_off_road-619096.jpg!d");
-        artikelM.erstelleArtikel(jensId, a0);
+        artikelM.erstelleVerleihen(jensId, a0);
 
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("Wohn mit mir zusammen");
@@ -106,7 +106,7 @@ public class DataInitializer implements ServletContextInitializer {
         a1.setArtikelOrt("");
         a1.setArtikelTarif(1);
         a1.setArtikelBildUrl("https://static.geo.de/bilder/ef/25/11530/article_image_big/b2e2b87b03bb10e6bd37f28957c7c246.jpg");
-        artikelM.erstelleArtikel(antoineId, a1);
+        artikelM.erstelleVerleihen(antoineId, a1);
 
         Artikel a2 = new Artikel();
         a2.setArtikelBeschreibung("Ich habe mit diesem Stift einmal FAST eine 1 geschrieben.");
@@ -115,7 +115,7 @@ public class DataInitializer implements ServletContextInitializer {
         a2.setArtikelOrt("Mettmann Düsseldorf");
         a2.setArtikelTarif(1);
         a2.setArtikelBildUrl("https://www.bettmer.de/out/pictures/generated/product/1/395_395_90/2-in-1-stift-clic-clac-teruel_dunkelgrau_300011_302097_1.jpg");
-        artikelM.erstelleArtikel(timoId, a2);
+        artikelM.erstelleVerleihen(timoId, a2);
 
         Artikel a3 = new Artikel();
         a3.setArtikelBeschreibung("Ich bin fertig damit, aber wenn sonst einer das will..");
@@ -124,7 +124,7 @@ public class DataInitializer implements ServletContextInitializer {
         a3.setArtikelOrt("Timo's Bude");
         a3.setArtikelTarif(10000);
         a3.setArtikelBildUrl("http://cdn3.spiegel.de/images/image-1341296-860_galleryfree-dshe-1341296.jpg");
-        artikelM.erstelleArtikel(timoId, a3);
+        artikelM.erstelleVerleihen(timoId, a3);
 
         Artikel a4 = new Artikel();
         a4.setArtikelBeschreibung("ORIGINAL!!! Bester Preis DIGGAHH!");
@@ -133,7 +133,7 @@ public class DataInitializer implements ServletContextInitializer {
         a4.setArtikelOrt("PN");
         a4.setArtikelTarif(100);
         a4.setArtikelBildUrl("http://www.replicauhrendeutschland.com/wp-content/uploads/2018/04/Replica-Rolex-Submariner-Two-Tone.jpg");
-        artikelM.erstelleArtikel(sVId, a4);
+        artikelM.erstelleVerleihen(sVId, a4);
 
         Artikel a5 = new Artikel();
         a5.setArtikelBeschreibung("ORIGINAL!!! Bester Preis mann!");
@@ -142,7 +142,7 @@ public class DataInitializer implements ServletContextInitializer {
         a5.setArtikelOrt("PN");
         a5.setArtikelTarif(100);
         a5.setArtikelBildUrl("https://images-na.ssl-images-amazon.com/images/I/51d4N9L0qaL._UX385_.jpg");
-        artikelM.erstelleArtikel(sVId, a5);
+        artikelM.erstelleVerleihen(sVId, a5);
 
         Artikel a7 = new Artikel();
         a7.setArtikelBeschreibung("ORIGINAL!!! 2. bester Preis JUNGE!");
@@ -151,7 +151,7 @@ public class DataInitializer implements ServletContextInitializer {
         a7.setArtikelOrt("PN");
         a7.setArtikelTarif(100);
         a7.setArtikelBildUrl("https://cms.brnstc.de/product_images/435x596/18/06/100080616717000_0.jpg");
-        artikelM.erstelleArtikel(sVId, a7);
+        artikelM.erstelleVerleihen(sVId, a7);
 
         Artikel a8 = new Artikel();
         a8.setArtikelBeschreibung("ORIGINAL!!! Bester Preis mann!");
@@ -160,7 +160,7 @@ public class DataInitializer implements ServletContextInitializer {
         a8.setArtikelOrt("PN");
         a8.setArtikelTarif(100);
         a8.setArtikelBildUrl("https://cdn.raffaello-network.com/deutsch/mode-detail/500827/350/prada-herrenbekleidung_pramclo-ucn2011tv41tv4-f0124-medium-1.jpg");
-        artikelM.erstelleArtikel(sVId, a8);
+        artikelM.erstelleVerleihen(sVId, a8);
 
         Artikel a6_longText = new Artikel();
         a6_longText.setArtikelBeschreibung("Perfekt zum Zerkleinern jeglicher Gartenabfälle, " +
@@ -172,7 +172,7 @@ public class DataInitializer implements ServletContextInitializer {
         a6_longText.setArtikelOrt("Pizzeria Vapios");
         a6_longText.setArtikelTarif(30);
         a6_longText.setArtikelBildUrl("https://static1.squarespace.com/static/58bf3d9a44024364324fb36f/58ff1ec19de4bb751e120a54/58ff33c9f5e2313f31104f1e/1493119955235/Sunken+Garden-032.jpg?format=500w");
-        artikelM.erstelleArtikel(mUId, a6_longText);
+        artikelM.erstelleVerleihen(mUId, a6_longText);
 
 
         Calendar sCal0 = new GregorianCalendar();

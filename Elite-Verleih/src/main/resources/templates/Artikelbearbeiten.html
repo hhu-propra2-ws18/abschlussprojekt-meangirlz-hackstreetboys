@@ -47,13 +47,17 @@
                             <label>Beschreibung </label>
                             <textarea required maxlength="500" class="form-control" th:field="*{artikelBeschreibung}" type="text"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" th:if="${artikel?.getZuVerkaufen()}==false">
                             <label>Kaution </label>
                             <input required class="form-control" min="1" max="500000" th:field="*{artikelKaution}" type="number"/>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" th:if="${artikel?.getZuVerkaufen()}==false">
                             <label>Tarif (pro Tag)</label>
                             <input required class="form-control" min="1" max="10000"  th:field="*{artikelTarif}" type="number"/>
+                        </div>
+                        <div class="form-group" th:if="${artikel?.getZuVerkaufen()}==true">
+                            <label>Preis</label>
+                            <input required class="form-control" min="1" max="10000"  th:field="*{artikelPreis}" type="number"/>
                         </div>
                         <div class="form-group">
                             <label>Abholort </label>
