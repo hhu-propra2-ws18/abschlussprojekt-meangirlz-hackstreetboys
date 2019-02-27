@@ -1,6 +1,7 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
@@ -23,16 +24,24 @@ import java.util.List;
 @Controller
 public class DetailansichtController {
 
-    PropayManager propayManager = new PropayManager();
+    BenutzerManager benutzerManager;
 
-    @Autowired
     AusleiheManager ausleiheManager;
 
-    @Autowired
     ArtikelManager artikelManager;
 
+    PropayManager propayManager;
+
     @Autowired
-    BenutzerManager benutzerManager;
+    public DetailansichtController(ArtikelManager artikelManager,
+                                   AusleiheManager ausleiheManager,
+                                   BenutzerManager benutzerManager,
+                                   PropayManager propayManager) {
+        this.artikelManager = artikelManager;
+        this.ausleiheManager = ausleiheManager;
+        this.benutzerManager = benutzerManager;
+        this.propayManager = propayManager;
+    }
 
     /**
      * Zeigt die Detailansicht.
@@ -104,7 +113,13 @@ public class DetailansichtController {
             return "redirect:/Ausgeliehen";
         }
 
-        double guthabenB = propayManager.getAccount(b.getBenutzerName()).getAmount();
+
+        AccountDto acc = propayManager.getAccount(b.getBenutzerName());
+        if (acc == null) {
+            return "ErrorPropay";
+        }
+        double guthabenB = acc.getAmount();
+
 
         if (guthabenB < artikel.getArtikelKaution()) {
             return "redirect:/FehlendesGuthaben";
@@ -137,16 +152,20 @@ public class DetailansichtController {
      * @return Uebersicht beim Erfolgreichen loeschen und Error falls nicht.
      */
     @RequestMapping("/Kaufen/{artikelId}")
-    public String artikelLoeschen(@PathVariable long artikelId,
-                                  Principal account) {
-        Benutzer b = benutzerManager.findBenutzerByName(account.getName());
-        Artikel a = artikelManager.getArtikelById(artikelId);
-        double guthaben = propayManager.getAccount(b.getBenutzerName()).getAmount();
-        if (propayManager.ueberweisen(account.getName(),
-            artikelManager.getArtikelById(artikelId).getBenutzer().getBenutzerName(),
-            artikelManager.getArtikelById(artikelId).getArtikelPreis())) {
+    public String artikelKaufen(@PathVariable long artikelId,
+                                Principal account) {
+        Artikel artikel = artikelManager.getArtikelById(artikelId);
+
+        int code = propayManager.ueberweisen(account.getName(),
+            artikel.getBenutzer().getBenutzerName(),
+            artikel.getArtikelPreis());
+
+        if (code == 200) {
             artikelManager.loescheArtikel(artikelId);
             return "redirect:/Uebersicht";
+        }
+        if (code >= 500) {
+            return "ErrorPropay";
         }
         return "redirect:/FehlendesGuthaben";
     }

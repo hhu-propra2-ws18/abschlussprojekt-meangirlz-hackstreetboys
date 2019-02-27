@@ -21,16 +21,24 @@ import java.util.List;
 @Controller
 public class KonfliktController {
 
-    PropayManager propayManager = new PropayManager();
-
-    @Autowired
     BenutzerManager benutzerManager;
 
-    @Autowired
     AusleiheManager ausleiheManager;
 
-    @Autowired
     ArtikelManager artikelManager;
+
+    PropayManager propayManager;
+
+    @Autowired
+    public KonfliktController(ArtikelManager artikelManager,
+                              AusleiheManager ausleiheManager,
+                              BenutzerManager benutzerManager,
+                              PropayManager propayManager) {
+        this.artikelManager = artikelManager;
+        this.ausleiheManager = ausleiheManager;
+        this.benutzerManager = benutzerManager;
+        this.propayManager = propayManager;
+    }
 
     /**
      * Zeigt Konfliktseite an, laedt Attribute in HTML.
@@ -61,18 +69,17 @@ public class KonfliktController {
 
         Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
         Benutzer benutzer = ausleihe.getBenutzer();
-
+        int code = 0;
         if (name.equals("Buchung Verleihender")) {
-            propayManager.getAccount(benutzer.getBenutzerName());
-            propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
-            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
+            code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
         }
-
         if (name.equals("Buchung Ausleihender")) {
-            propayManager.getAccount(benutzer.getBenutzerName());
-            propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
-            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
+            code = propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
         }
+        if (code != 200) {
+            return "ErrorPropay";
+        }
+        ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
 
         return "redirect:/Konfliktloesung";
     }

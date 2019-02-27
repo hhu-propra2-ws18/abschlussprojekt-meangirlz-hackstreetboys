@@ -13,20 +13,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -54,18 +50,18 @@ public class AusleiheManagerTest {
     private Calendar sD0 = new GregorianCalendar(2019, 1, 8);
     private Calendar eD0 = new GregorianCalendar(2019, 1, 10);
 
+    @BeforeClass
+    public static void setupBeforeClass() {
+        ReservationDto mockReservation = new ReservationDto();
+        mockReservation.setAmount(1.0);
+        mockReservation.setId(100);
+        when(propayManager.kautionReserviern(anyString(), anyString(), anyInt())).thenReturn(mockReservation);
+    }
 
     @Before
     public void setup() {
         ausleiheM = new AusleiheManager(ausleiheRepo, propayManager, artikelRepo, benutzerRepo);
 
-    }
-    @BeforeClass
-    public static void setupBeforeClass(){
-        ReservationDto mockReservation = new ReservationDto();
-        mockReservation.setAmount(1.0);
-        mockReservation.setId(100);
-        when(propayManager.kautionReserviern(anyString(), anyString(), anyInt())).thenReturn(mockReservation);
     }
 
     private Long erstelleBeispiel(Calendar start, Calendar ende) {
@@ -353,7 +349,7 @@ public class AusleiheManagerTest {
     @Test
     public void bestaetigeAusleihe_UngueltigesDatum() {
 
-        Calendar altesDatum = new GregorianCalendar(2018, 1 , 1);
+        Calendar altesDatum = new GregorianCalendar(2018, 1, 1);
         Calendar morgen = new GregorianCalendar();
         morgen.add(Calendar.DATE, 1);
         long ausleiheId = erstelleBeispiel(altesDatum, morgen);
@@ -367,9 +363,13 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void bestaetigeAusleihe_KeinGeld() {
-        PropayManager nullMockManager = mock(PropayManager.class);
-        when(nullMockManager.kautionReserviern(anyString(), anyString(), anyInt())).thenReturn(null);
-        AusleiheManager ausleiheManager = new AusleiheManager(ausleiheRepo, nullMockManager, artikelRepo, benutzerRepo);
+        PropayManager minusMockManager = mock(PropayManager.class);
+        ReservationDto minusMockReservation = new ReservationDto();
+        minusMockReservation.setAmount(1.0);
+        minusMockReservation.setId(-1);
+
+        when(minusMockManager.kautionReserviern(anyString(), anyString(), anyInt())).thenReturn(minusMockReservation);
+        AusleiheManager ausleiheManager = new AusleiheManager(ausleiheRepo, minusMockManager, artikelRepo, benutzerRepo);
 
         Calendar heute = new GregorianCalendar();
         Calendar morgen = new GregorianCalendar();
@@ -445,7 +445,7 @@ public class AusleiheManagerTest {
     @Test
     public void Ausleihe_zurueckgebenOK() {
 
-        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(true);
+        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(200);
         Calendar gestern = new GregorianCalendar();
         gestern.add(Calendar.DATE, -1);
         Calendar morgen = new GregorianCalendar();
@@ -461,7 +461,7 @@ public class AusleiheManagerTest {
     @Test
     public void Ausleihe_zurueckgebenFehler() {
 
-        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(false);
+        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(400);
         Calendar gestern = new GregorianCalendar();
         gestern.add(Calendar.DATE, -1);
         Calendar morgen = new GregorianCalendar();
@@ -469,7 +469,7 @@ public class AusleiheManagerTest {
         long ausleiheId = erstelleBeispiel(gestern, morgen);
 
         assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
-        assertEquals(false, ausleiheM.zurueckGeben(ausleiheId));
+        assertEquals(400, ausleiheM.zurueckGeben(ausleiheId));
         assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
     }
 
@@ -477,7 +477,7 @@ public class AusleiheManagerTest {
     @Test
     public void Ausleihe_rueckgabeAkzeptieren() {
 
-        when(propayManager.kautionFreigeben(anyString(), anyInt())).thenReturn(true);
+        when(propayManager.kautionFreigeben(anyString(), anyInt())).thenReturn(200);
         Calendar gestern = new GregorianCalendar();
         gestern.add(Calendar.DATE, -1);
         Calendar morgen = new GregorianCalendar();

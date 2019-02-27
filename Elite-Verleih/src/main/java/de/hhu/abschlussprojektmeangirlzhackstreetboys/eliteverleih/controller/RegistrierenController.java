@@ -33,13 +33,14 @@ public class RegistrierenController {
     }
 
     /**
-     * Registriert einen neuen Benutzer.
+     * Ueberprueft ob die BindingResult ein Error wirft. Wenn kein Error geworfen wurde wird ein Benutzer angelegt.
+     * Falls es Probleme beim anlegen gibt, wie zum Beispiel der Benutzername ist schon vorhanden, wird das
+     * Errorflag gesetzt.
      *
-     * @param benutzer Der neue Benutzer
-     * @param result Rueckgabe
-     * @param request Request damit der Benutzer direkt eingeloggt werden kann.
-     * @return redirect auf die Uebersicht
-     * @throws ServletException Exception
+     * @param benutzer Ein befuellter Benutzer der die eingaben gespeichert hat
+     * @param result   Die BindingResult
+     * @param request  Gibt Daten ueber den Security Zustand an
+     * @return Ein Redirect auf die Uebersichtsseite falls es keinen Fehler gab
      */
     @PostMapping("/registrieren")
     public String registereBenutzer(@ModelAttribute @Valid Benutzer benutzer,
@@ -53,9 +54,13 @@ public class RegistrierenController {
             registered = benutzerManager.erstelleBenutzer(benutzer);
         }
         if (registered == null) {
+            return "ErrorPropayRegistrieren";
+        }
+        if (registered.getBenutzerId() == -1L) {
             result.rejectValue("benutzerName", "message.regError");
             return "redirect:/registrieren?error";
         }
+
         request.login(registered.getBenutzerName(), registered.getBenutzerPasswort());
         return "redirect:/Uebersicht";
     }

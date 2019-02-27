@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
+    <title>Artikel leider nicht verfuegbar</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" href="'/login'">Elite Verleih</a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+
+<section class="jumbotron text-center">
+    <p class="lead text-muted">Propay ist leider nicht Verfügbar. Versuchen Sie es später nochmal.</p>
+    <form>
+        <a class="btn btn-outline-primary" th:href="'/registrieren'" type="button">Zurueck zum Registrieren</a>
+    </form>
+</section>
+</body>
+</html>

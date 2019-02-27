@@ -16,9 +16,9 @@ public class SupportController {
     BenutzerManager benutzerManager;
 
     /**
-     *  Zeigt die Supportseite an.
+     * Zeigt die Supportseite an.
      *
-     * @param model Datencontainer fuer die View.
+     * @param model   Datencontainer fuer die View.
      * @param account Account des aktuellen Users.
      * @return "Support"
      */
