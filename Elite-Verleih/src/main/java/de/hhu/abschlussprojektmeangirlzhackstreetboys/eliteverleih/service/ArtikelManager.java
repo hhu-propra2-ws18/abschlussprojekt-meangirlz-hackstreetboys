@@ -110,7 +110,6 @@ public class ArtikelManager {
     public void setArtikelOrtAttribute(Artikel zuSetzenderArtikel, String artikelOrt) {
         String artikelOrtOhneUmlaute = ersetzeUmlaute(artikelOrt);
         zuSetzenderArtikel.setArtikelOrt(artikelOrt);
-        System.out.println(artikelOrtOhneUmlaute);
         zuSetzenderArtikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikelOrtOhneUmlaute));
         zuSetzenderArtikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikelOrtOhneUmlaute));
     }
