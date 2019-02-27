@@ -24,6 +24,8 @@ public class ArtikelManager {
         this.artikelRepo = artikelRepo;
     }
 
+    GeoCoding geoCoder = new GeoCoding();
+
     public List<Artikel> getAllArtikel() {
         return artikelRepo.findAll();
     }
@@ -39,6 +41,8 @@ public class ArtikelManager {
         artikel.setBenutzer(benutzer);
         artikel.setArtikelPreis(0);
         artikel.setZuVerkaufen(false);
+        artikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikel.getArtikelOrt()));
+        artikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikel.getArtikelOrt()));
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -55,6 +59,8 @@ public class ArtikelManager {
         artikel.setArtikelKaution(0);
         artikel.setArtikelTarif(0);
         artikel.setZuVerkaufen(true);
+        artikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikel.getArtikelOrt()));
+        artikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikel.getArtikelOrt()));
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -91,6 +97,8 @@ public class ArtikelManager {
         alterArtikel.setArtikelKaution(artikel.getArtikelKaution());
         alterArtikel.setArtikelName(artikel.getArtikelName());
         alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
+        alterArtikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikel.getArtikelOrt()));
+        alterArtikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikel.getArtikelOrt()));
         alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
         alterArtikel.setArtikelBildUrl(artikel.getArtikelBildUrl());
         alterArtikel.setArtikelPreis(artikel.getArtikelPreis());

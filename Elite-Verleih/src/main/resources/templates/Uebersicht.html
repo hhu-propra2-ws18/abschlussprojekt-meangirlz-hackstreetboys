@@ -65,7 +65,7 @@
     <div class="card-columns lg">
         <a th:each="artikel : ${artikels}" th:href="|/Detailansicht/${artikel.getArtikelId()}|">
             <div class="card">
-                <img alt="Kein Bild vorhanden!" class="card-img-top" th:src="${artikel.getArtikelBildUrl()}">
+                <img alt="Kein Bild vorhanden!" style="max-height: 500px" class="card-img-top" th:src="${artikel.getArtikelBildUrl()}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${artikel.getArtikelName()}">Artikelname</h5>
                     <p class="card-text text-truncate" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>

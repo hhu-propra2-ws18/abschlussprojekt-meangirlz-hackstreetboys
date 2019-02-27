@@ -28,6 +28,9 @@ public class Artikel {
 
     private String artikelOrt;
 
+    private double artikelOrtX;
+    private double artikelOrtY;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Ausleihe> ausgeliehen;
 
@@ -90,5 +93,9 @@ public class Artikel {
 
     public boolean getZuVerkaufen() {
         return zuVerkaufen;
+    }
+
+    public boolean hatOrt() {
+        return (getArtikelOrtX() != 0 && getArtikelOrtY() != 0);
     }
 }

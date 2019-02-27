@@ -93,6 +93,8 @@ public class DataInitializer implements ServletContextInitializer {
         a0.setArtikelKaution(3);
         a0.setArtikelName("Hammer");
         a0.setArtikelOrt("Jens's-Werkstatt, a.k.a. HHU");
+        a0.setArtikelOrtX(80);
+        a0.setArtikelOrtY(10);
         a0.setArtikelTarif(1);
         a0.setArtikelBildUrl("https://c.pxhere.com/photos/c5/a6/hammer_car_automobile_nature_off_road-619096.jpg!d");
         artikelM.erstelleVerleihen(jensId, a0);
@@ -101,7 +103,7 @@ public class DataInitializer implements ServletContextInitializer {
         a1.setArtikelBeschreibung("Wohn mit mir zusammen");
         a1.setArtikelKaution(50000);
         a1.setArtikelName("Ich - das Nashorn");
-        a1.setArtikelOrt("wo du wohnst");
+        a1.setArtikelOrt("");
         a1.setArtikelTarif(1);
         a1.setArtikelBildUrl("https://static.geo.de/bilder/ef/25/11530/article_image_big/b2e2b87b03bb10e6bd37f28957c7c246.jpg");
         artikelM.erstelleVerleihen(antoineId, a1);
@@ -110,7 +112,7 @@ public class DataInitializer implements ServletContextInitializer {
         a2.setArtikelBeschreibung("Ich habe mit diesem Stift einmal FAST eine 1 geschrieben.");
         a2.setArtikelKaution(100);
         a2.setArtikelName("Timo's Stift");
-        a2.setArtikelOrt("Timo's Bude");
+        a2.setArtikelOrt("Mettmann Düsseldorf");
         a2.setArtikelTarif(1);
         a2.setArtikelBildUrl("https://www.bettmer.de/out/pictures/generated/product/1/395_395_90/2-in-1-stift-clic-clac-teruel_dunkelgrau_300011_302097_1.jpg");
         artikelM.erstelleVerleihen(timoId, a2);
@@ -167,7 +169,7 @@ public class DataInitializer implements ServletContextInitializer {
             "nie benutzt worden, und nach ihrer letzten Benutzung sehr ordentlich gesäubert worden.");
         a6_longText.setArtikelKaution(300);
         a6_longText.setArtikelName("Gartenschere");
-        a6_longText.setArtikelOrt("Pizzeria Vapioso");
+        a6_longText.setArtikelOrt("Pizzeria Vapios");
         a6_longText.setArtikelTarif(30);
         a6_longText.setArtikelBildUrl("https://static1.squarespace.com/static/58bf3d9a44024364324fb36f/58ff1ec19de4bb751e120a54/58ff33c9f5e2313f31104f1e/1493119955235/Sunken+Garden-032.jpg?format=500w");
         artikelM.erstelleVerleihen(mUId, a6_longText);

@@ -33,8 +33,11 @@ public class ArtikelbearbeitenController {
     public String artikelBearbeitungAnzeigen(@PathVariable long artikelId,
                                              Model model,
                                              Principal account) {
-
-        model.addAttribute("artikel", artikelManager.getArtikelById(artikelId));
+        Artikel artikel = artikelManager.getArtikelById(artikelId);
+        if (artikel == null) {
+            return "redirect:/Uebersicht";
+        }
+        model.addAttribute("artikel", artikel);
         model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
         return "Artikelbearbeiten";
     }
@@ -56,7 +59,6 @@ public class ArtikelbearbeitenController {
         List<Ausleihe> ausleihen = artikelManager.getArtikelById(artikelId).getAusgeliehen();
         boolean aktiveAusleiheVorhanden = false;
         for (Ausleihe ausleihe : ausleihen) {
-
             if (ausleihe.getAusleihStatus() == Status.BESTAETIGT || ausleihe.getAusleihStatus() == Status.ANGEFRAGT) {
                 aktiveAusleiheVorhanden = true;
             }
@@ -64,11 +66,10 @@ public class ArtikelbearbeitenController {
 
         if (!aktiveAusleiheVorhanden) {
             artikelManager.bearbeiteArtikel(artikelId, newArtikel);
-            return "redirect:/Uebersicht";
+            return "redirect:/Detailansicht/" + artikelId;
         } else {
             return "redirect:/ErrorBearbeitung";
         }
-
     }
 
     /**

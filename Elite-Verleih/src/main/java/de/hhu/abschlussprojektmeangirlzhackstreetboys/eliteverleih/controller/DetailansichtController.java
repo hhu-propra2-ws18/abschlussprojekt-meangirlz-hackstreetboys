@@ -54,6 +54,9 @@ public class DetailansichtController {
     @GetMapping("/Detailansicht/{artikelId}")
     public String detailansichtAnzeigen(@PathVariable Long artikelId, Model model, Principal account) {
         Artikel artikel = artikelManager.getArtikelById(artikelId);
+        if (artikel == null) {
+            return "redirect:/Uebersicht";
+        }
         List<Ausleihe> bestaetigteAusleihen = new ArrayList<>();
         for (Ausleihe ausleihe : artikel.getAusgeliehen()) {
             if (ausleihe.getAusleihStatus() == Status.BESTAETIGT) {

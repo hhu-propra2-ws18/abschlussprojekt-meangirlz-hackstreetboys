@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
           integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" rel="stylesheet">
-    <title>Fehler</title>
+    <title>Elite-Verleih</title>
 </head>
 <body>
 
@@ -46,11 +46,9 @@
     <div class="card-body">
         <h5 class="card-title">Änderung nicht möglich</h5>
         <p class="card-text">Es besteht eine aktuelle Ausleihe oder Anfrage.</p>
-        <a th:href="|/ProfilBearbeiten/|">
-            <button class="btn btn-sm btn-outline-secondary" type="button">
-                Konto aufladen
-            </button>
-        </a>
+        <form>
+            <a class="btn btn-outline-primary" th:href="'/Uebersicht'" type="button">Zurück zur Übersicht</a>
+        </form>
     </div>
     <div class="card-footer text-muted">
         support kontaktieren : support@eliteverleih.de
