@@ -311,9 +311,9 @@ public class AusleiheManagerTest {
         morgen.add(Calendar.DATE, 1);
         long ausleiheId = erstelleBeispiel(heute, morgen);
 
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
+        assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
         ausleiheM.bestaetigeAusleihe(ausleiheId);
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.BESTAETIGT);
+        assertEquals(Status.BESTAETIGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
     }
 
     @Rollback
@@ -346,7 +346,7 @@ public class AusleiheManagerTest {
 
         assertEquals(2, artikelRepo.findArtikelByArtikelId(artikel.getArtikelId()).getAusgeliehen().size());
         ausleiheM.bestaetigeAusleihe(ausleiheId);
-        assertEquals(artikelRepo.findArtikelByArtikelId(artikel.getArtikelId()).getAusgeliehen().size(), 1);
+        assertEquals(1, artikelRepo.findArtikelByArtikelId(artikel.getArtikelId()).getAusgeliehen().size());
     }
 
     @Rollback
@@ -358,9 +358,10 @@ public class AusleiheManagerTest {
         morgen.add(Calendar.DATE, 1);
         long ausleiheId = erstelleBeispiel(altesDatum, morgen);
 
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
+        assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
         ausleiheM.bestaetigeAusleihe(ausleiheId);
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId), null);
+        assertEquals(1, ausleiheRepo.findAll().size());
+        assertEquals(Status.ABGELEHNT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
     }
 
     @Rollback
@@ -375,9 +376,9 @@ public class AusleiheManagerTest {
         morgen.add(Calendar.DATE, 1);
         long ausleiheId = erstelleBeispiel(heute, morgen);
 
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
+        assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
         ausleiheManager.bestaetigeAusleihe(ausleiheId);
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(),Status.ABGELEHNT);
+        assertEquals(Status.ABGELEHNT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
     }
 
     @Rollback
@@ -451,9 +452,9 @@ public class AusleiheManagerTest {
         morgen.add(Calendar.DATE, 1);
         long ausleiheId = erstelleBeispiel(gestern, morgen);
 
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
+        assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
         ausleiheM.zurueckGeben(ausleiheId);
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ABGEGEBEN);
+        assertEquals(Status.ABGEGEBEN, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
     }
 
     @Rollback
@@ -467,9 +468,9 @@ public class AusleiheManagerTest {
         morgen.add(Calendar.DATE, 1);
         long ausleiheId = erstelleBeispiel(gestern, morgen);
 
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ANGEFRAGT);
-        ausleiheM.zurueckGeben(ausleiheId);
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.KONFLIKT);
+        assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
+        assertEquals(false, ausleiheM.zurueckGeben(ausleiheId));
+        assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
     }
 
     @Rollback
@@ -484,8 +485,8 @@ public class AusleiheManagerTest {
         long ausleiheId = erstelleBeispiel(gestern, morgen);
         ausleiheM.bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
 
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.ABGEGEBEN);
+        assertEquals(Status.ABGEGEBEN, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
         ausleiheM.rueckgabeAkzeptieren(ausleiheId);
-        assertEquals(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus(), Status.BEENDET);
+        assertEquals(Status.BEENDET, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
     }
 }

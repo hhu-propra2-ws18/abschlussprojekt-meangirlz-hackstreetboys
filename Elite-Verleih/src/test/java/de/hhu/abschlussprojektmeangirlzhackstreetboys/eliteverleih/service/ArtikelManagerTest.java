@@ -168,7 +168,7 @@ public class ArtikelManagerTest {
         List<Ausleihe> ausleiheList = new ArrayList<Ausleihe>();
         ausleiheList.add(ausleihe);
         a1.setAusgeliehen(ausleiheList);
-        artikelM.erstelleVerleihen(bId, a1);
+        artikelM.erstelleVerleihen(b0Id, a1);
 
         assertEquals(2, artikelM.getAllArtikel().size());
         artikelM.loescheArtikel(a1.getArtikelId());
@@ -196,7 +196,7 @@ public class ArtikelManagerTest {
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
         a0.setAusgeliehen(new ArrayList<Ausleihe>());
-        artikelM.erstelleArtikel(b0Id, a0);
+        artikelM.erstelleVerleihen(b0Id, a0);
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("test");
         a1.setArtikelKaution(3);
@@ -211,7 +211,7 @@ public class ArtikelManagerTest {
         List<Ausleihe> ausleiheList = new ArrayList<Ausleihe>();
         ausleiheList.add(ausleihe);
         a1.setAusgeliehen(ausleiheList);
-        artikelM.erstelleArtikel(b0Id, a1);
+        artikelM.erstelleVerleihen(b0Id, a1);
 
         assertEquals(2, artikelM.getAllArtikel().size());
         artikelM.loescheArtikel(a1.getArtikelId());
@@ -243,7 +243,7 @@ public class ArtikelManagerTest {
         a0.setArtikelOrt("Werkstatt");
         a0.setArtikelTarif(1);
         a0.setAusgeliehen(new ArrayList<Ausleihe>());
-        artikelM.erstelleArtikel(b0Id, a0);
+        artikelM.erstelleVerleihen(b0Id, a0);
 
         Artikel a1 = new Artikel();
         a1.setArtikelBeschreibung("test");
@@ -252,7 +252,7 @@ public class ArtikelManagerTest {
         a1.setArtikelOrt("Werkstatt");
         a1.setArtikelTarif(1);
         a1.setAusgeliehen(new ArrayList<Ausleihe>());
-        artikelM.erstelleArtikel(b0Id, a1);
+        artikelM.erstelleVerleihen(b0Id, a1);
 
         Artikel a2 = new Artikel();
         a2.setArtikelBeschreibung("test");
@@ -261,7 +261,7 @@ public class ArtikelManagerTest {
         a2.setArtikelOrt("Werkstatt");
         a2.setArtikelTarif(1);
         a2.setAusgeliehen(new ArrayList<Ausleihe>());
-        artikelM.erstelleArtikel(b0Id, a2);
+        artikelM.erstelleVerleihen(b0Id, a2);
 
         assertEquals(3, artikelM.getAllArtikel().size());
         assertEquals(2, artikelM.getArtikelListSortByName("Hammer").size());
