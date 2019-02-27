@@ -40,7 +40,7 @@ public class RegistrierenController {
      * @param benutzer Ein befuellter Benutzer der die eingaben gespeichert hat
      * @param result   Die BindingResult
      * @param request  Gibt Daten ueber den Security Zustand an
-     * @return  Ein Redirect auf die Uebersichtsseite falls es keinen Fehler gab
+     * @return Ein Redirect auf die Uebersichtsseite falls es keinen Fehler gab
      */
     @PostMapping("/registrieren")
     public String registereBenutzer(@ModelAttribute @Valid Benutzer benutzer,
@@ -54,9 +54,13 @@ public class RegistrierenController {
             registered = benutzerManager.erstelleBenutzer(benutzer);
         }
         if (registered == null) {
+            return "ErrorPropayRegistrieren";
+        }
+        if (registered.getBenutzerId() == -1L) {
             result.rejectValue("benutzerName", "message.regError");
             return "redirect:/registrieren?error";
         }
+
         request.login(registered.getBenutzerName(), registered.getBenutzerPasswort());
         return "redirect:/Uebersicht";
     }

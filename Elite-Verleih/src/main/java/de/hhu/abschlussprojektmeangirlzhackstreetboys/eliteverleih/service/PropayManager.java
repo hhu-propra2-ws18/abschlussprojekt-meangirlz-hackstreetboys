@@ -29,8 +29,7 @@ public class PropayManager {
     @Autowired
     AusleiheManager ausleiheM;
 
-    @Autowired
-    RestTemplate rt;
+    RestTemplate rt = new RestTemplate();
 
     /**
      * Gibt die Informationen zu einem Account zurück.
@@ -39,20 +38,20 @@ public class PropayManager {
      * @param benutzername Gibt den Account namen an
      * @return
      */
-    @Retryable(maxAttempts=maxVersuche,value=RuntimeException.class,backoff = @Backoff(delay = verzoegerung))
-    public AccountDto getAccount(String benutzername) throws RuntimeException{
+    @Retryable(maxAttempts = maxVersuche, value = RuntimeException.class, backoff = @Backoff(delay = verzoegerung))
+    public AccountDto getAccount(String benutzername){
         try {
             ResponseEntity<AccountDto> result = rt.getForEntity(url + "account/" + benutzername, AccountDto.class);
             AccountDto acc = result.getBody();
             return acc;
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            throw new RuntimeException(e);
+            throw new RuntimeException();
         }
     }
 
     @Recover
-    public AccountDto recoverNull(RuntimeException e){
+    public AccountDto recoverNull(RuntimeException e) {
         System.out.println("Recovering - returning safe value");
         return null;
     }
@@ -64,7 +63,7 @@ public class PropayManager {
      * @param benutzername Ziel Accountname
      * @param anzahl       Summe die aufgeladen werden soll
      */
-    @Retryable(maxAttempts=maxVersuche,value=HttpClientErrorException.class,backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = HttpClientErrorException.class, backoff = @Backoff(delay = verzoegerung))
     public int guthabenAufladen(String benutzername, int anzahl) {
 
         ResponseEntity<AccountDto> result = rt.postForEntity(url
@@ -72,7 +71,6 @@ public class PropayManager {
             + benutzername
             + "?amount="
             + anzahl, null, AccountDto.class);
-            AccountDto acc = result.getBody();
         return 200;
     }
 
@@ -85,7 +83,7 @@ public class PropayManager {
      * @param anzahl          zu ueberweisende Summe
      * @return boolean true wenn alles klappt und false bei einem Fehler
      */
-    @Retryable(maxAttempts=maxVersuche,value=HttpClientErrorException.class,backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = HttpClientErrorException.class, backoff = @Backoff(delay = verzoegerung))
     public int ueberweisen(String vonBenutzername, String zuBenutzername, int anzahl) {
 
         String ueberweisenUrl = url
@@ -109,7 +107,7 @@ public class PropayManager {
      * @return ReservationDto mit den Daten, ResavationDTO mit Id -1 falls Propay fehlschlaegt,
      * Null falls Propay nicht erreichbar ist
      */
-    @Retryable(maxAttempts=maxVersuche,value=RuntimeException.class,backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = RuntimeException.class, backoff = @Backoff(delay = verzoegerung))
     public ReservationDto kautionReserviern(String vonBenutzername, String zuBenutzername, int anzahl) {
 
         String kautionUrl = url + "reservation/reserve/" + vonBenutzername + "/" + zuBenutzername + "?amount=" + anzahl;
@@ -120,13 +118,12 @@ public class PropayManager {
             return res;
         } catch (HttpClientErrorException e) {
             System.err.println(e.getStatusCode().value());
-            if(e.getStatusCode().value() < 500){
-                return null;
-            }
-            else{
+            if (e.getStatusCode().value() < 500) {
                 res = new ReservationDto();
                 res.setId(-1);
                 return res;
+            } else {
+                return null;
             }
         }
     }
@@ -139,7 +136,7 @@ public class PropayManager {
      * @param reservationsId Id der Reservation
      * @return 200 = OK, 400-499 = Account Fehler, ab 500 = Server down
      */
-    @Retryable(maxAttempts=maxVersuche,value=HttpClientErrorException.class,backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = HttpClientErrorException.class, backoff = @Backoff(delay = verzoegerung))
     public int kautionEinziehen(String benutzername, int reservationsId) {
 
         String kautionUrl = url + "reservation/punish/" + benutzername + "?reservationId=" + reservationsId;
@@ -154,20 +151,20 @@ public class PropayManager {
      * @param reservationsId Id der Reservation
      * @return 200 = OK, 400-499 = Account Fehler, ab 500 = Server down
      */
-    @Retryable(maxAttempts=maxVersuche,value=HttpClientErrorException.class,backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = HttpClientErrorException.class, backoff = @Backoff(delay = verzoegerung))
     public int kautionFreigeben(String benutzername, int reservationsId) {
 
         String kautionUrl = url + "reservation/release/" + benutzername + "?reservationId=" + reservationsId;
         return postAccountAnfrage(kautionUrl);
     }
 
-    private int postAccountAnfrage(String kautionUrl) throws HttpClientErrorException{
-            rt.postForEntity(kautionUrl, null, AccountDto.class);
-            return 200;
+    private int postAccountAnfrage(String anfrageUrl) throws HttpClientErrorException {
+        rt.postForEntity(anfrageUrl, null, AccountDto.class);
+        return 200;
     }
 
     @Recover
-    public int recoverStatusCode(HttpClientErrorException e){
+    public int recoverStatusCode(HttpClientErrorException e) {
         System.out.println("Recovering - returning safe value");
         return e.getStatusCode().value();
     }

@@ -1,5 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
@@ -29,7 +30,8 @@ public class ProfilController {
     @Autowired
     ArtikelManager artikelManager;
 
-    PropayManager propayManager = new PropayManager();
+    @Autowired
+    PropayManager propayManager;
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilseite.
@@ -71,8 +73,13 @@ public class ProfilController {
         List<Ausleihe> eigeneAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ANGEFRAGT);
         model.addAttribute("wartendeAnfragen", eigeneAnfragen);
 
-        int geld = (int) propayManager.getAccount(benutzer.getBenutzerName()).getAmount();
-        model.addAttribute("Betrag", geld);
+        AccountDto acc = propayManager.getAccount(benutzer.getBenutzerName());
+        if (acc == null) {
+            model.addAttribute("Betrag", "Propay nicht erreichbar xxxx");
+        } else {
+            double betrag = acc.getAmount();
+            model.addAttribute("Betrag", betrag);
+        }
 
         List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGELEHNT);
         model.addAttribute("abgelehnteAnfragen", abgelehnteAnfragen);
@@ -104,18 +111,25 @@ public class ProfilController {
             return "redirect:/Support";
         }
         if (name.equals("Bestaetigen")) {
-            ausleiheManager.bestaetigeAusleihe(ausleihId);
+            if (!ausleiheManager.bestaetigeAusleihe(ausleihId)) {
+                return "ErrorPropay";
+            }
             return "redirect:/Profil";
         } else if (name.equals("Ablehnen")) {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.ABGELEHNT);
             return "redirect:/Profil";
         } else if (name.equals("Zurueckgeben")) {
-            if (!ausleiheManager.zurueckGeben(ausleihId)) {
+            int code = ausleiheManager.zurueckGeben(ausleihId);
+            if (code < 500 && code > 200) {
                 return "redirect:/Profil/" + "?error";
+            } else if (code > 500) {
+                return "ErrorPropay";
             }
             return "redirect:/Profil";
         } else if (name.equals("Akzeptieren")) {
-            ausleiheManager.rueckgabeAkzeptieren(ausleihId);
+            if (!ausleiheManager.rueckgabeAkzeptieren(ausleihId)) {
+                return "ErrorPropay";
+            }
             return "redirect:/Profil";
         } else if (name.equals("Entfernen")) {
             ausleiheManager.loescheAusleihe(ausleihId);

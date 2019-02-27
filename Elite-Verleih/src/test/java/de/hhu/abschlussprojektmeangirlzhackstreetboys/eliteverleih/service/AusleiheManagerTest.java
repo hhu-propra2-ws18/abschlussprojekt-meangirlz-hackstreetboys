@@ -445,7 +445,7 @@ public class AusleiheManagerTest {
     @Test
     public void Ausleihe_zurueckgebenOK() {
 
-        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(true);
+        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(200);
         Calendar gestern = new GregorianCalendar();
         gestern.add(Calendar.DATE, -1);
         Calendar morgen = new GregorianCalendar();
@@ -461,7 +461,7 @@ public class AusleiheManagerTest {
     @Test
     public void Ausleihe_zurueckgebenFehler() {
 
-        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(false);
+        when(propayManager.ueberweisen(anyString(), anyString(), anyInt())).thenReturn(400);
         Calendar gestern = new GregorianCalendar();
         gestern.add(Calendar.DATE, -1);
         Calendar morgen = new GregorianCalendar();
@@ -477,7 +477,7 @@ public class AusleiheManagerTest {
     @Test
     public void Ausleihe_rueckgabeAkzeptieren() {
 
-        when(propayManager.kautionFreigeben(anyString(), anyInt())).thenReturn(true);
+        when(propayManager.kautionFreigeben(anyString(), anyInt())).thenReturn(200);
         Calendar gestern = new GregorianCalendar();
         gestern.add(Calendar.DATE, -1);
         Calendar morgen = new GregorianCalendar();

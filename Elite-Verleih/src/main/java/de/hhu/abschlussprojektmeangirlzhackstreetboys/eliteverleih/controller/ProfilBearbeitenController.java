@@ -1,5 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.BenutzerManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.PropayManager;
@@ -30,9 +31,16 @@ public class ProfilBearbeitenController {
     @GetMapping("/ProfilBearbeiten")
     public String profilBearbeitenAnzeigen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        int geld = (int) propayManager.getAccount(benutzer.getBenutzerName()).getAmount();
 
-        model.addAttribute("Betrag", geld);
+        AccountDto acc = propayManager.getAccount(benutzer.getBenutzerName());
+        if (acc == null) {
+            model.addAttribute("Betrag", "Propay nicht erreichbar xxxx");
+        }
+        else{
+            double betrag = acc.getAmount();
+            model.addAttribute("Betrag", betrag);
+        }
+
         model.addAttribute("benutzer", benutzer);
         return "ProfilBearbeiten";
     }
@@ -52,8 +60,11 @@ public class ProfilBearbeitenController {
                                             int aufladen,
                                             Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
+        if (!benutzerManager.geldAufladen(benutzer, aufladen)){
+            return "ErrorPropay";
+        }
+
         benutzerManager.bearbeiteBenutzer(benutzer.getBenutzerId(), ben);
-        benutzerManager.geldAufladen(benutzer, aufladen);
         model.addAttribute("benutzer", benutzer);
         return "redirect:/Profil";
     }

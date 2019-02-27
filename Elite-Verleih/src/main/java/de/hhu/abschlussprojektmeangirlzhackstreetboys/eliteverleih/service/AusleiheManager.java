@@ -27,12 +27,13 @@ public class AusleiheManager {
     final AusleiheRepository ausleiheRepo;
 
     @Autowired
-    public AusleiheManager(AusleiheRepository ausleiheRepo, PropayManager propayManager, ArtikelRepository artikelRepo, BenutzerRepository benutzerRepo){
+    public AusleiheManager(AusleiheRepository ausleiheRepo, PropayManager propayManager, ArtikelRepository artikelRepo, BenutzerRepository benutzerRepo) {
         this.ausleiheRepo = ausleiheRepo;
         this.propayManager = propayManager;
         this.artikelRepo = artikelRepo;
         this.benutzerRepo = benutzerRepo;
     }
+
     /**
      * Getter fuer alle Ausleihen der Datenbank.
      *
@@ -104,16 +105,18 @@ public class AusleiheManager {
      *
      * @param ausleiheId Id der Ausleihe.
      */
-    public void bestaetigeAusleihe(Long ausleiheId) {
+    public boolean bestaetigeAusleihe(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
         if (!ausleihe.gueltigesDatum(getHeuteigesDatum())) {
             bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
-            return;
+            return true;
         }
         Artikel artikel = ausleihe.getArtikel();
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
         if (r1 == null) {
+            return false;
+        } else if (r1.getId() == -1) {
             bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
         } else {
             bearbeiteAusleihe(ausleiheId, Status.BESTAETIGT);
@@ -122,6 +125,7 @@ public class AusleiheManager {
         }
 
         ausleiheRepo.save(ausleihe);
+        return true;
     }
 
     /**
@@ -303,18 +307,17 @@ public class AusleiheManager {
      *
      * @param ausleiheId Id der Ausleihe welche zurueckgegeben wird.
      */
-    public boolean zurueckGeben(Long ausleiheId) {
+    public int zurueckGeben(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-
         int kosten = ausleihe.berechneKosten(getHeuteigesDatum());
-        if (propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
+
+        int code = propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
             ausleihe.getArtikel().getBenutzer().getBenutzerName(),
-            kosten)) {
+            kosten);
+        if (code == 200) {
             bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
-            return true;
-        } else {
-            return false;
         }
+        return code;
     }
 
     /**
@@ -322,10 +325,14 @@ public class AusleiheManager {
      *
      * @param ausleihId Die ID der Ausleihe
      */
-    public void rueckgabeAkzeptieren(Long ausleihId) {
-        bearbeiteAusleihe(ausleihId, Status.BEENDET);
+    public boolean rueckgabeAkzeptieren(Long ausleihId) {
         Ausleihe ausleihe = getAusleiheById(ausleihId);
-        propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+        if (200 == propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(),
+            ausleihe.getReservationsId())) {
+            bearbeiteAusleihe(ausleihId, Status.BEENDET);
+            return true;
+        }
+        return false;
     }
 
     private Calendar getHeuteigesDatum() {
