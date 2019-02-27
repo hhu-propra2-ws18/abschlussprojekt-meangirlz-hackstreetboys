@@ -363,9 +363,13 @@ public class AusleiheManagerTest {
     @Rollback
     @Test
     public void bestaetigeAusleihe_KeinGeld() {
-        PropayManager nullMockManager = mock(PropayManager.class);
-        when(nullMockManager.kautionReserviern(anyString(), anyString(), anyInt())).thenReturn(null);
-        AusleiheManager ausleiheManager = new AusleiheManager(ausleiheRepo, nullMockManager, artikelRepo, benutzerRepo);
+        PropayManager minusMockManager = mock(PropayManager.class);
+        ReservationDto minusMockReservation = new ReservationDto();
+        minusMockReservation.setAmount(1.0);
+        minusMockReservation.setId(-1);
+
+        when(minusMockManager.kautionReserviern(anyString(), anyString(), anyInt())).thenReturn(minusMockReservation);
+        AusleiheManager ausleiheManager = new AusleiheManager(ausleiheRepo, minusMockManager, artikelRepo, benutzerRepo);
 
         Calendar heute = new GregorianCalendar();
         Calendar morgen = new GregorianCalendar();
@@ -465,7 +469,7 @@ public class AusleiheManagerTest {
         long ausleiheId = erstelleBeispiel(gestern, morgen);
 
         assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
-        assertEquals(false, ausleiheM.zurueckGeben(ausleiheId));
+        assertEquals(400, ausleiheM.zurueckGeben(ausleiheId));
         assertEquals(Status.ANGEFRAGT, ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus());
     }
 
