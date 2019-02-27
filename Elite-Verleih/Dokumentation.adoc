@@ -16,7 +16,7 @@ Einstellungen
 
 Auf der Startseite haben Benutzer und der Support die Möglichkeit, sich mittels dem Benutzernamen
 und einem Passwort sicher einzuloggen. Dazu wird ein Benutzername und ein Passwort benötigt.
-Sind einer der Daten nicht korrekt eingegeben worden und stimmen nicht mit den Daten überein,
+Sind die Daten nicht korrekt eingegeben worden und stimmen nicht mit den Daten überein,
 die in der Datenbank gespeichert worden sind, kommt eine Fehlermeldung.
 
 Hat man bisher noch keinen Account angelegt,
@@ -32,15 +32,16 @@ Falls der User einen bereits vergebenen Benutzernamen eingibt, kommt eine Fehler
 dass dieser Name bereits vergeben ist und der Account wird nicht angelegt. Analog dazu
 muss die Emailadresse gültig und ein beliebiges Passwort eingegeben sein.
 
-##### Erfolgreiches Einloggen als Benutzer
 
-##### Navbar
+### Navbar
+
+
 Nach einem erfolgreichem Login wird der Benutzer sicher auf die Übersichtsseite
 weitergeleitet.
 Von hier aus besitzt jede Seite eine Navbar, in der der Benutzer sich oben links
 mit dem Logo von Elite-Verleih auf die Übersichtsseite gelangen kann. Auf der rechten
 Seite kann der Benutzer mittels einem Dropdown-Button auf die Profilseite kommen und sich
-ausloggen. Die Navbar hat je nach Seite noch weitere Funktionen, die später erläutert werden.
+ausloggen.
 
 ### Übersicht
 
@@ -106,7 +107,7 @@ werden wieder die folgenden Attribute angezeigt:
 Außerdem kann hier über zwei Datumsfelder eine Ausleihe erstellt werden. Klickt
 man auf die Felder für die Datumseingabe öffnet sich (in fast allen Browsern)
 ein Kalender in dem die Daten durch klicken ausgewählt werden können und somit
-auch automatisch formatiert werden. Liegt das eingegebene Datum in der Vergangenheit, geht die Anfrage an den Verleihern, der diese
+auch automatisch formatiert werden. Liegt das eingegebene Datum in der Vergangenheit, geht die Anfrage an den Verleihenden, der diese
 auch bestätigen kann. Bei Bestätigung der Anfrage wird diese aber automatisch abgelehnt.
 Das zweite angegebene Datum "bis", muss einen späteren Zeitpunkt als
 das erste angegebene Datum haben. Es kommt ansonsten dazu eine Fehlermeldung.
@@ -318,19 +319,19 @@ sichergestellt, dass verschiedene Szenarien auf Richtigkeit geprüft worden sind
 
 Für die Authentisierung, Authentifizierung und Autorisierung auf den Seiten wurde
 Spring Security eingeführt. Die SecurityConfig legt bestimmte Rollen fest,
-in unserem Fall ADMIN - der auf alle Seiten zugreifen darf, SUPPORT - der nur auf 
-die Konfliktlöseseite gelangt nach dem Login und USER, hiervon können beliebig 
-viele Accounts erstellt werden, sie dürfen dann auf alle Seiten außer der 
-Konfliktlöseseite zugreifen. Besitzt jemand keine Rolle, ist also nicht 
-eingeloggt, so darf nur die Login- und die Registrierungs-Seite aufgerufen werden. 
+in unserem Fall ADMIN - der auf alle Seiten zugreifen darf, SUPPORT - der nur auf
+die Konfliktlöseseite gelangt nach dem Login und USER, hiervon können beliebig
+viele Accounts erstellt werden, sie dürfen dann auf alle Seiten außer der
+Konfliktlöseseite zugreifen. Besitzt jemand keine Rolle, ist also nicht
+eingeloggt, so darf nur die Login- und die Registrierungs-Seite aufgerufen werden.
 Bei der Registrierung wird ein neuer Benutzer erstellt und in der Datenbank
-gespeichert, die Rolle USER wird automatisch gesetzt. In dieser Rolle darf auf 
-alle Seiten außer der Konfliktlöseseite zugegriffen werden, der Benutzer kann 
-sich ab dann über das Login-Formular authentifizieren. 
+gespeichert, die Rolle USER wird automatisch gesetzt. In dieser Rolle darf auf
+alle Seiten außer der Konfliktlöseseite zugegriffen werden, der Benutzer kann
+sich ab dann über das Login-Formular authentifizieren.
 Des Weiteren wird MyUserDetails als Hilfsklasse verwendet, um die Authentifizierung
-über das BenutzerRepository zu machen, was bedeutet, dass jeder Benutzer auch einen 
-Account bei der Anwendung besitzt. Dies wird in SecurityConfig-Methode config 
-konfiguriert. 
+über das BenutzerRepository zu machen, was bedeutet, dass jeder Benutzer auch einen
+Account bei der Anwendung besitzt. Dies wird in SecurityConfig-Methode config
+konfiguriert.
 
 
 # Hinzufügen der Verkaufen-Funktion
