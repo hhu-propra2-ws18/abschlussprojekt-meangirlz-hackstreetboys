@@ -47,14 +47,14 @@ public class ArtikelerstellenController {
     @PostMapping("/Erstellen")
     public String artikelErstellen(@ModelAttribute Artikel artikel, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        artikelManager.erstelleVerleihen(benutzer.getBenutzerId(),artikel);
+        artikelManager.erstelleVerleihen(benutzer.getBenutzerId(), artikel);
         return "redirect:/Uebersicht";
     }
 
     /******************************************************************************************************/
 
     @GetMapping("/VerkaufErstellen")
-    public String verkaufErstellen (Model model, Principal account) {
+    public String verkaufErstellen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         model.addAttribute("artikel", new Artikel());
         model.addAttribute("benutzer", benutzer);

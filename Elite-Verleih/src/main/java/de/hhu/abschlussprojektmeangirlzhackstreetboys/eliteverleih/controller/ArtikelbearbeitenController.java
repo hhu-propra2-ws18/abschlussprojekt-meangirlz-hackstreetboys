@@ -60,7 +60,6 @@ public class ArtikelbearbeitenController {
         List<Ausleihe> ausleihen = artikelManager.getArtikelById(artikelId).getAusgeliehen();
         boolean aktiveAusleiheVorhanden = false;
         for (Ausleihe ausleihe : ausleihen) {
-
             if (ausleihe.getAusleihStatus() == Status.BESTAETIGT || ausleihe.getAusleihStatus() == Status.ANGEFRAGT) {
                 aktiveAusleiheVorhanden = true;
             }
@@ -68,11 +67,10 @@ public class ArtikelbearbeitenController {
 
         if (!aktiveAusleiheVorhanden) {
             artikelManager.bearbeiteArtikel(artikelId, newArtikel);
-            return "redirect:/Uebersicht";
+            return "redirect:/Detailansicht/" + artikelId;
         } else {
             return "redirect:/ErrorBearbeitung";
         }
-
     }
 
     /**

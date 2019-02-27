@@ -95,7 +95,7 @@ public class Artikel {
         return zuVerkaufen;
     }
 
-    public boolean hatOrt(){
-        return (getArtikelOrtX()!=0 && getArtikelOrtY()!=0);
+    public boolean hatOrt() {
+        return (getArtikelOrtX() != 0 && getArtikelOrtY() != 0);
     }
 }

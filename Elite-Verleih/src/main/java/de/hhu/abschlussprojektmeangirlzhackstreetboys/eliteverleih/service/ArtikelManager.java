@@ -9,9 +9,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -40,8 +38,8 @@ public class ArtikelManager {
         artikel.setBenutzer(benutzer);
         artikel.setArtikelPreis(0);
         artikel.setZuVerkaufen(false);
-        artikel.setArtikelOrtX(geoCoder.getFirstX(artikel.getArtikelOrt()));
-        artikel.setArtikelOrtY(geoCoder.getFirstY(artikel.getArtikelOrt()));
+        artikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikel.getArtikelOrt()));
+        artikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikel.getArtikelOrt()));
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -58,8 +56,8 @@ public class ArtikelManager {
         artikel.setArtikelKaution(0);
         artikel.setArtikelTarif(0);
         artikel.setZuVerkaufen(true);
-        artikel.setArtikelOrtX(geoCoder.getFirstX(artikel.getArtikelOrt()));
-        artikel.setArtikelOrtY(geoCoder.getFirstY(artikel.getArtikelOrt()));
+        artikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikel.getArtikelOrt()));
+        artikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikel.getArtikelOrt()));
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -96,8 +94,8 @@ public class ArtikelManager {
         alterArtikel.setArtikelKaution(artikel.getArtikelKaution());
         alterArtikel.setArtikelName(artikel.getArtikelName());
         alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
-        alterArtikel.setArtikelOrtX(geoCoder.getFirstX(artikel.getArtikelOrt()));
-        alterArtikel.setArtikelOrtY(geoCoder.getFirstY(artikel.getArtikelOrt()));
+        alterArtikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikel.getArtikelOrt()));
+        alterArtikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikel.getArtikelOrt()));
         alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
         alterArtikel.setArtikelBildUrl(artikel.getArtikelBildUrl());
         alterArtikel.setArtikelPreis(artikel.getArtikelPreis());
