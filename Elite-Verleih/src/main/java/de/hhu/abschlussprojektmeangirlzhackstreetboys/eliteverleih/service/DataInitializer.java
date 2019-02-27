@@ -1,5 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
@@ -20,6 +21,9 @@ public class DataInitializer implements ServletContextInitializer {
     @Autowired
     BenutzerManager benutzerM;
 
+    @Autowired
+    BenutzerRepository benutzerRepository;
+
     private String supportPasswort = "1";
 
     @Override
@@ -33,7 +37,7 @@ public class DataInitializer implements ServletContextInitializer {
             support.setArtikel(new ArrayList<Artikel>());
             support.setBenutzerPasswort(supportPasswort);
             support.setBenutzerRolle("ROLE_SUPPORT");
-            benutzerM.erstelleBenutzer(support);
+            benutzerRepository.save(support);
         }
     }
 }
