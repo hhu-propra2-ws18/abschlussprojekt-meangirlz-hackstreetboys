@@ -326,7 +326,7 @@ public class AusleiheManager {
         propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
     }
 
-    private Calendar getHeuteigesDatum(){
+    private Calendar getHeuteigesDatum() {
         Calendar heute = new GregorianCalendar();
         return heute;
     }

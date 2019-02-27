@@ -88,10 +88,10 @@ public class DetailansichtController {
         String[] enddatum = endDatumString.split("-");
         String[] startdatum = startDatumString.split("-");
         Calendar calStartDatum = new GregorianCalendar(Integer.parseInt(startdatum[0]),
-            Integer.parseInt(startdatum[1])-1,
+            Integer.parseInt(startdatum[1]) - 1,
             Integer.parseInt(startdatum[2]));
         Calendar calEndDatum = new GregorianCalendar(Integer.parseInt(enddatum[0]),
-            Integer.parseInt(enddatum[1])-1,
+            Integer.parseInt(enddatum[1]) - 1,
             Integer.parseInt(enddatum[2]));
 
         if (calStartDatum.after(calEndDatum)) {
@@ -142,10 +142,9 @@ public class DetailansichtController {
         Benutzer b = benutzerManager.findBenutzerByName(account.getName());
         Artikel a = artikelManager.getArtikelById(artikelId);
         double guthaben = propayManager.getAccount(b.getBenutzerName()).getAmount();
-        if(propayManager.ueberweisen(account.getName(),
+        if (propayManager.ueberweisen(account.getName(),
             artikelManager.getArtikelById(artikelId).getBenutzer().getBenutzerName(),
-            artikelManager.getArtikelById(artikelId).getArtikelPreis())){//guthaben>=a.getArtikelPreis()) {
-
+            artikelManager.getArtikelById(artikelId).getArtikelPreis())) {
             artikelManager.loescheArtikel(artikelId);
             return "redirect:/Uebersicht";
         }

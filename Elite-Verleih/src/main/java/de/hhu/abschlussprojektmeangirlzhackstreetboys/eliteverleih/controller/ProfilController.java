@@ -44,29 +44,40 @@ public class ProfilController {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         model.addAttribute("benutzer", benutzer);
         List<Ausleihe> wartend = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.ANGEFRAGT);
-        List<Ausleihe> zurueckerhaltene = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.ABGEGEBEN);
-        List<Ausleihe> konflikte = (benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
-        List<Ausleihe> bestaetigte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BESTAETIGT);
-        List<Ausleihe> zurueckgegebene = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGEGEBEN);
-        List<Ausleihe> verliehene = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.BESTAETIGT);
-        verliehene.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.AKTIV));
-        verliehene.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
-        List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BEENDET);
-        List<Ausleihe> eigeneAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ANGEFRAGT);
-        int geld = (int) propayManager.getAccount(benutzer.getBenutzerName()).getAmount();
-        List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGELEHNT);
-        List<Ausleihe> ausgehendeKonflikte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.KONFLIKT);
-
-        model.addAttribute("wartendeAnfragen", eigeneAnfragen);
-        model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
-        model.addAttribute("verliehene", verliehene);
-        model.addAttribute("zurueckerhaltene", zurueckerhaltene);
-        model.addAttribute("zurueckgegebene", zurueckgegebene);
-        model.addAttribute("bestaetigte", bestaetigte);
         model.addAttribute("anfragen", wartend);
+
+        List<Ausleihe> zurueckerhaltene = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.ABGEGEBEN);
+        model.addAttribute("zurueckerhaltene", zurueckerhaltene);
+
+        List<Ausleihe> konflikte = (benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
         model.addAttribute("konflikte", konflikte);
+
+        List<Ausleihe> bestaetigte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BESTAETIGT);
+        model.addAttribute("bestaetigte", bestaetigte);
+
+        List<Ausleihe> zurueckgegebene = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGEGEBEN);
+        model.addAttribute("zurueckgegebene", zurueckgegebene);
+
+        List<Ausleihe> verliehene = benutzerManager.sucheEingehendeAnfragen(benutzer, Status.BESTAETIGT);
+        model.addAttribute("verliehene", verliehene);
+
+        verliehene.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.AKTIV));
+
+        verliehene.addAll(benutzerManager.sucheEingehendeAnfragen(benutzer, Status.KONFLIKT));
+
+        List<Ausleihe> erfolgreichZurueckgegeben = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.BEENDET);
+        model.addAttribute("erfolgreichZurueckgegebene", erfolgreichZurueckgegeben);
+
+        List<Ausleihe> eigeneAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ANGEFRAGT);
+        model.addAttribute("wartendeAnfragen", eigeneAnfragen);
+
+        int geld = (int) propayManager.getAccount(benutzer.getBenutzerName()).getAmount();
         model.addAttribute("Betrag", geld);
+
+        List<Ausleihe> abgelehnteAnfragen = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.ABGELEHNT);
         model.addAttribute("abgelehnteAnfragen", abgelehnteAnfragen);
+
+        List<Ausleihe> ausgehendeKonflikte = benutzerManager.sucheAusgehendeAnfragen(benutzer, Status.KONFLIKT);
         model.addAttribute("ausgehendeKonflikte", ausgehendeKonflikte);
 
         Calendar aktuellesDatum = new GregorianCalendar();
@@ -99,9 +110,8 @@ public class ProfilController {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.ABGELEHNT);
             return "redirect:/Profil";
         } else if (name.equals("Zurueckgeben")) {
-            //ausleiheManager.zurueckGeben(ausleihId);
-            if(!ausleiheManager.zurueckGeben(ausleihId)){
-                return  "redirect:/Profil/" + "?error";
+            if (!ausleiheManager.zurueckGeben(ausleihId)) {
+                return "redirect:/Profil/" + "?error";
             }
             return "redirect:/Profil";
         } else if (name.equals("Akzeptieren")) {
