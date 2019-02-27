@@ -27,14 +27,32 @@ public class ArtikelManager {
     }
 
     /**
-     * Erstellt einen Artikel.
+     * Erstellt einen Artikel, der ausgeliehen werden kann.
      *
      * @param benutzerId Id des Artikels.
      * @param artikel    Artikel.
      */
-    public void erstelleArtikel(Long benutzerId, Artikel artikel) {
+    public void erstelleVerleihen(Long benutzerId, Artikel artikel) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
+        artikel.setArtikelPreis(0);
+        artikel.setZuVerkaufen(false);
+        artikel = artikelRepo.save(artikel);
+        setzeArtikel(benutzerId, artikel);
+    }
+
+    /**
+     * Erstellt einen Artikel, der verkauft werden kann.
+     *
+     * @param benutzerId Id des Artikels.
+     * @param artikel Artikel.
+     */
+    public void erstelleVerkauf(Long benutzerId, Artikel artikel) {
+        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        artikel.setBenutzer(benutzer);
+        artikel.setArtikelKaution(0);
+        artikel.setArtikelTarif(0);
+        artikel.setZuVerkaufen(true);
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -72,8 +90,10 @@ public class ArtikelManager {
         alterArtikel.setArtikelName(artikel.getArtikelName());
         alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
         alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
+        alterArtikel.setArtikelBildUrl(artikel.getArtikelBildUrl());
+        alterArtikel.setArtikelPreis(artikel.getArtikelPreis());
 
-        artikelRepo.saveAll(Arrays.asList(alterArtikel));
+        artikelRepo.save(alterArtikel);
     }
 
     /**

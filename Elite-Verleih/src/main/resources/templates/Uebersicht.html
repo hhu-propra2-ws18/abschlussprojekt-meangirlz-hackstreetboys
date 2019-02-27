@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -29,19 +29,23 @@
         <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
              width="180">
     </a>
-    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-            class="navbar-toggler"
-            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline" method="post">
             <div class="md-form my-0">
-                <input aria-label="Search" class="form-control mr-sm-2" name="suchBegriff" placeholder="Was suchen Sie?"
+                <input aria-label="Search" class="form-control mr-sm-2" name="suchBegriff" th:value="${suchBegriff}"
+                       placeholder="Was suchen Sie?"
                        type="text">
                 <button class="btn btn-outline-success my-2 my-sm-0" name="sucheButton" type="submit">Suche</button>
             </div>
         </form>
+    </div>
+    <div class="nav navbar-nav">
+        <a th:href="|/Erstellen|">
+            <button class="btn btn-success mx-auto btn-sm mr-sm-2 float-rigth" type="button">Verleihen</button>
+        </a>
+        <a th:href="|/VerkaufErstellen|">
+            <button class="btn btn-success mx-auto btn-sm mr-sm-2" type="button">Verkaufen</button>
+        </a>
     </div>
 
     <div class="nav-item dropdown">
@@ -65,17 +69,26 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${artikel.getArtikelName()}">Artikelname</h5>
                     <p class="card-text text-truncate" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>
-                    <p class="card-text" th:text="|Kosten/Tag : ${artikel.getArtikelTarif()},00€|">Kosten/Tag</p>
+                    <p class="card-test text-truncate">
+                        <i th:if="${artikel?.getZuVerkaufen()}==false">Zu Verleihen</i>
+                        <i th:if="${artikel?.getZuVerkaufen()}==true">Zu Verkaufen</i>
+                    </p>
+                    <p class="card-text" th:if="${artikel?.getZuVerkaufen()}==false" th:text="|Kosten/Tag :
+                        ${artikel.getArtikelTarif()},00€|">Kosten/Tag</p>
+                    <p class="card-text" th:if="${artikel?.getZuVerkaufen()}==true" th:text="|Preis :
+                        ${artikel.getArtikelPreis()},00€|">Preis</p>
                 </div>
             </div>
         </a>
     </div>
 </div>
 
-<div>
-    <a th:href="|/Erstellen|">
-        <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom" type="button"> +</button>
-    </a>
+<div th:if="${artikels.isEmpty()}">
+    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
+    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
+    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
+    <p class="lead text-white" align="center">Keine Artikel vorhanden.</p>
+    <p class="lead text-muted" align="center">Keine Artikel vorhanden.</p>
 </div>
 
 

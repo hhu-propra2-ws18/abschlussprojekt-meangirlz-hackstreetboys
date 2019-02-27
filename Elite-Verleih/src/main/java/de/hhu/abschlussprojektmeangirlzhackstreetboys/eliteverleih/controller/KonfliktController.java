@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 public class KonfliktController {
 
-    PropayManager sync = new PropayManager();
+    PropayManager propayManager = new PropayManager();
 
     @Autowired
     BenutzerManager benutzerManager;
@@ -63,14 +63,14 @@ public class KonfliktController {
         Benutzer benutzer = ausleihe.getBenutzer();
 
         if (name.equals("Buchung Verleihender")) {
-            sync.getAccount(benutzer.getBenutzerName());
-            sync.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+            propayManager.getAccount(benutzer.getBenutzerName());
+            propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
         }
 
         if (name.equals("Buchung Ausleihender")) {
-            sync.getAccount(benutzer.getBenutzerName());
-            sync.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+            propayManager.getAccount(benutzer.getBenutzerName());
+            propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
         }
 

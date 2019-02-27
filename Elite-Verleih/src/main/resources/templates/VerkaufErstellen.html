@@ -44,7 +44,7 @@
                     </h1>
                     <div class="card-body">
                         <form class="form-horizontal" method="post"
-                              th:action="'Erstellen'" th:object="${artikel}">
+                              th:action="'VerkaufErstellen'" th:object="${artikel}">
                             <div class="form-group">
                                 <label class="control-label col-xs-2"><h5>Name: </h5></label>
                                 <div class="col-xs-10">
@@ -59,15 +59,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-xs-2"><h5>Kaution: </h5></label>
+                                <label class="control-label col-xs-2"><h5>Preis </h5></label>
                                 <div class="col-xs-10">
-                                    <input class="form-control" th:field="*{artikelKaution}" min="1" max="500000" type="number"/>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-xs-2"><h5>Tarif (pro Tag): </h5></label>
-                                <div class="col-xs-10">
-                                    <input  class="form-control" th:field="*{artikelTarif}" min="1" max="10000" type="number"/>
+                                    <input class="form-control" th:field="*{artikelPreis}" min="1" max="500000" type="number"/>
                                 </div>
                             </div>
                             <div class="form-group">

@@ -106,14 +106,10 @@ public class AusleiheManager {
      */
     public void bestaetigeAusleihe(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        Calendar heute = new GregorianCalendar();
-        System.err.println(heute.getTime());
-        System.err.println(ausleihe.gueltigesDatum(heute));
-        if (!ausleihe.gueltigesDatum(heute)) {
-            loescheAusleihe(ausleiheId);
+        if (!ausleihe.gueltigesDatum(getHeuteigesDatum())) {
+            bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
             return;
         }
-
         Artikel artikel = ausleihe.getArtikel();
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
@@ -307,22 +303,33 @@ public class AusleiheManager {
      *
      * @param ausleiheId Id der Ausleihe welche zurueckgegeben wird.
      */
-    public void zurueckGeben(Long ausleiheId) {
+    public boolean zurueckGeben(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        Calendar heute = new GregorianCalendar();
-        int kosten = ausleihe.berechneKosten(heute);
+
+        int kosten = ausleihe.berechneKosten(getHeuteigesDatum());
         if (propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
             ausleihe.getArtikel().getBenutzer().getBenutzerName(),
             kosten)) {
             bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
+            return true;
         } else {
-            bearbeiteAusleihe(ausleiheId, Status.KONFLIKT);
+            return false;
         }
     }
 
+    /**
+     * Gibt die Kaution frei und setzt die Ausleihe auf beendet.
+     *
+     * @param ausleihId Die ID der Ausleihe
+     */
     public void rueckgabeAkzeptieren(Long ausleihId) {
         bearbeiteAusleihe(ausleihId, Status.BEENDET);
         Ausleihe ausleihe = getAusleiheById(ausleihId);
         propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+    }
+
+    private Calendar getHeuteigesDatum() {
+        Calendar heute = new GregorianCalendar();
+        return heute;
     }
 }

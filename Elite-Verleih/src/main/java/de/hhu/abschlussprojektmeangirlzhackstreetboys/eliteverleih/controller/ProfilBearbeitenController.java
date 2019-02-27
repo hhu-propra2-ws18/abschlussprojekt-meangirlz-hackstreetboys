@@ -14,10 +14,11 @@ import java.security.Principal;
 
 @Controller
 public class ProfilBearbeitenController {
+
     @Autowired
     BenutzerManager benutzerManager;
 
-    PropayManager sync = new PropayManager();
+    PropayManager propayManager = new PropayManager();
 
     /**
      * Kuemmert sich um das korrekte Anzeigen der Profilbearbeiten Seite.
@@ -29,7 +30,7 @@ public class ProfilBearbeitenController {
     @GetMapping("/ProfilBearbeiten")
     public String profilBearbeitenAnzeigen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        int geld = (int) sync.getAccount(benutzer.getBenutzerName()).getAmount();
+        int geld = (int) propayManager.getAccount(benutzer.getBenutzerName()).getAmount();
 
         model.addAttribute("Betrag", geld);
         model.addAttribute("benutzer", benutzer);

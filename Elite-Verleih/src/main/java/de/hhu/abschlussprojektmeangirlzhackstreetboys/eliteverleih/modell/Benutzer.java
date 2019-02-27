@@ -1,10 +1,8 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell;
-//import lombok.Data;
 
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,19 +29,6 @@ public class Benutzer {
     private String benutzerRolle;
 
     public Benutzer() {
-    }
-
-    public Benutzer(String benutzerName, String benutzerEmail) {
-        this.benutzerName = benutzerName;
-        this.benutzerEmail = benutzerEmail;
-        List<Ausleihe> ausl = new ArrayList<Ausleihe>();
-        this.ausgeliehen = ausl;
-    }
-
-    public Benutzer(String benutzerName, String benutzerEmail, List<Ausleihe> ausgeliehen) {
-        this.benutzerName = benutzerName;
-        this.benutzerEmail = benutzerEmail;
-        this.ausgeliehen = ausgeliehen;
     }
 
 }
