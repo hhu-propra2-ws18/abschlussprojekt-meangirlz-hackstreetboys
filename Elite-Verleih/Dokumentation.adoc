@@ -244,3 +244,66 @@ oder mehrere Services zu, wie in der Graphik mittels verschiedenen Farben deutli
 Für die Verwendung einer *Datenbank*, werden zudem verschiedene Repositorys sowie Models
 benötigt, damit diese mit den entsprechenden Daten gefüllt werden kann. In unserem Team haben
 wir uns einheitlich für eine PostgreSQL-Datenbank entschieden.
+
+
+# Hinzufügen der Verkaufen-Funktion
+
+## 1. Grundlegendes Konzept überlegen:
+
+Im Modell des Artikels soll es folgende anpassungen geben:
+
+* _boolean_ zuVerkaufen, der angibt ob Artikel verkauft werden soll
+* _int_ artikelPreis, für den Artikel bei Verkauf
+
+Die Controller und Views müssen wie folt angepasst werden:
+
+* neue View für *VerkaufErstellen*, jedoch im Controller von ArtikelErstellen 
+handhaben mit Get- und PostMapping zu "/VerkaufErstellen"
+* *ArtikelBearbeiten* soll so abgeändert werden, dass wenn der Artikel zum Verkauf
+steht statt Kaution und Tarif nur der Preis geändert werden kann
+* In der *Detailansicht* soll auch statt Kaution und Tarif nur der Verkaufspreis 
+angezeigt werden, es soll die Möglichkeit geben den Artikel zu kaufen (genauer: 
+Überweisen des Verkaufspreises vom aktuellen Benutzer zu dem Besitzer und dann 
+löschen des Artikels aus der Datenbank), außerdem soll es nicht mehr die 
+Möglichkeit geben den Artikel auszuleihen
+* In der *Übersicht* soll angezeigt werden ob ein Artikel verkauft oder verliehen
+wird, des Weiteren soll statt dem Tarif der Verkaufspreis angezeigt werden, zu 
+Guter letzt soll es zwei Buttonsgeben um einen Verleih und einen Verkauf zu
+erstellen 
+
+Es soll nicht die Möglichkeit geben einen Artikel der zum Verleih angeboten wird
+später zum Verkauf anzubieten, umgekehrt gleichermaßen. Ein Artikel zum Verleih
+bleibt also immer nur zu verleihen und kann nur durch löschen und Neueinstellung
+des Artikels zum Verkauf verkauft werden.
+
+## 2. Umsetzung
+
+Zuerst wurde die VerkaufErstellen View erstellt, der Controller von ArtikelErstellen
+wurde angepasst, zudem musste dem artikelManager eine zweite Methode erstelleVerkauf 
+hinzugefügt werden, die den zuVerkaufen-boolean auf true setzt. Dieser Wert soll
+*niemals* geändert werden. Außerdem werden hier Kaution und Tarif auf Null 
+gesetzt, was ebenfalls für den User nicht manipulierbar sein sollte. Zuletzt wird
+dem artikelPreis der vom Benutzer eingegebene Preis zugewiesen.
+Die Methode erstelleArtikel wurde umbenannt zu erstelleVerleih. auch hier wird
+der boolean gesetzt, in diesem Fall auf false, und soll *unter keinen Umständen* 
+geändert werden können. Hier wird der Preis auf Null gesetzt, auch diese Wert 
+soll für den Benutzer final sein.
+Die Änderungen für ArtikelBearbeiten waren minimal, da nur abgefragt werden 
+musste ob der Artikel zum Verkauf steht oder verliehen werden soll, um dann 
+Preis oder Kaution und Tarif anzuzeigen. Artikel löschen funktioniert für diese 
+zu verkaufenden Artikel immer, da sie keine Ausleihen haben, analog zu den zu 
+Verleihenden.
+In der Detailansicht wurde der Kalender entfernt, falls der Artikel zum Verkauf 
+steht, und ein "Artikel kaufen" button hinzugefügt. Hierzu wurde im Controller 
+eine Methode mit Mapping auf "/Kaufen/{artikelId}" erstellt, welche versucht den 
+Artikelpreis vom aktuellen Benutzer zu dem Artikelbesitzer zu überweisen. Gelingt 
+dies, so wird der Artikel gelöscht und der Benutzer zur Übersicht weitergeleitet.
+Ansonsten erhält er eine Fehlermeldung. Es wird hier geprüftt, dass der Benutzer
+nicht seine eigenen Artikel kaufen kann. 
+Zuletzt wurde in der Detailansicht ein Feld hinzugefügt, welches angibt ob ein 
+Artikel verkauft oder verliehen werden soll. Auch hier wurde für die zu verkaufenden
+Artikel der Preis statt dem Tarif angezeigt, dies ist durch eine simple Abfrage
+des zuVerkaufen-boolean möglich.
+Außerdem wurde ein weiterer Button hinzugefügt, der auf die VerkaufErstellen Seite
+leitet. Diese Buttons zum Erstellen eines zu verleihenden oder zu verkaufenden 
+Artikels wurden der Übersichtlichkeits halber in die Navbar eingebettet. 
