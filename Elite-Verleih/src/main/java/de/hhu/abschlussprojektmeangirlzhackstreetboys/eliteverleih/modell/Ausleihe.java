@@ -18,7 +18,6 @@ public class Ausleihe {
     @ManyToOne(fetch = FetchType.LAZY)
     private Artikel artikel;
 
-    //private Calendar ausleihStartdatum;
     private Calendar ausleihStartdatum;
 
     private Calendar ausleihRueckgabedatum;
@@ -89,10 +88,8 @@ public class Ausleihe {
         jetzt.set(Calendar.MINUTE, jetzt.getActualMinimum(Calendar.MINUTE));
         jetzt.set(Calendar.SECOND, jetzt.getActualMinimum(Calendar.SECOND));
         jetzt.set(Calendar.MILLISECOND, jetzt.getActualMinimum(Calendar.MILLISECOND));
-
         Calendar start = getAusleihStartdatum();
         Calendar ende = getAusleihRueckgabedatum();
-
         if (jetzt.after(start) || jetzt.after(ende)) {
             return false;
         }

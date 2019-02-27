@@ -19,17 +19,20 @@ import java.util.List;
 @Service
 public class AusleiheManager {
 
-    PropayManager propayManager = new PropayManager();
+
+    PropayManager propayManager;
+
+    final BenutzerRepository benutzerRepo;
+    final ArtikelRepository artikelRepo;
+    final AusleiheRepository ausleiheRepo;
 
     @Autowired
-    BenutzerRepository benutzerRepo;
-
-    @Autowired
-    ArtikelRepository artikelRepo;
-
-    @Autowired
-    AusleiheRepository ausleiheRepo;
-
+    public AusleiheManager(AusleiheRepository ausleiheRepo, PropayManager propayManager, ArtikelRepository artikelRepo, BenutzerRepository benutzerRepo){
+        this.ausleiheRepo = ausleiheRepo;
+        this.propayManager = propayManager;
+        this.artikelRepo = artikelRepo;
+        this.benutzerRepo = benutzerRepo;
+    }
     /**
      * Getter fuer alle Ausleihen der Datenbank.
      *
@@ -103,14 +106,10 @@ public class AusleiheManager {
      */
     public void bestaetigeAusleihe(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        Calendar heute = new GregorianCalendar();
-        System.out.println(heute.getTime());
-        System.out.println(ausleihe.gueltigesDatum(heute));
-        if (!ausleihe.gueltigesDatum(heute)) {
-            loescheAusleihe(ausleiheId);
+        if (!ausleihe.gueltigesDatum(getHeuteigesDatum())) {
+            bearbeiteAusleihe(ausleiheId, Status.ABGELEHNT);
             return;
         }
-
         Artikel artikel = ausleihe.getArtikel();
         ReservationDto r1 = propayManager.kautionReserviern(ausleihe.getBenutzer().getBenutzerName(),
             artikel.getBenutzer().getBenutzerName(), artikel.getArtikelKaution());
@@ -204,14 +203,14 @@ public class AusleiheManager {
         }
         for (Ausleihe a : anfrageList) {
             if (a.getAusleihId() != ausleiheId) {
-                if (kollidiertMitAusleihe(a.getAusleihId(), ausleiheId)) {
+                if (istAusgeliehen(a.getArtikel().getArtikelId(), a.getAusleihStartdatum(), a.getAusleihRueckgabedatum())) {
                     bearbeiteAusleihe(a.getAusleihId(), Status.ABGELEHNT);
                 }
             }
         }
         for (Ausleihe a : anfrageList) {
             if (a.getAusleihStatus().equals(Status.ABGELEHNT)) {
-                loescheAusleihe(ausleiheId);
+                loescheAusleihe(a.getAusleihId());
             }
         }
     }
@@ -223,7 +222,7 @@ public class AusleiheManager {
      * @param akzeptierteAId Id der anderen Ausleihe.
      * @return boolean ob die Ausleihen miteinander kollidieren.
      */
-    private boolean kollidiertMitAusleihe(Long ausleiheId, Long akzeptierteAId) {
+    /*private boolean kollidiertMitAusleihe(Long ausleiheId, Long akzeptierteAId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
         Ausleihe akzeptierteAusleihe = getAusleiheById(akzeptierteAId);
         Calendar endDatum = akzeptierteAusleihe.getAusleihRueckgabedatum();
@@ -242,7 +241,7 @@ public class AusleiheManager {
         }
         return ausleihe.getAusleihRueckgabedatum().equals(startDatum)
             || ausleihe.getAusleihRueckgabedatum().equals(endDatum);
-    }
+    }*/
 
     /**
      * Ueberprueft ob der der Artikel fuer die angegebene Zeit bereits ausgeliehen ist.
@@ -252,7 +251,7 @@ public class AusleiheManager {
      * @param endDatum   Enddatum der zu ueberpruefenden Anfrage.
      * @return true, falls der Artikel an mindestens einem der Tage bereits verliehen ist. Sonst false.
      */
-    public boolean isAusgeliehen(Long artikelId, Calendar startDatum, Calendar endDatum) {
+    public boolean istAusgeliehen(Long artikelId, Calendar startDatum, Calendar endDatum) {
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         for (Ausleihe ausleihe : artikel.getAusgeliehen()) {
             if (!ausleihe.getAusleihStatus().equals(Status.ANGEFRAGT)
@@ -304,22 +303,33 @@ public class AusleiheManager {
      *
      * @param ausleiheId Id der Ausleihe welche zurueckgegeben wird.
      */
-    public void zurueckGeben(Long ausleiheId) {
+    public boolean zurueckGeben(Long ausleiheId) {
         Ausleihe ausleihe = getAusleiheById(ausleiheId);
-        Calendar heute = new GregorianCalendar();
-        int kosten = ausleihe.berechneKosten(heute);
+
+        int kosten = ausleihe.berechneKosten(getHeuteigesDatum());
         if (propayManager.ueberweisen(ausleihe.getBenutzer().getBenutzerName(),
             ausleihe.getArtikel().getBenutzer().getBenutzerName(),
             kosten)) {
             bearbeiteAusleihe(ausleiheId, Status.ABGEGEBEN);
+            return true;
         } else {
-            bearbeiteAusleihe(ausleiheId, Status.KONFLIKT);
+            return false;
         }
     }
 
+    /**
+     * Gibt die Kaution frei und setzt die Ausleihe auf beendet.
+     *
+     * @param ausleihId Die ID der Ausleihe
+     */
     public void rueckgabeAkzeptieren(Long ausleihId) {
         bearbeiteAusleihe(ausleihId, Status.BEENDET);
         Ausleihe ausleihe = getAusleiheById(ausleihId);
         propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+    }
+
+    private Calendar getHeuteigesDatum() {
+        Calendar heute = new GregorianCalendar();
+        return heute;
     }
 }

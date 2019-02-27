@@ -1,8 +1,8 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.ArtikelManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,15 +17,15 @@ import java.security.Principal;
 public class ArtikelerstellenController {
 
     @Autowired
-    ArtikelRepository artikelRepository;
+    BenutzerManager benutzerManager;
 
     @Autowired
-    BenutzerManager benutzerManager;
+    ArtikelManager artikelManager;
 
     /**
      * GetMapping der Artikelerstellen Seite.
      *
-     * @param model   Das Model.
+     * @param model   Datencontainer fuer die View.
      * @param account Der Account des Benutzers.
      * @return "Artikelerstellung".
      */
@@ -41,19 +41,42 @@ public class ArtikelerstellenController {
      * PostMapping der Artikelerstellen Seite.
      *
      * @param artikel Der Artikel.
-     * @param model   Das Model.
      * @param account Der Account des Benutzers.
      * @return "Uebersicht".
      */
     @PostMapping("/Erstellen")
-    public String artikelErstellen(@ModelAttribute Artikel artikel, Model model, Principal account) {
+    public String artikelErstellen(@ModelAttribute Artikel artikel, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        artikel.setBenutzer(benutzer);
-        benutzer.getArtikel().add(artikel);
-        artikelRepository.save(artikel);
-        model.addAttribute("artikel", artikelRepository.findAll());
-        model.addAttribute("benutzer", benutzer);
+        artikelManager.erstelleVerleihen(benutzer.getBenutzerId(), artikel);
         return "redirect:/Uebersicht";
     }
 
+    /**
+     * GetMapping der VerkaufErstellen Seite.
+     *
+     * @param model   Datencontainer fuer die View.
+     * @param account Aktueller Account.
+     * @return VerkaufErstellen
+     */
+    @GetMapping("/VerkaufErstellen")
+    public String verkaufErstellungAnzeigen(Model model, Principal account) {
+        Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
+        model.addAttribute("artikel", new Artikel());
+        model.addAttribute("benutzer", benutzer);
+        return "VerkaufErstellen";
+    }
+
+    /**
+     * Erstellt einen Artikel zum verkaufen.
+     *
+     * @param artikel neu erstellter Artikel
+     * @param account Aktueller Account
+     * @return redirect zu Uebersicht
+     */
+    @PostMapping("/VerkaufErstellen")
+    public String verkaufErstellen(@ModelAttribute Artikel artikel, Principal account) {
+        Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
+        artikelManager.erstelleVerkauf(benutzer.getBenutzerId(), artikel);
+        return "redirect:/Uebersicht";
+    }
 }

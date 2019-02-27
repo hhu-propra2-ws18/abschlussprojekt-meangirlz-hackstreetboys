@@ -20,6 +20,12 @@ public class RegistrierenController {
     @Autowired
     BenutzerManager benutzerManager;
 
+    /**
+     * Zeigt die Registrierung.
+     *
+     * @param model Datencontainer fuer die View.
+     * @return "Registrierung"
+     */
     @GetMapping("/registrieren")
     public String registrierenAnzeigen(Model model) {
         model.addAttribute("benutzer", new Benutzer());

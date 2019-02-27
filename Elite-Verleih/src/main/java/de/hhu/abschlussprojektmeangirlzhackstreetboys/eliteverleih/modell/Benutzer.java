@@ -1,10 +1,8 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell;
-//import lombok.Data;
 
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
