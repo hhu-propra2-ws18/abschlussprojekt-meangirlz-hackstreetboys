@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="">
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
 
-
-
 </head>
 <body>
 
@@ -41,7 +39,6 @@
 <section class="jumbotron text-center" th:if="${artikel==null}">
     <p class="lead text-muted">Artikel nicht vorhanden.</p>
 </section>
-
 <div class="album py-5" th:if="${artikel!=null}">
     <div class="container-fluid">
 
@@ -149,7 +146,7 @@
                                         /*]]>*/
 
                                         //intialisiere den Markierer
-                                        var mymap = L.map('map').setView([x, y], 10);  //=lux ; [51.2, 6.8], 6 = düsseldorf ; [breite, höhe], zoom
+                                        var mymap = L.map('map').setView([x, y], 12);  //=lux ; [51.2, 6.8], 6 = düsseldorf ; [breite, höhe], zoom
                                         var marker = L.marker([x, y]).addTo(mymap);
                                         marker.bindPopup('Der Artikel ist hier abzuholen');
 
@@ -182,7 +179,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 <script crossorigin="anonymous"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
