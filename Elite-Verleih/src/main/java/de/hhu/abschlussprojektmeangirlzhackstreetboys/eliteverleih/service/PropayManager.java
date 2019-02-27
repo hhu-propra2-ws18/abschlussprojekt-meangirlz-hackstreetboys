@@ -6,6 +6,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.Reservati
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -16,7 +17,11 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.ConnectException;
 
 @Service
 @ComponentScan(basePackages = "de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service")
@@ -63,14 +68,16 @@ public class PropayManager {
      * @param benutzername Ziel Accountname
      * @param anzahl       Summe die aufgeladen werden soll
      */
-    @Retryable(maxAttempts = maxVersuche, value = HttpClientErrorException.class, backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = RestClientException.class, backoff = @Backoff(delay = verzoegerung))
     public int guthabenAufladen(String benutzername, int anzahl) {
 
-        ResponseEntity<AccountDto> result = rt.postForEntity(url
-            + "account/"
-            + benutzername
-            + "?amount="
-            + anzahl, null, AccountDto.class);
+            ResponseEntity<AccountDto> result = rt.postForEntity(url
+                + "account/"
+                + benutzername
+                + "?amount="
+                + anzahl, null, AccountDto.class);
+            result.getBody();
+
         return 200;
     }
 
@@ -83,7 +90,7 @@ public class PropayManager {
      * @param anzahl          zu ueberweisende Summe
      * @return boolean true wenn alles klappt und false bei einem Fehler
      */
-    @Retryable(maxAttempts = maxVersuche, value = HttpClientErrorException.class, backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = HttpStatusCodeException.class, backoff = @Backoff(delay = verzoegerung))
     public int ueberweisen(String vonBenutzername, String zuBenutzername, int anzahl) {
 
         String ueberweisenUrl = url
@@ -116,9 +123,13 @@ public class PropayManager {
             ResponseEntity<ReservationDto> result = rt.postForEntity(kautionUrl, null, ReservationDto.class);
             res = result.getBody();
             return res;
-        } catch (HttpClientErrorException e) {
-            System.err.println(e.getStatusCode().value());
-            if (e.getStatusCode().value() < 500) {
+        } catch (RestClientException e) {
+            int i = 500;
+            if(e instanceof HttpClientErrorException) {
+                HttpClientErrorException clientEx = ((HttpClientErrorException)e);
+                i = clientEx.getRawStatusCode();
+            }
+            if (i < 500) {
                 res = new ReservationDto();
                 res.setId(-1);
                 return res;
@@ -136,7 +147,7 @@ public class PropayManager {
      * @param reservationsId Id der Reservation
      * @return 200 = OK, 400-499 = Account Fehler, ab 500 = Server down
      */
-    @Retryable(maxAttempts = maxVersuche, value = HttpClientErrorException.class, backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = RestClientException.class, backoff = @Backoff(delay = verzoegerung))
     public int kautionEinziehen(String benutzername, int reservationsId) {
 
         String kautionUrl = url + "reservation/punish/" + benutzername + "?reservationId=" + reservationsId;
@@ -151,21 +162,25 @@ public class PropayManager {
      * @param reservationsId Id der Reservation
      * @return 200 = OK, 400-499 = Account Fehler, ab 500 = Server down
      */
-    @Retryable(maxAttempts = maxVersuche, value = HttpClientErrorException.class, backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = RestClientException.class, backoff = @Backoff(delay = verzoegerung))
     public int kautionFreigeben(String benutzername, int reservationsId) {
 
         String kautionUrl = url + "reservation/release/" + benutzername + "?reservationId=" + reservationsId;
         return postAccountAnfrage(kautionUrl);
     }
 
-    private int postAccountAnfrage(String anfrageUrl) throws HttpClientErrorException {
+    private int postAccountAnfrage(String anfrageUrl) throws RestClientException {
         rt.postForEntity(anfrageUrl, null, AccountDto.class);
         return 200;
     }
 
     @Recover
-    public int recoverStatusCode(HttpClientErrorException e) {
+    public int recoverStatusCode(RestClientException e) {
         System.out.println("Recovering - returning safe value");
-        return e.getStatusCode().value();
+        if(e instanceof HttpClientErrorException) {
+            HttpClientErrorException clientEx = ((HttpClientErrorException)e);
+            return clientEx.getStatusCode().value();
+        }
+        return 500;
     }
 }
