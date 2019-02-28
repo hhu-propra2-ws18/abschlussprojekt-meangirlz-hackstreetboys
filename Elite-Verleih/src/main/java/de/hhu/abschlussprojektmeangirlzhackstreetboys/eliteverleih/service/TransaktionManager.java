@@ -49,7 +49,7 @@ public class TransaktionManager {
      *
      * @param ausleiheId        Id der Ausleihe
      *
-     * //@param transaktionBetrag Betrag, welcher verbucht wird
+     *
      * @return Transaktion.
      */
 
@@ -57,12 +57,11 @@ public class TransaktionManager {
         Transaktion transaktion = new Transaktion();
         Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
 
-        transaktion.setAusleihe(ausleihe);
+        transaktion.setArtikelName(ausleihe.getArtikel().getArtikelName());
+        transaktion.setVerleihenderName(ausleihe.getArtikel().getBenutzer().getBenutzerName());
+        transaktion.setAusleihenderName(ausleihe.getBenutzer().getBenutzerName());
+
         transaktion.setTransaktionBetrag(setzeTransaktionBetrag(ausleiheId)); // Setze gesamtbetrag
-
-        System.out.println("TEST");
-        System.out.println(transaktion.getTransaktionBetrag());
-
         setzeTransaktionBenutzer(ausleihe.getBenutzer().getBenutzerId(), transaktion);
 
         return transaktion;
