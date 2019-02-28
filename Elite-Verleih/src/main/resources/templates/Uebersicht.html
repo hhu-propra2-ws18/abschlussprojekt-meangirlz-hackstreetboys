@@ -62,6 +62,29 @@
 </nav>
 
 <div class="container">
+    <div th:unless="${verspaeteteAusleihen.isEmpty()}">
+
+        <p><h5 class="alert alert-danger">Du hast noch nicht zurueckgegebene Artikel!</p><br/>
+
+        <div class="alert alert-light" th:each="verspaetet: ${verspaeteteAusleihen}">
+            <h5 class="card-title" th:text="${verspaetet.getArtikel().getArtikelName()}">
+                ArtikelName</h5>
+            <p class="card-text"
+               th:text="'Besitzer: ' + ${verspaetet.getArtikel().getBenutzer().getBenutzerName()}">
+                Benutzer</p>
+            <p class="card-text" th:text="'Von: '
+                                + ${verspaetet.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${verspaetet.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
+                                + ${verspaetet.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+            <p class="card-text" th:text="'Bis: '
+                                + ${verspaetet.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${verspaetet.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
+                                + ${verspaetet.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                Rückgabedatum</p>
+        </div>
+    </div>
+
+
     <div class="card-columns lg">
         <a th:each="artikel : ${artikels}" th:href="|/Detailansicht/${artikel.getArtikelId()}|">
             <div class="card">

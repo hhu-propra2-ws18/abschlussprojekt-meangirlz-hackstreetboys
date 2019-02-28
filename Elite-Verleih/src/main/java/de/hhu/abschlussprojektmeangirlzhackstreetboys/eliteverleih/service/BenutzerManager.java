@@ -9,8 +9,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BenutzerManager {
@@ -107,6 +106,26 @@ public class BenutzerManager {
     public boolean geldAufladen(Benutzer newBenutzer, int aufladen) {
         int code = propayManager.guthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
         return code == 200;
+    }
+
+    /**
+     * Aus Benutzer werden verspaetete Ausleihen gesucht.
+     *
+     * @param benutzer Eingeloggte Benutzer.
+     * @return Liste mit verspaeteten Ausleihen.
+     */
+    public List<Ausleihe> findeVerspaeteteAusleihe(Benutzer benutzer) {
+
+        Calendar heute = new GregorianCalendar();
+        List<Ausleihe> verspaeteAusleihe = new ArrayList<>();
+
+        for (Ausleihe a: benutzer.getAusgeliehen()) {
+            if((a.getAusleihStatus() == Status.BESTAETIGT) && (heute.after(a.getAusleihRueckgabedatum()))) {
+                verspaeteAusleihe.add(a);
+            }
+        }
+
+        return verspaeteAusleihe;
     }
 }
 

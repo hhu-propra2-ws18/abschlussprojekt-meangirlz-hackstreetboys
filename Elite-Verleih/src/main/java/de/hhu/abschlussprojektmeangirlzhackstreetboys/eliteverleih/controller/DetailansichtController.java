@@ -106,6 +106,11 @@ public class DetailansichtController {
             Integer.parseInt(enddatum[1]) - 1,
             Integer.parseInt(enddatum[2]));
 
+        calEndDatum.set(Calendar.HOUR_OF_DAY, calEndDatum.getActualMaximum(Calendar.HOUR_OF_DAY));
+        calEndDatum.set(Calendar.MINUTE, calEndDatum.getActualMaximum(Calendar.MINUTE));
+        calEndDatum.set(Calendar.SECOND, calEndDatum.getActualMaximum(Calendar.SECOND));
+        calEndDatum.set(Calendar.MILLISECOND, calEndDatum.getActualMaximum(Calendar.MILLISECOND));
+
         if (calStartDatum.after(calEndDatum)) {
             return "redirect:/Detailansicht/" + artikelId + "?error=falseDate";
         }
