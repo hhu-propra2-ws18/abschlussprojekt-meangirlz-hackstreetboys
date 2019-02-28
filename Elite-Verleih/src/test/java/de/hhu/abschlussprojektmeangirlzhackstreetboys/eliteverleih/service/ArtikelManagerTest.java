@@ -293,4 +293,10 @@ public class ArtikelManagerTest {
         Assertions.assertThat(artikelM.ersetzeUmlaute("hällo, ik benß dür Ströber Michäl"))
             .isEqualTo("haello, ik benss duer Stroeber Michael");
     }
+
+    @Test
+    public void umlauteSchonErsetzt_Test(){
+        Assertions.assertThat(artikelM.ersetzeUmlaute("haello, ik benss duer Stroeber Michael"))
+                .isEqualTo("haello, ik benss duer Stroeber Michael");
+    }
 }
