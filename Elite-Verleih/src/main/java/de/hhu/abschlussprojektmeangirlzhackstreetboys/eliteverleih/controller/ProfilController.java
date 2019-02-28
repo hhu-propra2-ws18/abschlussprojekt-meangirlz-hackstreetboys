@@ -131,10 +131,11 @@ public class ProfilController {
             ausleiheManager.bearbeiteAusleihe(ausleihId, Status.ABGELEHNT);
             return "redirect:/Profil";
         } else if (name.equals("Zurueckgeben")) {
+
             int code = ausleiheManager.zurueckGeben(ausleihId);
-            Ausleihe ausleihemiau = ausleiheManager.getAusleiheById(ausleihId);
-            Artikel artikelmiau =  artikelManager.getArtikelById(ausleihemiau.getArtikel().getArtikelId());
-            transaktionManager.erstelleTransaktion(ausleihId, artikelmiau.getArtikelId());
+
+            transaktionManager.erstelleTransaktion(ausleihId);
+
             if (code < 500 && code > 200) {
                 return "redirect:/Profil/" + "?error";
             } else if (code > 500) {

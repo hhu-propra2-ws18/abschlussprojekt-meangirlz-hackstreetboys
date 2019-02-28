@@ -48,17 +48,15 @@ public class TransaktionManager {
      * Erstellt eine Transaktion mit allen Abhaengigkeiten
      *
      * @param ausleiheId        Id der Ausleihe
-     * //@param artikelId         Id des Artikels
+     *
      * //@param transaktionBetrag Betrag, welcher verbucht wird
      * @return Transaktion.
      */
 
-    public Transaktion erstelleTransaktion(Long ausleiheId, Long artikelId){
+    public Transaktion erstelleTransaktion(Long ausleiheId){
         Transaktion transaktion = new Transaktion();
         Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
-        Artikel artikel =  artikelRepo.findArtikelByArtikelId(artikelId);
 
-        transaktion.setArtikel(artikel);
         transaktion.setAusleihe(ausleihe);
         transaktion.setTransaktionBetrag(setzeTransaktionBetrag(ausleiheId)); // Setze gesamtbetrag
 

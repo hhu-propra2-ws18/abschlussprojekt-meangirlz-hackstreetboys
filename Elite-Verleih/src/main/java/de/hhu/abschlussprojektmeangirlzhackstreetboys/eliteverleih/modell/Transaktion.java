@@ -14,13 +14,15 @@ public class Transaktion {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long transaktionId;
 
-    @OneToOne(fetch= FetchType.LAZY)
-    private Artikel artikel;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Ausleihe ausleihe;
 
     private int transaktionBetrag;
+
+    public Ausleihe getAusleihe(){
+        return ausleihe;
+    }
 
 
     public Transaktion(){
@@ -30,16 +32,21 @@ public class Transaktion {
     /**
      * Konstruktor.
      *
-     * @param artikel           Artikel welcher ausgeliehen wird
+     *
      * @param ausleihe          Ausleihe, durch welche Transaktionen entstehen
      * @param transaktionBetrag Betrag, welcher verbucht wird
      */
 
-    public Transaktion(Artikel artikel, Ausleihe ausleihe, int transaktionBetrag){
-        this.artikel = artikel;
+    public Transaktion(Ausleihe ausleihe, int transaktionBetrag){
+
         this.ausleihe = ausleihe;
         this.transaktionBetrag = transaktionBetrag;
     }
+
+
+
+
+
 
 
 }
