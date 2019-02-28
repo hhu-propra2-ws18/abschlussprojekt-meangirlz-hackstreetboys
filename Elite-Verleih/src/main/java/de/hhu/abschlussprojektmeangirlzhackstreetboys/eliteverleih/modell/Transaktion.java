@@ -14,8 +14,7 @@ public class Transaktion {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long transaktionId;
 
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch= FetchType.LAZY)
     private Ausleihe ausleihe;
 
     private int transaktionBetrag;
