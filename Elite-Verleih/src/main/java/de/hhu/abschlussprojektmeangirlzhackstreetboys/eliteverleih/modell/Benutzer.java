@@ -8,7 +8,8 @@ import java.util.List;
 
 @Data
 @Entity
-public class Benutzer {
+public class
+Benutzer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +28,9 @@ public class Benutzer {
     private String benutzerPasswort;
 
     private String benutzerRolle;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Transaktion> transaktionen;
 
     public Benutzer() {
     }

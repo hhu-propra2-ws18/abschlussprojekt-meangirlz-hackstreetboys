@@ -1,13 +1,11 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.ArtikelManager;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.AusleiheManager;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.BenutzerManager;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.PropayManager;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,16 +28,20 @@ public class ProfilController {
 
     ArtikelManager artikelManager;
 
+    TransaktionManager transaktionManager;
+
     PropayManager propayManager;
 
     @Autowired
     public ProfilController(ArtikelManager artikelManager,
                             AusleiheManager ausleiheManager,
                             BenutzerManager benutzerManager,
+                            TransaktionManager transaktionManager,
                             PropayManager propayManager) {
         this.artikelManager = artikelManager;
         this.ausleiheManager = ausleiheManager;
         this.benutzerManager = benutzerManager;
+        this.transaktionManager = transaktionManager;
         this.propayManager = propayManager;
     }
 
@@ -130,6 +132,9 @@ public class ProfilController {
             return "redirect:/Profil";
         } else if (name.equals("Zurueckgeben")) {
             int code = ausleiheManager.zurueckGeben(ausleihId);
+            Ausleihe ausleihemiau = ausleiheManager.getAusleiheById(ausleihId);
+            Artikel artikelmiau =  artikelManager.getArtikelById(ausleihemiau.getArtikel().getArtikelId());
+            transaktionManager.erstelleTransaktion(ausleihId, artikelmiau.getArtikelId());
             if (code < 500 && code > 200) {
                 return "redirect:/Profil/" + "?error";
             } else if (code > 500) {

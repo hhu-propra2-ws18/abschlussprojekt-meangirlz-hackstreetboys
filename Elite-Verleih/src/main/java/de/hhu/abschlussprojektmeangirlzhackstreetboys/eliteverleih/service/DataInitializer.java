@@ -176,10 +176,10 @@ public class DataInitializer implements ServletContextInitializer {
 
 
         Calendar sCal0 = new GregorianCalendar();
-        sCal0.set(2019, 5, 8);
+        sCal0.set(2019, 2, 8);
         Calendar eCal0 = new GregorianCalendar();
-        eCal0.set(2019, 5, 10);
-        Ausleihe test0 = ausleiheM.erstelleAusleihe(new Long(1), new Long(7), sCal0, eCal0);
+        eCal0.set(2019, 2, 10);
+        Ausleihe test0 = ausleiheM.erstelleAusleihe(new Long(2), new Long(7), sCal0, eCal0);
 
         Calendar sCal1 = new GregorianCalendar();
         sCal1.set(2019, 2, 19);
@@ -197,6 +197,7 @@ public class DataInitializer implements ServletContextInitializer {
         Ausleihe test = ausleiheM.erstelleAusleihe(new Long(4), new Long(9), sCal0, eCal0);
         Ausleihe testtest = ausleiheM.erstelleAusleihe(new Long(5), new Long(10), sCal0, eCal0);
 
+        ausleiheM.bearbeiteAusleihe(test0.getAusleihId(), Status.AKTIV);
         ausleiheM.bearbeiteAusleihe(test.getAusleihId(), Status.KONFLIKT);
         ausleiheM.bearbeiteAusleihe(testtest.getAusleihId(), Status.KONFLIKT);
     }
