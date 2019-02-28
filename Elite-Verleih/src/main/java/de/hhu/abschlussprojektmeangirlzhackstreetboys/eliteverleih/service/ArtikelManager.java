@@ -124,7 +124,7 @@ public class ArtikelManager {
         String[][] UmlauteUndErsetzungen = {{"Ä", "Ae"}, {"Ü", "Ue"}, {"Ö", "Oe"}, {"ä", "ae"}, {"ü", "ue"},
             {"ö", "oe"}, {"ß", "ss"}};
         String verEnglischt = verdeutschterString;
-        for (int i = 0; i < UmlauteUndErsetzungen.length; i = i + 2) {
+        for (int i = 0; i < UmlauteUndErsetzungen.length; i = i + 1) {
             verEnglischt = verEnglischt.replaceAll(UmlauteUndErsetzungen[i][0], UmlauteUndErsetzungen[i][1]);
         }
         return verEnglischt;
