@@ -48,8 +48,6 @@ public class TransaktionManager {
      * Erstellt eine Transaktion mit allen Abhaengigkeiten
      *
      * @param ausleiheId        Id der Ausleihe
-     *
-     *
      * @return Transaktion.
      */
 
