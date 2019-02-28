@@ -12,6 +12,8 @@ Einstellungen
 * DB: PostgreSQL
 
 
+image::Uebersicht.jpg[]
+
 ### Startseite und Anmeldung
 
 Auf der Startseite haben Benutzer und der Support die Möglichkeit, sich mittels dem Benutzernamen

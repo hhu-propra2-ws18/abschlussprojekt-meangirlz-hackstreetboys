@@ -17,6 +17,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -169,5 +171,44 @@ public class BenutzerManagerTest {
         assertEquals(1, benutzerM.sucheEingehendeAnfragen(b0, Status.ANGEFRAGT).size());
         assertEquals(1, benutzerM.sucheEingehendeAnfragen(b0, Status.BESTAETIGT).size());
         assertEquals(2, artikel.getAusgeliehen().size());
+    }
+
+    @Rollback
+    @Test
+    public void findeVerspaeteteAusleihenTest() {
+
+        Benutzer b0 = new Benutzer();
+        b0.setBenutzerEmail("test@yahoo");
+        b0.setBenutzerName("test");
+        b0.setArtikel(new ArrayList<Artikel>());
+        List ausleihen = new ArrayList<Ausleihe>();
+        Ausleihe erste = new Ausleihe();
+        erste.setAusleihStatus(Status.ANGEFRAGT);
+        Ausleihe zweite = new Ausleihe();
+        zweite.setAusleihStatus(Status.BESTAETIGT);
+        ausleihen.add(erste);
+        b0.setAusgeliehen(ausleihen);
+        benutzerM.erstelleBenutzer(b0);
+        List<Ausleihe> leereAusleihe = new ArrayList<Ausleihe>();
+
+        assertEquals(leereAusleihe, benutzerM.findeVerspaeteteAusleihe(b0));
+
+        Benutzer b1 = new Benutzer();
+        b0.setBenutzerEmail("test@yahoo");
+        b0.setBenutzerName("test1");
+        b0.setArtikel(new ArrayList<Artikel>());
+        Calendar start = new GregorianCalendar();
+        start.set(2019, 1, 22);
+        Calendar rueckgabe = new GregorianCalendar();
+        rueckgabe.set(2019, 1, 23);
+        zweite.setAusleihStartdatum(start);
+        zweite.setAusleihRueckgabedatum(rueckgabe);
+        ausleihen.add(zweite);
+        b1.setAusgeliehen(ausleihen);
+        benutzerM.erstelleBenutzer(b1);
+
+        assertEquals(1, benutzerM.findeVerspaeteteAusleihe(b1).size());
+
+
     }
 }
