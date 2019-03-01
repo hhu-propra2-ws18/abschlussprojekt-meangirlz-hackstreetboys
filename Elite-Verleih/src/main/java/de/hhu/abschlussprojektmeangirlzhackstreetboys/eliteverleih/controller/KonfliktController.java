@@ -28,6 +28,13 @@ public class KonfliktController {
 
     PropayManager propayManager;
 
+    /**
+     * Ist fuer das Testen der Klassen verantwortlich.
+     * @param artikelManager Zugriff auf Repository.
+     * @param ausleiheManager Zugriff auf Repository.
+     * @param benutzerManager Zugriff auf Repository.
+     * @param propayManager Zugriff auf Propray
+     */
     @Autowired
     public KonfliktController(ArtikelManager artikelManager,
                               AusleiheManager ausleiheManager,

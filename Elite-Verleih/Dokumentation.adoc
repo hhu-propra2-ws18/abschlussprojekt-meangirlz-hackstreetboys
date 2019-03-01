@@ -12,6 +12,8 @@ Einstellungen
 * DB: PostgreSQL
 
 
+image::Uebersicht.jpg[]
+
 ### Startseite und Anmeldung
 
 Auf der Startseite haben Benutzer und der Support die Möglichkeit, sich mittels dem Benutzernamen
@@ -54,6 +56,10 @@ In der Übersicht werden alle Artikel aufgelistet, die von verschiendenen Benutz
 und Kosten pro Tag verschaffen dem Nutzer einen leichten Überblick.
 Der Benutzer kann auf einen Artikel klicken, wodurch er auf die Detaillseite des
 Artikels gelangt.
+
+* Falls der eingeloggte Benutzer Artikel ausgeliehen hat, die er bisher nicht zum
+angegebenen Enddatum abgegeben hat, wird eine Warnung angezeigt, dass der Benutzer
+den Artikel zurückgeben muss. 
 
 ### Artikel erstellen
 Als Benutzer hat man die Möglichkeit einen eigenen Artikel einzustellen. Hierzu
@@ -314,6 +320,16 @@ beispielsweise mit Szenarien in der Zukunft.
 Daher sind Tests zu den verschiedenen Managern absolut notwendig. Unser Team hat daher
 sichergestellt, dass verschiedene Szenarien auf Richtigkeit geprüft worden sind.
 
+Die retry-Funktion und recover-Funktion im PropayManager haben wir leider nicht testen können.
+Was wir stattdessen getestet haben, ist dass die richtige Exception geworfen wird (falls eine
+produziert wird) und dass bei einem Fehlverhalten dennoch die richtigen Ergebnisse heraus kommen.
+Da dies aber auch Eigenschaften des Springframeworks sind, können wir davon ausgehen dass diese
+Funktionen dennoch wie erwartet funktionieren.
+
+Ansonsten haben wir die Managerklassen weitestgehend mit Tests abgedeckt.
+Unsere Controller haben wir nicht getestet, da die Controller keine Logik beinhalten
+(sie rufen die Managerklassen auf).
+
 
 ### Spring Security
 
@@ -332,6 +348,7 @@ Des Weiteren wird MyUserDetails als Hilfsklasse verwendet, um die Authentifizier
 über das BenutzerRepository zu machen, was bedeutet, dass jeder Benutzer auch einen
 Account bei der Anwendung besitzt. Dies wird in SecurityConfig-Methode config
 konfiguriert.
+Den SUPPORT Account haben wir fest angelegt, sodass dieser stets existiert.
 
 
 # Hinzufügen der Verkaufen-Funktion

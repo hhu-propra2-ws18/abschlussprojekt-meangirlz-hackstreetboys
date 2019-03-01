@@ -59,6 +59,7 @@ public class UebersichtController {
         model.addAttribute("benutzer", benutzer);
         model.addAttribute("artikels", sortiertelListe);
         model.addAttribute("suchBegriff", suche);
+        model.addAttribute("verspaeteteAusleihen", benutzerManager.findeVerspaeteteAusleihe(benutzer));
 
         return "Uebersicht";
     }
