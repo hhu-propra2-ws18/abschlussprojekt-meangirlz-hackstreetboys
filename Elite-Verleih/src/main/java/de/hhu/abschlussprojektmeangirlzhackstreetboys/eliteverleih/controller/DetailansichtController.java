@@ -6,10 +6,7 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artike
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.ArtikelManager;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.AusleiheManager;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.BenutzerManager;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.PropayManager;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,16 +27,20 @@ public class DetailansichtController {
 
     ArtikelManager artikelManager;
 
+    TransaktionManager transaktionManager;
+
     PropayManager propayManager;
 
     @Autowired
     public DetailansichtController(ArtikelManager artikelManager,
                                    AusleiheManager ausleiheManager,
                                    BenutzerManager benutzerManager,
+                                   TransaktionManager transaktionManager,
                                    PropayManager propayManager) {
         this.artikelManager = artikelManager;
         this.ausleiheManager = ausleiheManager;
         this.benutzerManager = benutzerManager;
+        this.transaktionManager = transaktionManager;
         this.propayManager = propayManager;
     }
 
@@ -162,6 +163,7 @@ public class DetailansichtController {
         int code = propayManager.ueberweisen(account.getName(),
             artikel.getBenutzer().getBenutzerName(),
             artikel.getArtikelPreis());
+            transaktionManager.erstelleTransaktionVerkauf(artikelId, account.getName());
 
         if (code == 200) {
             artikelManager.loescheArtikel(artikelId);

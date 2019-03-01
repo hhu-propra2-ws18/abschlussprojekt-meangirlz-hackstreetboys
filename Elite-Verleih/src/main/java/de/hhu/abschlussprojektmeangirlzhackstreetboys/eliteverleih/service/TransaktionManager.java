@@ -59,8 +59,37 @@ public class TransaktionManager {
         transaktion.setVerleihenderName(ausleihe.getArtikel().getBenutzer().getBenutzerName());
         transaktion.setAusleihenderName(ausleihe.getBenutzer().getBenutzerName());
 
-        transaktion.setTransaktionBetrag(setzeTransaktionBetrag(ausleiheId)); // Setze gesamtbetrag
+        transaktion.setTransaktionBetrag(setzeTransaktionBetrag(ausleiheId));
         setzeTransaktionBenutzer(ausleihe.getBenutzer().getBenutzerId(), transaktion);
+
+        return transaktion;
+    }
+
+    public Transaktion erstelleTransaktionKaution(Long ausleiheId){
+        Transaktion transaktion = new Transaktion();
+        Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
+
+        transaktion.setArtikelName(ausleihe.getArtikel().getArtikelName());
+        transaktion.setVerleihenderName(ausleihe.getArtikel().getBenutzer().getBenutzerName());
+        transaktion.setAusleihenderName(ausleihe.getBenutzer().getBenutzerName());
+
+        System.out.println(ausleihe.getArtikel().getArtikelKaution());
+        transaktion.setTransaktionBetrag(ausleihe.getArtikel().getArtikelKaution());
+        setzeTransaktionBenutzer(ausleihe.getBenutzer().getBenutzerId(), transaktion);
+
+        return transaktion;
+    }
+
+    public Transaktion erstelleTransaktionVerkauf(Long artikelId, String benutzerName){
+        Transaktion transaktion = new Transaktion();
+        Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+
+        transaktion.setArtikelName(artikel.getArtikelName());
+        transaktion.setVerleihenderName(artikel.getBenutzer().getBenutzerName());
+        transaktion.setAusleihenderName(benutzerName);
+
+        transaktion.setTransaktionBetrag(artikel.getArtikelPreis());
+        setzeTransaktionBenutzer(artikel.getBenutzer().getBenutzerId(), transaktion);
 
         return transaktion;
     }
