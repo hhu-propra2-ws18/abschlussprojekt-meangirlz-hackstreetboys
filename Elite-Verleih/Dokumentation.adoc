@@ -23,7 +23,7 @@ die in der Datenbank gespeichert worden sind, kommt eine Fehlermeldung.
 
 Hat man bisher noch keinen Account angelegt,
 so klickt man auf den Registrier-Button, wodurch man auf einer seperaten Seite einen neuen Benutzer anlegen kann.
-Der Login mit dem Username "support" führt direkt zur Konfliktlöseseite.
+Der Login mit dem Username "support" mit dem Passort *1* führt direkt zur Konfliktlöseseite.
 
 ##### Registrieren
 
@@ -259,6 +259,12 @@ welcher dann entscheidet, wer die Kaution des Artikels erhält.
 
 - Konflikte werden dem Support auf der Konfliktlöseseite angezeigt, hier kann er die Kaution dem Ausleihenden / Verleihenden buchen und damit den Konflikt beenden.
  Außerdem werden zu jedem Konflikt auch die Daten der involvierten Benutzer angezeigt.
+ 
+ #### Transaktionen 
+ 
+ Profil -> Transaktionen 
+ Eine Transaktion wird erstellt, sobald ein Benutzer eine Bezahl- oder Kautionstransaktion hatte. 
+ Auf einer zusätzllichen Seite werde alle Transaktionen angezeigt. 
 
 
 ### Anmeldung als Support

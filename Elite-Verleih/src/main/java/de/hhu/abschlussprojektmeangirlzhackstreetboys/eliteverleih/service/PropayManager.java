@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = "de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service")
 public class PropayManager {
 
-    private final String url = "http://localhost:8888/";
+    final String url = "http://propay:8888/";
     private final int maxVersuche = 3;
     private final int verzoegerung = 1000;
 

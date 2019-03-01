@@ -9,7 +9,10 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 @Service
 public class BenutzerManager {
@@ -153,7 +156,7 @@ public class BenutzerManager {
         Calendar heute = new GregorianCalendar();
         List<Ausleihe> verspaeteAusleihe = new ArrayList<>();
 
-        for (Ausleihe a: benutzer.getAusgeliehen()) {
+        for (Ausleihe a : benutzer.getAusgeliehen()) {
             if ((a.getAusleihStatus() == Status.BESTAETIGT) && (heute.after(a.getAusleihRueckgabedatum()))) {
                 verspaeteAusleihe.add(a);
             }

@@ -19,8 +19,13 @@ import java.util.List;
 public class MyUserDetailsService implements UserDetailsService {
 
 
-    @Autowired
+
     BenutzerManager benutzerManager;
+
+    @Autowired
+    public MyUserDetailsService(BenutzerManager benutzerManager) {
+        this.benutzerManager = benutzerManager;
+    }
 
     private static List<GrantedAuthority> getAuthority(String role) {
         List<GrantedAuthority> authorities = new ArrayList<>();
