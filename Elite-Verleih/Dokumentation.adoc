@@ -57,6 +57,10 @@ und Kosten pro Tag verschaffen dem Nutzer einen leichten Überblick.
 Der Benutzer kann auf einen Artikel klicken, wodurch er auf die Detaillseite des
 Artikels gelangt.
 
+* Falls der eingeloggte Benutzer Artikel ausgeliehen hat, die er bisher nicht zum
+angegebenen Enddatum abgegeben hat, wird eine Warnung angezeigt, dass der Benutzer
+den Artikel zurückgeben muss. 
+
 ### Artikel erstellen
 Als Benutzer hat man die Möglichkeit einen eigenen Artikel einzustellen. Hierzu
 werden folgende Attribute benoetigt:
