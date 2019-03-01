@@ -28,6 +28,9 @@ public class Benutzer {
 
     private String benutzerRolle;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<Transaktion> transaktionen;
+
     public Benutzer() {
     }
 }

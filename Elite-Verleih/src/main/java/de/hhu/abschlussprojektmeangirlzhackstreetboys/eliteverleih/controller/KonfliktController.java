@@ -3,10 +3,7 @@ package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.ArtikelManager;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.AusleiheManager;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.BenutzerManager;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.PropayManager;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +24,8 @@ public class KonfliktController {
 
     ArtikelManager artikelManager;
 
+    TransaktionManager transaktionManager;
+
     PropayManager propayManager;
 
     /**
@@ -40,10 +39,12 @@ public class KonfliktController {
     public KonfliktController(ArtikelManager artikelManager,
                               AusleiheManager ausleiheManager,
                               BenutzerManager benutzerManager,
+                              TransaktionManager transaktionManager,
                               PropayManager propayManager) {
         this.artikelManager = artikelManager;
         this.ausleiheManager = ausleiheManager;
         this.benutzerManager = benutzerManager;
+        this.transaktionManager = transaktionManager;
         this.propayManager = propayManager;
     }
 
@@ -79,11 +80,14 @@ public class KonfliktController {
         int code = 0;
         if (name.equals("Buchung Verleihender")) {
             code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(),
-                ausleihe.getReservationsId());
+                    ausleihe.getReservationsId());
+            transaktionManager.erstelleTransaktionKaution(ausleihId);
+
         }
         if (name.equals("Buchung Ausleihender")) {
             code = propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(),
-                ausleihe.getReservationsId());
+                    ausleihe.getReservationsId());
+            transaktionManager.erstelleTransaktionKaution(ausleihId);
         }
         if (code != 200) {
             return "ErrorPropay";

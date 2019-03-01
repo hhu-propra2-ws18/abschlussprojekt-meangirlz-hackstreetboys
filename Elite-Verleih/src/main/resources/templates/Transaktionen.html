@@ -1,0 +1,78 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
+    <title>Elite-Verleih</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+    <a class="navbar-brand" th:href="'/Uebersicht'">
+        <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
+             width="180">
+    </a>
+    <div class="ml-auto">
+        <a class="" th:text="'Guthaben: ' + ${Betrag} + '€'"></a>
+    </div>
+    <div class="nav-item dropdown">
+        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+           id="navbarDropdownMenuLink">
+            <b class="fas fa-user" th:text="${benutzer.getBenutzerName()}"></b>
+        </a>
+        <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu dropdown-menu-right dropdown-info">
+            <a class="dropdown-item" th:href="'/ProfilBearbeiten'">Profil bearbeiten</a>
+            <a class="dropdown-item" th:href="'/Transaktionen'">Meine Transaktionen</a>
+            <a class="dropdown-item" href="/logout">Ausloggen</a>
+        </div>
+    </div>
+</nav>
+
+<section class="jumbotron text-center" th:if="${benutzer.getTransaktionen()==null}">
+    <p class="lead text-muted">Keine Transaktionen vorhanden.</p>
+</section>
+<div class="album py-5" th:if="${benutzer.getTransaktionen()!=null}">
+    <div class="container-fluid">
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="text-center">
+                            <span>Transaktionen</span>
+                        </h3>
+
+
+                            <li class="list-group">
+                            <li class="list-group-item" th:each="trk : ${transaktion}">
+                                <p class="card-text" th:text="'Artikel: '+${trk.getArtikelName()}"></p>
+                                <p class="card-text" th:text="'Ausgeliehen / Gekauft von: '+${trk.getAusleihenderName()}"></p>
+                                <p class="card-text" th:text="'Verliehen / Verkauft von: '+${trk.getVerleihenderName()}"></p>
+                                <h4 class="text-right" th:text="'Betrag: '+${trk.getTransaktionBetrag()}+'€'"></h4>
+
+                            </li>
+                            </li>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script crossorigin="anonymous"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
+</body>
+</html>
