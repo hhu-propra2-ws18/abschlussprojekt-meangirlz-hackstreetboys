@@ -81,17 +81,15 @@ public class KonfliktController {
         if (name.equals("Buchung Verleihender")) {
             code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(),
                     ausleihe.getReservationsId());
-            transaktionManager.erstelleTransaktionKaution(ausleihId);
-
         }
         if (name.equals("Buchung Ausleihender")) {
             code = propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(),
                     ausleihe.getReservationsId());
-            transaktionManager.erstelleTransaktionKaution(ausleihId);
         }
         if (code != 200) {
-            return "ErrorPropay";
+            return "ErrorPropaySupport";
         }
+        transaktionManager.erstelleTransaktionKaution(ausleihId);
         ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
 
         return "redirect:/Konfliktloesung";

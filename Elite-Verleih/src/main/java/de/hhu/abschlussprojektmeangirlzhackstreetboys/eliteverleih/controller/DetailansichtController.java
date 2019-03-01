@@ -177,9 +177,9 @@ public class DetailansichtController {
         int code = propayManager.ueberweisen(account.getName(),
             artikel.getBenutzer().getBenutzerName(),
             artikel.getArtikelPreis());
-        transaktionManager.erstelleTransaktionVerkauf(artikelId, account.getName());
 
         if (code == 200) {
+            transaktionManager.erstelleTransaktionVerkauf(artikelId, account.getName());
             artikelManager.loescheArtikel(artikelId);
             return "redirect:/Uebersicht";
         }

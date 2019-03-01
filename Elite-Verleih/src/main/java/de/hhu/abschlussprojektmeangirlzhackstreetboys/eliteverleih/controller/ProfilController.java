@@ -141,13 +141,12 @@ public class ProfilController {
 
             int code = ausleiheManager.zurueckGeben(ausleihId);
 
-            transaktionManager.erstelleTransaktion(ausleihId);
-
             if (code < 500 && code > 200) {
                 return "redirect:/Profil/" + "?error";
             } else if (code > 500) {
                 return "ErrorPropay";
             }
+            transaktionManager.erstelleTransaktion(ausleihId);
             return "redirect:/Profil";
         } else if (name.equals("Akzeptieren")) {
             if (!ausleiheManager.rueckgabeAkzeptieren(ausleihId)) {
