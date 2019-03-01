@@ -25,8 +25,18 @@ public class AusleiheManager {
     final AusleiheRepository ausleiheRepo;
     PropayManager propayManager;
 
+    /**
+     * Konstruktor.
+     *
+     * @param ausleiheRepo Repository
+     * @param propayManager Zugriff auf ProPay
+     * @param artikelRepo Repository
+     * @param benutzerRepo Repository
+     */
+
     @Autowired
-    public AusleiheManager(AusleiheRepository ausleiheRepo, PropayManager propayManager, ArtikelRepository artikelRepo, BenutzerRepository benutzerRepo) {
+    public AusleiheManager(AusleiheRepository ausleiheRepo, PropayManager propayManager, ArtikelRepository artikelRepo,
+                           BenutzerRepository benutzerRepo) {
         this.ausleiheRepo = ausleiheRepo;
         this.propayManager = propayManager;
         this.artikelRepo = artikelRepo;
@@ -206,7 +216,8 @@ public class AusleiheManager {
         }
         for (Ausleihe a : anfrageList) {
             if (a.getAusleihId() != ausleiheId) {
-                if (istAusgeliehen(a.getArtikel().getArtikelId(), a.getAusleihStartdatum(), a.getAusleihRueckgabedatum())) {
+                if (istAusgeliehen(a.getArtikel().getArtikelId(), a.getAusleihStartdatum(),
+                    a.getAusleihRueckgabedatum())) {
                     bearbeiteAusleihe(a.getAusleihId(), Status.ABGELEHNT);
                 }
             }
