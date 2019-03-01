@@ -178,7 +178,7 @@ public class DataInitializer implements ServletContextInitializer {
         Calendar sCal0 = new GregorianCalendar();
         sCal0.set(2019, 1, 8);
         Calendar eCal0 = new GregorianCalendar();
-        eCal0.set(2019, 1, 10);
+        eCal0.set(2019, 5, 10);
         Ausleihe test0 = ausleiheM.erstelleAusleihe(new Long(2), new Long(9), sCal0, eCal0);
         test0 = ausleiheM.bearbeiteAusleihe(test0.getAusleihId(), Status.BESTAETIGT);
 
