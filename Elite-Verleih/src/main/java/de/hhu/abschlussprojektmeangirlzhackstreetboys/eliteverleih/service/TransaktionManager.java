@@ -31,24 +31,25 @@ public class TransaktionManager {
     public TransaktionManager(){}
 
     /**
-     * Getter fuer Transaktionen
+     * Getter fuer Transaktionen.
      *
      * @return Liste von Transaktionen
      */
-    public List<Transaktion> getAllTransaktion(String benutzerName){
+
+    public List<Transaktion> getAllTransaktion(String benutzerName) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerName(benutzerName).get();
         return benutzer.getTransaktionen();
 
     }
 
     /**
-     * Erstellt eine Transaktion mit allen Abhaengigkeiten
+     * Erstellt eine Transaktion mit allen Abhaengigkeiten.
      *
      * @param ausleiheId        Id der Ausleihe
      * @return Transaktion.
      */
 
-    public Transaktion erstelleTransaktion(Long ausleiheId){
+    public Transaktion erstelleTransaktion(Long ausleiheId) {
         Transaktion transaktion = new Transaktion();
         Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
 
@@ -63,7 +64,13 @@ public class TransaktionManager {
         return transaktion;
     }
 
-    public Transaktion erstelleTransaktionKaution(Long ausleiheId){
+    /**
+     * Erstellt Transaktion bei Buchung der Kaution.
+     * @param ausleiheId        Id der Ausleihe
+     * @return transaktion.
+     */
+
+    public Transaktion erstelleTransaktionKaution(Long ausleiheId) {
         Transaktion transaktion = new Transaktion();
         Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
 
@@ -79,10 +86,16 @@ public class TransaktionManager {
         return transaktion;
     }
 
-    public Transaktion erstelleTransaktionVerkauf(Long artikelId, String benutzerName){
+    /**
+     * Erstelle Transaktion bei Verkauf eines Artikels.
+     * @param artikelId         Artikel ID
+     * @param benutzerName      Käufer des Artikels
+     * @return transaktion
+     */
+
+    public Transaktion erstelleTransaktionVerkauf(Long artikelId, String benutzerName) {
         Transaktion transaktion = new Transaktion();
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
-        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerName(benutzerName).get();
 
         transaktion.setArtikelName(artikel.getArtikelName());
         transaktion.setBesitzerName(artikel.getBenutzer().getBenutzerName());
@@ -90,14 +103,21 @@ public class TransaktionManager {
 
         transaktion.setTransaktionBetrag(artikel.getArtikelPreis());
         setzeTransaktionBenutzer(artikel.getBenutzer().getBenutzerId(), transaktion);
+        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerName(benutzerName).get();
         setzeTransaktionBenutzer(benutzer.getBenutzerId(), transaktion);
 
         return transaktion;
     }
 
-    private void setzeTransaktionBenutzer(Long benutzerId, Transaktion transaktion){
+    /**
+     * Füge Transaktion zu Benutzer hinzu.
+     * @param benutzerId    aktiver Benutzer
+     * @param transaktion   hinzuzufügende transaktion
+     */
+
+    private void setzeTransaktionBenutzer(Long benutzerId, Transaktion transaktion) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
-        if(b.getTransaktionen() == null ){
+        if (b.getTransaktionen() == null) {
             b.setTransaktionen(new ArrayList<Transaktion>());
         }
         b.getTransaktionen().add(transaktion);
@@ -105,14 +125,27 @@ public class TransaktionManager {
         benutzerRepo.save(b);
     }
 
-    public int setzeTransaktionBetrag(Long ausleiheId){
+    /**
+     * Setze Betrag für Transaktion mit Hilfe von berechneKosten().
+     *
+     * @param ausleiheId    ausgeliehener Artikel
+     * @return transaktionBetrag
+     */
+
+    public int setzeTransaktionBetrag(Long ausleiheId) {
         Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
-        if(ausleihe.getAusleihStatus() == Status.ABGEGEBEN ){
+        if (ausleihe.getAusleihStatus() == Status.ABGEGEBEN) {
             return ausleihe.berechneKosten(getHeutigesDatum());
-        } return 0;
+        }
+        return 0;
     }
 
-    private Calendar getHeutigesDatum(){
+    /**
+     * Hilfsfunktion für setzeTransaktionBetrag().
+     * @return heute
+     */
+
+    private Calendar getHeutigesDatum() {
         Calendar heute = new GregorianCalendar();
         return heute;
     }

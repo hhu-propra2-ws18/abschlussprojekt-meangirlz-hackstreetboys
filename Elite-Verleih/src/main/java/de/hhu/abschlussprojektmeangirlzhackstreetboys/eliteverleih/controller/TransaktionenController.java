@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import javax.validation.constraints.Max;
 import java.security.Principal;
 import java.util.List;
 
@@ -25,27 +24,32 @@ public class TransaktionenController {
 
     PropayManager propayManager;
 
-
+    /**
+     * Controller für Transaktionen.
+     * @param benutzerManager       Benutzer Manager
+     * @param transaktionManager    Transaktion Manager
+     * @param propayManager         ProPay Manager
+     */
     @Autowired
     public TransaktionenController(BenutzerManager benutzerManager,
                                    TransaktionManager transaktionManager,
-                                   PropayManager propayManager){
+                                   PropayManager propayManager) {
         this.benutzerManager = benutzerManager;
-        this.transaktionManager =transaktionManager;
+        this.transaktionManager = transaktionManager;
         this.propayManager = propayManager;
     }
 
 
     /**
-     * Zeigt die Transaktionenseite an
+     * Zeigt die Transaktionenseite an.
      *
-     * @param model         Datencontainer für die View
-     * @param account       Account des aktuellen Users
+     * @param model   Datencontainer für die View
+     * @param account Account des aktuellen Users
      * @return "Transaktionen"
      */
 
     @GetMapping("/Transaktionen")
-    public String transaktionenAnzeigen(Model model, Principal account){
+    public String transaktionenAnzeigen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         model.addAttribute("benutzer", benutzer);
 

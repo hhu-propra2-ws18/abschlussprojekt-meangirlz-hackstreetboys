@@ -35,7 +35,7 @@ public class Transaktion {
      * @param transaktionBetrag Betrag, welcher verbucht wird
      */
 
-    public Transaktion(String artikelName, String besitzerName, String kundeName, int transaktionBetrag){
+    public Transaktion(String artikelName, String besitzerName, String kundeName, int transaktionBetrag) {
         this.artikelName = artikelName;
         this.besitzerName = besitzerName;
         this.kundeName = kundeName;

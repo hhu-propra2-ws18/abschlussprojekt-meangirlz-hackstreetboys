@@ -44,7 +44,7 @@ public class KonfliktController {
         this.artikelManager = artikelManager;
         this.ausleiheManager = ausleiheManager;
         this.benutzerManager = benutzerManager;
-        this.transaktionManager =transaktionManager;
+        this.transaktionManager = transaktionManager;
         this.propayManager = propayManager;
     }
 
@@ -80,12 +80,14 @@ public class KonfliktController {
         int code = 0;
         if (name.equals("Buchung Verleihender")) {
             transaktionManager.erstelleTransaktionKaution(ausleihId);
-            code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+            code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(),
+                    ausleihe.getReservationsId());
 
         }
         if (name.equals("Buchung Ausleihender")) {
             transaktionManager.erstelleTransaktionKaution(ausleihId);
-            code = propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+            code = propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(),
+                    ausleihe.getReservationsId());
 
         }
         if (code != 200) {
