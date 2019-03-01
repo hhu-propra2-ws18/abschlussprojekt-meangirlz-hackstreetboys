@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 @Import( {ArtikelManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@ActiveProfiles("dev")
 public class ArtikelManagerTest {
 
     @Autowired

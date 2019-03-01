@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.GregorianCalendar;
 @Import( {TransaktionManager.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@ActiveProfiles("dev")
 public class TransaktionManagerTests {
 
     @Autowired
