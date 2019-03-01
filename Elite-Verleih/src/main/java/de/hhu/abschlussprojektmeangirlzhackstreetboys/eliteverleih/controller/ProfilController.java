@@ -32,6 +32,13 @@ public class ProfilController {
 
     PropayManager propayManager;
 
+    /**
+     * Ist fuer das Testen der Klassen verantwortlich.
+     * @param artikelManager Zugriff aufRepository
+     * @param ausleiheManager Zugriff auf Repository
+     * @param benutzerManager Zugriff auf Repository
+     * @param propayManager Zugriff auf Propay
+     */
     @Autowired
     public ProfilController(ArtikelManager artikelManager,
                             AusleiheManager ausleiheManager,

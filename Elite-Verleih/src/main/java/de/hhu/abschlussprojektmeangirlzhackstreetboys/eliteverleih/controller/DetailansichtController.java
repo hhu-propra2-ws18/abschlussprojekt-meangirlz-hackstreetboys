@@ -32,6 +32,13 @@ public class DetailansichtController {
 
     PropayManager propayManager;
 
+    /**
+     *
+     * @param artikelManager
+     * @param ausleiheManager
+     * @param benutzerManager
+     * @param propayManager
+     */
     @Autowired
     public DetailansichtController(ArtikelManager artikelManager,
                                    AusleiheManager ausleiheManager,

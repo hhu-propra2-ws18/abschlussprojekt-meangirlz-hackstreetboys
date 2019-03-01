@@ -29,6 +29,13 @@ public class KonfliktController {
 
     PropayManager propayManager;
 
+    /**
+     * Ist fuer das Testen der Klassen verantwortlich.
+     * @param artikelManager Zugriff auf Repository.
+     * @param ausleiheManager Zugriff auf Repository.
+     * @param benutzerManager Zugriff auf Repository.
+     * @param propayManager Zugriff auf Propray
+     */
     @Autowired
     public KonfliktController(ArtikelManager artikelManager,
                               AusleiheManager ausleiheManager,
@@ -71,10 +78,12 @@ public class KonfliktController {
         Benutzer benutzer = ausleihe.getBenutzer();
         int code = 0;
         if (name.equals("Buchung Verleihender")) {
-            code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+            code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(),
+                ausleihe.getReservationsId());
         }
         if (name.equals("Buchung Ausleihender")) {
-            code = propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
+            code = propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(),
+                ausleihe.getReservationsId());
         }
         if (code != 200) {
             return "ErrorPropay";
