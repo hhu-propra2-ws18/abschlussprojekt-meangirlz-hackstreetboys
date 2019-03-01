@@ -209,6 +209,28 @@ public class BenutzerManagerTest {
 
         assertEquals(1, benutzerM.findeVerspaeteteAusleihe(b1).size());
 
+        Benutzer b2 = new Benutzer();
+        b0.setBenutzerEmail("test@yahoo");
+        b0.setBenutzerName("test1");
+        b0.setArtikel(new ArrayList<Artikel>());
+
+        Ausleihe dritte = new Ausleihe();
+        zweite.setAusleihStatus(Status.BESTAETIGT);
+
+        Calendar start1 = new GregorianCalendar();
+        start.set(2019, 2, 22);
+        Calendar rueckgabe1 = new GregorianCalendar();
+        rueckgabe.set(2099, 12, 23);
+        dritte.setAusleihStartdatum(start1);
+        dritte.setAusleihRueckgabedatum(rueckgabe1);
+        List<Ausleihe> ausleihen2 = new ArrayList<Ausleihe>();
+        ausleihen2.add(erste);
+        ausleihen2.add(dritte);
+
+        b2.setAusgeliehen(ausleihen2);
+        benutzerM.erstelleBenutzer(b2);
+
+        assertEquals(0, benutzerM.findeVerspaeteteAusleihe(b2).size());
 
     }
 }
