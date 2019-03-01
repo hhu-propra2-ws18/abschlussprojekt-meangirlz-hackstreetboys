@@ -40,7 +40,7 @@ public class ArtikelManager {
         artikel.setBenutzer(benutzer);
         artikel.setArtikelPreis(0);
         artikel.setZuVerkaufen(false);
-        setArtikelOrtAttribute(artikel, artikel.getArtikelOrt());
+        setzteArtikelOrtAttribute(artikel, artikel.getArtikelOrt());
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -57,7 +57,7 @@ public class ArtikelManager {
         artikel.setArtikelKaution(0);
         artikel.setArtikelTarif(0);
         artikel.setZuVerkaufen(true);
-        setArtikelOrtAttribute(artikel, artikel.getArtikelOrt());
+        setzteArtikelOrtAttribute(artikel, artikel.getArtikelOrt());
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -93,7 +93,7 @@ public class ArtikelManager {
         alterArtikel.setArtikelBeschreibung(artikel.getArtikelBeschreibung());
         alterArtikel.setArtikelKaution(artikel.getArtikelKaution());
         alterArtikel.setArtikelName(artikel.getArtikelName());
-        setArtikelOrtAttribute(alterArtikel, artikel.getArtikelOrt());
+        setzteArtikelOrtAttribute(alterArtikel, artikel.getArtikelOrt());
         alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
         alterArtikel.setArtikelBildUrl(artikel.getArtikelBildUrl());
         alterArtikel.setArtikelPreis(artikel.getArtikelPreis());
@@ -107,7 +107,7 @@ public class ArtikelManager {
      * @param zuSetzenderArtikel Artikel dessen Attribute gesetzt werden
      * @param artikelOrt artikelOrt String mit Adresse
      */
-    public void setArtikelOrtAttribute(Artikel zuSetzenderArtikel, String artikelOrt) {
+    public void setzteArtikelOrtAttribute(Artikel zuSetzenderArtikel, String artikelOrt) {
         String artikelOrtOhneUmlaute = ersetzeUmlaute(artikelOrt);
         zuSetzenderArtikel.setArtikelOrt(artikelOrt);
         zuSetzenderArtikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikelOrtOhneUmlaute));
