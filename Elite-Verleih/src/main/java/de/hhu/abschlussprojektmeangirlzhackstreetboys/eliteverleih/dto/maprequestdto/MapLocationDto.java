@@ -1,4 +1,4 @@
-package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.mapRequestDto;
+package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.maprequestdto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

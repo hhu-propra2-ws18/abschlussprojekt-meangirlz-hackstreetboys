@@ -1,6 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.mapRequestDto.MapDto;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.maprequestdto.MapDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 

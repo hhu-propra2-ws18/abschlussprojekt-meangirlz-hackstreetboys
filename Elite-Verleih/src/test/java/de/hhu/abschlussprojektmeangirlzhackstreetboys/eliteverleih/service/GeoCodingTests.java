@@ -1,7 +1,7 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.mapRequestDto.MapDto;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.mapRequestDto.MapLocationDto;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.maprequestdto.MapDto;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.maprequestdto.MapLocationDto;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 

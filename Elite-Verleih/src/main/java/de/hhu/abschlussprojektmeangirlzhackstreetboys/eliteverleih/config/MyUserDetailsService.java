@@ -23,7 +23,7 @@ public class MyUserDetailsService implements UserDetailsService {
     BenutzerManager benutzerManager;
 
     @Autowired
-    public MyUserDetailsService(BenutzerManager benutzerManager){
+    public MyUserDetailsService(BenutzerManager benutzerManager) {
         this.benutzerManager = benutzerManager;
     }
 
