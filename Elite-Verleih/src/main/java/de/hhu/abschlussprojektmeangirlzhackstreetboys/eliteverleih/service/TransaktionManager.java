@@ -16,28 +16,19 @@ import java.util.List;
 @Service
 public class TransaktionManager {
 
-    final TransaktionRepository transaktionRepo;
-    final ArtikelRepository artikelRepo;
-    final AusleiheRepository ausleiheRepo;
-    final BenutzerRepository benutzerRepo;
-    final BenutzerManager benutzerManager;
+    @Autowired
+    TransaktionRepository transaktionRepo;
+    @Autowired
+    ArtikelRepository artikelRepo;
+    @Autowired
+    AusleiheRepository ausleiheRepo;
+    @Autowired
+    BenutzerRepository benutzerRepo;
 
     PropayManager propayManager;
 
     @Autowired
-    public TransaktionManager(TransaktionRepository transaktionRepo,
-                              ArtikelRepository artikelRepo,
-                              AusleiheRepository ausleiheRepo,
-                              BenutzerRepository benutzerRepo,
-                              PropayManager propayManager,
-                              BenutzerManager benutzerManager){
-        this.transaktionRepo = transaktionRepo;
-        this.artikelRepo = artikelRepo;
-        this.ausleiheRepo = ausleiheRepo;
-        this.benutzerRepo = benutzerRepo;
-        this.propayManager = propayManager;
-        this.benutzerManager = benutzerManager;
-    }
+    public TransaktionManager(){}
 
     /**
      * Getter fuer Transaktionen
@@ -45,7 +36,7 @@ public class TransaktionManager {
      * @return Liste von Transaktionen
      */
     public List<Transaktion> getAllTransaktion(String benutzerName){
-        Benutzer benutzer = benutzerManager.findBenutzerByName(benutzerName);
+        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerName(benutzerName).get();
         return benutzer.getTransaktionen();
 
     }
@@ -91,7 +82,7 @@ public class TransaktionManager {
     public Transaktion erstelleTransaktionVerkauf(Long artikelId, String benutzerName){
         Transaktion transaktion = new Transaktion();
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
-        Benutzer benutzer = benutzerManager.findBenutzerByName(benutzerName);
+        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerName(benutzerName).get();
 
         transaktion.setArtikelName(artikel.getArtikelName());
         transaktion.setVerleihenderName(artikel.getBenutzer().getBenutzerName());
@@ -112,13 +103,12 @@ public class TransaktionManager {
         b.getTransaktionen().add(transaktion);
         transaktionRepo.save(transaktion);
         benutzerRepo.save(b);
-
     }
 
     public int setzeTransaktionBetrag(Long ausleiheId){
         Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
         if(ausleihe.getAusleihStatus() == Status.ABGEGEBEN ){
-             return ausleihe.berechneKosten(getHeutigesDatum());
+            return ausleihe.berechneKosten(getHeutigesDatum());
         } return 0;
     }
 
@@ -126,7 +116,5 @@ public class TransaktionManager {
         Calendar heute = new GregorianCalendar();
         return heute;
     }
-
-
 
 }
