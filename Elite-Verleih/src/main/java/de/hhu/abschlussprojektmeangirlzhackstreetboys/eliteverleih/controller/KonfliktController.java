@@ -79,16 +79,15 @@ public class KonfliktController {
         Benutzer benutzer = ausleihe.getBenutzer();
         int code = 0;
         if (name.equals("Buchung Verleihender")) {
-            transaktionManager.erstelleTransaktionKaution(ausleihId);
             code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(),
                     ausleihe.getReservationsId());
+            transaktionManager.erstelleTransaktionKaution(ausleihId);
 
         }
         if (name.equals("Buchung Ausleihender")) {
-            transaktionManager.erstelleTransaktionKaution(ausleihId);
             code = propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(),
                     ausleihe.getReservationsId());
-
+            transaktionManager.erstelleTransaktionKaution(ausleihId);
         }
         if (code != 200) {
             return "ErrorPropay";
