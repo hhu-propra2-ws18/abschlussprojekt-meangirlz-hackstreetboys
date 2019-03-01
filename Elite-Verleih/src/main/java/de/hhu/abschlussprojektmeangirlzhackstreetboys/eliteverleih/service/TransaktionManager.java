@@ -53,8 +53,8 @@ public class TransaktionManager {
         Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
 
         transaktion.setArtikelName(ausleihe.getArtikel().getArtikelName());
-        transaktion.setVerleihenderName(ausleihe.getArtikel().getBenutzer().getBenutzerName());
-        transaktion.setAusleihenderName(ausleihe.getBenutzer().getBenutzerName());
+        transaktion.setBesitzerName(ausleihe.getArtikel().getBenutzer().getBenutzerName());
+        transaktion.setKundeName(ausleihe.getBenutzer().getBenutzerName());
 
         transaktion.setTransaktionBetrag(setzeTransaktionBetrag(ausleiheId));
         setzeTransaktionBenutzer(ausleihe.getBenutzer().getBenutzerId(), transaktion);
@@ -68,8 +68,8 @@ public class TransaktionManager {
         Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
 
         transaktion.setArtikelName(ausleihe.getArtikel().getArtikelName() + " - KAUTION");
-        transaktion.setVerleihenderName(ausleihe.getArtikel().getBenutzer().getBenutzerName());
-        transaktion.setAusleihenderName(ausleihe.getBenutzer().getBenutzerName());
+        transaktion.setBesitzerName(ausleihe.getArtikel().getBenutzer().getBenutzerName());
+        transaktion.setKundeName(ausleihe.getBenutzer().getBenutzerName());
 
         System.out.println(ausleihe.getArtikel().getArtikelKaution());
         transaktion.setTransaktionBetrag(ausleihe.getArtikel().getArtikelKaution());
@@ -85,8 +85,8 @@ public class TransaktionManager {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerName(benutzerName).get();
 
         transaktion.setArtikelName(artikel.getArtikelName());
-        transaktion.setVerleihenderName(artikel.getBenutzer().getBenutzerName());
-        transaktion.setAusleihenderName(benutzerName);
+        transaktion.setBesitzerName(artikel.getBenutzer().getBenutzerName());
+        transaktion.setKundeName(benutzerName);
 
         transaktion.setTransaktionBetrag(artikel.getArtikelPreis());
         setzeTransaktionBenutzer(artikel.getBenutzer().getBenutzerId(), transaktion);

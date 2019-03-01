@@ -47,8 +47,8 @@
                             <li class="list-group">
                             <li class="list-group-item" th:each="trk : ${transaktion}">
                                 <p class="card-text" th:text="'Artikel: '+${trk.getArtikelName()}"></p>
-                                <p class="card-text" th:text="'Ausgeliehen / Gekauft von: '+${trk.getAusleihenderName()}"></p>
-                                <p class="card-text" th:text="'Verliehen / Verkauft von: '+${trk.getVerleihenderName()}"></p>
+                                <p class="card-text" th:text="'Ausgeliehen / Gekauft von: '+${trk.getKundeName()}"></p>
+                                <p class="card-text" th:text="'Verliehen / Verkauft von: '+${trk.getBesitzerName()}"></p>
                                 <h4 class="text-right" th:text="'Betrag: '+${trk.getTransaktionBetrag()}+'€'"></h4>
 
                             </li>

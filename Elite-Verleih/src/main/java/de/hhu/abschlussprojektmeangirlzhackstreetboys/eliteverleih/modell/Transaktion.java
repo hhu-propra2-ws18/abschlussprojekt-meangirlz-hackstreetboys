@@ -15,8 +15,8 @@ public class Transaktion {
     private Long transaktionId;
 
     private String artikelName;
-    private String verleihenderName;
-    private String ausleihenderName;
+    private String besitzerName;
+    private String kundeName;
 
     private int transaktionBetrag;
 
@@ -30,15 +30,15 @@ public class Transaktion {
      *
      *
      * @param artikelName       Name des Artikels
-     * @param verleihenderName  Name des Verleihenden
-     * @param ausleihenderName  des Ausleihenden
+     * @param besitzerName  Name des Verleihenden/Verkaufenden
+     * @param kundeName  des Ausleihenden/Kaeufers
      * @param transaktionBetrag Betrag, welcher verbucht wird
      */
 
-    public Transaktion(String artikelName, String verleihenderName, String ausleihenderName, int transaktionBetrag){
+    public Transaktion(String artikelName, String besitzerName, String kundeName, int transaktionBetrag){
         this.artikelName = artikelName;
-        this.verleihenderName = verleihenderName;
-        this.ausleihenderName = ausleihenderName;
+        this.besitzerName = besitzerName;
+        this.kundeName = kundeName;
         this.transaktionBetrag = transaktionBetrag;
     }
 
