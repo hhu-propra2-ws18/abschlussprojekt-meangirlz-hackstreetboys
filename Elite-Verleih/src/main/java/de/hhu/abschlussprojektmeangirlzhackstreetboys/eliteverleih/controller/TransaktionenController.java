@@ -49,7 +49,7 @@ public class TransaktionenController {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         model.addAttribute("benutzer", benutzer);
 
-        List<Transaktion> transaktion = transaktionManager.getAllTransaktion();
+        List<Transaktion> transaktion = transaktionManager.getAllTransaktion(account.getName());
         model.addAttribute("transaktion", transaktion);
 
         AccountDto account1 = propayManager.getAccount(benutzer.getBenutzerName());

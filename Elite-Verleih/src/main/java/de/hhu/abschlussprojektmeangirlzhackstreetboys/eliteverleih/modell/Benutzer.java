@@ -29,7 +29,7 @@ Benutzer {
 
     private String benutzerRolle;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Transaktion> transaktionen;
 
     public Benutzer() {

@@ -20,6 +20,8 @@ public class TransaktionManager {
     final ArtikelRepository artikelRepo;
     final AusleiheRepository ausleiheRepo;
     final BenutzerRepository benutzerRepo;
+    final BenutzerManager benutzerManager;
+
     PropayManager propayManager;
 
     @Autowired
@@ -27,12 +29,14 @@ public class TransaktionManager {
                               ArtikelRepository artikelRepo,
                               AusleiheRepository ausleiheRepo,
                               BenutzerRepository benutzerRepo,
-                              PropayManager propayManager){
+                              PropayManager propayManager,
+                              BenutzerManager benutzerManager){
         this.transaktionRepo = transaktionRepo;
         this.artikelRepo = artikelRepo;
         this.ausleiheRepo = ausleiheRepo;
         this.benutzerRepo = benutzerRepo;
         this.propayManager = propayManager;
+        this.benutzerManager = benutzerManager;
     }
 
     /**
@@ -40,8 +44,10 @@ public class TransaktionManager {
      *
      * @return Liste von Transaktionen
      */
-    public List<Transaktion> getAllTransaktion(){
-        return transaktionRepo.findAll();
+    public List<Transaktion> getAllTransaktion(String benutzerName){
+        Benutzer benutzer = benutzerManager.findBenutzerByName(benutzerName);
+        return benutzer.getTransaktionen();
+
     }
 
     /**
@@ -61,6 +67,7 @@ public class TransaktionManager {
 
         transaktion.setTransaktionBetrag(setzeTransaktionBetrag(ausleiheId));
         setzeTransaktionBenutzer(ausleihe.getBenutzer().getBenutzerId(), transaktion);
+        setzeTransaktionBenutzer(ausleihe.getArtikel().getBenutzer().getBenutzerId(), transaktion);
 
         return transaktion;
     }
@@ -76,6 +83,7 @@ public class TransaktionManager {
         System.out.println(ausleihe.getArtikel().getArtikelKaution());
         transaktion.setTransaktionBetrag(ausleihe.getArtikel().getArtikelKaution());
         setzeTransaktionBenutzer(ausleihe.getBenutzer().getBenutzerId(), transaktion);
+        setzeTransaktionBenutzer(ausleihe.getArtikel().getBenutzer().getBenutzerId(), transaktion);
 
         return transaktion;
     }
@@ -83,6 +91,7 @@ public class TransaktionManager {
     public Transaktion erstelleTransaktionVerkauf(Long artikelId, String benutzerName){
         Transaktion transaktion = new Transaktion();
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+        Benutzer benutzer = benutzerManager.findBenutzerByName(benutzerName);
 
         transaktion.setArtikelName(artikel.getArtikelName());
         transaktion.setVerleihenderName(artikel.getBenutzer().getBenutzerName());
@@ -90,6 +99,7 @@ public class TransaktionManager {
 
         transaktion.setTransaktionBetrag(artikel.getArtikelPreis());
         setzeTransaktionBenutzer(artikel.getBenutzer().getBenutzerId(), transaktion);
+        setzeTransaktionBenutzer(benutzer.getBenutzerId(), transaktion);
 
         return transaktion;
     }
@@ -100,7 +110,9 @@ public class TransaktionManager {
             b.setTransaktionen(new ArrayList<Transaktion>());
         }
         b.getTransaktionen().add(transaktion);
+        transaktionRepo.save(transaktion);
         benutzerRepo.save(b);
+
     }
 
     public int setzeTransaktionBetrag(Long ausleiheId){
@@ -114,5 +126,7 @@ public class TransaktionManager {
         Calendar heute = new GregorianCalendar();
         return heute;
     }
+
+
 
 }
