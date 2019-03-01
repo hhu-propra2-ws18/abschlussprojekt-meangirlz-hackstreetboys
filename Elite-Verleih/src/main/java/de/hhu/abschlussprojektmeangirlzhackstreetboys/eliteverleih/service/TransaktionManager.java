@@ -67,7 +67,7 @@ public class TransaktionManager {
         Transaktion transaktion = new Transaktion();
         Ausleihe ausleihe = ausleiheRepo.findAusleiheByAusleihId(ausleiheId);
 
-        transaktion.setArtikelName(ausleihe.getArtikel().getArtikelName());
+        transaktion.setArtikelName(ausleihe.getArtikel().getArtikelName() + " - KAUTION");
         transaktion.setVerleihenderName(ausleihe.getArtikel().getBenutzer().getBenutzerName());
         transaktion.setAusleihenderName(ausleihe.getBenutzer().getBenutzerName());
 
