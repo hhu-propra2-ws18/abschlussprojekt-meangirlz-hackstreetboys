@@ -15,22 +15,15 @@
             data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline my-2 my-lg-0">
-            <input aria-label="Search" class="form-control mr-sm-2" placeholder="Search" type="search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
     <div>
         <button class="btn btn-default btn-sm" th:text="${benutzer?.getBenutzerName()}" type="button"></button>
     </div>
 </nav>
 
 <section class="jumbotron text-center">
-    <p class="lead text-muted">Zu diesen Daten ist der Artikel leider nicht verfuegbar, versuchen Sie bitte andere
-        Daten.</p>
+    <p class="lead text-muted">Propay ist leider nicht Verfügbar. Versuchen Sie es später nochmal.</p>
     <form>
-        <a class="btn btn-outline-primary" th:href="'/Uebersicht'" type="button">Zurück zur Übersicht</a>
+        <a class="btn btn-outline-primary" th:href="'/Uebersicht'" type="button">Zurueck zur Uebersicht</a>
     </form>
 </section>
 </body>

@@ -10,31 +10,54 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class ArtikelManager {
 
-    @Autowired
-    BenutzerRepository benutzerRepo;
+    final BenutzerRepository benutzerRepo;
+    final ArtikelRepository artikelRepo;
+    GeoCoding geoCoder = new GeoCoding();
 
     @Autowired
-    ArtikelRepository artikelRepo;
+    public ArtikelManager(BenutzerRepository benutzerRepo, ArtikelRepository artikelRepo) {
+        this.benutzerRepo = benutzerRepo;
+        this.artikelRepo = artikelRepo;
+    }
 
     public List<Artikel> getAllArtikel() {
         return artikelRepo.findAll();
     }
 
     /**
-     * Erstellt einen Artikel.
+     * Erstellt einen Artikel, der ausgeliehen werden kann.
      *
      * @param benutzerId Id des Artikels.
      * @param artikel    Artikel.
      */
-    public void erstelleArtikel(Long benutzerId, Artikel artikel) {
+    public void erstelleVerleihen(Long benutzerId, Artikel artikel) {
         Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         artikel.setBenutzer(benutzer);
+        artikel.setArtikelPreis(0);
+        artikel.setZuVerkaufen(false);
+        setzteArtikelOrtAttribute(artikel, artikel.getArtikelOrt());
+        artikel = artikelRepo.save(artikel);
+        setzeArtikel(benutzerId, artikel);
+    }
+
+    /**
+     * Erstellt einen Artikel, der verkauft werden kann.
+     *
+     * @param benutzerId Id des Artikels.
+     * @param artikel    Artikel.
+     */
+    public void erstelleVerkauf(Long benutzerId, Artikel artikel) {
+        Benutzer benutzer = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
+        artikel.setBenutzer(benutzer);
+        artikel.setArtikelKaution(0);
+        artikel.setArtikelTarif(0);
+        artikel.setZuVerkaufen(true);
+        setzteArtikelOrtAttribute(artikel, artikel.getArtikelOrt());
         artikel = artikelRepo.save(artikel);
         setzeArtikel(benutzerId, artikel);
     }
@@ -45,7 +68,7 @@ public class ArtikelManager {
      * @param benutzerId Id des Besitzers.
      * @param artikel    Artikel.
      */
-    public void setzeArtikel(Long benutzerId, Artikel artikel) {
+    private void setzeArtikel(Long benutzerId, Artikel artikel) {
         Benutzer b = benutzerRepo.findBenutzerByBenutzerId(benutzerId);
         if (b.getArtikel() == null) {
             b.setArtikel(new ArrayList<Artikel>());
@@ -70,10 +93,41 @@ public class ArtikelManager {
         alterArtikel.setArtikelBeschreibung(artikel.getArtikelBeschreibung());
         alterArtikel.setArtikelKaution(artikel.getArtikelKaution());
         alterArtikel.setArtikelName(artikel.getArtikelName());
-        alterArtikel.setArtikelOrt(artikel.getArtikelOrt());
+        setzteArtikelOrtAttribute(alterArtikel, artikel.getArtikelOrt());
         alterArtikel.setArtikelTarif(artikel.getArtikelTarif());
+        alterArtikel.setArtikelBildUrl(artikel.getArtikelBildUrl());
+        alterArtikel.setArtikelPreis(artikel.getArtikelPreis());
 
-        artikelRepo.saveAll(Arrays.asList(alterArtikel));
+        artikelRepo.save(alterArtikel);
+    }
+
+    /**
+     * Setzt den artikelOrt sowie die Koordinaten artikelOrtX und artikelOrtY.
+     *
+     * @param zuSetzenderArtikel Artikel dessen Attribute gesetzt werden
+     * @param artikelOrt artikelOrt String mit Adresse
+     */
+    public void setzteArtikelOrtAttribute(Artikel zuSetzenderArtikel, String artikelOrt) {
+        String artikelOrtOhneUmlaute = ersetzeUmlaute(artikelOrt);
+        zuSetzenderArtikel.setArtikelOrt(artikelOrt);
+        zuSetzenderArtikel.setArtikelOrtX(geoCoder.erhalteErstesX(artikelOrtOhneUmlaute));
+        zuSetzenderArtikel.setArtikelOrtY(geoCoder.erhalteErstesY(artikelOrtOhneUmlaute));
+    }
+
+    /**
+     * wandelt deutsche Umlaute in englische gleichgestellte bustaben um.
+     *
+     * @param verdeutschterString String mit Umlauten
+     * @return verenglischterString ohne Umlaute
+     */
+    public String ersetzeUmlaute(String verdeutschterString) {
+        String[][] UmlauteUndErsetzungen = {{"Ä", "Ae"}, {"Ü", "Ue"}, {"Ö", "Oe"}, {"ä", "ae"}, {"ü", "ue"},
+            {"ö", "oe"}, {"ß", "ss"}};
+        String verEnglischt = verdeutschterString;
+        for (int i = 0; i < UmlauteUndErsetzungen.length; i = i + 1) {
+            verEnglischt = verEnglischt.replaceAll(UmlauteUndErsetzungen[i][0], UmlauteUndErsetzungen[i][1]);
+        }
+        return verEnglischt;
     }
 
     /**
@@ -88,19 +142,25 @@ public class ArtikelManager {
 
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
         List<Ausleihe> ausleihen = benutzer.getAusgeliehen();
-        if (artikel.getAusgeliehen().isEmpty()) {
+        if (!istAusgeliehen(artikelId)) {
             benutzer.getArtikel().remove(artikel);
             benutzerRepo.save(benutzer);
             artikelRepo.delete(artikel);
-        } else {
-            for (Ausleihe a : ausleihen) {
-                if (a.getAusleihStatus() != Status.BESTAETIGT) {
-                    benutzer.getArtikel().remove(artikel);
-                    benutzerRepo.save(benutzer);
-                    artikelRepo.delete(artikel);
-                }
+        }
+    }
+
+    private boolean istAusgeliehen(Long artikelId) {
+        Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
+        if (artikel.getAusgeliehen() == null || artikel.getAusgeliehen().isEmpty()) {
+            return false;
+        }
+        for (Ausleihe a : artikel.getAusgeliehen()) {
+            Status status = a.getAusleihStatus();
+            if (status == Status.BESTAETIGT || status == Status.AKTIV || status == Status.KONFLIKT) {
+                return true;
             }
         }
+        return false;
     }
 
     public List<Artikel> getArtikelListSortByName(String suchBegriff) {

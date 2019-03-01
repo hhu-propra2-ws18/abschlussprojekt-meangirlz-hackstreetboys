@@ -15,8 +15,15 @@ public class SupportController {
     @Autowired
     BenutzerManager benutzerManager;
 
+    /**
+     * Zeigt die Supportseite an.
+     *
+     * @param model   Datencontainer fuer die View.
+     * @param account Account des aktuellen Users.
+     * @return "Support"
+     */
     @GetMapping("/Support")
-    public String detailansichtAnzeigen(Model model, Principal account) {
+    public String supportAnzeigen(Model model, Principal account) {
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
         model.addAttribute("benutzer", benutzer);
 

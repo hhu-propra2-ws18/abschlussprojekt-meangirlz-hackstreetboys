@@ -9,17 +9,20 @@ import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BenutzerManager {
 
-    @Autowired
-    BenutzerRepository benutzerRepo;
 
-    PropayManager sync = new PropayManager();
+    final BenutzerRepository benutzerRepo;
+    PropayManager propayManager;
+
+    @Autowired
+    public BenutzerManager(BenutzerRepository benutzerRepo, PropayManager propayManager) {
+        this.benutzerRepo = benutzerRepo;
+        this.propayManager = propayManager;
+    }
 
     public List<Benutzer> getAllBenutzer() {
         return benutzerRepo.findAll();
@@ -40,11 +43,23 @@ public class BenutzerManager {
         return benutzerRepo.findBenutzerByBenutzerId(benutzerId);
     }
 
+    /**
+     * Erstellt einen Benutzer und gibt ihn zurueck
+     *
+     * @param benutzer
+     * @return Benutzer mit Id -1 wenn es schon einen in der Datenbank gibt.
+     * , null wenn Propay nicht laeuft.
+     */
     public Benutzer erstelleBenutzer(Benutzer benutzer) {
         if (nameSchonVorhanden(benutzer.getBenutzerName())) {
+            Benutzer benutzerFehler = new Benutzer();
+            benutzerFehler.setBenutzerId(-1L);
+            return benutzerFehler;
+        }
+        AccountDto account = propayManager.getAccount(benutzer.getBenutzerName());
+        if (account == null) {
             return null;
         }
-        AccountDto account = sync.getAccount(benutzer.getBenutzerName());
         return benutzerRepo.save(benutzer);
     }
 
@@ -62,13 +77,7 @@ public class BenutzerManager {
 
         alterBenutzer.setBenutzerEmail(benutzer.getBenutzerEmail());
 
-        benutzerRepo.saveAll(Arrays.asList(alterBenutzer));
-    }
-
-    public Benutzer editBenutzer(Benutzer benutzer, String email) {
-        benutzer.setBenutzerEmail(email);
-        benutzerRepo.save(benutzer);
-        return benutzer;
+        benutzerRepo.save(alterBenutzer);
     }
 
     public List<Ausleihe> sucheEingehendeAnfragen(Benutzer benutzer, Status status) {
@@ -94,8 +103,29 @@ public class BenutzerManager {
     }
 
 
-    public void geldAufladen(Benutzer newBenutzer, int aufladen) {
-        sync.guthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
+    public boolean geldAufladen(Benutzer newBenutzer, int aufladen) {
+        int code = propayManager.guthabenAufladen(newBenutzer.getBenutzerName(), aufladen);
+        return code == 200;
+    }
+
+    /**
+     * Aus Benutzer werden verspaetete Ausleihen gesucht.
+     *
+     * @param benutzer Eingeloggte Benutzer.
+     * @return Liste mit verspaeteten Ausleihen.
+     */
+    public List<Ausleihe> findeVerspaeteteAusleihe(Benutzer benutzer) {
+
+        Calendar heute = new GregorianCalendar();
+        List<Ausleihe> verspaeteAusleihe = new ArrayList<>();
+
+        for (Ausleihe a: benutzer.getAusgeliehen()) {
+            if((a.getAusleihStatus() == Status.BESTAETIGT) && (heute.after(a.getAusleihRueckgabedatum()))) {
+                verspaeteAusleihe.add(a);
+            }
+        }
+
+        return verspaeteAusleihe;
     }
 }
 

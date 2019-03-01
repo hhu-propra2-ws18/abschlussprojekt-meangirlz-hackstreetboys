@@ -41,35 +41,14 @@
     </div>
 </nav>
 
-
 <div class="card text-center">
 
     <div class="card-body">
-        <h5 class="card-title">Konflikt gemeldet</h5>
-        <p class="card-text">Ihr Problem wurde erfolgreich aufgenommen. Wir melden uns in Kürze per Mail.</p>
-        <img alt="..." class="rounded mx-auto d-block" src="https://pics.me.me/thumb_708218568995958784.png">
-        <br>
-        <button class="btn btn-info btn-lg" data-target="#myModal" data-toggle="modal" type="button">Zurück</button>
-        </br>
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button class="close" data-dismiss="modal" type="button">&times;</button>
-
-                    </div>
-                    <div class="modal-body">
-                        <img alt="..."
-                             class="rounded mx-auto d-block"
-                             src="https://static1.fjcdn.com/comments/Pongonsofmors+pls+_bc2ca8da0be90ab4a116cbe1a0bc612d.jpg">
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h5 class="card-title">Änderung nicht möglich</h5>
+        <p class="card-text">Es besteht eine aktuelle Ausleihe oder Anfrage.</p>
+        <form>
+            <a class="btn btn-outline-primary" th:href="'/Uebersicht'" type="button">Zurück zur Übersicht</a>
+        </form>
     </div>
     <div class="card-footer text-muted">
         support kontaktieren : support@eliteverleih.de

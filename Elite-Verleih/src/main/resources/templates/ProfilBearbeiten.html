@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
           integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" rel="stylesheet">
-    <title>Profil Bearbeiten</title>
+    <title>Elite-Verleih</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
@@ -14,7 +14,7 @@
              width="180">
     </a>
     <div class="ml-auto">
-        <a th:text="'Guthaben: ' + ${Betrag} + ',00 €'"></a>
+        <a th:text="'Guthaben: ' + ${Betrag} + '€'"></a>
     </div>
     <div class="nav-item dropdown">
         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
@@ -32,39 +32,39 @@
 
 <div class="container jumbotron center">
     <h3> Profil Bearbeiten </h3>
-    <center>
-        <div class="card" style="width: 30rem;">
-            <div class="card-body">
-                <form method="post" th:object="${benutzer}">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="staticBenutzername">Name</label>
-                        <div class="col-sm-10">
-                            <input class="form-control-plaintext" id="staticBenutzername" readonly
-                                   th:value="${benutzer.getBenutzerName()}"
-                                   type="text">
-                        </div>
+    <div class="card" style="width: 30rem;">
+        <div class="card-body">
+            <form method="post" th:object="${benutzer}">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="staticBenutzername">Name</label>
+                    <div class="col-sm-10">
+                        <input class="form-control-plaintext" id="staticBenutzername" readonly
+                               th:value="${benutzer.getBenutzerName()}"
+                               type="text">
                     </div>
+                </div>
 
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="inputEmail">Email</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" id="inputEmail" name="email" placeholder="example@domain.com"
-                                   required th:field="*{benutzerEmail}" type="text"/>
-                        </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="inputEmail">Email</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="inputEmail" maxlength="255" name="email"
+                               placeholder="example@domain.com"
+                               required th:field="*{benutzerEmail}" type="text"/>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="inputAufladen">Aufladen</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" id="inputAufladen" name="aufladen" required th:value="0"
-                                   type="number"/>
-                        </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label" for="inputAufladen">Aufladen</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="inputAufladen" max="1000000" min="1" name="aufladen" required
+                               th:value="0"
+                               type="number"/>
                     </div>
-                    <input class="btn btn-outline-success" type="submit" value="Speichern"/>
-                    <a class="btn btn-outline-danger" role="button" th:href="'/Profil'">Abbrechen</a>
-            </div>
+                </div>
+                <input class="btn btn-outline-success" type="submit" value="Speichern"/>
+                <a class="btn btn-outline-danger" role="button" th:href="'/Profil'">Abbrechen</a>
             </form>
         </div>
-    </center>
+    </div>
 </div>
 
 

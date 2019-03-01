@@ -20,12 +20,28 @@ public class RegistrierenController {
     @Autowired
     BenutzerManager benutzerManager;
 
+    /**
+     * Zeigt die Registrierung.
+     *
+     * @param model Datencontainer fuer die View.
+     * @return "Registrierung"
+     */
     @GetMapping("/registrieren")
     public String registrierenAnzeigen(Model model) {
         model.addAttribute("benutzer", new Benutzer());
         return "Registrierung";
     }
 
+    /**
+     * Ueberprueft ob die BindingResult ein Error wirft. Wenn kein Error geworfen wurde wird ein Benutzer angelegt.
+     * Falls es Probleme beim anlegen gibt, wie zum Beispiel der Benutzername ist schon vorhanden, wird das
+     * Errorflag gesetzt.
+     *
+     * @param benutzer Ein befuellter Benutzer der die eingaben gespeichert hat
+     * @param result   Die BindingResult
+     * @param request  Gibt Daten ueber den Security Zustand an
+     * @return Ein Redirect auf die Uebersichtsseite falls es keinen Fehler gab
+     */
     @PostMapping("/registrieren")
     public String registereBenutzer(@ModelAttribute @Valid Benutzer benutzer,
                                     BindingResult result,
@@ -38,9 +54,13 @@ public class RegistrierenController {
             registered = benutzerManager.erstelleBenutzer(benutzer);
         }
         if (registered == null) {
+            return "ErrorPropayRegistrieren";
+        }
+        if (registered.getBenutzerId() == -1L) {
             result.rejectValue("benutzerName", "message.regError");
             return "redirect:/registrieren?error";
         }
+
         request.login(registered.getBenutzerName(), registered.getBenutzerPasswort());
         return "redirect:/Uebersicht";
     }

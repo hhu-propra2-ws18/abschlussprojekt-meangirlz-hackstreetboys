@@ -21,16 +21,31 @@ import java.util.List;
 @Controller
 public class KonfliktController {
 
-    PropayManager sync = new PropayManager();
-
-    @Autowired
     BenutzerManager benutzerManager;
 
-    @Autowired
     AusleiheManager ausleiheManager;
 
-    @Autowired
     ArtikelManager artikelManager;
+
+    PropayManager propayManager;
+
+    /**
+     * Ist fuer das Testen der Klassen verantwortlich.
+     * @param artikelManager Zugriff auf Repository.
+     * @param ausleiheManager Zugriff auf Repository.
+     * @param benutzerManager Zugriff auf Repository.
+     * @param propayManager Zugriff auf Propray
+     */
+    @Autowired
+    public KonfliktController(ArtikelManager artikelManager,
+                              AusleiheManager ausleiheManager,
+                              BenutzerManager benutzerManager,
+                              PropayManager propayManager) {
+        this.artikelManager = artikelManager;
+        this.ausleiheManager = ausleiheManager;
+        this.benutzerManager = benutzerManager;
+        this.propayManager = propayManager;
+    }
 
     /**
      * Zeigt Konfliktseite an, laedt Attribute in HTML.
@@ -61,18 +76,19 @@ public class KonfliktController {
 
         Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
         Benutzer benutzer = ausleihe.getBenutzer();
-
+        int code = 0;
         if (name.equals("Buchung Verleihender")) {
-            sync.getAccount(benutzer.getBenutzerName());
-            sync.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
-            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
+            code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(),
+                ausleihe.getReservationsId());
         }
-
         if (name.equals("Buchung Ausleihender")) {
-            sync.getAccount(benutzer.getBenutzerName());
-            sync.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(), ausleihe.getReservationsId());
-            ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
+            code = propayManager.kautionFreigeben(ausleihe.getBenutzer().getBenutzerName(),
+                ausleihe.getReservationsId());
         }
+        if (code != 200) {
+            return "ErrorPropay";
+        }
+        ausleiheManager.bearbeiteAusleihe(ausleihId, Status.BEENDET);
 
         return "redirect:/Konfliktloesung";
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -29,19 +29,23 @@
         <img alt="" height="50" src="https://raw.githubusercontent.com/neroc100/propra2logo/master/EliteVerleihLogo.png"
              width="180">
     </a>
-    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
-            class="navbar-toggler"
-            data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline" method="post">
             <div class="md-form my-0">
                 <input aria-label="Search" class="form-control mr-sm-2" name="suchBegriff" placeholder="Was suchen Sie?"
+                       th:value="${suchBegriff}"
                        type="text">
                 <button class="btn btn-outline-success my-2 my-sm-0" name="sucheButton" type="submit">Suche</button>
             </div>
         </form>
+    </div>
+    <div class="nav navbar-nav">
+        <a th:href="|/Erstellen|">
+            <button class="btn btn-success mx-auto btn-sm mr-sm-2 float-rigth" type="button">Verleihen</button>
+        </a>
+        <a th:href="|/VerkaufErstellen|">
+            <button class="btn btn-success mx-auto btn-sm mr-sm-2" type="button">Verkaufen</button>
+        </a>
     </div>
 
     <div class="nav-item dropdown">
@@ -58,24 +62,56 @@
 </nav>
 
 <div class="container">
+    <div th:unless="${verspaeteteAusleihen.isEmpty()}">
+
+        <p><h5 class="alert alert-danger">Du hast noch nicht zurueckgegebene Artikel!</p><br/>
+
+        <div class="alert alert-light" th:each="verspaetet: ${verspaeteteAusleihen}">
+            <h5 class="card-title" th:text="${verspaetet.getArtikel().getArtikelName()}">
+                ArtikelName</h5>
+            <p class="card-text"
+               th:text="'Besitzer: ' + ${verspaetet.getArtikel().getBenutzer().getBenutzerName()}">
+                Benutzer</p>
+            <p class="card-text" th:text="'Von: '
+                                + ${verspaetet.getAusleihStartdatum().getTime().getDate()} + '.'
+                                + ${verspaetet.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
+                                + ${verspaetet.getAusleihStartdatum().getTime().getYear()+1900} ">Startdatum</p>
+            <p class="card-text" th:text="'Bis: '
+                                + ${verspaetet.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                + ${verspaetet.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
+                                + ${verspaetet.getAusleihRueckgabedatum().getTime().getYear()+1900} ">
+                Rückgabedatum</p>
+        </div>
+    </div>
+
+
     <div class="card-columns lg">
         <a th:each="artikel : ${artikels}" th:href="|/Detailansicht/${artikel.getArtikelId()}|">
             <div class="card">
-                <img alt="Kein Bild vorhanden!" class="card-img-top" th:src="${artikel.getArtikelBildUrl()}">
+                <img alt="Kein Bild vorhanden!" style="max-height: 500px" class="card-img-top" th:src="${artikel.getArtikelBildUrl()}">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${artikel.getArtikelName()}">Artikelname</h5>
                     <p class="card-text text-truncate" th:text="${artikel.getArtikelBeschreibung()}">Beschreibung</p>
-                    <p class="card-text" th:text="|Kosten/Tag : ${artikel.getArtikelTarif()},00€|">Kosten/Tag</p>
+                    <p class="card-test text-truncate">
+                        <i th:if="${artikel?.getZuVerkaufen()}==false">Zu Verleihen</i>
+                        <i th:if="${artikel?.getZuVerkaufen()}==true">Zu Verkaufen</i>
+                    </p>
+                    <p class="card-text" th:if="${artikel?.getZuVerkaufen()}==false" th:text="|Kosten/Tag :
+                        ${artikel.getArtikelTarif()},00€|">Kosten/Tag</p>
+                    <p class="card-text" th:if="${artikel?.getZuVerkaufen()}==true" th:text="|Preis :
+                        ${artikel.getArtikelPreis()},00€|">Preis</p>
                 </div>
             </div>
         </a>
     </div>
 </div>
 
-<div>
-    <a th:href="|/Erstellen|">
-        <button class="btn btn-success mx-auto btn-lg mr-sm-2 fixed-bottom" type="button"> +</button>
-    </a>
+<div th:if="${artikels.isEmpty()}">
+    <p align="center" class="lead text-white">Keine Artikel vorhanden.</p>
+    <p align="center" class="lead text-white">Keine Artikel vorhanden.</p>
+    <p align="center" class="lead text-white">Keine Artikel vorhanden.</p>
+    <p align="center" class="lead text-white">Keine Artikel vorhanden.</p>
+    <p align="center" class="lead text-muted">Keine Artikel vorhanden.</p>
 </div>
 
 

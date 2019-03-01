@@ -18,7 +18,6 @@ public class Ausleihe {
     @ManyToOne(fetch = FetchType.LAZY)
     private Artikel artikel;
 
-    //private Calendar ausleihStartdatum;
     private Calendar ausleihStartdatum;
 
     private Calendar ausleihRueckgabedatum;
@@ -85,19 +84,13 @@ public class Ausleihe {
      * @return true, falls das Datum noch gueltig ist.
      */
     public boolean gueltigesDatum(Calendar jetzt) {
-        System.out.println(jetzt.getTime());
-        Calendar start = getAusleihStartdatum();
-        Calendar ende = getAusleihRueckgabedatum();
         jetzt.set(Calendar.HOUR_OF_DAY, jetzt.getActualMinimum(Calendar.HOUR_OF_DAY));
         jetzt.set(Calendar.MINUTE, jetzt.getActualMinimum(Calendar.MINUTE));
         jetzt.set(Calendar.SECOND, jetzt.getActualMinimum(Calendar.SECOND));
         jetzt.set(Calendar.MILLISECOND, jetzt.getActualMinimum(Calendar.MILLISECOND));
-        System.out.println(start.getTime());
-        System.out.println("lahskdg: " + jetzt.after(start));
-        if (jetzt.after(start) || jetzt.after(ende)) {
-            return false;
-        }
-        return true;
+        Calendar start = getAusleihStartdatum();
+        Calendar ende = getAusleihRueckgabedatum();
+        return !jetzt.after(start) && !jetzt.after(ende);
     }
 
     /**

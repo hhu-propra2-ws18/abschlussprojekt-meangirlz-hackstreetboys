@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:javascript="http://www.springframework.org/schema/mvc">
 
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" rel="stylesheet">
-    <title>Detailansicht</title>
+    <title>Elite-Verleih</title>
+
+    <!-- Leaflet Map -->
+    <style>#map{height: 400px;}</style>
+    <link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
 
 </head>
 <body>
@@ -32,7 +39,6 @@
 <section class="jumbotron text-center" th:if="${artikel==null}">
     <p class="lead text-muted">Artikel nicht vorhanden.</p>
 </section>
-
 <div class="album py-5" th:if="${artikel!=null}">
     <div class="container-fluid">
 
@@ -44,13 +50,13 @@
 
                             <span th:text="${artikel.artikelName}"></span>
                         </h3>
-                        <div class="thumbnail">
-                            <img alt="Bild" class="img-fluid" th:src="${artikel.getArtikelBildUrl()}">
-
+                        <div align="center" class="thumbnail">
+                            <img alt="Bild" class="img-fluid" style="max-height: 200px;"
+                                 th:src="${artikel.getArtikelBildUrl()}">
                         </div>
                         <div class="card text-center" th:method="get" th:object="${artikel}">
 
-                            <li class="list-group">
+                            <li class="list-group"></li>
 
                             <li class="list-group-item" th:name="artikelName"
                                 th:text="'Artikelname: '+${artikel?.getArtikelName()}"></li>
@@ -58,15 +64,32 @@
                                 th:text="'Beschreibung: '+${artikel?.getArtikelBeschreibung()}"></li>
                             <li class="list-group-item" th:name="benutzerName"
                                 th:text="'Besitzer: '+${artikel?.getBenutzer().getBenutzerName()}"></li>
-                            <li class="list-group-item" th:name="artikelKaution"
-                                th:text="'Kaution: '+${artikel?.getArtikelKaution()}"></li>
-                            <li class="list-group-item" th:name="artikelTarif"
-                                th:text="'Tarif: '+${artikel?.getArtikelTarif()}"></li>
+                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==false"
+                                th:name="artikelKaution"
+                                th:text="'Kaution: '+${artikel?.getArtikelKaution()+',00€'}"></li>
+                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==false"
+                                th:name="artikelTarif"
+                                th:text="'Tarif: '+${artikel?.getArtikelTarif()+',00€'}"></li>
+                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==true"
+                                th:name="artikelPreis"
+                                th:text="'Preis: ' +${artikel?.getArtikelPreis()}+',00€'"></li>
                             <li class="list-group-item" th:name="artikelOrt"
                                 th:text="'Ort: '+${artikel?.getArtikelOrt()}"></li>
-
-
-                            <td th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}">
+                            <div style="overflow-y: scroll; max-height:200px;"
+                                 th:if="${!bestaetigteAusleihen.isEmpty()} and ${artikel?.getZuVerkaufen()}==false">
+                                <div class="alert-secondary" th:each="ausleihe : ${bestaetigteAusleihen}">
+                                    <a>Ausgeliehen </a>
+                                    <a class="card-text" th:text="'von: '
+                                        + ${ausleihe.getAusleihStartdatum().getTime().getDate()} + '.'
+                                        + ${ausleihe.getAusleihStartdatum().getTime().getMonth() + 1} + '.'
+                                        + ${ausleihe.getAusleihStartdatum().getTime().getYear()+1900} "></a>
+                                    <a class="card-text" th:text="'bis: '
+                                        + ${ausleihe.getAusleihRueckgabedatum().getTime().getDate()} + '.'
+                                        + ${ausleihe.getAusleihRueckgabedatum().getTime().getMonth() + 1} + '.'
+                                        + ${ausleihe.getAusleihRueckgabedatum().getTime().getYear()+1900} "></a>
+                                </div>
+                            </div>
+                            <div th:if="${artikel?.getBenutzer().getBenutzerId() == benutzer?.getBenutzerId()}">
                                 <li class="list-group-item">
                                     <a th:href="|/Bearbeiten/${artikel?.getArtikelId()}|">
                                         <button class="btn btn-sm btn-outline-secondary" type="button">
@@ -74,62 +97,88 @@
                                         </button>
                                     </a>
                                 </li>
+                            </div>
+                            <li class="list-group-item" th:if="${artikel?.getZuVerkaufen()}==false and
+                            ${artikel?.getBenutzer().getBenutzerId() != benutzer?.getBenutzerId()}">
 
-                            </td>
-
-                            <li class="list-group-item">
-                                <div class="container">
-                                    <form action="#" method="post"
-                                          th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}">
-
-
-                                        <div class="row justify-content-center">
-
-
-                                            <div class="input-daterange input-group" data-date-format="dd-mm-yyy"
-                                                 id="datepicker">
-                                                <input class="input-sm form-control" name="startDatumString"
-                                                       placeholder="From date"
-                                                       type="date"/>
-                                                <span class="input-group-text" id="">to</span>
-                                                <input class="input-sm form-control" name="endDatumString"
-                                                       placeholder="To date"
-                                                       type="date"/>
-                                            </div>
+                                <form action="#" method="post"
+                                      th:href="|/Detailansicht/${artikel.getArtikelId()}|" th:object="${artikel}">
+                                    <div class="row justify-content-center">
+                                        <div class="input-daterange input-group" data-date-format="dd-mm-yyy"
+                                             id="datepicker">
+                                            <span class="input-group-text">Von</span>
+                                            <input class="input-sm form-control" name="startDatumString" placeholder="From date"
+                                                   required
+                                                   type="date"/>
+                                            <span class="input-group-text">bis</span>
+                                            <input class="input-sm form-control" name="endDatumString" placeholder="To date"
+                                                   required
+                                                   type="date"/>
                                         </div>
-
-                                        <script type="text/javascript">
-                                            $(function () {
-                                                $("#datepicker").datepicker({
-                                                    autoclose: true,
-                                                    todayHighlight: true
-                                                }).datepicker('getDate', new Date());
-                                            });
-                                        </script>
-                                        <button class="btn btn-sm btn-outline-secondary" type="submit">
-                                            Artikel ausleihen
-                                        </button>
-                                    </form>
-
-
+                                    </div><br>
+                                    <button class="btn btn-sm btn-outline-secondary" type="submit">
+                                        Artikel ausleihen
+                                    </button>
+                                </form>
+                                <div class="alert alert-danger" th:if="${param.error}">
+                                    <p>Das Enddatum darf nicht vor dem Startdatum sein!</p>
                                 </div>
+                            </li>
+                            <div th:if="${artikel?.getZuVerkaufen()} and
+                                ${artikel?.getBenutzer().getBenutzerId()!=benutzer?.getBenutzerId()}">
+                                <a th:href="|/Kaufen/${artikel?.getArtikelId()}|">
+                                    <button class="btn btn-sm btn-outline-secondary" type="button">
+                                        Artikel kaufen
+                                    </button>
+                                </a>
+                            </div>
+                            <li class="list-group-item" th:if="${artikel?.hatOrt()}">
+                                <!--Map map (leaflet?)-->
                                 <div class="form-group">
-                                    <div class="alert alert-success"
-                                        th:if="${#lists.isEmpty(artikel.ausgeliehen)}">
-                                        Artikel verfügbar
-                                    </div>
+                                    <div id="map"></div>
+                                    <script th:inline="javascript">
+                                        //initialisiere Variablen von Thymeleaf
+                                        /*<![CDATA[*/
+                                        var x = /*[[${artikel.artikelOrtX}]]*/0;
+                                        var y = /*[[${artikel.artikelOrtY}]]*/0;
+                                        if(x == null | x == 0) x = 49.8;
+                                        if(y == null | y == 0) y = 6.1;
+                                        /*]]>*/
+
+                                        //intialisiere den Markierer
+                                        var mymap = L.map('map').setView([x, y], 12);  //=lux ; [51.2, 6.8], 6 = düsseldorf ; [breite, höhe], zoom
+                                        var marker = L.marker([x, y]).addTo(mymap);
+                                        marker.bindPopup('Der Artikel ist hier abzuholen');
+
+                                        //intialisiere die Map
+                                        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZXhhbHciLCJhIjoiY2pzZnljd25zMDNtajQ1a2Fhc2x3cXdhdiJ9.C5HGXclLv-Wu0YeHIsntZg', {
+                                            maxZoom: 18,
+                                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                                                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                                                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                                            id: 'mapbox.streets'
+                                        }).addTo(mymap);
+
+                                        //onClick Funktion die vielleicht für was anderes noch gebraucht werden kann
+                                        /*function onMapClick(e) {
+                                            marker
+                                                .setLatLng(e.latlng)
+                                                .bindPopup('Andere sollen deinen Artikel hier abholen?<br>' + e.latlng.toString())
+                                                .openPopup();
+                                        }
+                                        mymap.on('click', onMapClick);*/
+                                    </script>
                                 </div>
+                            </li>
+
+
                         </div>
-
-
-
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
-</div>
 </div>
 <script crossorigin="anonymous"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

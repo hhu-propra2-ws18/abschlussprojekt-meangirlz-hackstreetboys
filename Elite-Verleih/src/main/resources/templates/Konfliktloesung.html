@@ -5,7 +5,7 @@
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!-- Die 3 Meta-Tags oben *müssen* zuerst im head stehen; jeglicher sonstiger head-Inhalt muss *nach* diesen Tags kommen -->
-    <title>Konfliktloesung</title>
+    <title>Elite-Verleih</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -48,10 +48,9 @@
 
 
             <div class="card-img-top">
-                <img align="middle"
-                     alt="Bild" class="img-fluid"
-                     src="https://staticr1.blastingcdn.com/media/photogallery/2017/5/24/660x290/b_620x273/meeseeks-google-search-mi-247-final-project-mr-meeseeks-pinterestcom_1345963.jpg">
-
+                <img align="middle" alt="Kein Bild vorhanden!" class="card-img-top"
+                     style="height: 180px;"
+                     th:src="${ausleihe.getArtikel().getArtikelBildUrl()}">
             </div>
             <div class="card-body">
                 <div class="card text-center" th:method="get" th:object="${ausleihe}">
@@ -80,15 +79,6 @@
                                    type="submit" value="Buchung Verleihender"/>
                             <input class="btn btn-sm btn-outline-secondary" name="submitButton" onclick="clicked(event)"
                                    type="submit" value="Buchung Ausleihender"/>
-
-
-                            <script>
-                                function clicked(e) {
-                                    if (!confirm('Kaution gebucht!')) e.preventDefault();
-                                }
-                            </script>
-
-
                         </form>
                     </li>
                 </div>

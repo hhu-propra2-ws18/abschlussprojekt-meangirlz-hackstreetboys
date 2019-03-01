@@ -1,10 +1,8 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.controller;
 
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.ArtikelRepository;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.AusleiheRepository;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
-import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Benutzer;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Status;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.ArtikelManager;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service.BenutzerManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +11,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class ArtikelbearbeitenController {
-
-    @Autowired
-    ArtikelRepository artikelRepo;
 
     @Autowired
     BenutzerManager benutzerManager;
 
     @Autowired
     ArtikelManager artikelManager;
-
-    @Autowired
-    BenutzerRepository benutzerRepo;
-
-    @Autowired
-    AusleiheRepository ausleiheRepo;
 
     /**
      * Zeigt Artikel bearbeiten view an, laedt Attribute in HTML.
@@ -43,8 +33,11 @@ public class ArtikelbearbeitenController {
     public String artikelBearbeitungAnzeigen(@PathVariable long artikelId,
                                              Model model,
                                              Principal account) {
-
-        model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
+        Artikel artikel = artikelManager.getArtikelById(artikelId);
+        if (artikel == null) {
+            return "redirect:/Uebersicht";
+        }
+        model.addAttribute("artikel", artikel);
         model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
         return "Artikelbearbeiten";
     }
@@ -63,14 +56,20 @@ public class ArtikelbearbeitenController {
                                     @PathVariable long artikelId,
                                     @ModelAttribute Artikel newArtikel,
                                     Principal account) {
-        Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
-        Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
-        model.addAttribute("artikel", artikelRepo.findArtikelByArtikelId(artikelId));
-        model.addAttribute("benutzer", benutzer);
-        artikelManager.bearbeiteArtikel(artikelId, artikel);
-        artikel.setBenutzer(benutzer);
-        artikelRepo.save(artikel);
-        return "redirect:/Uebersicht";
+        List<Ausleihe> ausleihen = artikelManager.getArtikelById(artikelId).getAusgeliehen();
+        boolean aktiveAusleiheVorhanden = false;
+        for (Ausleihe ausleihe : ausleihen) {
+            if (ausleihe.getAusleihStatus() == Status.BESTAETIGT || ausleihe.getAusleihStatus() == Status.ANGEFRAGT) {
+                aktiveAusleiheVorhanden = true;
+            }
+        }
+
+        if (!aktiveAusleiheVorhanden) {
+            artikelManager.bearbeiteArtikel(artikelId, newArtikel);
+            return "redirect:/Detailansicht/" + artikelId;
+        } else {
+            return "redirect:/ErrorBearbeitung";
+        }
     }
 
     /**
@@ -88,5 +87,19 @@ public class ArtikelbearbeitenController {
             return "redirect:/Uebersicht";
         }
         return "redirect:/Bearbeiten/" + artikelId + "?error";
+    }
+
+    /**
+     * Geht auf die Error Seite wenn ein Artikel bearbeitet wird waehrend eine Ausleihe besteht.
+     *
+     * @param model   Das zu uebergebende Model
+     * @param account Der account des Benutzers
+     * @return Gibt einen Error Seite zurueck
+     */
+    @GetMapping("/ErrorBearbeitung")
+    public String errorBearbeitung(Model model, Principal account) {
+        model.addAttribute("benutzer", benutzerManager.findBenutzerByName(account.getName()));
+
+        return "ErrorBearbeitung";
     }
 }
