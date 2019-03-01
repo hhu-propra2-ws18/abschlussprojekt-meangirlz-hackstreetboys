@@ -1,5 +1,6 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
+import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.ArtikelRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dataaccess.BenutzerRepository;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Artikel;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.modell.Ausleihe;
@@ -29,6 +30,9 @@ public class ArtikelManagerTest {
 
     @Autowired
     BenutzerRepository benutzerRepo;
+
+    @Autowired
+    ArtikelRepository artikelRepo;
 
     @Rollback
     @Test
@@ -298,5 +302,33 @@ public class ArtikelManagerTest {
     public void umlauteSchonErsetzt_Test(){
         Assertions.assertThat(artikelM.ersetzeUmlaute("haello, ik benss duer Stroeber Michael"))
                 .isEqualTo("haello, ik benss duer Stroeber Michael");
+    }
+
+    @Rollback
+    @Test
+    public void setzteArtikelOrtAttribute_Test(){
+        Artikel artikel = new Artikel();
+        artikel.setArtikelName("Test");
+        artikel.setArtikelBeschreibung("Testbeschreibung");
+        artikel.setArtikelBildUrl("http://image.jpg");
+        artikel.setArtikelOrt("Düsseldorf, Karolingerstraße");
+
+        Artikel artikel2 = new Artikel();
+        artikel2.setArtikelName("Test2");
+        artikel2.setArtikelBeschreibung("Testbeschreibung");
+        artikel2.setArtikelBildUrl("http://image.jpg");
+        artikel2.setArtikelOrt("Duesseldorf, Karolingerstrasse");
+
+        artikel.setArtikelPreis(0);
+        artikel.setZuVerkaufen(false);
+        artikelM.setzteArtikelOrtAttribute(artikel, artikel.getArtikelOrt());
+        artikel = artikelRepo.save(artikel);
+        artikel2.setArtikelPreis(0);
+        artikel2.setZuVerkaufen(false);
+        artikelM.setzteArtikelOrtAttribute(artikel2, artikel2.getArtikelOrt());
+        artikel = artikelRepo.save(artikel2);
+
+        Assertions.assertThat(artikel.getArtikelOrtX()).isEqualTo(artikel2.getArtikelOrtX());
+        Assertions.assertThat(artikel.getArtikelOrtY()).isEqualTo(artikel2.getArtikelOrtY());
     }
 }
