@@ -121,11 +121,11 @@ public class ArtikelManager {
      * @return verenglischterString ohne Umlaute
      */
     public String ersetzeUmlaute(String verdeutschterString) {
-        String[][] UmlauteUndErsetzungen = {{"Ä", "Ae"}, {"Ü", "Ue"}, {"Ö", "Oe"}, {"ä", "ae"}, {"ü", "ue"},
+        String[][] umlauteUndErsetzungen = {{"Ä", "Ae"}, {"Ü", "Ue"}, {"Ö", "Oe"}, {"ä", "ae"}, {"ü", "ue"},
             {"ö", "oe"}, {"ß", "ss"}};
         String verEnglischt = verdeutschterString;
-        for (int i = 0; i < UmlauteUndErsetzungen.length; i = i + 1) {
-            verEnglischt = verEnglischt.replaceAll(UmlauteUndErsetzungen[i][0], UmlauteUndErsetzungen[i][1]);
+        for (int i = 0; i < umlauteUndErsetzungen.length; i = i + 1) {
+            verEnglischt = verEnglischt.replaceAll(umlauteUndErsetzungen[i][0], umlauteUndErsetzungen[i][1]);
         }
         return verEnglischt;
     }
