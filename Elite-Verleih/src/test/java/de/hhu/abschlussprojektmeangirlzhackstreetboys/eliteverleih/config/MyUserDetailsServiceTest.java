@@ -48,6 +48,6 @@ public class MyUserDetailsServiceTest {
     public void loadUserByUsernameTestError(){
         service = new MyUserDetailsService(benutzerManager);
         when(benutzerManager.findBenutzerByName(anyString())).thenReturn(null);
-        UserDetails test = service.loadUserByUsername("Jens");
+        service.loadUserByUsername("Jens");
     }
 }

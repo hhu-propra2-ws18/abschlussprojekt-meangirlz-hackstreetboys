@@ -22,26 +22,21 @@ public class KonfliktController {
 
     AusleiheManager ausleiheManager;
 
-    ArtikelManager artikelManager;
-
     TransaktionManager transaktionManager;
 
     PropayManager propayManager;
 
     /**
      * Ist fuer das Testen der Klassen verantwortlich.
-     * @param artikelManager Zugriff auf Repository.
      * @param ausleiheManager Zugriff auf Repository.
      * @param benutzerManager Zugriff auf Repository.
      * @param propayManager Zugriff auf Propray
      */
     @Autowired
-    public KonfliktController(ArtikelManager artikelManager,
-                              AusleiheManager ausleiheManager,
+    public KonfliktController(AusleiheManager ausleiheManager,
                               BenutzerManager benutzerManager,
                               TransaktionManager transaktionManager,
                               PropayManager propayManager) {
-        this.artikelManager = artikelManager;
         this.ausleiheManager = ausleiheManager;
         this.benutzerManager = benutzerManager;
         this.transaktionManager = transaktionManager;
@@ -76,7 +71,6 @@ public class KonfliktController {
                                  @ModelAttribute Ausleihe anfrage, Long ausleihId) {
 
         Ausleihe ausleihe = ausleiheManager.getAusleiheById(ausleihId);
-        Benutzer benutzer = ausleihe.getBenutzer();
         int code = 0;
         if (name.equals("Buchung Verleihender")) {
             code = propayManager.kautionEinziehen(ausleihe.getBenutzer().getBenutzerName(),

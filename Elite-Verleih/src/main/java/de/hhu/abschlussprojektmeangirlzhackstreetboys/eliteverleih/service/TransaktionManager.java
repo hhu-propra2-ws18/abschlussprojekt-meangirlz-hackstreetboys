@@ -25,8 +25,6 @@ public class TransaktionManager {
     @Autowired
     BenutzerRepository benutzerRepo;
 
-    PropayManager propayManager;
-
     @Autowired
     public TransaktionManager(){}
 

@@ -19,9 +19,9 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan(basePackages = "de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service")
 public class PropayManager {
 
-    final String url = "http://propay:8888/";
-    private final int maxVersuche = 3;
-    private final int verzoegerung = 1000;
+    private static final String url = "http://propay:8888/";
+    private static final int maxVersuche = 3;
+    private static final int verzoegerung = 1000;
 
     RestTemplate rt;
 

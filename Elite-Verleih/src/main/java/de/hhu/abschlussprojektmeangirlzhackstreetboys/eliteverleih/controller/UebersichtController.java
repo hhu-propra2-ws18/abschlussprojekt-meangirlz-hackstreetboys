@@ -48,7 +48,7 @@ public class UebersichtController {
 
         Benutzer benutzer = benutzerManager.findBenutzerByName(account.getName());
 
-        List<Artikel> sortiertelListe = new ArrayList<>();
+        List<Artikel> sortiertelListe;
 
         if (suche != null) {
             sortiertelListe = artikelManager.getArtikelListSortByName(suche);

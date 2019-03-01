@@ -124,7 +124,7 @@ public class PropayManagerTest {
     @Test(expected = RuntimeException.class)
     public void propayManager_GetAccountError() {
         propayNichtVerfuegbar();
-        AccountDto test = propayManager.getAccount("MockTest");
+        propayManager.getAccount("MockTest");
     }
 
     @Test

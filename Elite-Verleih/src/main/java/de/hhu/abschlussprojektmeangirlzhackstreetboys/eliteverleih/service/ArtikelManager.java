@@ -141,7 +141,6 @@ public class ArtikelManager {
             .getBenutzerId());
 
         Artikel artikel = artikelRepo.findArtikelByArtikelId(artikelId);
-        List<Ausleihe> ausleihen = benutzer.getAusgeliehen();
         if (!istAusgeliehen(artikelId)) {
             benutzer.getArtikel().remove(artikel);
             benutzerRepo.save(benutzer);

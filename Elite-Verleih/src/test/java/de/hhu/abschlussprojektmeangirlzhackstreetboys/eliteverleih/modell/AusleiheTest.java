@@ -16,7 +16,7 @@ public class AusleiheTest {
 
 
     @Test
-    public void AnzahlUeberzogenTest() {
+    public void anzahlUeberzogenTest() {
         Ausleihe ausleihe = erstelleTestAusleihe();
         int zuspaet = ausleihe.getAnzahlUeberzogen(nachEndeDatum);
         int vorEnde = ausleihe.getAnzahlUeberzogen(vorEndeDatum);

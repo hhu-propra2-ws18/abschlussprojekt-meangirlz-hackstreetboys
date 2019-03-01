@@ -188,7 +188,7 @@ public class AusleiheManagerTest {
     @Test
     public void bearbeiteAusleihe_RichtigGeaendert() {
         Long ausleiheId = erstelleBeispiel(sD0, eD0);
-        Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
+        ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
         Assertions.assertThat(ausleiheRepo.findAusleiheByAusleihId(ausleiheId).getAusleihStatus()).isEqualTo(Status.AKTIV);
     }
 
@@ -196,7 +196,7 @@ public class AusleiheManagerTest {
     @Test
     public void bearbeiteAusleihe_Mappings_AusleiheInAusleiher() {
         Long ausleiheId = erstelleBeispiel(sD0, eD0);
-        Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
+        ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
 
         Benutzer newInstance = benutzerRepo.findBenutzerByBenutzerName("Ausleiher").get();
         if (newInstance.getAusgeliehen() != null) {
@@ -211,7 +211,7 @@ public class AusleiheManagerTest {
     @Test
     public void bearbeiteAusleihe_Mappings_AusleiheInArtikel() {
         Long ausleiheId = erstelleBeispiel(sD0, eD0);
-        Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
+        ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
         Artikel a = artikelRepo.findAll().get(0);
         if (a.getAusgeliehen() != null) {
             Assertions.assertThat(a.getAusgeliehen()).hasSize(1);
@@ -225,7 +225,7 @@ public class AusleiheManagerTest {
     @Test
     public void bearbeiteAusleihe_Mappings_AusleiheInBesitzer() {
         Long ausleiheId = erstelleBeispiel(sD0, eD0);
-        Ausleihe ausleihe = ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
+        ausleiheM.bearbeiteAusleihe(ausleiheId, Status.AKTIV);
         Benutzer besitzer = benutzerRepo.findBenutzerByBenutzerName("Besitzer").get();
         for (Artikel a : besitzer.getArtikel()) {
             if (a.getAusgeliehen() != null) {

@@ -26,26 +26,21 @@ public class ProfilController {
 
     AusleiheManager ausleiheManager;
 
-    ArtikelManager artikelManager;
-
     TransaktionManager transaktionManager;
 
     PropayManager propayManager;
 
     /**
      * Ist fuer das Testen der Klassen verantwortlich.
-     * @param artikelManager Zugriff aufRepository
      * @param ausleiheManager Zugriff auf Repository
      * @param benutzerManager Zugriff auf Repository
      * @param propayManager Zugriff auf Propay
      */
     @Autowired
-    public ProfilController(ArtikelManager artikelManager,
-                            AusleiheManager ausleiheManager,
+    public ProfilController(AusleiheManager ausleiheManager,
                             BenutzerManager benutzerManager,
                             TransaktionManager transaktionManager,
                             PropayManager propayManager) {
-        this.artikelManager = artikelManager;
         this.ausleiheManager = ausleiheManager;
         this.benutzerManager = benutzerManager;
         this.transaktionManager = transaktionManager;
