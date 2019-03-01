@@ -20,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 public class PropayManager {
 
     final String url = "http://propay:8888/";
-    private final String url = "http://localhost:8888/";
     private final int maxVersuche = 3;
     private final int verzoegerung = 1000;
 
