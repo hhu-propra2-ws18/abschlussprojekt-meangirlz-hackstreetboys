@@ -33,12 +33,12 @@ public class DetailansichtController {
     PropayManager propayManager;
 
     /**
-     * Konstruktor initiert die Manager.
+     * Konstruktor.
      *
-     * @param artikelManager  Artikel Logik
-     * @param ausleiheManager Ausleih Logik
-     * @param benutzerManager Beutzer Logik
-     * @param propayManager   Propray Logik
+     * @param artikelManager Zugriff auf Artikel
+     * @param ausleiheManager Zugriff auf Ausleihen
+     * @param benutzerManager Zugriff auf Benutzer
+     * @param propayManager Zugriff auf Propay
      */
     @Autowired
     public DetailansichtController(ArtikelManager artikelManager,
@@ -111,9 +111,6 @@ public class DetailansichtController {
         Calendar calEndDatum = new GregorianCalendar(Integer.parseInt(enddatum[0]),
             Integer.parseInt(enddatum[1]) - 1,
             Integer.parseInt(enddatum[2]));
-
-
-
         calEndDatum.set(Calendar.HOUR_OF_DAY, calEndDatum.getActualMaximum(Calendar.HOUR_OF_DAY));
         calEndDatum.set(Calendar.MINUTE, calEndDatum.getActualMaximum(Calendar.MINUTE));
         calEndDatum.set(Calendar.SECOND, calEndDatum.getActualMaximum(Calendar.SECOND));
@@ -122,6 +119,7 @@ public class DetailansichtController {
         Calendar calStartDatum = new GregorianCalendar(Integer.parseInt(startdatum[0]),
             Integer.parseInt(startdatum[1]) - 1,
             Integer.parseInt(startdatum[2]));
+
         if (calStartDatum.after(calEndDatum)) {
             return "redirect:/Detailansicht/" + artikelId + "?error=falseDate";
         }

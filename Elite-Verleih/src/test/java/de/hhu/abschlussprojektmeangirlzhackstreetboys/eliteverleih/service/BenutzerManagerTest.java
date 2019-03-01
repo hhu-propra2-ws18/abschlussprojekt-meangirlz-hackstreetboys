@@ -220,7 +220,7 @@ public class BenutzerManagerTest {
         Calendar start1 = new GregorianCalendar();
         start.set(2019, 2, 22);
         Calendar rueckgabe1 = new GregorianCalendar();
-        rueckgabe.set(2099, 12, 23);
+        rueckgabe1.add(Calendar.DATE, 1);
         dritte.setAusleihStartdatum(start1);
         dritte.setAusleihRueckgabedatum(rueckgabe1);
         List<Ausleihe> ausleihen2 = new ArrayList<Ausleihe>();
