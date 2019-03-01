@@ -1,12 +1,9 @@
 package de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.service;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.AccountDto;
 import de.hhu.abschlussprojektmeangirlzhackstreetboys.eliteverleih.dto.ReservationDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.retry.annotation.Backoff;
@@ -29,7 +26,7 @@ public class PropayManager {
     RestTemplate rt;
 
     @Autowired
-    public PropayManager(RestTemplate rt){
+    public PropayManager(RestTemplate rt) {
         this.rt = rt;
     }
 
@@ -87,7 +84,8 @@ public class PropayManager {
      * @param anzahl          zu ueberweisende Summe
      * @return boolean true wenn alles klappt und false bei einem Fehler
      */
-    @Retryable(maxAttempts = maxVersuche, value = HttpStatusCodeException.class, backoff = @Backoff(delay = verzoegerung))
+    @Retryable(maxAttempts = maxVersuche, value = HttpStatusCodeException.class,
+        backoff = @Backoff(delay = verzoegerung))
     public int ueberweisen(String vonBenutzername, String zuBenutzername, int anzahl) {
 
         String ueberweisenUrl = url
@@ -109,7 +107,7 @@ public class PropayManager {
      * @param zuBenutzername  Zielaccount falls die Kaution eingezogen wird geht sie hier hin
      * @param anzahl          Summe der Kaution
      * @return ReservationDto mit den Daten, ResavationDTO mit Id -1 falls Propay fehlschlaegt,
-     * Null falls Propay nicht erreichbar ist
+     *              Null falls Propay nicht erreichbar ist
      */
     @Retryable(maxAttempts = maxVersuche, value = RuntimeException.class, backoff = @Backoff(delay = verzoegerung))
     public ReservationDto kautionReserviern(String vonBenutzername, String zuBenutzername, int anzahl) {
@@ -171,6 +169,11 @@ public class PropayManager {
         return 200;
     }
 
+    /**
+     * Faengt nach den Retries die Methode ab und gibt ein sicheren Wert zurueck.
+     * @param e Exception.
+     * @return Der sichere Wert.
+     */
     @Recover
     public int recoverStatusCode(RestClientException e) {
         System.out.println("Recovering - returning safe value");
